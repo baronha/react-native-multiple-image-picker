@@ -13,9 +13,13 @@ Pod::Spec.new do |s|
   s.platforms    = { :ios => "10.0" }
   s.source       = { :git => "https://github.com/baronha/react-native-multiple-image-picker.git", :tag => "#{s.version}" }
 
-  
-  s.source_files = "ios/**/*.{h,m,mm,swift}"
-  
+  s.source_files = "ios/**/*.{h,m,mm,swift,lproj}"
+
+  s.resource_bundles = { 'MultipleImagePicker' => ['ios/**/*.xib'] }
+  s.resources = 'ios/MultipleImagePicker.bundle'
 
   s.dependency "React-Core"
+  s.dependency "TLPhotoPicker"
+  s.dependency "ImageViewer"
+    
 end
