@@ -64,15 +64,15 @@ const response = await MultipleImagePicker.openPicker(options);
 - [ ] crop photo (next version)
 ...etc
 
-### Options
+### Options (updating)
 
-### Callback
+### Callback (updating)
 
 #### selectedAssets (Important)
 
-### Callback
+### Callback (updating)
 
-#### Thumbnail
+#### Thumbnail (updating)
 
 ## Contributing
 
