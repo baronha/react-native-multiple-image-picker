@@ -27,13 +27,15 @@ yarn add @baronha/react-native-multiple-image-picker
 ```sh
 cd ios/ && pod install
 ```
-##issue
+## issue
 For sure, you will get this error when launching the application
 <img src="./files/error-iOS.png">
 
 Dont worry, You just need to go to `Pods/Pods/TLPhotoPicker/TLPhotosPickerViewController.swift` and comment all lines, like this: 
 
 <img src="./files/resolve-error-iOS.png">
+I will fix it soon in the future.
+
 ### Android
 > Add Permission in `AndroidManifest.xml`
 ```xml
@@ -76,6 +78,7 @@ const response = await MultipleImagePicker.openPicker(options);
 - [ ] Crop photo.
 - [ ] Multiple croping photo (Android only).
 - [ ] Video Compression
+- [ ] [Solve iOS error](##issue)
 
 ## Contributing
 
