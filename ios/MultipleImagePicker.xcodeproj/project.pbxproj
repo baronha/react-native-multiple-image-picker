@@ -13,8 +13,6 @@
 		92E8366725E2689000B0304C /* CustomPhotoPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E8366425E2689000B0304C /* CustomPhotoPickerViewController.swift */; };
 		92E8366A25E268A600B0304C /* Viewable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E8366925E268A600B0304C /* Viewable.swift */; };
 		92E837ED25E26EFA00B0304C /* Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 92E8366325E2689000B0304C /* Cell.xib */; };
-		92E8386925E2789E00B0304C /* RCTImageResizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 92E8386625E2789E00B0304C /* RCTImageResizer.m */; };
-		92E8386A25E2789E00B0304C /* ImageHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 92E8386725E2789E00B0304C /* ImageHelpers.m */; };
 		F4FF95D7245B92E800C19C63 /* MultipleImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FF95D6245B92E800C19C63 /* MultipleImagePicker.swift */; };
 /* End PBXBuildFile section */
 
@@ -38,10 +36,6 @@
 		92E8366325E2689000B0304C /* Cell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Cell.xib; sourceTree = "<group>"; };
 		92E8366425E2689000B0304C /* CustomPhotoPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPhotoPickerViewController.swift; sourceTree = "<group>"; };
 		92E8366925E268A600B0304C /* Viewable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Viewable.swift; sourceTree = "<group>"; };
-		92E8386525E2789E00B0304C /* RCTImageResizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTImageResizer.h; sourceTree = "<group>"; };
-		92E8386625E2789E00B0304C /* RCTImageResizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTImageResizer.m; sourceTree = "<group>"; };
-		92E8386725E2789E00B0304C /* ImageHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageHelpers.m; sourceTree = "<group>"; };
-		92E8386825E2789E00B0304C /* ImageHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageHelpers.h; sourceTree = "<group>"; };
 		B3E7B5891CC2AC0600A0062D /* MultipleImagePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultipleImagePicker.m; sourceTree = "<group>"; };
 		F4FF95D5245B92E700C19C63 /* MultipleImagePicker-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MultipleImagePicker-Bridging-Header.h"; sourceTree = "<group>"; };
 		F4FF95D6245B92E800C19C63 /* MultipleImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleImagePicker.swift; sourceTree = "<group>"; };
@@ -69,7 +63,6 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
-				92E8386425E2786800B0304C /* Resizer */,
 				92E8366125E2686C00B0304C /* Viewer */,
 				92E8366025E2683B00B0304C /* CustomPhotoPicker */,
 				92E8355C25E2656A00B0304C /* MultipleImagePicker.bundle */,
@@ -97,17 +90,6 @@
 				92E8366925E268A600B0304C /* Viewable.swift */,
 			);
 			path = Viewer;
-			sourceTree = "<group>";
-		};
-		92E8386425E2786800B0304C /* Resizer */ = {
-			isa = PBXGroup;
-			children = (
-				92E8386825E2789E00B0304C /* ImageHelpers.h */,
-				92E8386725E2789E00B0304C /* ImageHelpers.m */,
-				92E8386525E2789E00B0304C /* RCTImageResizer.h */,
-				92E8386625E2789E00B0304C /* RCTImageResizer.m */,
-			);
-			path = Resizer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -180,8 +162,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				92E8386A25E2789E00B0304C /* ImageHelpers.m in Sources */,
-				92E8386925E2789E00B0304C /* RCTImageResizer.m in Sources */,
 				F4FF95D7245B92E800C19C63 /* MultipleImagePicker.swift in Sources */,
 				92E8355E25E2656A00B0304C /* MultipleImagePickerBundle.swift in Sources */,
 				92E8366A25E268A600B0304C /* Viewable.swift in Sources */,

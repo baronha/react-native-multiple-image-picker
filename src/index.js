@@ -50,34 +50,6 @@ let defaultOptions = {
   // emptyImage: Image,
 };
 
-const getImageResize = (item, options) => {
-  return new Promise((resolve, reject) => {
-    ImageResizer.createResizedImage(
-      item?.path,
-      options?.thumbnailWidth,
-      options?.thumbnailHeight,
-      'JPEG',
-      90,
-      0,
-      null,
-      false,
-      {},
-      (err, result) => {
-        if (err) {
-          resolve(item);
-        }
-        const thumbnail = {
-          path: result?.uri,
-          width: result?.width,
-          height: result?.height,
-          name: result?.name,
-        };
-        resolve(thumbnail);
-      }
-    );
-  });
-};
-
 exportObject = {
   openPicker: (optionsPicker) => {
     const options = {
@@ -88,20 +60,7 @@ exportObject = {
       try {
         const response = await MultipleImagePicker.openPicker(options);
         if (response?.length) {
-          const medias = [...response];
-          // for (let i = 0; i < response.length; i++) {
-          //   const item = response[i];
-          //   if (
-          //     item.type === 'image' &&
-          //     options.haveThumbnail &&
-          //     Platform.OS === 'ios'
-          //   ) {
-          //     const thumbnail = await getImageResize(item, options);
-          //     medias[i] = { ...item, thumbnail };
-          //   }
-          // }
-          console.log(medias);
-          resolve(medias);
+          resolve(response);
           return;
         }
         resolve([]);
