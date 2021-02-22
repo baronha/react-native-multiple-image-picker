@@ -10,7 +10,7 @@ React Native Multiple Image Picker enables application to pick images and videos
 
 | iOS | Android  |
 | ------------- | ------------- |
-| ![iOS](files/demo-main-ios.gif)  | ![Android](files/demo-main-android.gif)  |
+| ![iOS]<img src="./files/demo-main-ios.gif" width="100%">  | ![Android]<img src="./files/demo-main-android.gif" width="100%">  |
 
 ### Preview View
 
@@ -26,7 +26,7 @@ npm install react-native-multiple-image-picker
 
 ### iOS
 > Don't forget the Privacy Description in `info.plist`.
-<img src="https://github.com/tilltue/TLPhotoPicker/raw/master/Images/Privacy.png">
+<img src="./files/privacy-iOS.png">
 
 ```sh
 cd ios/ && pod install
@@ -41,7 +41,7 @@ cd ios/ && pod install
 ```
 
 ## Usage
-See [Options](files/demo-preview-ios.gif)
+See [Options](https://github.com/baronha/react-native-multiple-image-picker#options)
 ```js
 import MultipleImagePicker from "react-native-multiple-image-picker";
 
@@ -67,7 +67,7 @@ const response = await MultipleImagePicker.openPicker(options);
 
 ### Callback
 
-#### selectedAssets
+#### selectedAssets (Important)
 
 ### Callback
 
