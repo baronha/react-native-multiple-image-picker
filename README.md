@@ -35,7 +35,7 @@ cd ios/ && pod install
 ```
 
 ## Usage
-See [Options](##Options)
+See [Options](###Options)
 ```js
 import MultipleImagePicker from "react-native-multiple-image-picker";
 // ...
