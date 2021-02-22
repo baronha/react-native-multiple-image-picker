@@ -10,7 +10,7 @@ React Native Multiple Image Picker enables application to pick images and videos
 
 | iOS | Android  |
 | ------------- | ------------- |
-| ![iOS]<img src="./files/demo-main-ios.gif" width="100%">  | ![Android]<img src="./files/demo-main-android.gif" width="100%">  |
+| ![iOS]<img src="./files/demo-main-ios.gif" height="250px">  | ![Android]<img src="./files/demo-main-android.gif" height="250px">  |
 
 ### Preview View
 
