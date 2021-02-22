@@ -68,22 +68,28 @@ const response = await MultipleImagePicker.openPicker(options);
 
 ## Options
 
-| Property                         |       Type  | Default value |  Platform  | Description                              |
-| -------------------------------- | :---------: | :-----------: | :--------: | :--------------------------------------- |
-| usedCameraButton                 | bool        | true          | Both       | Show camera button in first row                     |
-| allowedVideo                     | bool        | true          | Both       | Allows to select videos. If false, only the image will be displayed |
-| maxVideoDuration                 | number      | 60            | Both       | Show only video with time allowed (in seconds) |
-| numberOfColumn                   | number      | 3             | Both       | Number of columns in a row |
-| maxSelectedAssets                | number      | 20            | Both       | Maximum number of one selection |
-| singleSelectedMode               | bool        | false         | Both       | Only one image / video can be selected |
-| [selectedAssets](#selectedAssets)| Objec/Array | undefined     | Both       | Images / Videos selected to mark |
-| doneTitle                        | string      | Done          | Both       | title in button Done |
-| autoPlay                         | bool        | true          | iOS        | Auto play video |
-| allowedLivePhotos                | bool        | true          | iOS        | Allowed Live Photos type  |
-| haveThumbnail                    | bool        | true          | iOS        | export thumbnail object  |
-| thumbnailWidth                   | number      |               | iOS        | thumbnail width |
-| thumbnailHeight                  | number      |               | iOS        | thumbnail height |
-
+| Property                         |       Type   | Default value |  Platform  | Description                              |
+| -------------------------------- | :----------: | :-----------: | :--------: | :--------------------------------------- |
+| usedCameraButton                 | bool         | true          | Both       | Show camera button in first row                     |
+| allowedVideo                     | bool         | true          | Both       | Allows to select videos. If false, only the image will be displayed |
+| maxVideoDuration                 | number       | 60            | Both       | Show only video with time allowed (in seconds) |
+| numberOfColumn                   | number       | 3             | Both       | Number of columns in a row |
+| maxSelectedAssets                | number       | 20            | Both       | Maximum number of one selection |
+| singleSelectedMode               | bool         | false         | Both       | Only one image / video can be selected |
+| [selectedAssets](#selectedAssets)| Object/Array | undefined     | Both       | Images / Videos selected to mark |
+| doneTitle                        | string       | Done          | Both       | Title in button Done |
+| cancelTitle                      | string       | Cancel        | Both       | Title in button Cancel |
+| selectedColor                    | string       | #30475e       | Both       | The color of the mark in the row when the user selected |
+| autoPlay                         | bool         | true          | iOS        | Auto play video |
+| allowedLivePhotos                | bool         | true          | iOS        | Allowed Live Photos type  |
+| haveThumbnail                    | bool         | true          | iOS        | Export thumbnail object  |
+| thumbnailWidth                   | number       | Dimensions.get('window').width/2  | iOS | Thumbnail width |
+| thumbnailHeight                  | number       | Dimensions.get('window').height/2 | iOS | Thumbnail height |
+| emptyMessage                     | string       | No albums     | iOS        | Show string when gallery empty   |
+| maximumMessageTitle              | string       | Notification  | iOS        | The title of the alert when the user chooses to exceed the specified number of pictures |
+| messageTitleButton               | string       | Notification  | iOS        | The title of button in the alert when the user chooses to exceed the specified number of pictures |
+| maximumMessage                   | string       | You have selected the maximum number of media allowed  | iOS | The description of the alert when the user chooses to exceed the specified number of pictures|
+| tapHereToChange                  | string       | Tap here to change          | iOS | The title in navigation bar |
 
 #### selectedAssets (Important)
 ``` updating... ```
