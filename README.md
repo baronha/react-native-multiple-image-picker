@@ -55,18 +55,16 @@ const response = await MultipleImagePicker.openPicker(options);
 - [x] Reload of changes that occur in the Photos library.
 - [x] Preview photo.
 - [ ] Crop photo (next version)
-- [ ] Multiple croping photo (only Android) (next version)
+- [ ] Multiple croping photo (Android only) (next version)
 ...etc
 
-### Options (updating)
-
-### Callback (updating)
-
-#### selectedAssets (Important / updating)
-
-### Callback (updating)
-
-#### Thumbnail (updating)
+### Options
+``` updating... ```
+#### selectedAssets (Important)
+``` updating... ```
+### Callback
+``` updating... ```
+#### Thumbnail (iOS only)
 
 ## Contributing
 
