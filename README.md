@@ -15,7 +15,7 @@ React Native Multiple Image Picker enables application to pick images and videos
 ## Installation
 
 ```sh
-npm install react-native-multiple-image-picker
+npm i @baronha/react-native-multiple-image-picker
 ```
 
 ### iOS
