@@ -1,8 +1,22 @@
 # React Native Multiple Image Picker (RNMIP)
 
+<p align="center">
+  <img src="./files/banner.png" width="100%">
+</p>
+
 React Native Multiple Image Picker enables application to pick images and videos from multiple smart album in iOS/Android, similar to the current Facebook App. React Native Multiple Image Picker is based on two libraries available, [TLPhotoPicker](https://github.com/tilltue/TLPhotoPicker) and [PictureSelector](https://github.com/LuckSiege/PictureSelector)
 
 ## Demo 👉👈
+
+| iOS | Android  |
+| ------------- | ------------- |
+| ![iOS](files/demo-main-ios.gif)  | ![Android](files/demo-main-android.gif)  |
+
+### Preview View
+
+| iOS | Android  |
+| ------------- | ------------- |
+| ![iOS](files/demo-preview-ios.gif)  | ![Android](files/demo-preview-android.gif)  |
 
 ## Installation
 
@@ -10,8 +24,24 @@ React Native Multiple Image Picker enables application to pick images and videos
 npm install react-native-multiple-image-picker
 ```
 
-## Usage
+### iOS
+> Don't forget the Privacy Description in `info.plist`.
+<img src="https://github.com/tilltue/TLPhotoPicker/raw/master/Images/Privacy.png">
 
+```sh
+cd ios/ && pod install
+```
+
+### Android
+> Add Permission in `AndroidManifest.xml`
+```xml
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+```
+
+## Usage
+See [Options](files/demo-preview-ios.gif)
 ```js
 import MultipleImagePicker from "react-native-multiple-image-picker";
 
@@ -20,23 +50,28 @@ const response = await MultipleImagePicker.openPicker(options);
 ```
 ## Features
 
-- support smart album collection. 
-  - camera roll, selfies, panoramas, favorites, videos, custom users album
-- selected order index.
-- playback video and live photos.
-  - just one. playback first video or live Photo in bounds of visible cell.
-- display video duration.
-- async phasset request and displayed cell.
-  - scrolling performance is better than facebook in displaying video assets collection.
-- custom cell
-- custom display and selection rules
-- reload of changes that occur in the Photos library.
-- support iCloud Photo Library
-- preview photo.
-- crop photo (next version)
+- [x] support smart album collection. 
+- [x] camera roll, selfies, panoramas, favorites, videos, custom users album
+- [x] selected order index.
+- [x] playback video and live photos.
+- [x] just one. playback first video or live Photo in bounds of visible cell.
+- [x] display video duration.
+- [x] async phasset request and displayed cell.
+- [x] scrolling performance is better than facebook in displaying video assets collection.
+- [x] reload of changes that occur in the Photos library.
+- [x] preview photo.
+- [ ] crop photo (next version)
 ...etc
 
-## Response
+### Options
+
+### Callback
+
+#### selectedAssets
+
+### Callback
+
+#### Thumbnail
 
 ## Contributing
 
