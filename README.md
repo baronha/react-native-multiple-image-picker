@@ -42,7 +42,7 @@ cd ios/ && pod install
 ```
 
 ## Usage
-See [Options](https://github.com/baronha/react-native-multiple-image-picker#options)
+See [Options](https://github.com/baronha/react-native-multiple-image-picker###options)
 ```js
 import MultipleImagePicker from "react-native-multiple-image-picker";
 
@@ -68,7 +68,7 @@ const response = await MultipleImagePicker.openPicker(options);
 
 ### Callback (updating)
 
-#### selectedAssets (Important)
+#### selectedAssets (Important / updating)
 
 ### Callback (updating)
 
