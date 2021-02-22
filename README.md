@@ -54,17 +54,20 @@ const response = await MultipleImagePicker.openPicker(options);
 - [x] Scrolling performance is better than facebook in displaying video assets collection.
 - [x] Reload of changes that occur in the Photos library.
 - [x] Preview photo.
-- [ ] Crop photo (next version)
-- [ ] Multiple croping photo (Android only) (next version)
 ...etc
 
-### Options
+## Options
 ``` updating... ```
 #### selectedAssets (Important)
 ``` updating... ```
-### Callback
+## Callback
 ``` updating... ```
 #### Thumbnail (iOS only)
+
+## To Do
+- [ ] Crop photo.
+- [ ] Multiple croping photo (Android only).
+- [ ] Video Compression
 
 ## Contributing
 
