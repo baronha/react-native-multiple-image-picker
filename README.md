@@ -35,7 +35,7 @@ cd ios/ && pod install
 ```
 
 ## Usage
-See [Options](https://github.com/baronha/react-native-multiple-image-picker#Options)
+See [Options](#Options)
 ```js
 import MultipleImagePicker from "react-native-multiple-image-picker";
 // ...
@@ -54,6 +54,7 @@ const response = await MultipleImagePicker.openPicker(options);
 - [x] reload of changes that occur in the Photos library.
 - [x] preview photo.
 - [ ] crop photo (next version)
+- [ ] multiple croping photo (only Android) (next version)
 ...etc
 
 ### Options (updating)
