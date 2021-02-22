@@ -67,7 +67,24 @@ const response = await MultipleImagePicker.openPicker(options);
 ...etc
 
 ## Options
-``` updating... ```
+
+| Property                         |       Type  | Default value |  Platform  | Description                              |
+| -------------------------------- | :---------: | :-----------: | :--------: | :--------------------------------------- |
+| usedCameraButton                 | bool        | true          | Both       | Show camera button in first row                     |
+| allowedVideo                     | bool        | true          | Both       | Allows to select videos. If false, only the image will be displayed |
+| maxVideoDuration                 | number      | 60            | Both       | Show only video with time allowed (in seconds) |
+| numberOfColumn                   | number      | 3             | Both       | Number of columns in a row |
+| maxSelectedAssets                | number      | 20            | Both       | Maximum number of one selection |
+| singleSelectedMode               | bool        | false         | Both       | Only one image / video can be selected |
+| [selectedAssets](#selectedAssets)| Objec/Array | undefined     | Both       | Images / Videos selected to mark |
+| doneTitle                        | string      | Done          | Both       | title in button Done |
+| autoPlay                         | bool        | true          | iOS        | Auto play video |
+| allowedLivePhotos                | bool        | true          | iOS        | Allowed Live Photos type  |
+| haveThumbnail                    | bool        | true          | iOS        | export thumbnail object  |
+| thumbnailWidth                   | number      |               | iOS        | thumbnail width |
+| thumbnailHeight                  | number      |               | iOS        | thumbnail height |
+
+
 #### selectedAssets (Important)
 ``` updating... ```
 ## Callback
