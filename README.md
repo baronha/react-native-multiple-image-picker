@@ -28,13 +28,35 @@ yarn add @baronha/react-native-multiple-image-picker
 cd ios/ && pod install
 ```
 ## issue
-For sure, you will get this error when launching the application
-<img src="./files/error-iOS.png">
 
-Dont worry, You just need to go to `Pods/Pods/TLPhotoPicker/TLPhotosPickerViewController.swift` and comment all lines, like this: 
+When installing this library on Xcode 12, you'll get the following error in Xcode:
+```
+Undefined symbol: (extension in UIKit):
+__C.UIMenu.init(title: Swift.String, image: __C.UIImage?, identifier: __C.UIMenuIdentifier?, options: __C.UIMenuOptions, children: [__C.UIMenuElement]) -> __C.UIMenu
+
+Undefined symbol: (extension in UIKit):
+__C.UIAction.init(title: Swift.String, image: __C.UIImage?, identifier: __C.UIActionIdentifier?, discoverabilityTitle: Swift.String?, attributes: __C.UIMenuElementAttributes, state: __C.UIMenuElementState, handler: (__C.UIAction) -> ()) -> __C.UIAction
+```
+
+<br>
+
+Here are some related issues in the RN repo: [Issue 30202](https://github.com/facebook/react-native/pull/30202) and [Issue 29178](https://github.com/facebook/react-native/pull/29178). This bug could be fixed in a future version of react native, but a workaround I've found is to do the following:
+
+1. Open your `ios/project.xcworkspace` project.
+2. In the project navigator panel (located on the right side of Xcode), select your project group (i.e. the item with the blueprint icon).
+3. The Xcode project editor should appear. In the left panel, under the "Project" section, select your project (if it isn't already selected).
+4. In the project section's top tab bar, select the "Build Settings" tab (also make sure the "All" and "Combined" tabs are selected).
+5.  In the project navigator list, under the "Search Path" section, there should be a "Library Search Paths" setting (alternatively, you can search for "Library Search Paths" in the search bar).
+6. Change the entry `"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)"` to `"$(TOOLCHAIN_DIR)/usr/lib/swift-5.3/$(PLATFORM_NAME)"` i.e. change `swift-5.0` to `swift-5.3` (to show the popup dialog, double click the value/item).
+	* Alternatively, according to this [issue comment](https://github.com/facebook/react-native/issues/29246#issuecomment-667518920), you can clear all the items listed in the "Library Search Paths" setting. **TLDR**: Xcode automatically manages this setting, and the RN template hardcodes it to use Swift 5.0.
+
+7. If you haven't already, make sure to create an empty swift file. Then clean the build folder (the option is in the menu bar under: "Product" -> "Clean Build Folder") and try building your project again.
+8. If you are still having problems building the app, try the following and build your project again:
+	* Try clearing out Xcode's `derivedData` directory: `rm -rf ~/Library/Developer/Xcode/DerivedData/*` (check out this [gist](https://gist.github.com/maciekish/66b6deaa7bc979d0a16c50784e16d697) for instructions on how to clean up Xcode)
+	* Try clearing out the `Cocoapods` cache: `rm -rf "${HOME}/Library/Caches/CocoaPods"` (and then try running `pod install` again).
 
 <img src="./files/resolve-error-iOS.png">
-I will fix it soon in the future.
+
 
 ### Android
 > Add Permission in `AndroidManifest.xml`
@@ -101,7 +123,6 @@ const response = await MultipleImagePicker.openPicker(options);
 - [ ] Crop photo.
 - [ ] Multiple croping photo (Android only).
 - [ ] Video Compression
-- [ ] [Solve iOS error](##issue)
 
 ## Performance
 

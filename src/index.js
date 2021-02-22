@@ -1,6 +1,6 @@
-import { NativeModules, Dimensions, Platform } from 'react-native';
+import { NativeModules, Dimensions } from 'react-native';
 const { width, height } = Dimensions.get('window');
-const { MultipleImagePicker, ImageResizer } = NativeModules;
+const { MultipleImagePicker } = NativeModules;
 
 let exportObject = {};
 
@@ -11,9 +11,10 @@ let defaultOptions = {
   muteAudio: true,
   autoPlay: true,
   //resize thumbnail
+  haveThumbnail: true,
+
   thumbnailWidth: Math.round(width / 2),
   thumbnailHeight: Math.round(height / 2),
-  haveThumbnail: true,
   allowedLivePhotos: true,
   preventAutomaticLimitedAccessAlert: true, // newest iOS 14
   emptyMessage: 'No albums',
@@ -40,6 +41,7 @@ let defaultOptions = {
   maxSelectedAssets: 20,
   singleSelectedMode: false,
   doneTitle: 'Done',
+  isPreview: true,
   //****//
 
   // fetchOption: Object,
@@ -87,17 +89,17 @@ exportObject = {
         const response = await MultipleImagePicker.openPicker(options);
         if (response?.length) {
           const medias = [...response];
-          for (let i = 0; i < response.length; i++) {
-            const item = response[i];
-            if (
-              item.type === 'image' &&
-              options.haveThumbnail &&
-              Platform.OS === 'ios'
-            ) {
-              const thumbnail = await getImageResize(item, options);
-              medias[i] = { ...item, thumbnail };
-            }
-          }
+          // for (let i = 0; i < response.length; i++) {
+          //   const item = response[i];
+          //   if (
+          //     item.type === 'image' &&
+          //     options.haveThumbnail &&
+          //     Platform.OS === 'ios'
+          //   ) {
+          //     const thumbnail = await getImageResize(item, options);
+          //     medias[i] = { ...item, thumbnail };
+          //   }
+          // }
           console.log(medias);
           resolve(medias);
           return;

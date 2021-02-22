@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Dimensions, Image, SafeAreaView, FlatList } from 'react-native';
 import Video from 'react-native-video';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import MultipleImagePicker from 'react-native-multiple-image-picker';
+import MultipleImagePicker from '@baronha/react-native-multiple-image-picker';
 
 export default function App() {
   const [images, setImages] = useState([]);

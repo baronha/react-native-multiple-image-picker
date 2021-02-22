@@ -2,34 +2,6 @@ import UIKit
 import TLPhotoPicker
 import Photos
 
-let defaultOptions:NSDictionary? = [
-    "numberOfColumn" : 3,
-    //allow
-    "usedCameraButton" : true,
-    "usedPrefetch" : false,
-    "allowedLivePhotos" : true,
-    "allowedVideo" : true,
-    "allowedAlbumCloudShared" : false,
-    "allowedPhotograph" : true, // for camera : allow this option when you want to take a photos
-    "allowedVideoRecording" : false, //for camera : allow this option when you want to recording video.
-    "maxVideoDuration": 60, //for camera : max video recording duration
-    "autoPlay" : true,
-    "muteAudio" : true,
-    "preventAutomaticLimitedAccessAlert" : true, // newest iOS 14
-    "singleSelectedMode" : false,
-    
-    "maxSelectedAssets": 20,
-    "selectedColor" : "#30475e",
-    //title
-    "tapHereToChange" : "Tap here to change",
-    "cancelTitle" : "Cancel",
-    "doneTitle" : "Done",
-    "emptyMessage" : "No albums",
-    "maximumMessageTitle": "Notification",
-    "maximumMessage" : "You have selected the maximum number of media allowed",
-    "messageTitleButton" : "OK"
-]
-
 var MultipleImagePickerConfigure = TLPhotosPickerConfigure();
 
 @objc(MultipleImagePicker)
@@ -43,6 +15,7 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
     var bridge: RCTBridge!
     var selectedAssets = [TLPHAsset]()
     var options = NSMutableDictionary();
+    
     
     
     //resolve/reject assets
@@ -92,7 +65,6 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
     func setConfiguration(options: NSDictionary, resolve:@escaping RCTPromiseResolveBlock,reject:@escaping RCTPromiseRejectBlock) -> Void{
         self.resolve = resolve;
         self.reject = reject;
-        self.options = NSMutableDictionary.init(dictionary: defaultOptions!);
         
         for key in options.keyEnumerator(){
             if(key as! String != "selectedAssets"){
@@ -118,6 +90,7 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
         MultipleImagePickerConfigure.singleSelectedMode = (self.options["singleSelectedMode"])! as! Bool;
         MultipleImagePickerConfigure.maxSelectedAssets = self.options["maxSelectedAssets"] as? Int;
         MultipleImagePickerConfigure.selectedColor = hexStringToUIColor(hex: self.options["selectedColor"] as! String)
+        MultipleImagePickerConfigure.previewAtForceTouch = self.options["isPreview"] as! Bool;
         
         MultipleImagePickerConfigure.nibSet = (nibName: "Cell", bundle: MultipleImagePickerBundle.bundle())
         
@@ -145,18 +118,51 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
         }
     }
     
-    func createAttachmentResponse(filePath: String?, withLocalIdentifier localIdentifier: String?, withFilename filename: String?, withWidth width: NSNumber?, withHeight height: NSNumber?, withMime mime: String?, withCreationDate creationDate: Date?, withType type: String?) -> [AnyHashable :Any]? {
-        return [
-            "path": ((filePath != nil) && !filePath!.isEmpty) ? filePath ?? "" : NSNull(),
-            "localIdentifier": (localIdentifier ?? NSNull()) ?? "",
-            "filename": (filename ?? NSNull()) ?? "",
-            "width": width ?? NSNull(),
-            "height": height ?? NSNull(),
-            "mime": mime ?? "",
-            "creationDate": creationDate != nil ? String(format: "%.0f", creationDate?.timeIntervalSince1970 ?? 0.0) : NSNull(),
-            "type": type ?? "",
-        ]
+    func createAttachmentResponse(filePath: String?, withFilename filename: String?, withType type: String?, withAsset asset: PHAsset, withTLAsset TLAsset: TLPHAsset ) -> [AnyHashable :Any]? {
+        
+        let media = [
+            "path": filePath! as String,
+            "localIdentifier": asset.localIdentifier,
+            "filename":TLAsset.originalFileName!,
+            "width": Int(asset.pixelWidth ) as NSNumber,
+            "height": Int(asset.pixelHeight ) as NSNumber,
+            "mime": type!,
+            "creationDate": asset.creationDate!,
+            "type": asset.mediaType == .video ? "video" : "image"
+        ] as [String : Any]
+        
+//        if((options["haveThumbnail"] != nil) == true &&  asset.mediaType == .image){
+//            print("pathResize", pathResize)
+//            let imageResize = resizedImage(at: URL(string: filePath!)!, for: CGSize.init(width: options["thumbnailWidth"] as! Double, height: options["thumbnailWidth"] as! Double))
+//            let pathResize = NSURL.init(fileURLWithPath: filePath!)
+//
+//            let thumbnail = [
+//                "width": imageResize?.size.width ?? 0,
+//                "height": imageResize?.size.height ?? 0,
+//                "path": pathResize,
+//            ] as [String : Any]
+//            media["thumbnail"] = thumbnail
+//        }
+        
+        return media
     }
+    
+//    func resizedImage(at url: URL, for size: CGSize) -> UIImage? {
+//        let options: [CFString: Any] = [
+//            kCGImageSourceCreateThumbnailFromImageIfAbsent: true,
+//            kCGImageSourceCreateThumbnailWithTransform: true,
+//            kCGImageSourceShouldCacheImmediately: true,
+//            kCGImageSourceThumbnailMaxPixelSize: max(size.width, size.height)
+//        ]
+//
+//        guard let imageSource = CGImageSourceCreateWithURL(url as NSURL, nil),
+//              let image = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, options as CFDictionary)
+//        else {
+//            return nil
+//        }
+//
+//        return UIImage(cgImage: image)
+//    }
     
     func dismissPhotoPicker(withTLPHAssets: [TLPHAsset]) {
         if(withTLPHAssets.count == 0){
@@ -183,20 +189,17 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
         
         for TLAsset in withTLPHAssets {
             group.enter()
-            let asset = TLAsset.phAsset;
+            let asset = TLAsset.phAsset
             let index = TLAsset.selectedOrder - 1;
             TLAsset.tempCopyMediaFile(videoRequestOptions: nil, imageRequestOptions: imageRequestOptions, livePhotoRequestOptions: nil, exportPreset: AVAssetExportPresetMediumQuality, convertLivePhotosToJPG: true, progressBlock: { (Double) in
                 
             }, completionBlock: { (filePath, fileType) in
                 let object = NSDictionary(dictionary: self.createAttachmentResponse(
                     filePath: filePath.absoluteString,
-                    withLocalIdentifier: asset?.localIdentifier,
                     withFilename:TLAsset.originalFileName,
-                    withWidth: Int(asset?.pixelWidth ?? 64) as NSNumber,
-                    withHeight: Int(asset?.pixelHeight ?? 64) as NSNumber,
-                    withMime: fileType,
-                    withCreationDate: asset?.creationDate,
-                    withType: asset?.mediaType == .video ? "video" : "image"
+                    withType: fileType,
+                    withAsset: asset!,
+                    withTLAsset: TLAsset
                 )!);
                 
                 selections[index] = object as Any;
