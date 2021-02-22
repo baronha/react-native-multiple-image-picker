@@ -80,6 +80,11 @@ const response = await MultipleImagePicker.openPicker(options);
 - [ ] Video Compression
 - [ ] [Solve iOS error](##issue)
 
+## Performance
+
+We're trying to improve performance. If you have a better solution, please open a [issue](https://github.com/baronha/react-native-multiple-image-picker/issues)
+or [pull request](https://github.com/baronha/react-native-multiple-image-picker/pulls). Best regards!
+
 ## Contributing
 
 See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
