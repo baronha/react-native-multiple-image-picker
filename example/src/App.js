@@ -36,7 +36,7 @@ export default function App() {
         <View>
           <Image
             width={IMAGE_WIDTH}
-            source={{ uri: item?.thumbnail?.path || item?.path }}
+            source={{ uri: item?.thumbnail?.path || 'file://' + item?.path }}
             style={style.media}
           />
           <TouchableOpacity
