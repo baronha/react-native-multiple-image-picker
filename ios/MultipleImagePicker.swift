@@ -7,7 +7,6 @@ let defaultOptions:NSDictionary? = [
     //allow
     "usedCameraButton" : true,
     "usedPrefetch" : false,
-    "previewAtForceTouch" : false,
     "allowedLivePhotos" : true,
     "allowedVideo" : true,
     "allowedAlbumCloudShared" : false,
@@ -119,7 +118,6 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
         MultipleImagePickerConfigure.singleSelectedMode = (self.options["singleSelectedMode"])! as! Bool;
         MultipleImagePickerConfigure.maxSelectedAssets = self.options["maxSelectedAssets"] as? Int;
         MultipleImagePickerConfigure.selectedColor = hexStringToUIColor(hex: self.options["selectedColor"] as! String)
-        MultipleImagePickerConfigure.previewAtForceTouch = self.options["previewAtForceTouch"] as! Bool;
         
         MultipleImagePickerConfigure.nibSet = (nibName: "Cell", bundle: MultipleImagePickerBundle.bundle())
         

@@ -14,7 +14,6 @@ let defaultOptions = {
   thumbnailWidth: Math.round(width / 2),
   thumbnailHeight: Math.round(height / 2),
   haveThumbnail: true,
-  previewAtForceTouch: false,
   allowedLivePhotos: true,
   preventAutomaticLimitedAccessAlert: true, // newest iOS 14
   emptyMessage: 'No albums',
