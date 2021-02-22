@@ -35,7 +35,7 @@ cd ios/ && pod install
 ```
 
 ## Usage
-See [Options](Options)
+See [Options](#Options)
 ```js
 import MultipleImagePicker from "react-native-multiple-image-picker";
 // ...
@@ -43,18 +43,19 @@ const response = await MultipleImagePicker.openPicker(options);
 ```
 ## Features
 
-- [x] support smart album collection. 
-- [x] camera roll, selfies, panoramas, favorites, videos, custom users album
-- [x] selected order index.
-- [x] playback video and live photos.
-- [x] just one. playback first video or live Photo in bounds of visible cell.
-- [x] display video duration.
-- [x] async phasset request and displayed cell.
-- [x] scrolling performance is better than facebook in displaying video assets collection.
-- [x] reload of changes that occur in the Photos library.
-- [x] preview photo.
-- [ ] crop photo (next version)
-- [ ] multiple croping photo (only Android) (next version)
+- [x] Selected order index. 
+- [x] Support smart album collection. 
+- [x] Camera roll, selfies, panoramas, favorites, videos, custom users album
+- [x] Support Camera
+- [x] Playback video and live photos.
+- [x] Just one. playback first video or live Photo in bounds of visible cell.
+- [x] Display video duration.
+- [x] Async phasset request and displayed cell.
+- [x] Scrolling performance is better than facebook in displaying video assets collection.
+- [x] Reload of changes that occur in the Photos library.
+- [x] Preview photo.
+- [ ] Crop photo (next version)
+- [ ] Multiple croping photo (only Android) (next version)
 ...etc
 
 ### Options (updating)
