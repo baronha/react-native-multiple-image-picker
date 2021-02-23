@@ -109,7 +109,7 @@ const response = await MultipleImagePicker.openPicker(options);
 | maximumMessageTitle              | string       | Notification  | iOS        | The title of the alert when the user chooses to exceed the specified number of pictures |
 | messageTitleButton               | string       | Notification  | iOS        | The title of button in the alert when the user chooses to exceed the specified number of pictures |
 | maximumMessage                   | string       | You have selected the maximum number of media allowed  | iOS | The description of the alert when the user chooses to exceed the specified number of pictures|
-| tapHereToChange                  | string       | Tap here to change          | iOS | The title in navigation bar |
+| tapHereToChange                  | string       | Tap here to change          | iOS | The sub-title in navigation bar (under albums's name in iOS) |
 
 #### selectedAssets (Important)
 
