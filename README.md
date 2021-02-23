@@ -98,7 +98,7 @@ const response = await MultipleImagePicker.openPicker(options);
 | numberOfColumn                   | number       | 3             | Both       | Number of columns in a row |
 | maxSelectedAssets                | number       | 20            | Both       | Maximum number of one selection |
 | singleSelectedMode               | bool         | false         | Both       | Only one image / video can be selected |
-| [selectedAssets](#selectedAssets)| Array        | undefined     | Both       | Images / Videos selected to mark |
+| [selectedAssets](#selectedassets-important)	  | Array         | undefined  | Both       | Images / Videos selected to mark |
 | doneTitle                        | string       | Done          | Both       | Title in button Done |
 | cancelTitle                      | string       | Cancel        | Both       | Title in button Cancel |
 | selectedColor                    | string       | #30475e       | Both       | The color of the mark in the row when the user selected |
