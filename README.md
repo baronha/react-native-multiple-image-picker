@@ -93,6 +93,7 @@ const response = await MultipleImagePicker.openPicker(options);
 | Property                         |       Type   | Default value |  Platform  | Description                              |
 | -------------------------------- | :----------: | :-----------: | :--------: | :--------------------------------------- |
 | usedCameraButton                 | bool         | true          | Both       | Show camera button in first row                     |
+| isPreview                 	   | bool         | true          | Both       | Allows to preview the image / video will select  (iOS - Forcetouch)|
 | allowedVideo                     | bool         | true          | Both       | Allows to select videos. If false, only the image will be displayed |
 | maxVideoDuration                 | number       | 60            | Both       | Show only video with time allowed (in seconds) |
 | numberOfColumn                   | number       | 3             | Both       | Number of columns in a row |
@@ -115,8 +116,17 @@ const response = await MultipleImagePicker.openPicker(options);
 Get an Array value only. If you want React Native Multiple Image Picker to re-select previously selected images / videos, you need to add “selectedAssets” in [options](#Options). Perhaps I say a little bit confusing. See [Example](https://github.com/baronha/react-native-multiple-image-picker/tree/main/example) for more details.
 
 ## Callback
-``` updating... ```
-#### Thumbnail (iOS only)
+
+| Property                         |     Type     |  Platform  | Description                              |
+| -------------------------------- | :----------: | :--------: | :--------------------------------------- |
+| path		                   | string       | Both       | Selected images's path |
+| filename	                   | string       | Both       | Selected images's filename |
+| localIdentifier	           | string       | Both       | Selected images's local identifier |
+| width                 	   | number       | Both       | Selected image width |
+| height                 	   | number       | Both       | Selected image height |
+| mime	                 	   | string       | Both       | Selected image MIME type (image/jpeg, image/png, video/mp4 etc...) |
+| type	                 	   | string       | Both       | Selected image type (image or video) |
+| creationDate	                   | string       | iOS        | UNIX timestamp when image was created |
 
 ## To Do
 - [ ] Crop photo.
