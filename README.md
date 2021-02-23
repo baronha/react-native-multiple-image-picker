@@ -27,7 +27,7 @@ yarn add @baronha/react-native-multiple-image-picker
 ```sh
 cd ios/ && pod install
 ```
-## Issue
+#### Issue
 
 When installing this library on Xcode 12, you'll get the following error in Xcode:
 ```
