@@ -104,9 +104,6 @@ const response = await MultipleImagePicker.openPicker(options);
 | selectedColor                    | string       | #30475e       | Both       | The color of the mark in the row when the user selected |
 | autoPlay                         | bool         | true          | iOS        | Auto play video |
 | allowedLivePhotos                | bool         | true          | iOS        | Allowed Live Photos type  |
-| haveThumbnail                    | bool         | true          | iOS        | Export thumbnail object  |
-| thumbnailWidth                   | number       | Dimensions.get('window').width/2  | iOS | Thumbnail width |
-| thumbnailHeight                  | number       | Dimensions.get('window').height/2 | iOS | Thumbnail height |
 | emptyMessage                     | string       | No albums     | iOS        | Show string when gallery empty   |
 | maximumMessageTitle              | string       | Notification  | iOS        | The title of the alert when the user chooses to exceed the specified number of pictures |
 | messageTitleButton               | string       | Notification  | iOS        | The title of button in the alert when the user chooses to exceed the specified number of pictures |
@@ -114,7 +111,9 @@ const response = await MultipleImagePicker.openPicker(options);
 | tapHereToChange                  | string       | Tap here to change          | iOS | The title in navigation bar |
 
 #### selectedAssets (Important)
-``` updating... ```
+
+Get an Array value only. If you want React Native Multiple Image Picker to re-select previously selected images / videos, you need to add “selectedAssets” in [options](#Options). Perhaps I say a little bit confusing. See [Example](https://github.com/baronha/react-native-multiple-image-picker/tree/main/example) for more details.
+
 ## Callback
 ``` updating... ```
 #### Thumbnail (iOS only)
