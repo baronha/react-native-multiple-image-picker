@@ -97,7 +97,7 @@ const response = await MultipleImagePicker.openPicker(options);
 | Property                         |       Type   | Default value |  Platform  | Description                              |
 | -------------------------------- | :----------: | :-----------: | :--------: | :--------------------------------------- |
 | usedCameraButton                 | bool         | true          | Both       | Show camera button in first row                     |
-| mediaType                        | string       | all           | Both       | Select the media format you want. Values ​​include "all" || "Image" || "video". Default is "all". |
+| mediaType                        | string       | all           | Both       | Select the media format you want. Values include "all" || "Image" || "video". Default is "all". |
 | isPreview                 	   | bool         | true          | Both       | Allows to preview the image / video will select  (iOS - Forcetouch)|
 | maxVideoDuration                 | number       | 60            | Both       | Show only video with time allowed (in seconds) |
 | numberOfColumn                   | number       | 3             | Both       | Number of columns in a row |
