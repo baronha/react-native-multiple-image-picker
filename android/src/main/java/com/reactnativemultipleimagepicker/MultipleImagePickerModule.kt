@@ -27,7 +27,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) : ReactCo
     private var maxVideoDuration: Int = 60;
     private var numberOfColumn: Int = 3
     private var maxSelectedAssets: Int = 20
-    private var allowedVideo: Boolean = true
+    private var mediaType: String = "all"
     private var isPreview: Boolean = true
 
     @ReactMethod
@@ -37,7 +37,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) : ReactCo
         setConfiguration(options)
 
         PictureSelector.create(activity)
-                .openGallery(if (allowedVideo) PictureMimeType.ofAll() else PictureMimeType.ofImage())
+                .openGallery(if (mediaType == "video") PictureMimeType.ofVideo() else if (mediaType == "image") PictureMimeType.ofImage() else PictureMimeType.ofAll())
                 .loadImageEngine(GlideEngine.createGlideEngine())
                 .maxSelectNum(maxSelectedAssets)
                 .imageSpanCount(numberOfColumn)
@@ -92,7 +92,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) : ReactCo
             maxVideoDuration = options.getInt("maxVideoDuration")
             numberOfColumn = options.getInt("numberOfColumn")
             maxSelectedAssets = options.getInt("maxSelectedAssets")
-            allowedVideo = options.getBoolean("allowedVideo")
+            mediaType = options.getString("mediaType").toString()
             isPreview = options.getBoolean("isPreview")
 
             mPictureParameterStyle = getStyle(options);

@@ -93,7 +93,7 @@ const response = await MultipleImagePicker.openPicker(options);
 | Property                         |       Type   | Default value |  Platform  | Description                              |
 | -------------------------------- | :----------: | :-----------: | :--------: | :--------------------------------------- |
 | usedCameraButton                 | bool         | true          | Both       | Show camera button in first row                     |
-| allowedVideo                     | bool         | true          | Both       | Allows to select videos. If false, only the image will be displayed |
+| mediaType                        | string       | all           | Both       | Select the media format you want. Values ​​include "all" || "Image" || "video". Default is "all". |
 | maxVideoDuration                 | number       | 60            | Both       | Show only video with time allowed (in seconds) |
 | numberOfColumn                   | number       | 3             | Both       | Number of columns in a row |
 | maxSelectedAssets                | number       | 20            | Both       | Maximum number of one selection |
@@ -136,3 +136,5 @@ See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the 
 ## License
 
 MIT
+[TLPhotoPicker](https://github.com/tilltue/TLPhotoPicker/blob/master/LICENSE)
+[PictureSelector](https://github.com/LuckSiege/PictureSelector/blob/master/LICENSE)

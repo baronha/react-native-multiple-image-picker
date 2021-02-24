@@ -92,6 +92,10 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
         MultipleImagePickerConfigure.selectedColor = hexStringToUIColor(hex: self.options["selectedColor"] as! String)
         MultipleImagePickerConfigure.previewAtForceTouch = self.options["isPreview"] as! Bool;
         
+        let mediaType = self.options["mediaType"] as! String;
+        
+        MultipleImagePickerConfigure.mediaType = mediaType == "video" ? PHAssetMediaType.video : mediaType == "image" ? PHAssetMediaType.image : nil ;
+
         MultipleImagePickerConfigure.nibSet = (nibName: "Cell", bundle: MultipleImagePickerBundle.bundle())
         
         //        configure.allowedPhotograph = self.options["allowedPhotograph"]

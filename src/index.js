@@ -42,11 +42,12 @@ let defaultOptions = {
   singleSelectedMode: false,
   doneTitle: 'Done',
   isPreview: true,
+  mediaType: 'all',
   //****//
 
   // fetchOption: Object,
   // fetchCollectionOption: Object,
-  // mediaType: string,
+
   // emptyImage: Image,
 };
 
