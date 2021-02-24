@@ -1,14 +1,14 @@
 # React Native Multiple Image Picker (RNMIP)
 
-# What's new (0.1.2)
-
-Delete options ```allowVideo``` and replaced with ```mediaType```. [See more](#Options)
-
 <p align="center">
   <img src="./files/banner.png" width="100%">
 </p>
 
 React Native Multiple Image Picker enables application to pick images and videos from multiple smart album in iOS/Android, similar to the current Facebook App. React Native Multiple Image Picker is based on two libraries available, [TLPhotoPicker](https://github.com/tilltue/TLPhotoPicker) and [PictureSelector](https://github.com/LuckSiege/PictureSelector)
+
+## What's new (0.1.2)
+
+Delete options ```allowVideo``` and replaced with ```mediaType```. [See more](#Options)
 
 ## Demo 👉👈
 
