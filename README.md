@@ -1,5 +1,9 @@
 # React Native Multiple Image Picker (RNMIP)
 
+# What's new (0.1.2)
+
+Delete options ```allowVideo``` and replaced with ```mediaType```. [See more](#Options)
+
 <p align="center">
   <img src="./files/banner.png" width="100%">
 </p>
@@ -27,7 +31,7 @@ yarn add @baronha/react-native-multiple-image-picker
 ```sh
 cd ios/ && pod install
 ```
-## issue
+#### Issue
 
 When installing this library on Xcode 12, you'll get the following error in Xcode:
 ```
@@ -94,30 +98,39 @@ const response = await MultipleImagePicker.openPicker(options);
 | -------------------------------- | :----------: | :-----------: | :--------: | :--------------------------------------- |
 | usedCameraButton                 | bool         | true          | Both       | Show camera button in first row                     |
 | mediaType                        | string       | all           | Both       | Select the media format you want. Values ​​include "all" || "Image" || "video". Default is "all". |
+| isPreview                 	   | bool         | true          | Both       | Allows to preview the image / video will select  (iOS - Forcetouch)|
 | maxVideoDuration                 | number       | 60            | Both       | Show only video with time allowed (in seconds) |
 | numberOfColumn                   | number       | 3             | Both       | Number of columns in a row |
 | maxSelectedAssets                | number       | 20            | Both       | Maximum number of one selection |
 | singleSelectedMode               | bool         | false         | Both       | Only one image / video can be selected |
-| [selectedAssets](#selectedAssets)| Array        | undefined     | Both       | Images / Videos selected to mark |
+| [selectedAssets](#selectedassets-important)	  | Array         | undefined  | Both       | Images / Videos selected to mark |
 | doneTitle                        | string       | Done          | Both       | Title in button Done |
 | cancelTitle                      | string       | Cancel        | Both       | Title in button Cancel |
 | selectedColor                    | string       | #30475e       | Both       | The color of the mark in the row when the user selected |
 | autoPlay                         | bool         | true          | iOS        | Auto play video |
 | allowedLivePhotos                | bool         | true          | iOS        | Allowed Live Photos type  |
-| haveThumbnail                    | bool         | true          | iOS        | Export thumbnail object  |
-| thumbnailWidth                   | number       | Dimensions.get('window').width/2  | iOS | Thumbnail width |
-| thumbnailHeight                  | number       | Dimensions.get('window').height/2 | iOS | Thumbnail height |
 | emptyMessage                     | string       | No albums     | iOS        | Show string when gallery empty   |
 | maximumMessageTitle              | string       | Notification  | iOS        | The title of the alert when the user chooses to exceed the specified number of pictures |
 | messageTitleButton               | string       | Notification  | iOS        | The title of button in the alert when the user chooses to exceed the specified number of pictures |
 | maximumMessage                   | string       | You have selected the maximum number of media allowed  | iOS | The description of the alert when the user chooses to exceed the specified number of pictures|
-| tapHereToChange                  | string       | Tap here to change          | iOS | The title in navigation bar |
+| tapHereToChange                  | string       | Tap here to change          | iOS | The sub-title in navigation bar (under albums's name in iOS) |
 
 #### selectedAssets (Important)
-``` updating... ```
-## Callback
-``` updating... ```
-#### Thumbnail (iOS only)
+
+Get an Array value only. If you want React Native Multiple Image Picker to re-select previously selected images / videos, you need to add “selectedAssets” in [options](#Options). Perhaps I say a little bit confusing. See [Example](https://github.com/baronha/react-native-multiple-image-picker/tree/main/example) for more details.
+
+## Response Object
+
+| Property                         |     Type     |  Platform  | Description                              |
+| -------------------------------- | :----------: | :--------: | :--------------------------------------- |
+| path		                   | string       | Both       | Selected images's path |
+| filename	                   | string       | Both       | Selected images's filename |
+| localIdentifier	           | string       | Both       | Selected images's local identifier |
+| width                 	   | number       | Both       | Selected image width |
+| height                 	   | number       | Both       | Selected image height |
+| mime	                 	   | string       | Both       | Selected image MIME type (image/jpeg, image/png, video/mp4 etc...) |
+| type	                 	   | string       | Both       | Selected image type (image or video) |
+| creationDate	                   | string       | iOS        | UNIX timestamp when image was created |
 
 ## To Do
 - [ ] Crop photo.
