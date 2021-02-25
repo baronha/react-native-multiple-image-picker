@@ -149,5 +149,7 @@ See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the 
 ## License
 
 MIT
+<br>
 [TLPhotoPicker](https://github.com/tilltue/TLPhotoPicker/blob/master/LICENSE)
+<br>
 [PictureSelector](https://github.com/LuckSiege/PictureSelector/blob/master/LICENSE)
