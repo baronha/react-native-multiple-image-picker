@@ -1,7 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { useState } from 'react';
 import { Dimensions, Image, SafeAreaView, FlatList } from 'react-native';
-import Video from 'react-native-video';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import MultipleImagePicker from '@baronha/react-native-multiple-image-picker';
 
@@ -12,6 +11,7 @@ export default function App() {
     try {
       const response = await MultipleImagePicker.openPicker({
         selectedAssets: images,
+        isExportThumbnail: true,
         // selectedColor: '#f9813a',
       });
       console.log('done: ', response);
@@ -31,60 +31,24 @@ export default function App() {
   };
 
   const renderItem = ({ item, index }) => {
-    if (item?.type === 'image') {
-      return (
-        <View>
-          <Image
-            width={IMAGE_WIDTH}
-            source={{ uri: 'file://' + item?.path }}
-            style={style.media}
-          />
-          <TouchableOpacity
-            onPress={() => onDelete(item)}
-            activeOpacity={0.9}
-            style={style.buttonDelete}
-          >
-            <Text style={style.titleDelete}>Xoá</Text>
-          </TouchableOpacity>
-        </View>
-      );
-    }
-    if (item?.type === 'video') {
-      return (
-        <View>
-          <Video
-            bufferConfig={{
-              minBufferMs: 1000,
-              maxBufferMs: 5000,
-              bufferForPlaybackMs: 2000,
-              bufferForPlaybackAfterRebufferMs: 3000,
-            }}
-            controlAnimationTiming={1000}
-            paused={index !== 0}
-            playInBackground={false}
-            repeat={true}
-            resizeMode={'cover'}
-            source={{ uri: item?.path }}
-            disableBack
-            disableFullscreen
-            style={[style.media, { backgroundColor: '#000' }]}
-            disableSeekbar
-            disablePlayPause
-            disableTimer
-            disableVolume
-            // onProgress={onProgress}
-          />
-          <TouchableOpacity
-            onPress={() => onDelete(item)}
-            activeOpacity={0.9}
-            style={style.buttonDelete}
-          >
-            <Text style={style.titleDelete}>Xoá</Text>
-          </TouchableOpacity>
-        </View>
-      );
-    }
-    return <View />;
+    return (
+      <View>
+        <Image
+          width={IMAGE_WIDTH}
+          source={{
+            uri: item?.type === 'video' ? item?.thumbnail ?? '' : item?.path,
+          }}
+          style={style.media}
+        />
+        <TouchableOpacity
+          onPress={() => onDelete(item)}
+          activeOpacity={0.9}
+          style={style.buttonDelete}
+        >
+          <Text style={style.titleDelete}>Xoá</Text>
+        </TouchableOpacity>
+      </View>
+    );
   };
 
   return (

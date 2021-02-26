@@ -103,6 +103,7 @@ const response = await MultipleImagePicker.openPicker(options);
 | numberOfColumn                   | number       | 3             | Both       | Number of columns in a row |
 | maxSelectedAssets                | number       | 20            | Both       | Maximum number of one selection |
 | singleSelectedMode               | bool         | false         | Both       | Only one image / video can be selected |
+| isExportThumbnail                | bool         | false         | Both       | Export thumbnail image for Video type  |
 | [selectedAssets](#selectedassets-important)	  | Array         | undefined  | Both       | Images / Videos selected to mark |
 | doneTitle                        | string       | Done          | Both       | Title in button Done |
 | cancelTitle                      | string       | Cancel        | Both       | Title in button Cancel |
@@ -130,6 +131,7 @@ Get an Array value only. If you want React Native Multiple Image Picker to re-se
 | height                 	   | number       | Both       | Selected image height |
 | mime	                 	   | string       | Both       | Selected image MIME type (image/jpeg, image/png, video/mp4 etc...) |
 | type	                 	   | string       | Both       | Selected image type (image or video) |
+| thumbnail	                   | string       | Both        | Appears only in video format and you must have set isExportThumbnail = true. See [options](#Options) |
 | creationDate	                   | string       | iOS        | UNIX timestamp when image was created |
 
 ## To Do

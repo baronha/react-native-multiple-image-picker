@@ -43,6 +43,7 @@ let defaultOptions = {
   doneTitle: 'Done',
   isPreview: true,
   mediaType: 'all',
+  isExportThumbnail: false,
   //****//
 
   // fetchOption: Object,

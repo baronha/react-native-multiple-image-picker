@@ -124,8 +124,8 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
     
     func createAttachmentResponse(filePath: String?, withFilename filename: String?, withType type: String?, withAsset asset: PHAsset, withTLAsset TLAsset: TLPHAsset ) -> [AnyHashable :Any]? {
         
-        let media = [
-            "path": filePath! as String,
+        var media = [
+            "path": "file://" + filePath! as String,
             "localIdentifier": asset.localIdentifier,
             "filename":TLAsset.originalFileName!,
             "width": Int(asset.pixelWidth ) as NSNumber,
@@ -135,20 +135,46 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
             "type": asset.mediaType == .video ? "video" : "image"
         ] as [String : Any]
         
-//        if((options["haveThumbnail"] != nil) == true &&  asset.mediaType == .image){
-//            print("pathResize", pathResize)
-//            let imageResize = resizedImage(at: URL(string: filePath!)!, for: CGSize.init(width: options["thumbnailWidth"] as! Double, height: options["thumbnailWidth"] as! Double))
-//            let pathResize = NSURL.init(fileURLWithPath: filePath!)
-//
-//            let thumbnail = [
-//                "width": imageResize?.size.width ?? 0,
-//                "height": imageResize?.size.height ?? 0,
-//                "path": pathResize,
-//            ] as [String : Any]
-//            media["thumbnail"] = thumbnail
-//        }
-        
+        if(asset.mediaType == .video && options["isExportThumbnail"] as! Bool){
+            let thumbnail = getThumbnail(from: filePath!, in: 0.1)
+            media["thumbnail"] = thumbnail
+        }
         return media
+    }
+    
+    func getThumbnail(from moviePath: String, in seconds: Double) -> String? {
+        let filepath = moviePath.replacingOccurrences(
+            of: "file://",
+            with: "")
+        let vidURL = URL(fileURLWithPath: filepath)
+        
+        let asset = AVURLAsset(url: vidURL, options: nil)
+        let generator = AVAssetImageGenerator(asset: asset)
+        generator.appliesPreferredTrackTransform = true
+        
+        var _: Error? = nil
+        let time = CMTimeMake(value: 1, timescale: 60)
+        
+        var imgRef: CGImage? = nil
+        do {
+            imgRef = try generator.copyCGImage(at: time, actualTime: nil)
+        } catch _ {
+        }
+        var thumbnail: UIImage? = nil
+        if let imgRef = imgRef {
+            thumbnail = UIImage(cgImage: imgRef)
+        }
+        // save to temp directory
+        let tempDirectory = FileManager.default.urls(
+            for: .cachesDirectory,
+            in: .userDomainMask).map(\.path).last
+        
+        let data = thumbnail?.jpegData(compressionQuality: 1.0)
+        let fileManager = FileManager.default
+        let fullPath = URL(fileURLWithPath: tempDirectory ?? "").appendingPathComponent("thumb-\(ProcessInfo.processInfo.globallyUniqueString).jpg").path
+        fileManager.createFile(atPath: fullPath, contents: data, attributes: nil)
+        return fullPath;
+        
     }
     
 //    func resizedImage(at url: URL, for size: CGSize) -> UIImage? {
