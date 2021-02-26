@@ -8,7 +8,7 @@ React Native Multiple Image Picker enables application to pick images and videos
 
 ## What's new (0.1.2)
 
-Delete options ```allowVideo``` and replaced with ```mediaType```. [See more](#Options)
+Delete options ```allowVideo``` and replaced with ```mediaType``` / add options ```isExportThumbnail``` and ```thumbnail``` in response (only Video and ```isExportThumbnail``` = ```true```). [See more](#Options)
 
 ## Demo 👉👈
 
