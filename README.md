@@ -6,9 +6,9 @@
 
 React Native Multiple Image Picker enables application to pick images and videos from multiple smart album in iOS/Android, similar to the current Facebook App. React Native Multiple Image Picker is based on two libraries available, [TLPhotoPicker](https://github.com/tilltue/TLPhotoPicker) and [PictureSelector](https://github.com/LuckSiege/PictureSelector)
 
-## What's new (0.1.2)
+## What's new (0.2)
 
-Delete options ```allowVideo``` and replaced with ```mediaType``` / add options ```isExportThumbnail``` and ```thumbnail``` in response (only Video and ```isExportThumbnail``` = ```true```). [See more](#Options)
+add options ```maxVideo``` - default value is ```20```. [See more](#Options)
 
 ## Demo 👉👈
 
@@ -101,6 +101,7 @@ const response = await MultipleImagePicker.openPicker(options);
 | isPreview                 	   | bool         | true          | Both       | Allows to preview the image / video will select  (iOS - Forcetouch)|
 | maxVideoDuration                 | number       | 60            | Both       | Show only video with time allowed (in seconds) |
 | numberOfColumn                   | number       | 3             | Both       | Number of columns in a row |
+| maxVideo                         | number       | 20            | Both       | Number of videos allowed to select |
 | maxSelectedAssets                | number       | 20            | Both       | Maximum number of one selection |
 | singleSelectedMode               | bool         | false         | Both       | Only one image / video can be selected |
 | isExportThumbnail                | bool         | false         | Both       | Export thumbnail image for Video type  |

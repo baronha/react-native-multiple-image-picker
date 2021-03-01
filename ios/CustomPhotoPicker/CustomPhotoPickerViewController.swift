@@ -29,7 +29,7 @@ class CustomPhotoPickerViewController: TLPhotosPickerViewController {
             self?.dismissCompletion?()
         }
     }
-         
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -38,5 +38,11 @@ class CustomPhotoPickerViewController: TLPhotosPickerViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+    }
+    
+    override func maxCheck() -> Bool {
+        let imageCount = self.selectedAssets.filter{ $0.phAsset?.mediaType == .image }.count
+        let videoCount = self.selectedAssets.filter{ $0.phAsset?.mediaType == .video }.count
+        return false
     }
 }

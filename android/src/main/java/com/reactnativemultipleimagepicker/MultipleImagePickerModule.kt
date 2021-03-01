@@ -39,6 +39,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) : ReactCo
     private var mediaType: String = "all"
     private var isPreview: Boolean = true
     private var isExportThumbnail: Boolean = false
+    private var maxVideo: Int = 20
 
     @ReactMethod
     fun openPicker(options: ReadableMap?, promise: Promise): Unit {
@@ -55,7 +56,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) : ReactCo
                 .isPageStrategy(true, 50)
                 .isWithVideoImage(true)
                 .videoMaxSecond(maxVideoDuration)
-                .maxVideoSelectNum(maxSelectedAssets)
+                .maxVideoSelectNum(if (maxVideo != 20) maxVideo else maxSelectedAssets)
                 .isMaxSelectEnabledMask(true)
                 .selectionData(selectedAssets)
                 .setPictureStyle(mPictureParameterStyle)
@@ -106,6 +107,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) : ReactCo
             mediaType = options.getString("mediaType").toString()
             isPreview = options.getBoolean("isPreview")
             isExportThumbnail = options.getBoolean("isExportThumbnail")
+            maxVideo = options.getInt("maxVideo")
             mPictureParameterStyle = getStyle(options)
         }
     }

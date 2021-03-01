@@ -21,6 +21,7 @@ let defaultOptions = {
   selectedColor: '#30475e',
   maximumMessageTitle: 'Notification',
   maximumMessage: 'You have selected the maximum number of media allowed',
+  maximumVideoMessage: 'You have selected the maximum number of video allowed',
   messageTitleButton: 'OK',
   cancelTitle: 'Cancel',
   tapHereToChange: 'Tap here to change',
@@ -44,6 +45,7 @@ let defaultOptions = {
   isPreview: true,
   mediaType: 'all',
   isExportThumbnail: false,
+  maxVideo: 20,
   //****//
 
   // fetchOption: Object,

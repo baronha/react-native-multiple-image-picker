@@ -15,6 +15,11 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
     var bridge: RCTBridge!
     var selectedAssets = [TLPHAsset]()
     var options = NSMutableDictionary();
+    var videoAssets = [PHAsset]()
+    var videoCount = 0
+    // controller
+    let viewController = CustomPhotoPickerViewController()
+
     
     
     
@@ -30,6 +35,10 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
     func deselectedPhoto(picker: TLPhotosPickerViewController, at: Int) {
         let generator = UIImpactFeedbackGenerator(style: .light)
         generator.impactOccurred()
+        let cell = picker.collectionView(picker.collectionView, cellForItemAt: IndexPath.init(row: at, section: 0)) as! Cell
+        if(cell.asset?.mediaType == PHAssetMediaType.video){
+            videoCount -= 1
+        }
     }
     
     func selectedPhoto(picker: TLPhotosPickerViewController, at: Int) {
@@ -45,11 +54,10 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
     @objc(openPicker:withResolver:withRejecter:)
     func openPicker(options: NSDictionary, resolve:@escaping RCTPromiseResolveBlock,reject:@escaping RCTPromiseRejectBlock) -> Void {
         self.setConfiguration(options: options, resolve: resolve, reject: reject)
-        let viewController = CustomPhotoPickerViewController()
         viewController.delegate = self
         
         viewController.didExceedMaximumNumberOfSelection = { [weak self] (picker) in
-            self?.showExceededMaximumAlert(vc: picker);
+            self?.showExceededMaximumAlert(vc: picker, isVideo: false);
         }
         viewController.configure = MultipleImagePickerConfigure
         viewController.selectedAssets = self.selectedAssets
@@ -58,7 +66,7 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
         viewController.modalPresentationStyle = .overCurrentContext
         
         DispatchQueue.main.async {
-            self.getTopMostViewController()?.present(viewController, animated: true, completion: nil)
+            self.getTopMostViewController()?.present(self.viewController, animated: true, completion: nil)
         }
     }
     
@@ -251,13 +259,23 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
         return topMostViewController
     }
     
-    func showExceededMaximumAlert(vc: UIViewController) {
-        let alert = UIAlertController(title: self.options["maximumMessageTitle"] as? String, message: self.options["maximumMessage"] as? String, preferredStyle: .alert)
+    func showExceededMaximumAlert(vc: UIViewController, isVideo: Bool) {
+        let alert = UIAlertController(title: self.options["maximumMessageTitle"] as? String, message: self.options[isVideo ? "maximumVideoMessage" : "maximumMessage"] as? String, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: self.options["messageTitleButton"] as? String, style: .default, handler: nil))
         vc.present(alert, animated: true, completion: nil)
     }
     
-    
+    func canSelectAsset(phAsset: PHAsset) -> Bool {
+        let maxVideo = self.options["maxVideo"]
+        if(phAsset.mediaType == .video){
+            if(videoCount == maxVideo as! Int){
+                showExceededMaximumAlert(vc: self.viewController, isVideo: true)
+                return false
+            }
+            videoCount += 1
+        }
+        return true
+    }
 }
 
 func hexStringToUIColor (hex:String) -> UIColor {
