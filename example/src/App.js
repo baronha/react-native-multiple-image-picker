@@ -12,7 +12,7 @@ export default function App() {
       const response = await MultipleImagePicker.openPicker({
         selectedAssets: images,
         isExportThumbnail: true,
-        // maxVideo: 1,
+        maxVideo: 1,
         // selectedColor: '#f9813a',
       });
       console.log('done: ', response);
