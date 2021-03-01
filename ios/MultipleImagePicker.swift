@@ -51,6 +51,10 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
         generator.impactOccurred()
     }
     
+    func dismissComplete() {
+        
+    }
+    
     @objc(openPicker:withResolver:withRejecter:)
     func openPicker(options: NSDictionary, resolve:@escaping RCTPromiseResolveBlock,reject:@escaping RCTPromiseRejectBlock) -> Void {
         self.setConfiguration(options: options, resolve: resolve, reject: reject)
@@ -129,6 +133,7 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
                 }
             }
             self.selectedAssets = assets
+            self.videoCount = assets.filter{ $0.phAsset?.mediaType == .video }.count
         }
     }
     
@@ -217,8 +222,6 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
             return;
         }
         let selections = NSMutableArray.init(array: withTLPHAssets);
-        self.selectedAssets = withTLPHAssets
-        
         //imageRequestOptions
         let imageRequestOptions = PHImageRequestOptions();
         imageRequestOptions.deliveryMode = .fastFormat;
