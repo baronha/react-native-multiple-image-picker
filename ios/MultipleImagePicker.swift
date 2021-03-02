@@ -18,8 +18,6 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
     var videoAssets = [PHAsset]()
     var videoCount = 0
     // controller
-    var controller = UIViewController()
-
     
     
     
@@ -52,11 +50,14 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
     }
     
     func dismissComplete() {
-        
+        DispatchQueue.main.async {
+        self.getTopMostViewController()?.dismiss(animated: true, completion: nil)
+        }
     }
     
     @objc(openPicker:withResolver:withRejecter:)
     func openPicker(options: NSDictionary, resolve:@escaping RCTPromiseResolveBlock,reject:@escaping RCTPromiseRejectBlock) -> Void {
+        videoCount = 0
         self.setConfiguration(options: options, resolve: resolve, reject: reject)
         let viewController = CustomPhotoPickerViewController()
         viewController.delegate = self
@@ -70,7 +71,6 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
         viewController.modalTransitionStyle = .coverVertical
         viewController.modalPresentationStyle = .overCurrentContext
         
-        controller = viewController
         DispatchQueue.main.async {
             self.getTopMostViewController()?.present(viewController, animated: true, completion: nil)
         }
@@ -275,7 +275,7 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
         print("maxVideo", maxVideo)
         if(phAsset.mediaType == .video){
             if(videoCount == maxVideo as! Int){
-                showExceededMaximumAlert(vc: self.controller, isVideo: true)
+                showExceededMaximumAlert(vc: self.getTopMostViewController()!, isVideo: true)
                 return false
             }
             videoCount += 1
