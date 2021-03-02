@@ -57,7 +57,6 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
     
     @objc(openPicker:withResolver:withRejecter:)
     func openPicker(options: NSDictionary, resolve:@escaping RCTPromiseResolveBlock,reject:@escaping RCTPromiseRejectBlock) -> Void {
-        videoCount = 0
         self.setConfiguration(options: options, resolve: resolve, reject: reject)
         let viewController = CustomPhotoPickerViewController()
         viewController.delegate = self
@@ -121,9 +120,13 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
     }
     
     func handleSelectedAssets(selecteds: NSArray){
-        if(selecteds.count != self.selectedAssets.count){
+        let assets =  selecteds.filter{ ($0 as! NSObject).value(forKey: "localIdentifier") != nil }
+        videoCount = selecteds.filter{ ($0 as! NSObject).value(forKey: "type") as? String == "video" }.count
+        
+        print("videoCount", videoCount)
+        if(assets.count != self.selectedAssets.count){
             var assets = [TLPHAsset]();
-            for index in 0..<selecteds.count {
+            for index in 0..<assets.count {
                 let value = selecteds[index]
                 let localIdentifier = (value as! NSObject).value(forKey: "localIdentifier") as! String
                 if(!localIdentifier.isEmpty){
@@ -222,6 +225,7 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
             return;
         }
         let selections = NSMutableArray.init(array: withTLPHAssets);
+        self.selectedAssets = withTLPHAssets
         //imageRequestOptions
         let imageRequestOptions = PHImageRequestOptions();
         imageRequestOptions.deliveryMode = .fastFormat;
@@ -272,7 +276,6 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
     
     func canSelectAsset(phAsset: PHAsset) -> Bool {
         let maxVideo = self.options["maxVideo"]
-        print("maxVideo", maxVideo)
         if(phAsset.mediaType == .video){
             if(videoCount == maxVideo as! Int){
                 showExceededMaximumAlert(vc: self.getTopMostViewController()!, isVideo: true)

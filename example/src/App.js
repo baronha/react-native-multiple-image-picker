@@ -5,7 +5,23 @@ import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import MultipleImagePicker from '@baronha/react-native-multiple-image-picker';
 
 export default function App() {
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState([
+    {
+      FileId: '4844',
+      FileName:
+        'https://dev.pety.vn/files/images/2091.1614509942.kitten---4216.mp4',
+      FileThumbnail:
+        'https://dev.pety.vn/files/images/thumbs/2091.1614509942.kitten---4216.mp4.jpg',
+      IsImage: '0',
+      IsVideo: '1',
+      Name: 'Kitten - 4216.mp4',
+      PostId: '4841',
+      idx: 0,
+      path:
+        'https://dev.pety.vn/files/images/thumbs/2091.1614509942.kitten---4216.mp4.jpg',
+      url: 'https://dev.pety.vn/files/images/2091.1614509942.kitten---4216.mp4',
+    },
+  ]);
 
   const openPicker = async () => {
     try {
