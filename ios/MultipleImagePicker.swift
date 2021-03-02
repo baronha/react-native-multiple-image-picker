@@ -120,20 +120,22 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
     }
     
     func handleSelectedAssets(selecteds: NSArray){
-        let assets =  selecteds.filter{ ($0 as! NSObject).value(forKey: "localIdentifier") != nil }
+        let assetsExist =  selecteds.filter{ ($0 as! NSObject).value(forKey: "localIdentifier") != nil }
         videoCount = selecteds.filter{ ($0 as! NSObject).value(forKey: "type") as? String == "video" }.count
         
-        print("videoCount", videoCount)
-        if(assets.count != self.selectedAssets.count){
+        print("assets", assetsExist.count)
+        print("self.selectedAssets.count", self.selectedAssets.count)
+        if(assetsExist.count != self.selectedAssets.count){
             var assets = [TLPHAsset]();
-            for index in 0..<assets.count {
-                let value = selecteds[index]
+            for index in 0..<assetsExist.count {
+                let value = assetsExist[index]
                 let localIdentifier = (value as! NSObject).value(forKey: "localIdentifier") as! String
                 if(!localIdentifier.isEmpty){
                     var TLAsset = TLPHAsset.asset(with: localIdentifier);
                     TLAsset?.selectedOrder = index + 1
                     assets.insert(TLAsset!, at: index)
                 }
+                print("index", index)
             }
             self.selectedAssets = assets
             self.videoCount = assets.filter{ $0.phAsset?.mediaType == .video }.count
