@@ -25,7 +25,7 @@ yarn add @baronha/react-native-multiple-image-picker
 ```
 
 ### iOS
-> Don't forget the Privacy Description in `info.plist`.
+> Don't forget the Privacy Description in `info.plist` and add  file```.swift``` in your project (and create bridging header file swift).
 <img src="./files/privacy-iOS.png">
 
 ```sh
@@ -73,7 +73,7 @@ Here are some related issues in the RN repo: [Issue 30202](https://github.com/fa
 ## Usage
 See [options](#Options)
 ```js
-import MultipleImagePicker from "react-native-multiple-image-picker";
+import MultipleImagePicker from "@baronha/react-native-multiple-image-picker";
 // ...
 const response = await MultipleImagePicker.openPicker(options);
 ```
