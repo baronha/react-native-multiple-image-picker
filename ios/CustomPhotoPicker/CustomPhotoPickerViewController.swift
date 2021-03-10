@@ -17,28 +17,9 @@ class CustomPhotoPickerViewController: TLPhotosPickerViewController {
     
     override func makeUI() {
         super.makeUI()
-        let leftBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .stop, target: nil, action: #selector(customAction))
-        leftBarButtonItem.tintColor = .black
-        self.customNavItem.leftBarButtonItem = leftBarButtonItem
+        self.customNavItem.leftBarButtonItem?.tintColor = .black
         self.customNavItem.rightBarButtonItem?.tintColor = MultipleImagePickerConfigure.selectedColor
     }
-    
-    @objc func customAction() {
-        DispatchQueue.main.async {
-            self.getTopMostViewController()?.dismiss(animated: true, completion: nil)
-        }
-    }
-    
-    func getTopMostViewController() -> UIViewController? {
-        var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
-        
-        while let presentedViewController = topMostViewController?.presentedViewController {
-            topMostViewController = presentedViewController
-        }
-        
-        return topMostViewController
-    }
-    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
