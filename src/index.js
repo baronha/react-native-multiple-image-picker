@@ -36,7 +36,7 @@ let defaultOptions = {
   usedCameraButton: true,
   allowedVideo: true,
   allowedPhotograph: true, // for camera : allow this option when you want to take a photos
-  allowedVideoRecording: false, //for camera : allow this option when you want to recording video.
+  allowedVideoRecording: true, //for camera : allow this option when you want to recording video.
   maxVideoDuration: 60, //for camera : max video recording duration
   numberOfColumn: 3,
   maxSelectedAssets: 20,

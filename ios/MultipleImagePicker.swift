@@ -240,7 +240,7 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
             group.enter()
             let asset = TLAsset.phAsset
             let index = TLAsset.selectedOrder - 1;
-            TLAsset.tempCopyMediaFile(videoRequestOptions: nil, imageRequestOptions: imageRequestOptions, livePhotoRequestOptions: nil, exportPreset: AVAssetExportPresetMediumQuality, convertLivePhotosToJPG: true, progressBlock: { (Double) in
+            TLAsset.tempCopyMediaFile(videoRequestOptions: nil, imageRequestOptions: imageRequestOptions, livePhotoRequestOptions: nil, exportPreset: AVAssetExportPresetHighestQuality, convertLivePhotosToJPG: true, progressBlock: { (Double) in
                 
             }, completionBlock: { (filePath, fileType) in
                 let object = NSDictionary(dictionary: self.createAttachmentResponse(
