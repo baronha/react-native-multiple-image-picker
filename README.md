@@ -21,7 +21,7 @@ yarn add @baronha/react-native-multiple-image-picker
 ```
 
 ### iOS
-> Don't forget the Privacy Description in `info.plist` and add  file```.swift``` in your project (and create bridging header file swift).
+> Don't forget the Privacy Description in `info.plist` and add  file [.swift](https://stackoverflow.com/questions/52536380/why-linker-link-static-libraries-with-errors-ios) in your project (and create bridging header file swift).
 <img src="./files/privacy-iOS.png">
 
 ```sh
