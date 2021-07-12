@@ -68,8 +68,10 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) : ReactCo
                     override fun onResult(result: MutableList<Any?>?) {
                         //check difference
                         if (singleSelectedMode) {
+                            val singleLocalMedia: WritableArray = WritableNativeArray()
                             val media: WritableMap = createAttachmentResponse(result?.get(0) as LocalMedia)
-                            promise.resolve(media)
+                            singleLocalMedia.pushMap(media)
+                            promise.resolve(singleLocalMedia)
                             return
                         }
                         val localMedia: WritableArray = WritableNativeArray()
