@@ -25,6 +25,9 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
     var resolve: RCTPromiseResolveBlock!
     var reject: RCTPromiseRejectBlock!
     
+    // misc
+    var cancelled = false;
+    
     func selectedCameraCell(picker: TLPhotosPickerViewController) {
         let generator = UIImpactFeedbackGenerator(style: .medium)
         generator.impactOccurred()
@@ -49,9 +52,21 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
         generator.impactOccurred()
     }
     
+    
     func dismissComplete() {
+        // After the view controller is dismissed, check if the user clicked cancel.
+        // If they did Reject the JS Promise so it can be completed;
+        func onDismissCompletion() {
+            if (self.cancelled) {
+                self.reject("user_cancelled", "User cancelled media selection", nil)
+                // reset cancelled state to so another selection will not cause errors;
+                self.cancelled = false;
+            }
+            return;
+        }
+
         DispatchQueue.main.async {
-        self.getTopMostViewController()?.dismiss(animated: true, completion: nil)
+        self.getTopMostViewController()?.dismiss(animated: true, completion: onDismissCompletion)
         }
     }
     
@@ -258,6 +273,11 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
         group.notify(queue: .main){
             self.resolve(selections);
         }
+    }
+    
+    func photoPickerDidCancel() {
+        self.cancelled = true;
+        return;
     }
     
     func getTopMostViewController() -> UIViewController? {

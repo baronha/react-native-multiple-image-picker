@@ -131,6 +131,12 @@ Get an Array value only. If you want React Native Multiple Image Picker to re-se
 | thumbnail	                   | string       | Both        | Appears only in video format and you must have set isExportThumbnail = true. See [options](#Options) |
 | creationDate	                   | string       | iOS        | UNIX timestamp when image was created |
 
+## Reject (when pressing cancel)
+
+The promise is rejected when you click the cancel button.
+
+On iOS you can check for the error code `user_cancelled` to be sure the error was thrown for this reason.
+
 ## To Do
 - [ ] (Bug) Preview (Android)
 - [ ] (Bug) Record Video (iOS)
