@@ -172,7 +172,8 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) : ReactCo
         val height: Int = asset.getInt("height")
         val size: Long = asset.getDouble("size").toLong()
         val bucketId: Long = asset.getDouble("bucketId").toLong()
-        val localMedia = LocalMedia(id, path, realPath, fileName, parentFolderName, duration, chooseModel, mimeType, width, height, size, bucketId)
+        val dateAddedColumn: Long = Date().time.toLong()
+        val localMedia = LocalMedia(id, path, realPath, fileName, parentFolderName, duration, chooseModel, mimeType, width, height, size, bucketId, dateAddedColumn)
         return localMedia
     }
 
@@ -185,7 +186,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) : ReactCo
         media.putString("fileName", item.fileName)
         media.putInt("width", item.width)
         media.putInt("height", item.height)
-        media.putString("mine", item.mimeType)
+        media.putString("mime", item.mimeType)
         media.putString("type", type)
         media.putInt("localIdentifier", item.id.toInt())
         media.putInt("position", item.position)
@@ -228,6 +229,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) : ReactCo
             return ""
         }
     }
+
     private fun createDirIfNotExists(path: String): File {
         val dir = File(path)
         if (dir.exists()) {

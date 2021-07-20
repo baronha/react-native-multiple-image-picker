@@ -51,7 +51,7 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
     
     func dismissComplete() {
         DispatchQueue.main.async {
-        self.getTopMostViewController()?.dismiss(animated: true, completion: nil)
+            self.getTopMostViewController()?.dismiss(animated: true, completion: nil)
         }
     }
     
@@ -108,7 +108,7 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
         let mediaType = self.options["mediaType"] as! String;
         
         MultipleImagePickerConfigure.mediaType = mediaType == "video" ? PHAssetMediaType.video : mediaType == "image" ? PHAssetMediaType.image : nil ;
-
+        
         MultipleImagePickerConfigure.nibSet = (nibName: "Cell", bundle: MultipleImagePickerBundle.bundle())
         
         //        configure.allowedPhotograph = self.options["allowedPhotograph"]
@@ -143,7 +143,7 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
     }
     
     func createAttachmentResponse(filePath: String?, withFilename filename: String?, withType type: String?, withAsset asset: PHAsset, withTLAsset TLAsset: TLPHAsset ) -> [AnyHashable :Any]? {
-        
+        print("asets: ",asset, TLAsset)
         var media = [
             "path": "file://" + filePath! as String,
             "localIdentifier": asset.localIdentifier,
@@ -155,9 +155,21 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
             "type": asset.mediaType == .video ? "video" : "image"
         ] as [String : Any]
         
-        if(asset.mediaType == .video && options["isExportThumbnail"] as! Bool){
-            let thumbnail = getThumbnail(from: filePath!, in: 0.1)
-            media["thumbnail"] = thumbnail
+        //option in video
+        if(asset.mediaType == .video){
+            //get video's thumbnail
+            if(options["isExportThumbnail"] as! Bool){
+                let thumbnail = getThumbnail(from: filePath!, in: 0.1)
+                media["thumbnail"] = thumbnail
+            }
+            //get video size
+            TLAsset.videoSize { Int in
+                media["size"] = Int
+            }
+        }else{
+            TLAsset.photoSize { Int in
+                media["size"] = Int
+            }
         }
         return media
     }
@@ -197,23 +209,6 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
         
     }
     
-//    func resizedImage(at url: URL, for size: CGSize) -> UIImage? {
-//        let options: [CFString: Any] = [
-//            kCGImageSourceCreateThumbnailFromImageIfAbsent: true,
-//            kCGImageSourceCreateThumbnailWithTransform: true,
-//            kCGImageSourceShouldCacheImmediately: true,
-//            kCGImageSourceThumbnailMaxPixelSize: max(size.width, size.height)
-//        ]
-//
-//        guard let imageSource = CGImageSourceCreateWithURL(url as NSURL, nil),
-//              let image = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, options as CFDictionary)
-//        else {
-//            return nil
-//        }
-//
-//        return UIImage(cgImage: image)
-//    }
-    
     func dismissPhotoPicker(withTLPHAssets: [TLPHAsset]) {
         if(withTLPHAssets.count == 0){
             self.resolve([]);
@@ -226,6 +221,7 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
         if(withTLPHAssetsCount == selectedAssetsCount && withTLPHAssets[withTLPHAssetsCount - 1].phAsset?.localIdentifier == self.selectedAssets[selectedAssetsCount-1].phAsset?.localIdentifier){
             return;
         }
+        
         let selections = NSMutableArray.init(array: withTLPHAssets);
         self.selectedAssets = withTLPHAssets
         //imageRequestOptions
@@ -240,7 +236,14 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
             group.enter()
             let asset = TLAsset.phAsset
             let index = TLAsset.selectedOrder - 1;
-            TLAsset.tempCopyMediaFile(videoRequestOptions: nil, imageRequestOptions: imageRequestOptions, livePhotoRequestOptions: nil, exportPreset: AVAssetExportPresetHighestQuality, convertLivePhotosToJPG: true, progressBlock: { (Double) in
+            
+            let videoRequestOptions = PHVideoRequestOptions.init()
+            videoRequestOptions.version = PHVideoRequestOptionsVersion.current
+            videoRequestOptions.deliveryMode = PHVideoRequestOptionsDeliveryMode.automatic
+            videoRequestOptions.isNetworkAccessAllowed = true
+            
+            TLAsset.tempCopyMediaFile(videoRequestOptions: videoRequestOptions, imageRequestOptions: imageRequestOptions, livePhotoRequestOptions: nil, exportPreset: AVAssetExportPresetHighestQuality, convertLivePhotosToJPG: true, progressBlock: { (Double) in
+                print("progressBlock: ", Double)
                 
             }, completionBlock: { (filePath, fileType) in
                 let object = NSDictionary(dictionary: self.createAttachmentResponse(

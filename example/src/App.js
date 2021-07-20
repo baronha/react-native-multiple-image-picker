@@ -13,6 +13,7 @@ export default function App() {
         selectedAssets: images,
         isExportThumbnail: true,
         maxVideo: 1,
+        singleSelectedMode: true,
         // selectedColor: '#f9813a',
       });
       console.log('done: ', response);
