@@ -169,7 +169,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) : ReactCo
         val parentFolderName: String? = asset.getString("parentFolderName")
         val duration: Long = asset.getDouble("duration").toLong()
         val chooseModel: Int = asset.getInt("chooseModel")
-        val mimeType: String? = asset.getString("mine")
+        val mimeType: String? = asset.getString("mime")
         val width: Int = asset.getInt("width")
         val height: Int = asset.getInt("height")
         val size: Long = asset.getDouble("size").toLong()
