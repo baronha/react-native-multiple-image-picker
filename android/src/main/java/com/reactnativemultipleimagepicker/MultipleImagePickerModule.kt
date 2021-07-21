@@ -40,6 +40,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) : ReactCo
     private var isPreview: Boolean = true
     private var isExportThumbnail: Boolean = false
     private var maxVideo: Int = 20
+    private var isCamera: Boolean = true
 
     @ReactMethod
     fun openPicker(options: ReadableMap?, promise: Promise): Unit {
@@ -62,6 +63,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) : ReactCo
                 .setPictureStyle(mPictureParameterStyle)
                 .isPreviewImage(isPreview)
                 .isPreviewVideo(isPreview)
+                .isCamera(isCamera)
                 .isReturnEmpty(true)
                 .selectionMode(if (singleSelectedMode) PictureConfig.SINGLE else PictureConfig.MULTIPLE)
                 .forResult(object : OnResultCallbackListener<Any?> {
@@ -111,6 +113,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) : ReactCo
             isExportThumbnail = options.getBoolean("isExportThumbnail")
             maxVideo = options.getInt("maxVideo")
             mPictureParameterStyle = getStyle(options)
+            isCamera = options.getBoolean("usedCameraButton")
         }
     }
 

@@ -14,6 +14,7 @@ export default function App() {
         isExportThumbnail: true,
         maxVideo: 1,
         singleSelectedMode: true,
+        usedCameraButton: false,
         // selectedColor: '#f9813a',
       });
       console.log('done: ', response);

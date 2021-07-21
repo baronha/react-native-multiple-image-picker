@@ -134,9 +134,10 @@ Get an Array value only. If you want React Native Multiple Image Picker to re-se
 | creationDate	                   | string       | iOS        | UNIX timestamp when image was created |
 
 ## To Do
-- [ ] (Bug) Record Video (iOS)
-- [ ] Video Compression
-- [ ] iCloud...
+- [ ] Typescript.
+- [ ] (Bug) Record Video (iOS).
+- [ ] Video Compression.
+- [ ] iCloud.
 
 ## Performance
 
