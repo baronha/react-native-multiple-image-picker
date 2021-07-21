@@ -40,6 +40,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) : ReactCo
     private var isPreview: Boolean = true
     private var isExportThumbnail: Boolean = false
     private var maxVideo: Int = 20
+    private var isCamera: Boolean = true
 
     @ReactMethod
     fun openPicker(options: ReadableMap?, promise: Promise): Unit {
@@ -62,14 +63,17 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) : ReactCo
                 .setPictureStyle(mPictureParameterStyle)
                 .isPreviewImage(isPreview)
                 .isPreviewVideo(isPreview)
+                .isCamera(isCamera)
                 .isReturnEmpty(true)
                 .selectionMode(if (singleSelectedMode) PictureConfig.SINGLE else PictureConfig.MULTIPLE)
                 .forResult(object : OnResultCallbackListener<Any?> {
                     override fun onResult(result: MutableList<Any?>?) {
                         //check difference
                         if (singleSelectedMode) {
+                            val singleLocalMedia: WritableArray = WritableNativeArray()
                             val media: WritableMap = createAttachmentResponse(result?.get(0) as LocalMedia)
-                            promise.resolve(media)
+                            singleLocalMedia.pushMap(media)
+                            promise.resolve(singleLocalMedia)
                             return
                         }
                         val localMedia: WritableArray = WritableNativeArray()
@@ -109,6 +113,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) : ReactCo
             isExportThumbnail = options.getBoolean("isExportThumbnail")
             maxVideo = options.getInt("maxVideo")
             mPictureParameterStyle = getStyle(options)
+            isCamera = options.getBoolean("usedCameraButton")
         }
     }
 
@@ -167,12 +172,13 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) : ReactCo
         val parentFolderName: String? = asset.getString("parentFolderName")
         val duration: Long = asset.getDouble("duration").toLong()
         val chooseModel: Int = asset.getInt("chooseModel")
-        val mimeType: String? = asset.getString("mine")
+        val mimeType: String? = asset.getString("mime")
         val width: Int = asset.getInt("width")
         val height: Int = asset.getInt("height")
         val size: Long = asset.getDouble("size").toLong()
         val bucketId: Long = asset.getDouble("bucketId").toLong()
-        val localMedia = LocalMedia(id, path, realPath, fileName, parentFolderName, duration, chooseModel, mimeType, width, height, size, bucketId)
+        val dateAddedColumn: Long = Date().time.toLong()
+        val localMedia = LocalMedia(id, path, realPath, fileName, parentFolderName, duration, chooseModel, mimeType, width, height, size, bucketId, dateAddedColumn)
         return localMedia
     }
 
@@ -185,7 +191,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) : ReactCo
         media.putString("fileName", item.fileName)
         media.putInt("width", item.width)
         media.putInt("height", item.height)
-        media.putString("mine", item.mimeType)
+        media.putString("mime", item.mimeType)
         media.putString("type", type)
         media.putInt("localIdentifier", item.id.toInt())
         media.putInt("position", item.position)
@@ -228,6 +234,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) : ReactCo
             return ""
         }
     }
+
     private fun createDirIfNotExists(path: String): File {
         val dir = File(path)
         if (dir.exists()) {

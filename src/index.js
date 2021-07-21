@@ -63,6 +63,7 @@ exportObject = {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await MultipleImagePicker.openPicker(options);
+        console.log('res', response);
         if (response?.length) {
           resolve(response);
           return;

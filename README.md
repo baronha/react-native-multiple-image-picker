@@ -121,13 +121,15 @@ Get an Array value only. If you want React Native Multiple Image Picker to re-se
 
 | Property                         |     Type     |  Platform  | Description                              |
 | -------------------------------- | :----------: | :--------: | :--------------------------------------- |
-| path		                   | string       | Both       | Selected images's path |
-| filename	                   | string       | Both       | Selected images's filename |
-| localIdentifier	           | string       | Both       | Selected images's local identifier |
-| width                 	   | number       | Both       | Selected image width |
-| height                 	   | number       | Both       | Selected image height |
-| mime	                 	   | string       | Both       | Selected image MIME type (image/jpeg, image/png, video/mp4 etc...) |
+| path		                   | string       | Both       | Selected media's path |
+| filename	                   | string       | Both       | Selected media's filename |
+| localIdentifier	           | string       | Both       | Selected media's local identifier |
+| width                 	   | number       | Both       | Selected photo/video width |
+| height                 	   | number       | Both       | Selected photo/video height |
+| mime	                 	   | string       | Both       | Selected photo/video MIME type (image/jpeg, image/png, video/mp4 etc...) |
 | type	                 	   | string       | Both       | Selected image type (image or video) |
+| size	                   | number       | Both        | Selected photo/video size in bytes |
+
 | thumbnail	                   | string       | Both        | Appears only in video format and you must have set isExportThumbnail = true. See [options](#Options) |
 | creationDate	                   | string       | iOS        | UNIX timestamp when image was created |
 
@@ -138,10 +140,10 @@ The promise is rejected when you click the cancel button.
 On iOS you can check for the error code `user_cancelled` to be sure the error was thrown for this reason.
 
 ## To Do
-- [ ] (Bug) Preview (Android)
-- [ ] (Bug) Record Video (iOS)
-- [ ] Video Compression
-- [ ] Hmmm...
+- [ ] Typescript.
+- [ ] (Bug) Record Video (iOS).
+- [ ] Video Compression.
+- [ ] iCloud.
 
 ## Performance
 
