@@ -49,11 +49,6 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
         generator.impactOccurred()
     }
     
-    func dismissComplete() {
-        DispatchQueue.main.async {
-            self.getTopMostViewController()?.dismiss(animated: true, completion: nil)
-        }
-    }
     
     @objc(openPicker:withResolver:withRejecter:)
     func openPicker(options: NSDictionary, resolve:@escaping RCTPromiseResolveBlock,reject:@escaping RCTPromiseRejectBlock) -> Void {
@@ -67,10 +62,13 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
         viewController.configure = MultipleImagePickerConfigure
         viewController.selectedAssets = self.selectedAssets
         viewController.logDelegate = self
-        viewController.modalTransitionStyle = .coverVertical
-        viewController.modalPresentationStyle = .overCurrentContext
+        
+        //        viewController.navigationBar
         
         DispatchQueue.main.async {
+            viewController.modalTransitionStyle = .coverVertical
+            viewController.modalPresentationStyle = .fullScreen
+            
             self.getTopMostViewController()?.present(viewController, animated: true, completion: nil)
         }
     }
@@ -124,7 +122,7 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
         videoCount = selecteds.filter{ ($0 as! NSObject).value(forKey: "type") as? String == "video" }.count
         
         print("assets", assetsExist.count)
-        print("self.selectedAssets.count", self.selectedAssets.count)
+        print("self.selectedAssets.count", self.selectedAssets)
         if(assetsExist.count != self.selectedAssets.count){
             var assets = [TLPHAsset]();
             for index in 0..<assetsExist.count {
@@ -143,7 +141,6 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
     }
     
     func createAttachmentResponse(filePath: String?, withFilename filename: String?, withType type: String?, withAsset asset: PHAsset, withTLAsset TLAsset: TLPHAsset ) -> [AnyHashable :Any]? {
-        print("asets: ",asset, TLAsset)
         var media = [
             "path": "file://" + filePath! as String,
             "localIdentifier": asset.localIdentifier,
@@ -152,7 +149,7 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
             "height": Int(asset.pixelHeight ) as NSNumber,
             "mime": type!,
             "creationDate": asset.creationDate!,
-            "type": asset.mediaType == .video ? "video" : "image"
+            "type": asset.mediaType == .video ? "video" : "image",
         ] as [String : Any]
         
         //option in video
@@ -166,6 +163,7 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
             TLAsset.videoSize { Int in
                 media["size"] = Int
             }
+            media["duration"] = asset.duration
         }else{
             TLAsset.photoSize { Int in
                 media["size"] = Int
@@ -209,9 +207,26 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
         
     }
     
+    func shouldDismissPhotoPicker(withTLPHAssets: [TLPHAsset]) -> Bool {
+        return false
+    }
+    
+    internal func dismissLoading() {
+        if let vc = self.getTopMostViewController()?.presentedViewController, vc is UIAlertController {
+            self.getTopMostViewController()?.dismiss(animated: false, completion: nil)
+        }
+    }
+    
+    func dismissComplete(){
+        DispatchQueue.main.async {
+            self.getTopMostViewController()?.dismiss(animated: true, completion: nil)
+        }
+    }
+    
     func dismissPhotoPicker(withTLPHAssets: [TLPHAsset]) {
         if(withTLPHAssets.count == 0){
             self.resolve([]);
+            dismissComplete()
             return;
         }
         let  withTLPHAssetsCount = withTLPHAssets.count;
@@ -219,6 +234,7 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
         
         //check difference
         if(withTLPHAssetsCount == selectedAssetsCount && withTLPHAssets[withTLPHAssetsCount - 1].phAsset?.localIdentifier == self.selectedAssets[selectedAssetsCount-1].phAsset?.localIdentifier){
+            dismissComplete()
             return;
         }
         
@@ -228,48 +244,66 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
         let imageRequestOptions = PHImageRequestOptions();
         imageRequestOptions.deliveryMode = .fastFormat;
         imageRequestOptions.resizeMode = .fast;
+        imageRequestOptions.isNetworkAccessAllowed = true
+        imageRequestOptions.isSynchronous = false
         
+        let videoRequestOptions = PHVideoRequestOptions.init()
+        videoRequestOptions.version = PHVideoRequestOptionsVersion.current
+        videoRequestOptions.deliveryMode = PHVideoRequestOptionsDeliveryMode.automatic
+        videoRequestOptions.isNetworkAccessAllowed = true
         
-        let group = DispatchGroup()
+        //add loading view
+        let alert = UIAlertController(title: nil, message: "Please wait...", preferredStyle: .alert)
         
-        for TLAsset in withTLPHAssets {
-            group.enter()
-            let asset = TLAsset.phAsset
-            let index = TLAsset.selectedOrder - 1;
-            
-            let videoRequestOptions = PHVideoRequestOptions.init()
-            videoRequestOptions.version = PHVideoRequestOptionsVersion.current
-            videoRequestOptions.deliveryMode = PHVideoRequestOptionsDeliveryMode.automatic
-            videoRequestOptions.isNetworkAccessAllowed = true
-            
-            TLAsset.tempCopyMediaFile(videoRequestOptions: videoRequestOptions, imageRequestOptions: imageRequestOptions, livePhotoRequestOptions: nil, exportPreset: AVAssetExportPresetHighestQuality, convertLivePhotosToJPG: true, progressBlock: { (Double) in
-                print("progressBlock: ", Double)
-                
-            }, completionBlock: { (filePath, fileType) in
-                let object = NSDictionary(dictionary: self.createAttachmentResponse(
-                    filePath: filePath.absoluteString,
-                    withFilename:TLAsset.originalFileName,
-                    withType: fileType,
-                    withAsset: asset!,
-                    withTLAsset: TLAsset
-                )!);
-                
-                selections[index] = object as Any;
-                group.leave();
-            })
+        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.style = UIActivityIndicatorView.Style.gray
+        if #available(iOS 13.0, *) {
+            loadingIndicator.color = .secondaryLabel
+        } else {
+            loadingIndicator.color = .black
         }
-        group.notify(queue: .main){
-            self.resolve(selections);
-        }
+        loadingIndicator.startAnimating();
+        
+        alert.view.addSubview(loadingIndicator)
+        self.getTopMostViewController()?.present(alert, animated: true, completion: {
+            let group = DispatchGroup()
+            for TLAsset in withTLPHAssets {
+                group.enter()
+                let asset = TLAsset.phAsset
+                let index = TLAsset.selectedOrder - 1;
+                
+                TLAsset.tempCopyMediaFile(videoRequestOptions: videoRequestOptions, imageRequestOptions: imageRequestOptions, livePhotoRequestOptions: nil, exportPreset: AVAssetExportPresetHighestQuality, convertLivePhotosToJPG: true, progressBlock: { (progress) in
+                    print("progress: ", progress)
+                }, completionBlock: { (filePath, fileType) in
+                    let object = NSDictionary(dictionary: self.createAttachmentResponse(
+                        filePath: filePath.absoluteString,
+                        withFilename:TLAsset.originalFileName,
+                        withType: fileType,
+                        withAsset: asset!,
+                        withTLAsset: TLAsset
+                    )!);
+                    
+                    selections[index] = object as Any;
+                    group.leave();
+                })
+            }
+            group.notify(queue: .main){ [self] in
+                resolve(selections);
+                DispatchQueue.main.async {
+                    alert.dismiss(animated: true, completion: {
+                        dismissComplete()
+                    })
+                }
+            }
+        })
     }
     
     func getTopMostViewController() -> UIViewController? {
         var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
-        
         while let presentedViewController = topMostViewController?.presentedViewController {
             topMostViewController = presentedViewController
         }
-        
         return topMostViewController
     }
     
@@ -282,7 +316,8 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
     func canSelectAsset(phAsset: PHAsset) -> Bool {
         let maxVideo = self.options["maxVideo"]
         if(phAsset.mediaType == .video){
-            if(videoCount == maxVideo as! Int){
+            
+            if(videoCount == maxVideo as! Int && !(options["singleSelectedMode"] as! Bool)){
                 showExceededMaximumAlert(vc: self.getTopMostViewController()!, isVideo: true)
                 return false
             }

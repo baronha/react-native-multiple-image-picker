@@ -10,7 +10,7 @@ export type Results = {
   type: string;
   thumbnail?: string;
   creationDate?: string;
-}
+};
 
 export type Options = {
   isPreview?: boolean;

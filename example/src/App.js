@@ -13,7 +13,6 @@ export default function App() {
         selectedAssets: images,
         isExportThumbnail: true,
         maxVideo: 1,
-        singleSelectedMode: true,
         usedCameraButton: false,
         // selectedColor: '#f9813a',
       });
@@ -68,9 +67,11 @@ export default function App() {
         renderItem={renderItem}
         numColumns={3}
       />
-      <TouchableOpacity style={style.openPicker} onPress={openPicker}>
-        <Text style={style.openText}>open</Text>
-      </TouchableOpacity>
+      <View style={style.bottom}>
+        <TouchableOpacity style={style.openPicker} onPress={openPicker}>
+          <Text style={style.openText}>open</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 }
@@ -96,14 +97,19 @@ const style = StyleSheet.create({
     marginBottom: 6,
     backgroundColor: 'rgba(0,0,0,0.2)',
   },
+  bottom: {
+    padding: 24,
+  },
   openText: {
     fontWeight: 'bold',
     fontSize: 16,
+    color: '#fff',
+    paddingVertical: 12,
   },
   openPicker: {
-    flex: 1 / 3,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#000',
   },
   buttonDelete: {
     paddingHorizontal: 8,
