@@ -47,6 +47,8 @@ __C.UIAction.init(title: Swift.String, image: __C.UIImage?, identifier: __C.UIAc
 
 Here are some related issues in the RN repo: [Issue 30202](https://github.com/facebook/react-native/pull/30202) and [Issue 29178](https://github.com/facebook/react-native/pull/29178). This bug could be fixed in a future version of react native, but a workaround I've found is to do the following:
 
+<img src="./files/resolve-error-iOS.png">
+
 1. Open your `ios/project.xcworkspace` project.
 2. In the project navigator panel (located on the right side of Xcode), select your project group (i.e. the item with the blueprint icon).
 3. The Xcode project editor should appear. In the left panel, under the "Project" section, select your project (if it isn't already selected).
@@ -61,9 +63,14 @@ Here are some related issues in the RN repo: [Issue 30202](https://github.com/fa
    - Try clearing out Xcode's `derivedData` directory: `rm -rf ~/Library/Developer/Xcode/DerivedData/*` (check out this [gist](https://gist.github.com/maciekish/66b6deaa7bc979d0a16c50784e16d697) for instructions on how to clean up Xcode)
    - Try clearing out the `Cocoapods` cache: `rm -rf "${HOME}/Library/Caches/CocoaPods"` (and then try running `pod install` again).
 
-<img src="./files/resolve-error-iOS.png">
-
 ### Android
+
+> Add this lines in `settings.gradle` then `Sync Project with Gradle Files`
+
+```
+include ':picture_library'
+project(':picture_library').projectDir = new File(rootProject.projectDir, '../node_modules/@baronha/react-native-multiple-image-picker/picture_library')
+```
 
 > Add Permission in `AndroidManifest.xml`
 
@@ -72,7 +79,6 @@ Here are some related issues in the RN repo: [Issue 30202](https://github.com/fa
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 ```
-
 ## Usage
 
 See [options](#Options)
@@ -121,8 +127,9 @@ const response = await MultipleImagePicker.openPicker(options);
 | emptyMessage                                | string |                       No albums                       |   iOS    | Show string when gallery empty                                                                    |
 | maximumMessageTitle                         | string |                     Notification                      |   iOS    | The title of the alert when the user chooses to exceed the specified number of pictures           |
 | messageTitleButton                          | string |                     Notification                      |   iOS    | The title of button in the alert when the user chooses to exceed the specified number of pictures |
-| maximumMessage                              | string | You have selected the maximum number of media allowed |   iOS    | The description of the alert when the user chooses to exceed the specified number of pictures     |
 | tapHereToChange                             | string |                  Tap here to change                   |   iOS    | The sub-title in navigation bar (under albums's name in iOS)                                      |
+| maximumMessage                              | string | You have selected the maximum number of media allowed |   Both    | The description of the alert when the user chooses to exceed the specified number of pictures     |
+| maximumVideoMessage                              | string | You have selected the maximum number of media allowed |   Both    | The description of the alert when the user chooses to exceed the specified number of videos     |
 
 #### selectedAssets (Important)
 
@@ -150,7 +157,6 @@ Get an Array value only. If you want React Native Multiple Image Picker to re-se
 - [ ] Typescript.
 - [ ] (Bug) Record Video (iOS).
 - [ ] Video Compression.
-- [x] iCloud.
 
 ## Performance
 
