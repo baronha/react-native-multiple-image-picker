@@ -69,8 +69,6 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
             .isPreviewVideo(isPreview)
             .isCamera(isCamera)
             .isReturnEmpty(true)
-            .maximumMessage(maximumMessage)
-            .maximumVideoMessage(maximumVideoMessage)
             .selectionMode(if (singleSelectedMode) PictureConfig.SINGLE else PictureConfig.MULTIPLE)
             .forResult(object : OnResultCallbackListener<LocalMedia?> {
                 override fun onResult(result: MutableList<LocalMedia?>?) {
