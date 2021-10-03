@@ -8,6 +8,10 @@ export type Results = {
   height: number;
   mime: string;
   type: string;
+  size: number;
+  bucketId?: number;
+  realPath?: string;
+  parentFolderName?: string;
   thumbnail?: string;
   creationDate?: string;
 };

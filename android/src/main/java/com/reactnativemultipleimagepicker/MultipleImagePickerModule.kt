@@ -69,8 +69,6 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
             .isPreviewVideo(isPreview)
             .isCamera(isCamera)
             .isReturnEmpty(true)
-            .maximumMessage(maximumMessage)
-            .maximumVideoMessage(maximumVideoMessage)
             .selectionMode(if (singleSelectedMode) PictureConfig.SINGLE else PictureConfig.MULTIPLE)
             .forResult(object : OnResultCallbackListener<LocalMedia?> {
                 override fun onResult(result: MutableList<LocalMedia?>?) {
@@ -212,7 +210,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
         val type: String = if (item.mimeType.startsWith("video/")) "video" else "image"
         media.putString("path", item.path)
         media.putString("realPath", item.realPath)
-        media.putString("fileName", item.fileName)
+        media.putString("filename", item.fileName)
         media.putInt("width", item.width)
         media.putInt("height", item.height)
         media.putString("mime", item.mimeType)
@@ -284,4 +282,3 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
     }
 
 }
-
