@@ -4,7 +4,7 @@ buildscript {
 
   repositories {
     google()
-    mavenCentral()
+    jcenter()
   }
 
   dependencies {
@@ -29,7 +29,7 @@ android {
   compileSdkVersion getExtOrIntegerDefault('compileSdkVersion')
   buildToolsVersion getExtOrDefault('buildToolsVersion')
   defaultConfig {
-    minSdkVersion getExtOrIntegerDefault('minSdkVersion')
+    minSdkVersion 16
     targetSdkVersion getExtOrIntegerDefault('targetSdkVersion')
     versionCode 1
     versionName "1.0"
@@ -52,6 +52,7 @@ android {
 
 repositories {
   mavenCentral()
+  jcenter()
   google()
 
   def found = false

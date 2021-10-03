@@ -128,8 +128,8 @@ const response = await MultipleImagePicker.openPicker(options);
 | maximumMessageTitle                         | string |                     Notification                      |   iOS    | The title of the alert when the user chooses to exceed the specified number of pictures           |
 | messageTitleButton                          | string |                     Notification                      |   iOS    | The title of button in the alert when the user chooses to exceed the specified number of pictures |
 | tapHereToChange                             | string |                  Tap here to change                   |   iOS    | The sub-title in navigation bar (under albums's name in iOS)                                      |
-| maximumMessage                              | string | You have selected the maximum number of media allowed |   Both   | The description of the alert when the user chooses to exceed the specified number of pictures     |
-| maximumVideoMessage                         | string | You have selected the maximum number of media allowed |   Both   | The description of the alert when the user chooses to exceed the specified number of videos       |
+| maximumMessage                              | string | You have selected the maximum number of media allowed |   Both    | The description of the alert when the user chooses to exceed the specified number of pictures     |
+| maximumVideoMessage                              | string | You have selected the maximum number of media allowed |   Both    | The description of the alert when the user chooses to exceed the specified number of videos     |
 
 #### selectedAssets (Important)
 
@@ -137,21 +137,20 @@ Get an Array value only. If you want React Native Multiple Image Picker to re-se
 
 ## Response Object
 
-| Property         |  Type  | Platform | Description                                                                                          |
-| ---------------- | :----: | :------: | :--------------------------------------------------------------------------------------------------- |
-| path             | string |   Both   | Selected media's path                                                                                |
-| filename         | string |   Both   | Selected media's filename                                                                            |
-| localIdentifier  | string |   Both   | Selected media's local identifier                                                                    |
-| width            | number |   Both   | Selected photo/video width                                                                           |
-| height           | number |   Both   | Selected photo/video height                                                                          |
-| mime             | string |   Both   | Selected photo/video MIME type (image/jpeg, image/png, video/mp4 etc...)                             |
-| type             | string |   Both   | Selected image type (image or video)                                                                 |
-| size             | number |   Both   | Selected photo/video size in bytes                                                                   |
-| duration         | number |   Both   | duration of the video (0 for images)                                                                 |
-| thumbnail        | string |   Both   | Appears only in video format and you must have set isExportThumbnail = true. See [options](#Options) |
-| realPath         | string | Android  | Real path to file                                                                                    |
-| parentFolderName | string | Android  | Parent folder name of file                                                                           |
-| creationDate     | string |   iOS    | UNIX timestamp when image was created                                                                |
+| Property        |  Type  | Platform | Description                                                              |
+| --------------- | :----: | :------: | :----------------------------------------------------------------------- |
+| path            | string |   Both   | Selected media's path                                                    |
+| filename        | string |   Both   | Selected media's filename                                                |
+| localIdentifier | string |   Both   | Selected media's local identifier                                        |
+| width           | number |   Both   | Selected photo/video width                                               |
+| height          | number |   Both   | Selected photo/video height                                              |
+| mime            | string |   Both   | Selected photo/video MIME type (image/jpeg, image/png, video/mp4 etc...) |
+| type            | string |   Both   | Selected image type (image or video)                                     |
+| size            | number |   Both   | Selected photo/video size in bytes                                       |
+| duration        | number |   Both   | duration of the video (0 for images)                                     |
+
+| thumbnail | string | Both | Appears only in video format and you must have set isExportThumbnail = true. See [options](#Options) |
+| creationDate | string | iOS | UNIX timestamp when image was created |
 
 ## To Do
 
