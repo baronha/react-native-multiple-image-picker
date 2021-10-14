@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
   s.resource_bundles = { 'MultipleImagePicker' => ['ios/**/*.xib'] }
   s.resources = 'ios/MultipleImagePicker.bundle'
 
-  s.dependency "React-Core"
-  s.dependency "TLPhotoPicker"
+  s.dependency 'React-Core'
+  s.dependency 'TLPhotoPicker', '2.1.4'
       
 end
