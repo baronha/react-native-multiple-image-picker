@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
   package="com.example.reactnativemultipleimagepicker">
 
   <uses-permission android:name="android.permission.INTERNET" />
@@ -25,6 +26,7 @@
       </intent-filter>
     </activity>
     <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
+
   </application>
 
 </manifest>

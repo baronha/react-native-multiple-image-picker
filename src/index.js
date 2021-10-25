@@ -18,7 +18,7 @@ let defaultOptions = {
   allowedLivePhotos: true,
   preventAutomaticLimitedAccessAlert: true, // newest iOS 14
   emptyMessage: 'No albums',
-  selectedColor: '#30475e',
+  selectedColor: '#FB9300',
   maximumMessageTitle: 'Notification',
   maximumMessage: 'You have selected the maximum number of media allowed',
   maximumVideoMessage: 'You have selected the maximum number of video allowed',
@@ -46,6 +46,7 @@ let defaultOptions = {
   mediaType: 'all',
   isExportThumbnail: false,
   maxVideo: 20,
+  selectedAssets: [],
   //****//
 
   // fetchOption: Object,
@@ -63,7 +64,7 @@ exportObject = {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await MultipleImagePicker.openPicker(options);
-        console.log('res', response);
+        // console.log('res', response);
         if (response?.length) {
           resolve(response);
           return;

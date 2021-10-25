@@ -14,6 +14,7 @@ import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
 import com.luck.picture.lib.engine.PictureSelectorEngine
 import com.luck.picture.lib.entity.LocalMedia
+import com.luck.picture.lib.entity.LocalMedia.parseLocalMedia
 import com.luck.picture.lib.listener.OnResultCallbackListener
 import com.luck.picture.lib.style.PictureParameterStyle
 import java.io.File
@@ -24,7 +25,8 @@ import java.util.*
 
 
 @Suppress("INCOMPATIBLE_ENUM_COMPARISON", "UNCHECKED_CAST")
-class MultipleImagePickerModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext), IApp {
+class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
+    ReactContextBaseJavaModule(reactContext), IApp {
 
     override fun getName(): String {
         return "MultipleImagePicker"
@@ -41,6 +43,8 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) : ReactCo
     private var isExportThumbnail: Boolean = false
     private var maxVideo: Int = 20
     private var isCamera: Boolean = true
+    private var maximumMessage: String = ""
+    private var maximumVideoMessage: String = ""
 
     @ReactMethod
     fun openPicker(options: ReadableMap?, promise: Promise): Unit {
@@ -49,56 +53,57 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) : ReactCo
         setConfiguration(options)
 
         PictureSelector.create(activity)
-                .openGallery(if (mediaType == "video") PictureMimeType.ofVideo() else if (mediaType == "image") PictureMimeType.ofImage() else PictureMimeType.ofAll())
-                .loadImageEngine(GlideEngine.createGlideEngine())
-                .maxSelectNum(maxSelectedAssets)
-                .imageSpanCount(numberOfColumn)
-                .isZoomAnim(true)
-                .isPageStrategy(true, 50)
-                .isWithVideoImage(true)
-                .videoMaxSecond(maxVideoDuration)
-                .maxVideoSelectNum(if (maxVideo != 20) maxVideo else maxSelectedAssets)
-                .isMaxSelectEnabledMask(true)
-                .selectionData(selectedAssets)
-                .setPictureStyle(mPictureParameterStyle)
-                .isPreviewImage(isPreview)
-                .isPreviewVideo(isPreview)
-                .isCamera(isCamera)
-                .isReturnEmpty(true)
-                .selectionMode(if (singleSelectedMode) PictureConfig.SINGLE else PictureConfig.MULTIPLE)
-                .forResult(object : OnResultCallbackListener<Any?> {
-                    override fun onResult(result: MutableList<Any?>?) {
-                        //check difference
-                        if (singleSelectedMode) {
-                            val singleLocalMedia: WritableArray = WritableNativeArray()
-                            val media: WritableMap = createAttachmentResponse(result?.get(0) as LocalMedia)
-                            singleLocalMedia.pushMap(media)
-                            promise.resolve(singleLocalMedia)
-                            return
-                        }
-                        val localMedia: WritableArray = WritableNativeArray()
-                        if (result?.size == 0) {
-                            promise.resolve(localMedia)
-                            return
-                        }
-                        if (result?.size == selectedAssets.size && (result[result.size - 1] as LocalMedia).id == (selectedAssets[selectedAssets.size - 1].id)) {
-                            return
-                        }
-                        if (result != null) {
-                            for (i in 0 until result.size) {
-                                val item: LocalMedia = result[i] as LocalMedia
-                                println("item: $item")
-                                val media: WritableMap = createAttachmentResponse(item)
-                                localMedia.pushMap(media)
-                            }
-                        }
+            .openGallery(if (mediaType == "video") PictureMimeType.ofVideo() else if (mediaType == "image") PictureMimeType.ofImage() else PictureMimeType.ofAll())
+            .loadImageEngine(GlideEngine.createGlideEngine())
+            .maxSelectNum(maxSelectedAssets)
+            .imageSpanCount(numberOfColumn)
+            .isZoomAnim(true)
+            .isPageStrategy(true, 50)
+            .isWithVideoImage(true)
+            .videoMaxSecond(maxVideoDuration)
+            .maxVideoSelectNum(if (maxVideo != 20) maxVideo else maxSelectedAssets)
+            .isMaxSelectEnabledMask(true)
+            .selectionData(selectedAssets)
+            .setPictureStyle(mPictureParameterStyle)
+            .isPreviewImage(isPreview)
+            .isPreviewVideo(isPreview)
+            .isCamera(isCamera)
+            .isReturnEmpty(true)
+            .selectionMode(if (singleSelectedMode) PictureConfig.SINGLE else PictureConfig.MULTIPLE)
+            .forResult(object : OnResultCallbackListener<LocalMedia?> {
+                override fun onResult(result: MutableList<LocalMedia?>?) {
+                    //check difference
+                    if (singleSelectedMode) {
+                        val singleLocalMedia: WritableArray = WritableNativeArray()
+                        val media: WritableMap =
+                            createAttachmentResponse(result?.get(0) as LocalMedia)
+                        singleLocalMedia.pushMap(media)
+                        promise.resolve(singleLocalMedia)
+                        return
+                    }
+                    val localMedia: WritableArray = WritableNativeArray()
+                    if (result?.size == 0) {
                         promise.resolve(localMedia)
+                        return
                     }
+                    if (result?.size == selectedAssets.size && (result[result.size - 1] as LocalMedia).id == (selectedAssets[selectedAssets.size - 1].id)) {
+                        return
+                    }
+                    if (result != null) {
+                        for (i in 0 until result.size) {
+                            val item: LocalMedia = result[i] as LocalMedia
+                            println("item: $item")
+                            val media: WritableMap = createAttachmentResponse(item)
+                            localMedia.pushMap(media)
+                        }
+                    }
+                    promise.resolve(localMedia)
+                }
 
-                    override fun onCancel() {
-                        promise.reject("user cancel")
-                    }
-                })
+                override fun onCancel() {
+                    promise.reject("user cancel")
+                }
+            })
     }
 
     private fun setConfiguration(options: ReadableMap?) {
@@ -114,6 +119,8 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) : ReactCo
             maxVideo = options.getInt("maxVideo")
             mPictureParameterStyle = getStyle(options)
             isCamera = options.getBoolean("usedCameraButton")
+            maximumMessage = options.getString("maximumMessage").toString()
+            maximumVideoMessage = options.getString("maximumVideoMessage").toString()
         }
     }
 
@@ -145,7 +152,8 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) : ReactCo
         if (options?.hasKey("selectedAssets")!!) {
             val assetsType = options.getType("selectedAssets")
             if (assetsType == ReadableType.Array) {
-                val assets: ReadableNativeArray = options.getArray("selectedAssets") as ReadableNativeArray
+                val assets: ReadableNativeArray =
+                    options.getArray("selectedAssets") as ReadableNativeArray
                 if (assets.size() > 0) {
                     val list = mutableListOf<LocalMedia>()
                     for (i in 0 until assets.size()) {
@@ -178,7 +186,21 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) : ReactCo
         val size: Long = asset.getDouble("size").toLong()
         val bucketId: Long = asset.getDouble("bucketId").toLong()
         val dateAddedColumn: Long = Date().time.toLong()
-        val localMedia = LocalMedia(id, path, realPath, fileName, parentFolderName, duration, chooseModel, mimeType, width, height, size, bucketId, dateAddedColumn)
+        val localMedia = parseLocalMedia(
+            id,
+            path,
+            realPath,
+            fileName,
+            parentFolderName,
+            duration,
+            chooseModel,
+            mimeType,
+            width,
+            height,
+            size,
+            bucketId,
+            dateAddedColumn
+        )
         return localMedia
     }
 
@@ -188,7 +210,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) : ReactCo
         val type: String = if (item.mimeType.startsWith("video/")) "video" else "image"
         media.putString("path", item.path)
         media.putString("realPath", item.realPath)
-        media.putString("fileName", item.fileName)
+        media.putString("filename", item.fileName)
         media.putInt("width", item.width)
         media.putInt("height", item.height)
         media.putString("mime", item.mimeType)
@@ -213,9 +235,9 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) : ReactCo
         retriever.setDataSource(filePath)
         val image = retriever.getFrameAtTime(1000000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
 
-        val fullPath: String = reactApplicationContext.applicationContext.cacheDir.absolutePath.toString() + "/thumbnails"
+        val fullPath: String =
+            reactApplicationContext.applicationContext.cacheDir.absolutePath.toString() + "/thumbnails"
         try {
-            val dir = fullPath.let { createDirIfNotExists(it) }
             var fOut: OutputStream? = null
             val fileName = "thumb-" + UUID.randomUUID().toString() + ".jpeg"
             print("fileName $fileName")
@@ -260,4 +282,3 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) : ReactCo
     }
 
 }
-
