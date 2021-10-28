@@ -43,8 +43,6 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
     private var isExportThumbnail: Boolean = false
     private var maxVideo: Int = 20
     private var isCamera: Boolean = true
-    private var maximumMessage: String = ""
-    private var maximumVideoMessage: String = ""
 
     @ReactMethod
     fun openPicker(options: ReadableMap?, promise: Promise): Unit {
@@ -101,7 +99,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
                 }
 
                 override fun onCancel() {
-                    promise.reject("user cancel")
+                    promise.reject("PICKER_CANCELLED", "User has canceled", null)
                 }
             })
     }
@@ -119,8 +117,6 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
             maxVideo = options.getInt("maxVideo")
             mPictureParameterStyle = getStyle(options)
             isCamera = options.getBoolean("usedCameraButton")
-            maximumMessage = options.getString("maximumMessage").toString()
-            maximumVideoMessage = options.getString("maximumVideoMessage").toString()
         }
     }
 
@@ -210,7 +206,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
         val type: String = if (item.mimeType.startsWith("video/")) "video" else "image"
         media.putString("path", item.path)
         media.putString("realPath", item.realPath)
-        media.putString("filename", item.fileName)
+        media.putString("fileName", item.fileName)
         media.putInt("width", item.width)
         media.putInt("height", item.height)
         media.putString("mime", item.mimeType)

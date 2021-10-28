@@ -128,8 +128,8 @@ const response = await MultipleImagePicker.openPicker(options);
 | maximumMessageTitle                         | string |                     Notification                      |   iOS    | The title of the alert when the user chooses to exceed the specified number of pictures           |
 | messageTitleButton                          | string |                     Notification                      |   iOS    | The title of button in the alert when the user chooses to exceed the specified number of pictures |
 | tapHereToChange                             | string |                  Tap here to change                   |   iOS    | The sub-title in navigation bar (under albums's name in iOS)                                      |
-| maximumMessage                              | string | You have selected the maximum number of media allowed |   Both   | The description of the alert when the user chooses to exceed the specified number of pictures     |
-| maximumVideoMessage                         | string | You have selected the maximum number of media allowed |   Both   | The description of the alert when the user chooses to exceed the specified number of videos       |
+| maximumMessage                              | string | You have selected the maximum number of media allowed |   iOS   | The description of the alert when the user chooses to exceed the specified number of pictures     |
+| maximumVideoMessage                         | string | You have selected the maximum number of media allowed |   iOS   | The description of the alert when the user chooses to exceed the specified number of videos       |
 
 #### selectedAssets (Important)
 
@@ -140,7 +140,7 @@ Get an Array value only. If you want React Native Multiple Image Picker to re-se
 | Property         |  Type  | Platform | Description                                                                                          |
 | ---------------- | :----: | :------: | :--------------------------------------------------------------------------------------------------- |
 | path             | string |   Both   | Selected media's path                                                                                |
-| filename         | string |   Both   | Selected media's filename                                                                            |
+| fileName         | string |   Both   | Selected media's file name                                                                            |
 | localIdentifier  | string |   Both   | Selected media's local identifier                                                                    |
 | width            | number |   Both   | Selected photo/video width                                                                           |
 | height           | number |   Both   | Selected photo/video height                                                                          |
@@ -155,9 +155,8 @@ Get an Array value only. If you want React Native Multiple Image Picker to re-se
 
 ## To Do
 
-- [ ] Typescript.
 - [ ] (Bug) Record Video (iOS).
-- [ ] Video Compression.
+- [ ] Crop Image in iOS.
 
 ## Performance
 

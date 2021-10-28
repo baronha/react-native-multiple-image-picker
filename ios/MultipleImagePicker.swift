@@ -144,7 +144,7 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
         var media = [
             "path": "file://" + filePath! as String,
             "localIdentifier": asset.localIdentifier,
-            "filename":TLAsset.originalFileName!,
+            "fileName":TLAsset.originalFileName!,
             "width": Int(asset.pixelWidth ) as NSNumber,
             "height": Int(asset.pixelHeight ) as NSNumber,
             "mime": type!,
@@ -209,6 +209,10 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
     
     func shouldDismissPhotoPicker(withTLPHAssets: [TLPHAsset]) -> Bool {
         return false
+    }
+    
+    func photoPickerDidCancel() {
+        self.reject("PICKER_CANCELLED", "User has canceled", nil)
     }
     
     internal func dismissLoading() {

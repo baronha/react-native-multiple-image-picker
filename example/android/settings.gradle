@@ -2,8 +2,5 @@ rootProject.name = 'MultipleImagePickerExample'
 apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
 include ':app'
 
-include ':picture_library'
-project(':picture_library').projectDir = new File(rootProject.projectDir, '../../picture_library')
-
 include ':reactnativemultipleimagepicker'
 project(':reactnativemultipleimagepicker').projectDir = new File(rootProject.projectDir, '../../android')

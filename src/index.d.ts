@@ -2,7 +2,7 @@ import { NativeModules, Image } from 'react-native';
 
 export type Results = {
   path: string;
-  filename: string;
+  fileName: string;
   localIdentifier: string;
   width: number;
   height: number;
@@ -15,6 +15,11 @@ export type Results = {
   thumbnail?: string;
   creationDate?: string;
 };
+
+export type PickerErrorCode =
+  | 'PICKER_CANCELLED'
+  | 'NO_LIBRARY_PERMISSION'
+  | 'NO_CAMERA_PERMISSION';
 
 export type Options = {
   isPreview?: boolean;

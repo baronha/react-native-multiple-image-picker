@@ -19,7 +19,7 @@ export default function App() {
       console.log('done: ', response);
       setImages(response);
     } catch (e) {
-      console.log(e);
+      console.log(e.code, e.message);
     }
   };
 
