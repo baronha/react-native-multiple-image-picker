@@ -65,13 +65,6 @@ Here are some related issues in the RN repo: [Issue 30202](https://github.com/fa
 
 ### Android
 
-> Add this lines in `settings.gradle` then `Sync Project with Gradle Files`
-
-```
-include ':picture_library'
-project(':picture_library').projectDir = new File(rootProject.projectDir, '../node_modules/@baronha/react-native-multiple-image-picker/picture_library')
-```
-
 > Add Permission in `AndroidManifest.xml`
 
 ```xml
