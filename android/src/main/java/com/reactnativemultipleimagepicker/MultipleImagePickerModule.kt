@@ -16,7 +16,10 @@ import com.luck.picture.lib.engine.PictureSelectorEngine
 import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.entity.LocalMedia.parseLocalMedia
 import com.luck.picture.lib.listener.OnResultCallbackListener
+import com.luck.picture.lib.manager.UCropManager
 import com.luck.picture.lib.style.PictureParameterStyle
+import com.yalantis.ucrop.model.AspectRatio
+import com.yalantis.ucrop.view.CropImageView
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -43,6 +46,8 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
     private var isExportThumbnail: Boolean = false
     private var maxVideo: Int = 20
     private var isCamera: Boolean = true
+    private var isCrop: Boolean = false
+    private var isCropCircle: Boolean = false
 
     @ReactMethod
     fun openPicker(options: ReadableMap?, promise: Promise): Unit {
@@ -50,11 +55,37 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
         val activity = currentActivity
         setConfiguration(options)
 
+        //set up configration ucrop
+        val basicUCropConfig = UCropManager.basicOptions(appContext);
+        basicUCropConfig.setShowCropFrame(true)
+        basicUCropConfig.setShowCropGrid(true)
+        basicUCropConfig.setCropDragSmoothToCenter(true)
+        basicUCropConfig.setHideBottomControls(false)
+        basicUCropConfig.setCircleDimmedLayer(isCropCircle)
+        if(isCropCircle){
+            basicUCropConfig.withAspectRatio(1F,1F)
+            basicUCropConfig.setShowCropFrame(false)
+        }else{
+            basicUCropConfig.setAspectRatioOptions(
+                1,
+                AspectRatio("1:2", 1F, 2F),
+                AspectRatio("3:4", 3F, 4F),
+//            AspectRatio(
+//                "RATIO",
+//                CropImageView.DEFAULT_ASPECT_RATIO,
+//                CropImageView.DEFAULT_ASPECT_RATIO
+//            ),
+                AspectRatio("16:9", 16F, 9F),
+                AspectRatio("1:1", 1F, 1F)
+            )
+        }
+
         PictureSelector.create(activity)
             .openGallery(if (mediaType == "video") PictureMimeType.ofVideo() else if (mediaType == "image") PictureMimeType.ofImage() else PictureMimeType.ofAll())
             .loadImageEngine(GlideEngine.createGlideEngine())
             .maxSelectNum(maxSelectedAssets)
             .imageSpanCount(numberOfColumn)
+            .isSingleDirectReturn(true)
             .isZoomAnim(true)
             .isPageStrategy(true, 50)
             .isWithVideoImage(true)
@@ -65,20 +96,12 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
             .setPictureStyle(mPictureParameterStyle)
             .isPreviewImage(isPreview)
             .isPreviewVideo(isPreview)
+            .isEnableCrop(isCrop)
+            .basicUCropConfig(basicUCropConfig)
             .isCamera(isCamera)
-            .isReturnEmpty(true)
             .selectionMode(if (singleSelectedMode) PictureConfig.SINGLE else PictureConfig.MULTIPLE)
             .forResult(object : OnResultCallbackListener<LocalMedia?> {
                 override fun onResult(result: MutableList<LocalMedia?>?) {
-                    //check difference
-                    if (singleSelectedMode) {
-                        val singleLocalMedia: WritableArray = WritableNativeArray()
-                        val media: WritableMap =
-                            createAttachmentResponse(result?.get(0) as LocalMedia)
-                        singleLocalMedia.pushMap(media)
-                        promise.resolve(singleLocalMedia)
-                        return
-                    }
                     val localMedia: WritableArray = WritableNativeArray()
                     if (result?.size == 0) {
                         promise.resolve(localMedia)
@@ -90,7 +113,6 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
                     if (result != null) {
                         for (i in 0 until result.size) {
                             val item: LocalMedia = result[i] as LocalMedia
-                            println("item: $item")
                             val media: WritableMap = createAttachmentResponse(item)
                             localMedia.pushMap(media)
                         }
@@ -107,6 +129,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
     private fun setConfiguration(options: ReadableMap?) {
         if (options != null) {
             handleSelectedAssets(options)
+            val cropping = options.getBoolean("isCrop")
             singleSelectedMode = options.getBoolean("singleSelectedMode")
             maxVideoDuration = options.getInt("maxVideoDuration")
             numberOfColumn = options.getInt("numberOfColumn")
@@ -117,16 +140,18 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
             maxVideo = options.getInt("maxVideo")
             mPictureParameterStyle = getStyle(options)
             isCamera = options.getBoolean("usedCameraButton")
+            isCropCircle = options.getBoolean("isCropCircle")
+            isCrop = cropping == true && singleSelectedMode == true
         }
     }
 
     private fun getStyle(options: ReadableMap): PictureParameterStyle? {
         val pictureStyle = PictureParameterStyle()
-        pictureStyle.pictureCheckedStyle = R.drawable.picture_selector
+        pictureStyle.pictureCheckedStyle = if(singleSelectedMode) R.drawable.checkbox_selector else R.drawable.picture_selector
 
         //bottom style
         pictureStyle.pictureCompleteText = options.getString("doneTitle")
-        pictureStyle.isOpenCheckNumStyle = true
+        pictureStyle.isOpenCheckNumStyle = if(singleSelectedMode) false else true
         pictureStyle.isCompleteReplaceNum = true
         pictureStyle.pictureCompleteTextSize = 16
         pictureStyle.pictureCheckNumBgStyle = R.drawable.num_oval_orange
@@ -218,6 +243,13 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
         media.putDouble("size", item.size.toDouble())
         media.putDouble("bucketId", item.bucketId.toDouble())
         media.putString("parentFolderName", item.parentFolderName)
+        if(item.isCut){
+            val crop = WritableNativeMap()
+            crop.putString("cropPath", item.cutPath)
+            crop.putDouble("width", item.cropImageWidth.toDouble())
+            crop.putDouble("height", item.cropImageHeight.toDouble())
+            media.putMap("crop", crop)
+        }
         if (type === "video" && isExportThumbnail) {
             val thumbnail = createThumbnail(item.realPath)
             println("thumbnail: $thumbnail")

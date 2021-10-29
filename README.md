@@ -126,7 +126,7 @@ const response = await MultipleImagePicker.openPicker(options);
 
 #### selectedAssets (Important)
 
-Get an Array value only. If you want React Native Multiple Image Picker to re-select previously selected images / videos, you need to add “selectedAssets” in [options](#Options). Perhaps I say a little bit confusing. See [Example](https://github.com/baronha/react-native-multiple-image-picker/tree/main/example) for more details.
+Get an Array value only(Only works when ```singleSelectedMode === false```). If you want React Native Multiple Image Picker to re-select previously selected images / videos, you need to add “selectedAssets” in [options](#Options). Perhaps I say a little bit confusing. See [Example](https://github.com/baronha/react-native-multiple-image-picker/tree/main/example) for more details.
 
 ## Response Object
 

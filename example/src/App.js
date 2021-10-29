@@ -14,10 +14,13 @@ export default function App() {
         isExportThumbnail: true,
         maxVideo: 1,
         usedCameraButton: false,
+        singleSelectedMode: true,
+        isCrop: true,
+        isCropCircle: true,
         // selectedColor: '#f9813a',
       });
       console.log('done: ', response);
-      setImages(response);
+      setImages([response]);
     } catch (e) {
       console.log(e.code, e.message);
     }
@@ -38,7 +41,10 @@ export default function App() {
         <Image
           width={IMAGE_WIDTH}
           source={{
-            uri: item?.type === 'video' ? item?.thumbnail ?? '' : item?.path,
+            uri:
+              item?.type === 'video'
+                ? item?.thumbnail ?? ''
+                : 'file://' + item?.crop?.cropPath,
           }}
           style={style.media}
         />
