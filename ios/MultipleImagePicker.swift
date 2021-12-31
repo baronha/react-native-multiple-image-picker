@@ -89,6 +89,8 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
         MultipleImagePickerConfigure.cancelTitle = self.options["cancelTitle"] as! String;
         MultipleImagePickerConfigure.doneTitle = self.options["doneTitle"] as! String;
         MultipleImagePickerConfigure.emptyMessage = self.options["emptyMessage"] as! String;
+        MultipleImagePickerConfigure.selectMessage = self.options["selectMessage"] as! String;
+        MultipleImagePickerConfigure.deselectMessage = self.options["deselectMessage"] as! String;
         MultipleImagePickerConfigure.usedCameraButton = self.options["usedCameraButton"] as! Bool;
         MultipleImagePickerConfigure.usedPrefetch = self.options["usedPrefetch"] as! Bool;
         MultipleImagePickerConfigure.allowedLivePhotos = self.options["allowedLivePhotos"]  as! Bool;

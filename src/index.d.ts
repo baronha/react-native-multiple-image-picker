@@ -30,6 +30,8 @@ export type Options = {
   doneTitle?: string;
   emptyMessage?: string;
   emptyImage?: Image;
+  selectMessage?: string;
+  deselectMessage?: string;
   usedCameraButton?: boolean;
   usedPrefetch?: boolean;
   previewAtForceTouch?: boolean;
