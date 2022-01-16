@@ -18,8 +18,8 @@ let defaultOptions = {
   allowedLivePhotos: true,
   preventAutomaticLimitedAccessAlert: true, // newest iOS 14
   emptyMessage: 'No albums',
-  selectMessage: 'select',
-  deselectMessage: 'deselect',
+  selectMessage: 'Select',
+  deselectMessage: 'Deselect',
   selectedColor: '#FB9300',
   maximumMessageTitle: 'Notification',
   maximumMessage: 'You have selected the maximum number of media allowed',

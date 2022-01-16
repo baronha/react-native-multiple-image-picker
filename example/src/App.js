@@ -14,13 +14,11 @@ export default function App() {
         isExportThumbnail: true,
         maxVideo: 1,
         usedCameraButton: false,
-        singleSelectedMode: true,
         isCrop: true,
         isCropCircle: true,
-        // selectedColor: '#f9813a',
       });
-      console.log('done: ', response);
-      setImages([response]);
+      console.log('response: ', response);
+      setImages(response);
     } catch (e) {
       console.log(e.code, e.message);
     }
@@ -44,7 +42,7 @@ export default function App() {
             uri:
               item?.type === 'video'
                 ? item?.thumbnail ?? ''
-                : 'file://' + item?.crop?.cropPath,
+                : 'file://' + (item?.crop?.cropPath ?? item.path),
           }}
           style={style.media}
         />

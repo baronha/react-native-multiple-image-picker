@@ -144,7 +144,7 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
     
     func createAttachmentResponse(filePath: String?, withFilename filename: String?, withType type: String?, withAsset asset: PHAsset, withTLAsset TLAsset: TLPHAsset ) -> [AnyHashable :Any]? {
         var media = [
-            "path": "file://" + filePath! as String,
+            "path": filePath! as String,
             "localIdentifier": asset.localIdentifier,
             "fileName":TLAsset.originalFileName!,
             "width": Int(asset.pixelWidth ) as NSNumber,
