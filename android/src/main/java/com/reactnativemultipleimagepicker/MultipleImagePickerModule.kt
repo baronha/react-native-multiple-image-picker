@@ -20,10 +20,7 @@ import com.luck.picture.lib.manager.UCropManager
 import com.luck.picture.lib.style.PictureParameterStyle
 import com.yalantis.ucrop.model.AspectRatio
 import com.yalantis.ucrop.view.CropImageView
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.OutputStream
+import java.io.*
 import java.util.*
 
 
