@@ -23,6 +23,7 @@ export type PickerErrorCode =
 
 export type Options = {
   isPreview?: boolean;
+  isExportThumbnail?:boolean;
   selectedColor?: string;
   selectedAssets?: Results[];
   tapHereToChange?: string;
