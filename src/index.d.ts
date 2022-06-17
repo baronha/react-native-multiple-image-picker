@@ -1,5 +1,11 @@
 import { NativeModules, Image } from 'react-native';
 
+export enum MediaType {
+  VIDEO = 'video',
+  IMAGE = 'image',
+  ALL = 'all',
+}
+
 export type Results = {
   path: string;
   fileName: string;
@@ -43,7 +49,7 @@ export type Options = {
   autoPlay?: boolean;
   muteAudio?: boolean;
   preventAutomaticLimitedAccessAlert?: boolean; // newest iOS 14
-  mediaType?: string;
+  mediaType?: MediaType;
   numberOfColumn?: number;
   maxSelectedAssets?: number;
   fetchOption?: Object;
