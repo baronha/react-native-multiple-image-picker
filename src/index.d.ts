@@ -24,7 +24,6 @@ export type PickerErrorCode =
 export type Options = {
   isPreview?: boolean;
   selectedColor?: string;
-  selectedAssets?: Results[];
   tapHereToChange?: string;
   cancelTitle?: string;
   doneTitle?: string;
@@ -49,7 +48,6 @@ export type Options = {
   maxSelectedAssets?: number;
   fetchOption?: Object;
   fetchCollectionOption?: Object;
-  singleSelectedMode?: boolean;
   maximumMessageTitle?: string;
   maximumMessage?: string;
   messageTitleButton?: string;
@@ -59,8 +57,19 @@ export type Options = {
   haveThumbnail?: boolean;
 };
 
+export interface SinglePickerOptions extends Options {
+  selectedAssets?: Results;
+  singleSelectedMode: true;
+}
+
+export interface MultiPickerOptions extends Options {
+  selectedAssets?: Results[];
+  singleSelectedMode?: false;
+}
+
 type MultipleImagePickerType = {
-  openPicker(options: Options): Promise<Results[]>;
+  openPicker(options: MultiPickerOptions): Promise<Results[]>;
+  openPicker(options: SinglePickerOptions): Promise<Results>;
 };
 
 const { MultipleImagePicker } = NativeModules;
