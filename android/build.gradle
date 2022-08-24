@@ -1,6 +1,6 @@
 buildscript {
   // Buildscript is evaluated before everything else so we can't use getExtOrDefault
-  def kotlin_version = "1.4.32"
+  def kotlin_version = "1.6.0"
 
   repositories {
     google()
