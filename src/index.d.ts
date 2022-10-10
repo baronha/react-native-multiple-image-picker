@@ -1,5 +1,11 @@
 import { NativeModules, Image } from 'react-native';
 
+export enum MediaType {
+  VIDEO = 'video',
+  IMAGE = 'image',
+  ALL = 'all',
+}
+
 export type Results = {
   path: string;
   fileName: string;
@@ -7,24 +13,32 @@ export type Results = {
   width: number;
   height: number;
   mime: string;
-  type: string;
   size: number;
   bucketId?: number;
   realPath?: string;
   parentFolderName?: string;
-  thumbnail?: string;
   creationDate?: string;
 };
+
+export interface VideoResults extends Results {
+  type: MediaType.VIDEO;
+  thumbnail?: string;
+}
+
+export interface ImageResults extends Results {
+  type: MediaType.IMAGE;
+  thumbnail?: undefined;
+}
 
 export type PickerErrorCode =
   | 'PICKER_CANCELLED'
   | 'NO_LIBRARY_PERMISSION'
   | 'NO_CAMERA_PERMISSION';
 
-export type Options = {
+export type Options<T extends MediaType = MediaType.ALL> = {
+  mediaType?: T;
   isPreview?: boolean;
   selectedColor?: string;
-  selectedAssets?: Results[];
   tapHereToChange?: string;
   cancelTitle?: string;
   doneTitle?: string;
@@ -44,12 +58,10 @@ export type Options = {
   autoPlay?: boolean;
   muteAudio?: boolean;
   preventAutomaticLimitedAccessAlert?: boolean; // newest iOS 14
-  mediaType?: string;
   numberOfColumn?: number;
   maxSelectedAssets?: number;
   fetchOption?: Object;
   fetchCollectionOption?: Object;
-  singleSelectedMode?: boolean;
   maximumMessageTitle?: string;
   maximumMessage?: string;
   messageTitleButton?: string;
@@ -59,8 +71,34 @@ export type Options = {
   haveThumbnail?: boolean;
 };
 
+export interface SinglePickerOptions {
+  selectedAssets?: Results;
+  singleSelectedMode: true;
+}
+
+export interface MultiPickerOptions {
+  selectedAssets?: Results[];
+  singleSelectedMode?: false;
+}
+
+interface MediaTypeOptions {
+  [MediaType.VIDEO]: { isExportThumbnail?: boolean };
+  [MediaType.ALL]: MediaTypeOptions[MediaType.VIDEO];
+}
+
+interface MediaTypeResults {
+  [MediaType.IMAGE]: ImageResults;
+  [MediaType.VIDEO]: VideoResults;
+  [MediaType.ALL]: ImageResults | VideoResults;
+}
+
 type MultipleImagePickerType = {
-  openPicker(options: Options): Promise<Results[]>;
+  openPicker<T extends MediaType = MediaType.ALL>(
+    options: MultiPickerOptions & MediaTypeOptions[T] & Options<T>
+  ): Promise<MediaTypeResults[T][]>;
+  openPicker<T extends MediaType = MediaType.ALL>(
+    options: SinglePickerOptions & MediaTypeOptions[T] & Options<T>
+  ): Promise<MediaTypeResults[T]>;
 };
 
 const { MultipleImagePicker } = NativeModules;
