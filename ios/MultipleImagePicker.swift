@@ -111,7 +111,7 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
         
         MultipleImagePickerConfigure.nibSet = (nibName: "Cell", bundle: MultipleImagePickerBundle.bundle())
         
-        //        configure.allowedPhotograph = self.options["allowedPhotograph"]
+        MultipleImagePickerConfigure.allowedPhotograph = self.options["allowedPhotograph"] as! Bool;
         //        configure.preventAutomaticLimitedAccessAlert = self.options["preventAutomaticLimitedAccessAlert"]
         
         if((options["selectedAssets"]) != nil){
