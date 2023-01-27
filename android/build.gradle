@@ -120,7 +120,7 @@ repositories {
   }
 }
 
-def kotlin_version = "1.4.32"
+def kotlin_version = "1.6.0"
 
 dependencies {
   // noinspection GradleDynamicVersion
