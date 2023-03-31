@@ -21,5 +21,6 @@ Pod::Spec.new do |s|
 
   s.dependency 'React-Core'
   s.dependency 'TLPhotoPicker', '2.1.9'
+  s.dependency 'CropViewController', '2.6.1'
       
 end
