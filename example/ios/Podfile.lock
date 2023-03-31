@@ -185,9 +185,9 @@ PODS:
     - React-cxxreact (= 0.63.4)
     - React-jsi (= 0.63.4)
   - React-jsinspector (0.63.4)
-  - react-native-multiple-image-picker (0.4.6):
+  - react-native-multiple-image-picker (0.4.13):
     - React-Core
-    - TLPhotoPicker (= 2.1.4)
+    - TLPhotoPicker (= 2.1.9)
   - React-RCTActionSheet (0.63.4):
     - React-Core/RCTActionSheetHeaders (= 0.63.4)
   - React-RCTAnimation (0.63.4):
@@ -248,7 +248,7 @@ PODS:
     - React-Core (= 0.63.4)
     - React-cxxreact (= 0.63.4)
     - React-jsi (= 0.63.4)
-  - TLPhotoPicker (2.1.4)
+  - TLPhotoPicker (2.1.9)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -360,7 +360,7 @@ SPEC CHECKSUMS:
   React-jsi: a0418934cf48f25b485631deb27c64dc40fb4c31
   React-jsiexecutor: 93bd528844ad21dc07aab1c67cb10abae6df6949
   React-jsinspector: 58aef7155bc9a9683f5b60b35eccea8722a4f53a
-  react-native-multiple-image-picker: 516d520a1672ff8177c2cd8a113553cbbe2939e9
+  react-native-multiple-image-picker: 64b10e7f5f8431fbc726893d301d879cf2da4965
   React-RCTActionSheet: 89a0ca9f4a06c1f93c26067af074ccdce0f40336
   React-RCTAnimation: 1bde3ecc0c104c55df246eda516e0deb03c4e49b
   React-RCTBlob: a97d378b527740cc667e03ebfa183a75231ab0f0
@@ -371,9 +371,9 @@ SPEC CHECKSUMS:
   React-RCTText: 5c51df3f08cb9dedc6e790161195d12bac06101c
   React-RCTVibration: ae4f914cfe8de7d4de95ae1ea6cc8f6315d73d9d
   ReactCommon: 73d79c7039f473b76db6ff7c6b159c478acbbb3b
-  TLPhotoPicker: f486e8499e1c3f464d0e886697635e25a72a52b8
+  TLPhotoPicker: 939c40eaad130b69f9571e61e021e8120fa76329
   Yoga: 4bd86afe9883422a7c4028c00e34790f560923d6
 
 PODFILE CHECKSUM: 739a34f1722633656d85522351accd0e9e63cc35
 
-COCOAPODS: 1.10.2
+COCOAPODS: 1.11.3

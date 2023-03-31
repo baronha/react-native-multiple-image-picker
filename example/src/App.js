@@ -1,132 +1,94 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { useState } from 'react';
-import { Dimensions, Image, SafeAreaView, FlatList } from 'react-native';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import MultipleImagePicker from '@baronha/react-native-multiple-image-picker';
+import { Text } from 'react-native';
+import { TouchableOpacity } from 'react-native';
+import { ScrollView } from 'react-native';
+import { View } from 'react-native';
+import { Dimensions } from 'react-native';
+import { StatusBar } from 'react-native';
+import { SafeAreaView } from 'react-native';
 
-export default function App() {
-  const [images, setImages] = useState([]);
-
-  const openPicker = async () => {
-    try {
-      const response = await MultipleImagePicker.openPicker({
-        selectedAssets: images,
-        isExportThumbnail: true,
-        maxVideo: 1,
-        usedCameraButton: false,
-        isCrop: true,
-        isCropCircle: true,
-      });
-      console.log('response: ', response);
-      setImages(response);
-    } catch (e) {
-      console.log(e.code, e.message);
-    }
-  };
-
-  const onDelete = (value) => {
-    const data = images.filter(
-      (item) =>
-        item?.localIdentifier &&
-        item?.localIdentifier !== value?.localIdentifier
-    );
-    setImages(data);
-  };
-
-  const renderItem = ({ item, index }) => {
-    return (
-      <View>
-        <Image
-          width={IMAGE_WIDTH}
-          source={{
-            uri:
-              item?.type === 'video'
-                ? item?.thumbnail ?? ''
-                : 'file://' + (item?.crop?.cropPath ?? item.path),
-          }}
-          style={style.media}
-        />
-        <TouchableOpacity
-          onPress={() => onDelete(item)}
-          activeOpacity={0.9}
-          style={style.buttonDelete}
-        >
-          <Text style={style.titleDelete}>Xoá</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  };
-
-  return (
-    <SafeAreaView style={style.container}>
-      <FlatList
-        style={[
-          style.container,
-          {
-            paddingTop: 6,
-          },
-        ]}
-        data={images}
-        keyExtractor={(item, index) => (item?.filename ?? item?.path) + index}
-        renderItem={renderItem}
-        numColumns={3}
-      />
-      <View style={style.bottom}>
-        <TouchableOpacity style={style.openPicker} onPress={openPicker}>
-          <Text style={style.openText}>open</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
-  );
-}
+import { StyleSheet } from 'react-native';
+import ImageGrid from '@baronha/react-native-image-grid';
+import ImagePicker from '@baronha/react-native-multiple-image-picker';
 
 const { width } = Dimensions.get('window');
 
-const IMAGE_WIDTH = (width - 24) / 3;
+export default function App() {
+  const [images, setImages] = useState([]);
+  const onPressImage = (item, index) => {
+    console.log(item, index);
+  };
+
+  const openPicker = async () => {
+    try {
+      const response = await ImagePicker.openPicker({
+        selectedAssets: images,
+        isExportThumbnail: true,
+        maxVideo: 1,
+      });
+      console.log(response);
+      setImages(response);
+    } catch (e) {}
+  };
+
+  return (
+    <View style={style.container}>
+      <ScrollView contentContainerStyle={{ paddingTop: 132 }}>
+        <View style={{ alignItems: 'center' }}>
+          <ImageGrid
+            dataImage={images}
+            onPressImage={onPressImage}
+            // spaceSize={10}
+            containerStyle={{ marginTop: 3 }}
+            width={Dimensions.get('window').width - 6}
+            sourceKey={'path'}
+            videoKey={'type'}
+            conditionCheckVideo={'video'}
+            videoURLKey={'thumbnail'}
+          />
+          <TouchableOpacity style={style.buttonOpen} onPress={openPicker}>
+            <Text style={style.textOpen}>Open Gallery</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+      <View style={style.header}>
+        <StatusBar barStyle={'light-content'} backgroundColor={'#000'} />
+        <SafeAreaView />
+        <Text style={style.title}>PICKER</Text>
+      </View>
+    </View>
+  );
+}
 
 const style = StyleSheet.create({
   container: {
-    flex: 1,
-  },
-  imageView: {
-    flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    paddingVertical: 24,
-  },
-  media: {
-    marginLeft: 6,
-    width: IMAGE_WIDTH,
-    height: IMAGE_WIDTH,
-    marginBottom: 6,
-    backgroundColor: 'rgba(0,0,0,0.2)',
-  },
-  bottom: {
-    padding: 24,
-  },
-  openText: {
-    fontWeight: 'bold',
-    fontSize: 16,
-    color: '#fff',
-    paddingVertical: 12,
-  },
-  openPicker: {
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#000',
+    flex: 1,
   },
-  buttonDelete: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    position: 'absolute',
-    top: 6,
-    right: 6,
-    backgroundColor: '#ffffff92',
-    borderRadius: 4,
+  title: {
+    fontWeight: '900',
+    fontSize: 24,
+    paddingVertical: 24,
+    fontFamily: 'Avenir',
+    color: '#cdac81',
+    textAlign: 'center',
   },
-  titleDelete: {
+  buttonOpen: {
+    margin: 24,
+    backgroundColor: '#fff',
+    padding: 12,
+    alignItems: 'center',
+    width: width - 48,
+  },
+  textOpen: {
     fontWeight: 'bold',
-    fontSize: 12,
-    color: '#000',
+  },
+  header: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: 'rgba(0,0,0,0.9)',
   },
 });

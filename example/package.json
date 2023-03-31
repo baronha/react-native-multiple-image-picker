@@ -9,6 +9,7 @@
     "start": "react-native start"
   },
   "dependencies": {
+    "@baronha/react-native-image-grid": "^0.2.7",
     "react": "16.13.1",
     "react-native": "0.63.4"
   },

@@ -364,7 +364,6 @@
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
 				"${PODS_ROOT}/TLPhotoPicker/TLPhotoPicker/TLPhotoPickerController.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/TLPhotoPicker/TLPhotoPicker.bundle",
-				"${PODS_ROOT}/../../../ios/MultipleImagePicker.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/react-native-multiple-image-picker/MultipleImagePicker.bundle",
 			);
 			name = "[CP] Copy Pods Resources";

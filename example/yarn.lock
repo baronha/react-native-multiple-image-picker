@@ -600,6 +600,11 @@
     lodash "^4.17.19"
     to-fast-properties "^2.0.0"
 
+"@baronha/react-native-image-grid@^0.2.7":
+  version "0.2.7"
+  resolved "https://registry.yarnpkg.com/@baronha/react-native-image-grid/-/react-native-image-grid-0.2.7.tgz#a69df4d90605cf673a9f676bc4c0b7e95a38f0e7"
+  integrity sha512-F5q+hJ1p0+hfWYhOK4uL2EgseG89hpiMu0rMIaiw7lMpEA3sKC1AUOhOTKS58LeX1xE/XoqZ0P7tzyntKN+EoQ==
+
 "@cnakazawa/watch@^1.0.3":
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/@cnakazawa/watch/-/watch-1.0.4.tgz"
