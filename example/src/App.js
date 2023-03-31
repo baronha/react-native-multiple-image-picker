@@ -10,25 +10,28 @@ import { SafeAreaView } from 'react-native';
 
 import { StyleSheet } from 'react-native';
 import ImageGrid from '@baronha/react-native-image-grid';
-import ImagePicker from '@baronha/react-native-multiple-image-picker';
+import { openPicker } from '@baronha/react-native-multiple-image-picker';
 
 const { width } = Dimensions.get('window');
 
 export default function App() {
   const [images, setImages] = useState([]);
+
   const onPressImage = (item, index) => {
     console.log(item, index);
   };
 
-  const openPicker = async () => {
+  const onPicker = async () => {
     try {
-      const response = await ImagePicker.openPicker({
+      const response = await openPicker({
         selectedAssets: images,
         isExportThumbnail: true,
         maxVideo: 1,
+        singleSelectedMode: true,
+        isCrop: true,
       });
-      console.log(response);
-      setImages(response);
+      // console.log(response);
+      // setImages(response);
     } catch (e) {}
   };
 
@@ -47,7 +50,7 @@ export default function App() {
             conditionCheckVideo={'video'}
             videoURLKey={'thumbnail'}
           />
-          <TouchableOpacity style={style.buttonOpen} onPress={openPicker}>
+          <TouchableOpacity style={style.buttonOpen} onPress={onPicker}>
             <Text style={style.textOpen}>Open Gallery</Text>
           </TouchableOpacity>
         </View>

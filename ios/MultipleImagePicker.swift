@@ -1,11 +1,12 @@
 import UIKit
 import TLPhotoPicker
 import Photos
+import CropViewController
 
 var MultipleImagePickerConfigure = TLPhotosPickerConfigure();
 
 @objc(MultipleImagePicker)
-class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavigationControllerDelegate, TLPhotosPickerLogDelegate {
+class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavigationControllerDelegate, TLPhotosPickerLogDelegate, CropViewControllerDelegate {
     
     @objc static func requiresMainQueueSetup() -> Bool {
         return false
@@ -123,8 +124,6 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
         let assetsExist =  selecteds.filter{ ($0 as! NSObject).value(forKey: "localIdentifier") != nil }
         videoCount = selecteds.filter{ ($0 as! NSObject).value(forKey: "type") as? String == "video" }.count
         
-        print("assets", assetsExist.count)
-        print("self.selectedAssets.count", self.selectedAssets)
         if(assetsExist.count != self.selectedAssets.count){
             var assets = [TLPHAsset]();
             for index in 0..<assetsExist.count {
@@ -229,13 +228,24 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
         }
     }
     
+    func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
+        
+    }
+    
+    func presentCropViewController(image: UIImage) {
+        let cropViewController = CropViewController(image: image)
+        cropViewController.delegate = self
+        self.getTopMostViewController()?.present(cropViewController, animated: true, completion: nil)
+    }
+    
     func dismissPhotoPicker(withTLPHAssets: [TLPHAsset]) {
         if(withTLPHAssets.count == 0){
             self.resolve([]);
             dismissComplete()
             return;
         }
-        let  withTLPHAssetsCount = withTLPHAssets.count;
+        
+        let withTLPHAssetsCount = withTLPHAssets.count;
         let selectedAssetsCount = self.selectedAssets.count;
         
         //check difference
@@ -262,16 +272,20 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
         let alert = UIAlertController(title: nil, message: "Please wait...", preferredStyle: .alert)
         
         let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
+        
         loadingIndicator.hidesWhenStopped = true
         loadingIndicator.style = UIActivityIndicatorView.Style.gray
+        
         if #available(iOS 13.0, *) {
             loadingIndicator.color = .secondaryLabel
         } else {
             loadingIndicator.color = .black
         }
+        
         loadingIndicator.startAnimating();
         
         alert.view.addSubview(loadingIndicator)
+        
         self.getTopMostViewController()?.present(alert, animated: true, completion: {
             let group = DispatchGroup()
             for TLAsset in withTLPHAssets {
@@ -294,11 +308,20 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
                     group.leave();
                 })
             }
+            
             group.notify(queue: .main){ [self] in
                 resolve(selections);
                 DispatchQueue.main.async {
                     alert.dismiss(animated: true, completion: {
-                        dismissComplete()
+                        if((self.options["singleSelectedMode"] as! Bool) && (self.options["isCrop"] as! Bool)){
+                            let image = withTLPHAssets.first?.fullResolutionImage
+                            
+                            if(image != nil){
+                                self.presentCropViewController(image: image!)
+                                return;
+                            }
+                        }
+                        self.dismissComplete()
                     })
                 }
             }
@@ -322,7 +345,6 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
     func canSelectAsset(phAsset: PHAsset) -> Bool {
         let maxVideo = self.options["maxVideo"]
         if(phAsset.mediaType == .video){
-            
             if(videoCount == maxVideo as! Int && !(options["singleSelectedMode"] as! Bool)){
                 showExceededMaximumAlert(vc: self.getTopMostViewController()!, isVideo: true)
                 return false

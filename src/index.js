@@ -51,40 +51,30 @@ let defaultOptions = {
   singleSelectedMode: false,
   isCrop: false,
   isCropCircle: false,
-  //****//
-
-  // fetchOption: Object,
-  // fetchCollectionOption: Object,
-
-  // emptyImage: Image,
 };
 
-exportObject = {
-  openPicker: (optionsPicker) => {
-    const options = {
-      ...defaultOptions,
-      ...optionsPicker,
-    };
-    const isSingle = options?.singleSelectedMode ?? false;
-    if (isSingle) options.selectedAssets = [];
+export const openPicker = (optionsPicker) => {
+  const options = {
+    ...defaultOptions,
+    ...optionsPicker,
+  };
+  const isSingle = options?.singleSelectedMode ?? false;
+  if (isSingle) options.selectedAssets = [];
 
-    return new Promise(async (resolve, reject) => {
-      try {
-        const response = await MultipleImagePicker.openPicker(options);
-        // console.log('res', response);
-        if (response?.length) {
-          if (isSingle) {
-            resolve(response[0]);
-          }
-          resolve(response);
-          return;
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response = await MultipleImagePicker.openPicker(options);
+      // console.log('res', response);
+      if (response?.length) {
+        if (isSingle) {
+          resolve(response[0]);
         }
-        resolve([]);
-      } catch (e) {
-        reject(e);
+        resolve(response);
+        return;
       }
-    });
-  },
+      resolve([]);
+    } catch (e) {
+      reject(e);
+    }
+  });
 };
-
-export default exportObject;
