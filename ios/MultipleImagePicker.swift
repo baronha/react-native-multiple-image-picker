@@ -18,6 +18,10 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
     var options = NSMutableDictionary();
     var videoAssets = [PHAsset]()
     var videoCount = 0
+    var imageRequestOptions = PHImageRequestOptions();
+    var videoRequestOptions = PHVideoRequestOptions.init()
+
+
     // controller
     
     
@@ -83,6 +87,15 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
                 self.options.setValue(options[key], forKey: key as! String)
             }
         }
+        
+        // set image / video request option.
+        self.imageRequestOptions.deliveryMode = .fastFormat;
+        self.imageRequestOptions.resizeMode = .fast;
+        self.imageRequestOptions.isNetworkAccessAllowed = true
+        self.imageRequestOptions.isSynchronous = false
+        self.videoRequestOptions.version = PHVideoRequestOptionsVersion.current
+        self.videoRequestOptions.deliveryMode = PHVideoRequestOptionsDeliveryMode.automatic
+        self.videoRequestOptions.isNetworkAccessAllowed = true
         
         //config options
         MultipleImagePickerConfigure.tapHereToChange = self.options["tapHereToChange"] as! String
@@ -173,41 +186,6 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
         return media
     }
     
-    func getThumbnail(from moviePath: String, in seconds: Double) -> String? {
-        let filepath = moviePath.replacingOccurrences(
-            of: "file://",
-            with: "")
-        let vidURL = URL(fileURLWithPath: filepath)
-        
-        let asset = AVURLAsset(url: vidURL, options: nil)
-        let generator = AVAssetImageGenerator(asset: asset)
-        generator.appliesPreferredTrackTransform = true
-        
-        var _: Error? = nil
-        let time = CMTimeMake(value: 1, timescale: 60)
-        
-        var imgRef: CGImage? = nil
-        do {
-            imgRef = try generator.copyCGImage(at: time, actualTime: nil)
-        } catch _ {
-        }
-        var thumbnail: UIImage? = nil
-        if let imgRef = imgRef {
-            thumbnail = UIImage(cgImage: imgRef)
-        }
-        // save to temp directory
-        let tempDirectory = FileManager.default.urls(
-            for: .cachesDirectory,
-            in: .userDomainMask).map(\.path).last
-        
-        let data = thumbnail?.jpegData(compressionQuality: 1.0)
-        let fileManager = FileManager.default
-        let fullPath = URL(fileURLWithPath: tempDirectory ?? "").appendingPathComponent("thumb-\(ProcessInfo.processInfo.globallyUniqueString).jpg").path
-        fileManager.createFile(atPath: fullPath, contents: data, attributes: nil)
-        return fullPath;
-        
-    }
-    
     func shouldDismissPhotoPicker(withTLPHAssets: [TLPHAsset]) -> Bool {
         return false
     }
@@ -238,18 +216,37 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
         self.getTopMostViewController()?.present(cropViewController, animated: true, completion: nil)
     }
     
+    func fetchAsset(TLAsset: TLPHAsset ,completion: @escaping (MediaResponse) -> Void) {
+        let index = TLAsset.selectedOrder - 1;
+        
+        TLAsset.tempCopyMediaFile(videoRequestOptions: self.videoRequestOptions, imageRequestOptions: self.imageRequestOptions, livePhotoRequestOptions: nil, exportPreset: AVAssetExportPresetHighestQuality, convertLivePhotosToJPG: true, progressBlock: { (progress) in
+        }, completionBlock: { (filePath, fileType) in
+            
+            let object = MediaResponse(filePath: filePath.absoluteString, mime: fileType, withTLAsset: TLAsset, isExportThumbnail: self.options["isExportThumbnail"] as! Bool)
+            
+            DispatchQueue.main.async {
+                completion(object)
+            }
+        })
+        
+    }
+    
     func dismissPhotoPicker(withTLPHAssets: [TLPHAsset]) {
+        
+        // check with asset picker
         if(withTLPHAssets.count == 0){
             self.resolve([]);
             dismissComplete()
             return;
         }
         
+        // count
         let withTLPHAssetsCount = withTLPHAssets.count;
         let selectedAssetsCount = self.selectedAssets.count;
         
-        //check difference
+        // check difference
         if(withTLPHAssetsCount == selectedAssetsCount && withTLPHAssets[withTLPHAssetsCount - 1].phAsset?.localIdentifier == self.selectedAssets[selectedAssetsCount-1].phAsset?.localIdentifier){
+            // if diff => close
             dismissComplete()
             return;
         }
@@ -257,16 +254,7 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
         let selections = NSMutableArray.init(array: withTLPHAssets);
         self.selectedAssets = withTLPHAssets
         //imageRequestOptions
-        let imageRequestOptions = PHImageRequestOptions();
-        imageRequestOptions.deliveryMode = .fastFormat;
-        imageRequestOptions.resizeMode = .fast;
-        imageRequestOptions.isNetworkAccessAllowed = true
-        imageRequestOptions.isSynchronous = false
-        
-        let videoRequestOptions = PHVideoRequestOptions.init()
-        videoRequestOptions.version = PHVideoRequestOptionsVersion.current
-        videoRequestOptions.deliveryMode = PHVideoRequestOptionsDeliveryMode.automatic
-        videoRequestOptions.isNetworkAccessAllowed = true
+
         
         //add loading view
         let alert = UIAlertController(title: nil, message: "Please wait...", preferredStyle: .alert)
@@ -287,40 +275,24 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
         alert.view.addSubview(loadingIndicator)
         
         self.getTopMostViewController()?.present(alert, animated: true, completion: {
+            
             let group = DispatchGroup()
+            
             for TLAsset in withTLPHAssets {
                 group.enter()
-                let asset = TLAsset.phAsset
-                let index = TLAsset.selectedOrder - 1;
-                
-                TLAsset.tempCopyMediaFile(videoRequestOptions: videoRequestOptions, imageRequestOptions: imageRequestOptions, livePhotoRequestOptions: nil, exportPreset: AVAssetExportPresetHighestQuality, convertLivePhotosToJPG: true, progressBlock: { (progress) in
-                    print("progress: ", progress)
-                }, completionBlock: { (filePath, fileType) in
-                    let object = NSDictionary(dictionary: self.createAttachmentResponse(
-                        filePath: filePath.absoluteString,
-                        withFilename:TLAsset.originalFileName,
-                        withType: fileType,
-                        withAsset: asset!,
-                        withTLAsset: TLAsset
-                    )!);
-                    
-                    selections[index] = object as Any;
+                self.fetchAsset(TLAsset: TLAsset) { object in
+                    // check nil object response
+                    if(object != nil) {
+                        selections[index] = object as MediaResponse;
+                    }
                     group.leave();
-                })
+                }
             }
             
             group.notify(queue: .main){ [self] in
                 resolve(selections);
                 DispatchQueue.main.async {
                     alert.dismiss(animated: true, completion: {
-                        if((self.options["singleSelectedMode"] as! Bool) && (self.options["isCrop"] as! Bool)){
-                            let image = withTLPHAssets.first?.fullResolutionImage
-                            
-                            if(image != nil){
-                                self.presentCropViewController(image: image!)
-                                return;
-                            }
-                        }
                         self.dismissComplete()
                     })
                 }
