@@ -38,6 +38,7 @@ export type PickerErrorCode =
 export type Options<T extends MediaType = MediaType.ALL> = {
   mediaType?: T;
   isPreview?: boolean;
+  isExportThumbnail?:boolean;
   selectedColor?: string;
   tapHereToChange?: string;
   cancelTitle?: string;

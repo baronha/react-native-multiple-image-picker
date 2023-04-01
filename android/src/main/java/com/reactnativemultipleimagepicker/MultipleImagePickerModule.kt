@@ -20,10 +20,7 @@ import com.luck.picture.lib.manager.UCropManager
 import com.luck.picture.lib.style.PictureParameterStyle
 import com.yalantis.ucrop.model.AspectRatio
 import com.yalantis.ucrop.view.CropImageView
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.OutputStream
+import java.io.*
 import java.util.*
 
 
@@ -268,15 +265,18 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
         try {
             var fOut: OutputStream? = null
             val fileName = "thumb-" + UUID.randomUUID().toString() + ".jpeg"
-            print("fileName $fileName")
             val file = File(fullPath, fileName)
+            file.parentFile.mkdirs()
             file.createNewFile()
-            fOut = FileOutputStream(file)
+            try {
+                val fos = FileOutputStream(file)
+                image?.compress(Bitmap.CompressFormat.JPEG, 80, fos)
+                fos.flush()
+                fos.close()
 
-            // 100 means no compression, the lower you go, the stronger the compression
-            image?.compress(Bitmap.CompressFormat.JPEG, 50, fOut)
-            fOut.flush()
-            fOut.close()
+            } catch (e: FileNotFoundException) {
+                e.printStackTrace()
+            }
 
             return "file://$fullPath/$fileName"
         } catch (e: Exception) {

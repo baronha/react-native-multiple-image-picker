@@ -1,3 +1,4 @@
+# Fixed IsExportThumnail Missing And empty Thumbnail In Android Platform.
 # React Native Multiple Image Picker (RNMIP)
 
 <p align="center">
