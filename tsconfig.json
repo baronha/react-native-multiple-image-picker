@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@baronha/react-native-multiple-image-picker": ["./src"]
+      "@baronha/react-native-multiple-image-picker": ["src"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,

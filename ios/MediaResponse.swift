@@ -14,21 +14,14 @@ public struct MediaResponse {
     public enum MediaType: String {
         case image, video
     }
-    
-    //    public var path: String = "";
-    //    public var localIdentifier: String = "";
-    //    public var fileName: String = "";
-    //    public var width: NSNumber = 0;
-    //    public var height: NSNumber = 0;
-    //    public var mime: String = "";
-    //    public var creationDate: Date;
-    //    public var type: MediaType = .image;
-    //
+
     public var data: NSDictionary? = nil
     
     
     init(filePath: String?, mime: String?, withTLAsset TLAsset: TLPHAsset, isExportThumbnail: Bool = false) {
-        var asset = TLAsset.phAsset
+        
+        let asset = TLAsset.phAsset
+        
         if(asset != nil){
             var media = [
                 "path": filePath! as String,
@@ -57,6 +50,7 @@ public struct MediaResponse {
                     media["size"] = photoSize
                 }
             }
+            
             self.data = NSDictionary(dictionary: media)
         }
     }

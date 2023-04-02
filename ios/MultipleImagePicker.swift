@@ -217,8 +217,6 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
     }
     
     func fetchAsset(TLAsset: TLPHAsset ,completion: @escaping (MediaResponse) -> Void) {
-        let index = TLAsset.selectedOrder - 1;
-        
         TLAsset.tempCopyMediaFile(videoRequestOptions: self.videoRequestOptions, imageRequestOptions: self.imageRequestOptions, livePhotoRequestOptions: nil, exportPreset: AVAssetExportPresetHighestQuality, convertLivePhotosToJPG: true, progressBlock: { (progress) in
         }, completionBlock: { (filePath, fileType) in
             
@@ -228,14 +226,13 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
                 completion(object)
             }
         })
-        
     }
     
     func dismissPhotoPicker(withTLPHAssets: [TLPHAsset]) {
         
         // check with asset picker
         if(withTLPHAssets.count == 0){
-            self.resolve([]);
+            resolve([]);
             dismissComplete()
             return;
         }
@@ -281,16 +278,14 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
             for TLAsset in withTLPHAssets {
                 group.enter()
                 self.fetchAsset(TLAsset: TLAsset) { object in
-                    // check nil object response
-                    if(object != nil) {
-                        selections[index] = object as MediaResponse;
-                    }
+                    let index = TLAsset.selectedOrder - 1;
+                    selections[index] = object.data as Any;
                     group.leave();
                 }
             }
             
             group.notify(queue: .main){ [self] in
-                resolve(selections);
+                resolve(selections)
                 DispatchQueue.main.async {
                     alert.dismiss(animated: true, completion: {
                         self.dismissComplete()

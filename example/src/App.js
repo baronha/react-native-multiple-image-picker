@@ -27,11 +27,11 @@ export default function App() {
         selectedAssets: images,
         isExportThumbnail: true,
         maxVideo: 1,
-        singleSelectedMode: true,
-        isCrop: true,
+        // singleSelectedMode: true,
+        // isCrop: true,
       });
       // console.log(response);
-      // setImages(response);
+      setImages(response);
     } catch (e) {}
   };
 
@@ -40,7 +40,7 @@ export default function App() {
       <ScrollView contentContainerStyle={{ paddingTop: 132 }}>
         <View style={{ alignItems: 'center' }}>
           <ImageGrid
-            dataImage={images}
+            dataImage={Array.isArray(images) ? images : [images]}
             onPressImage={onPressImage}
             // spaceSize={10}
             containerStyle={{ marginTop: 3 }}
