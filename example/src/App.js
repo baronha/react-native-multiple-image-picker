@@ -27,8 +27,9 @@ export default function App() {
         selectedAssets: images,
         isExportThumbnail: true,
         maxVideo: 1,
-        // singleSelectedMode: true,
-        // isCrop: true,
+        singleSelectedMode: true,
+        isCrop: true,
+        isCropCircle: true,
         doneTitle: 'Xong',
       });
       // console.log(response);

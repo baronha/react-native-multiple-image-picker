@@ -234,7 +234,7 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
     }
     
     func presentCropViewController(image: UIImage) {
-        let cropViewController = CropViewController(image: image)
+        let cropViewController = CropViewController(croppingStyle: (self.options["isCropCircle"] as! Bool) ? .circular : .default, image: image)
         cropViewController.delegate = self
         cropViewController.doneButtonTitle = MultipleImagePickerConfigure.doneTitle
         cropViewController.doneButtonColor = MultipleImagePickerConfigure.selectedColor
