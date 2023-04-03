@@ -29,6 +29,7 @@ export default function App() {
         maxVideo: 1,
         // singleSelectedMode: true,
         // isCrop: true,
+        doneTitle: 'Xong',
       });
       // console.log(response);
       setImages(response);

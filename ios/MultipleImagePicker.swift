@@ -208,11 +208,39 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
     
     func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
         
+        let TLAsset = self.selectedAssets.first;
+        let filePath = getImagePathFromUIImage(uiImage: image, prefix: "crop")
+                
+        TLAsset?.phAsset?.setValue(image.size.width, forKey: "pixelWidth")
+        TLAsset?.phAsset?.setValue(image.size.height, forKey: "pixelHeight")
+        
+        let object = MediaResponse(filePath: filePath, mime: "image/jpeg", withTLAsset: TLAsset!)
+        
+        if(object.data != nil){
+            object.data!["isCrop"] = true
+            resolve([object.data])
+        }else{
+            resolve([])
+        }
+                
+        DispatchQueue.main.async {
+            self.getTopMostViewController()?.dismiss(animated: true, completion: {
+                self.getTopMostViewController()?.dismiss(animated: true, completion: nil)
+            })
+        }
+//
+//        self.dismissComplete()
+//        self.dismissComplete()
     }
     
     func presentCropViewController(image: UIImage) {
         let cropViewController = CropViewController(image: image)
         cropViewController.delegate = self
+        cropViewController.doneButtonTitle = MultipleImagePickerConfigure.doneTitle
+        cropViewController.doneButtonColor = MultipleImagePickerConfigure.selectedColor
+        
+        cropViewController.cancelButtonTitle = MultipleImagePickerConfigure.cancelTitle
+        
         self.getTopMostViewController()?.present(cropViewController, animated: true, completion: nil)
     }
     
@@ -237,23 +265,34 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
             return;
         }
         
-        // count
+        // define count
         let withTLPHAssetsCount = withTLPHAssets.count;
         let selectedAssetsCount = self.selectedAssets.count;
         
+        // check logic code for isCrop
+        let cropCondition = (options["singleSelectedMode"] as! Bool) && (options["isCrop"] as! Bool) &&  withTLPHAssets.first?.type == .photo
+        
         // check difference
-        if(withTLPHAssetsCount == selectedAssetsCount && withTLPHAssets[withTLPHAssetsCount - 1].phAsset?.localIdentifier == self.selectedAssets[selectedAssetsCount-1].phAsset?.localIdentifier){
-            // if diff => close
+        if(withTLPHAssetsCount == selectedAssetsCount && withTLPHAssets[withTLPHAssetsCount - 1].phAsset?.localIdentifier == self.selectedAssets[selectedAssetsCount-1].phAsset?.localIdentifier && !cropCondition){
             dismissComplete()
             return;
         }
-        
-        let selections = NSMutableArray.init(array: withTLPHAssets);
-        self.selectedAssets = withTLPHAssets
-        //imageRequestOptions
 
         
-        //add loading view
+        self.selectedAssets = withTLPHAssets
+        
+        if(cropCondition){
+            let uiImage = withTLPHAssets.first?.fullResolutionImage
+            if(uiImage != nil){
+                presentCropViewController(image: (withTLPHAssets.first?.fullResolutionImage)!)
+                return
+            }
+        }
+        
+        
+        let selections = NSMutableArray.init(array: withTLPHAssets);
+        
+        // add loading view
         let alert = UIAlertController(title: nil, message: "Please wait...", preferredStyle: .alert)
         
         let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
@@ -271,6 +310,7 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
         
         alert.view.addSubview(loadingIndicator)
         
+        // handle controller
         self.getTopMostViewController()?.present(alert, animated: true, completion: {
             
             let group = DispatchGroup()

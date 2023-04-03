@@ -15,7 +15,7 @@ public struct MediaResponse {
         case image, video
     }
 
-    public var data: NSDictionary? = nil
+    public var data: NSMutableDictionary? = nil
     
     
     init(filePath: String?, mime: String?, withTLAsset TLAsset: TLPHAsset, isExportThumbnail: Bool = false) {
@@ -51,10 +51,26 @@ public struct MediaResponse {
                 }
             }
             
-            self.data = NSDictionary(dictionary: media)
+            self.data = NSMutableDictionary(dictionary: media)
         }
     }
     
+}
+
+
+func getImagePathFromUIImage(uiImage: UIImage, prefix: String? = "thumb") -> String {
+    // save to temp directory
+    let tempDirectory = FileManager.default.urls(
+        for: .cachesDirectory,
+        in: .userDomainMask).map(\.path).last
+    
+    let data = uiImage.jpegData(compressionQuality: 1.0)
+    let fileManager = FileManager.default
+    let fullPath = URL(fileURLWithPath: tempDirectory ?? "").appendingPathComponent("\(prefix ?? "thumb")-\(ProcessInfo.processInfo.globallyUniqueString).jpg").path
+    
+    fileManager.createFile(atPath: fullPath, contents: data, attributes: nil)
+    
+    return fullPath;
     
 }
 
@@ -78,18 +94,13 @@ func getThumbnail(from moviePath: String, in seconds: Double) -> String? {
     } catch _ {
     }
     var thumbnail: UIImage? = nil
+    
     if let imgRef = imgRef {
         thumbnail = UIImage(cgImage: imgRef)
     }
-    // save to temp directory
-    let tempDirectory = FileManager.default.urls(
-        for: .cachesDirectory,
-        in: .userDomainMask).map(\.path).last
     
-    let data = thumbnail?.jpegData(compressionQuality: 1.0)
-    let fileManager = FileManager.default
-    let fullPath = URL(fileURLWithPath: tempDirectory ?? "").appendingPathComponent("thumb-\(ProcessInfo.processInfo.globallyUniqueString).jpg").path
-    fileManager.createFile(atPath: fullPath, contents: data, attributes: nil)
+    let fullPath = getImagePathFromUIImage(uiImage: thumbnail!, prefix: "thumb")
+
     return fullPath;
     
 }
