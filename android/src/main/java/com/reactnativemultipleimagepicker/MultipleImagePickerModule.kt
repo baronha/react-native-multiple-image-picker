@@ -7,11 +7,13 @@ import android.media.MediaMetadataRetriever
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.facebook.react.bridge.*
-import com.luck.picture.lib.PictureSelector
+import com.luck.picture.lib.basic.PictureSelector
 import com.luck.picture.lib.app.IApp
 import com.luck.picture.lib.app.PictureAppMaster
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
+import com.luck.picture.lib.config.SelectMimeType
+import com.luck.picture.lib.config.SelectModeConfig
 import com.luck.picture.lib.engine.PictureSelectorEngine
 import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.entity.LocalMedia.parseLocalMedia
@@ -77,10 +79,12 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
             )
         }
 
+        var imageEngine = GlideEngine.createGlideEngine();
+
         PictureSelector.create(activity)
-            .openGallery(if (mediaType == "video") PictureMimeType.ofVideo() else if (mediaType == "image") PictureMimeType.ofImage() else PictureMimeType.ofAll())
-            .loadImageEngine(GlideEngine.createGlideEngine())
-            .maxSelectNum(maxSelectedAssets)
+            .openGallery(if (mediaType == "video") SelectMimeType.ofVideo() else if (mediaType == "image") PictureMimeType.ofImage() else PictureMimeType.ofAll())
+            .setImageEngine(imageEngine)
+            .setMaxSelectNum(maxSelectedAssets)
             .imageSpanCount(numberOfColumn)
             .isSingleDirectReturn(true)
             .isZoomAnim(true)
@@ -96,7 +100,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
             .isEnableCrop(isCrop)
             .basicUCropConfig(basicUCropConfig)
             .isCamera(isCamera)
-            .selectionMode(if (singleSelectedMode) PictureConfig.SINGLE else PictureConfig.MULTIPLE)
+            .selectionMode(if (singleSelectedMode) SelectModeConfig.SINGLE else SelectModeConfig.MULTIPLE)
             .forResult(object : OnResultCallbackListener<LocalMedia?> {
                 override fun onResult(result: MutableList<LocalMedia?>?) {
                     val localMedia: WritableArray = WritableNativeArray()

@@ -34,7 +34,6 @@ public class ReactNativeFlipper {
     if (FlipperUtils.shouldEnableFlipper(context)) {
       final FlipperClient client = AndroidFlipperClient.getInstance(context);
       client.addPlugin(new InspectorFlipperPlugin(context, DescriptorMapping.withDefaults()));
-      client.addPlugin(new ReactFlipperPlugin());
       client.addPlugin(new DatabasesFlipperPlugin(context));
       client.addPlugin(new SharedPreferencesFlipperPlugin(context));
       client.addPlugin(CrashReporterPlugin.getInstance());
