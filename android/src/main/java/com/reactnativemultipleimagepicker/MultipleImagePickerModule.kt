@@ -169,7 +169,6 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
         blueTitleBarStyle.setTitleLeftBackResource(R.drawable.ps_ic_black_back);
 
 
-
         val numberBlueBottomNavBarStyle = BottomNavBarStyle()
         numberBlueBottomNavBarStyle.bottomPreviewNormalTextColor =
             ContextCompat.getColor(appContext, R.color.app_color_pri)
@@ -186,10 +185,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
 
         val numberBlueSelectMainStyle = SelectMainStyle()
 
-        numberBlueSelectMainStyle.previewSelectText = previewTitle
         numberBlueSelectMainStyle.setPreviewSelectNumberStyle(true)
-        numberBlueSelectMainStyle.statusBarColor =
-            ContextCompat.getColor(appContext, R.color.ps_color_blue)
         numberBlueSelectMainStyle.isSelectNumberStyle = true
         numberBlueSelectMainStyle.isPreviewSelectNumberStyle = true
         numberBlueSelectMainStyle.selectBackground = R.drawable.picture_selector
@@ -200,10 +196,17 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
 
         numberBlueSelectMainStyle.selectNormalTextColor =
             ContextCompat.getColor(appContext, R.color.ps_color_9b)
+        numberBlueSelectMainStyle.selectText = doneTitle
         numberBlueSelectMainStyle.selectTextColor =
             ContextCompat.getColor(appContext, R.color.app_color_pri)
         numberBlueSelectMainStyle.selectText = doneTitle
-        numberBlueSelectMainStyle.setStatusBarColor(ContextCompat.getColor(appContext, R.color.app_color_white));
+
+        numberBlueSelectMainStyle.setStatusBarColor(
+            ContextCompat.getColor(
+                appContext,
+                R.color.app_color_white
+            )
+        );
         numberBlueSelectMainStyle.setDarkStatusBarBlack(true);
 
         style.setTitleBarStyle(blueTitleBarStyle)
