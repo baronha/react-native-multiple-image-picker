@@ -25,7 +25,6 @@ let defaultOptions = {
   messageTitleButton: 'OK',
   cancelTitle: 'Cancel',
   tapHereToChange: 'Tap here to change',
-  previewTitle: 'Xem trước',
 
   //****//
 

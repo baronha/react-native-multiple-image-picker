@@ -2,6 +2,7 @@ package com.reactnativemultipleimagepicker
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.media.MediaMetadataRetriever
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -16,11 +17,7 @@ import com.luck.picture.lib.engine.PictureSelectorEngine
 import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.entity.LocalMedia.generateLocalMedia
 import com.luck.picture.lib.interfaces.OnResultCallbackListener
-import com.luck.picture.lib.style.BottomNavBarStyle
-import com.luck.picture.lib.style.PictureSelectorStyle
-import com.luck.picture.lib.style.PictureWindowAnimationStyle
-import com.luck.picture.lib.style.SelectMainStyle
-import com.luck.picture.lib.style.TitleBarStyle
+import com.luck.picture.lib.style.*
 import java.io.*
 import java.util.*
 
@@ -149,69 +146,79 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
 
     private fun setStyle(options: ReadableMap) {
         val doneTitle = options.getString("doneTitle")
-        val previewTitle = options.getString("previewTitle")
 
+        val primaryColor: Int = Color.parseColor(options.getString("selectedColor"))
+
+        // ANIMATION SLIDE FROM BOTTOM
         val animationStyle = PictureWindowAnimationStyle()
         animationStyle.setActivityEnterAnimation(R.anim.ps_anim_up_in)
         animationStyle.setActivityExitAnimation(R.anim.ps_anim_down_out)
 
-        val blueTitleBarStyle = TitleBarStyle()
-        blueTitleBarStyle.titleBackgroundColor =
+        // TITLE BAR
+        val titleBar = TitleBarStyle()
+        titleBar.titleBackgroundColor =
             ContextCompat.getColor(appContext, R.color.app_color_white)
 
-        blueTitleBarStyle.setHideCancelButton(true);
-        blueTitleBarStyle.setAlbumTitleRelativeLeft(true);
+        titleBar.setHideCancelButton(true);
+        titleBar.setAlbumTitleRelativeLeft(true);
 
-        blueTitleBarStyle.setTitleAlbumBackgroundResource(R.drawable.ps_album_bg);
+        titleBar.setTitleAlbumBackgroundResource(R.drawable.ps_album_bg);
+        titleBar.setTitleDrawableRightResource(R.drawable.ps_ic_grey_arrow);
+        titleBar.setPreviewTitleLeftBackResource(R.drawable.ps_ic_black_back);
+        titleBar.setTitleLeftBackResource(R.drawable.ps_ic_black_back);
+        titleBar.setHideCancelButton(true)
 
-        blueTitleBarStyle.setTitleDrawableRightResource(R.drawable.ps_ic_grey_arrow);
-        blueTitleBarStyle.setPreviewTitleLeftBackResource(R.drawable.ps_ic_black_back);
-        blueTitleBarStyle.setTitleLeftBackResource(R.drawable.ps_ic_black_back);
-
-
-        val numberBlueBottomNavBarStyle = BottomNavBarStyle()
-        numberBlueBottomNavBarStyle.bottomPreviewNormalTextColor =
+        // BOTTOM BAR
+        val bottomBar = BottomNavBarStyle()
+        bottomBar.bottomPreviewNormalTextColor =
             ContextCompat.getColor(appContext, R.color.app_color_pri)
-        numberBlueBottomNavBarStyle.bottomPreviewSelectTextColor =
+        bottomBar.bottomPreviewSelectTextColor =
             ContextCompat.getColor(appContext, R.color.app_color_pri)
-        numberBlueBottomNavBarStyle.bottomNarBarBackgroundColor =
+        bottomBar.bottomNarBarBackgroundColor =
             ContextCompat.getColor(appContext, R.color.ps_color_white)
-        numberBlueBottomNavBarStyle.bottomSelectNumResources = R.drawable.num_oval_orange
-        numberBlueBottomNavBarStyle.bottomEditorTextColor =
+        bottomBar.bottomSelectNumResources = R.drawable.num_oval_orange
+        bottomBar.bottomEditorTextColor =
             ContextCompat.getColor(appContext, R.color.ps_color_53575e)
-        numberBlueBottomNavBarStyle.bottomOriginalTextColor =
+        bottomBar.bottomOriginalTextColor =
             ContextCompat.getColor(appContext, R.color.ps_color_53575e)
+        bottomBar.bottomPreviewNormalTextColor = R.color.app_color_53575e
+        bottomBar.bottomPreviewNormalTextColor = R.color.app_color_black
 
+        // MAIN STYLE
+        val mainStyle = SelectMainStyle()
 
-        val numberBlueSelectMainStyle = SelectMainStyle()
-
-        numberBlueSelectMainStyle.setPreviewSelectNumberStyle(true)
-        numberBlueSelectMainStyle.isSelectNumberStyle = true
-        numberBlueSelectMainStyle.isPreviewSelectNumberStyle = true
-        numberBlueSelectMainStyle.selectBackground = R.drawable.picture_selector
-        numberBlueSelectMainStyle.mainListBackgroundColor =
+        mainStyle.setPreviewSelectRelativeBottom(true)
+        mainStyle.setSelectNumberStyle(if (singleSelectedMode) false else true)
+        mainStyle.setPreviewSelectNumberStyle(true);
+        mainStyle.isSelectNumberStyle = true
+        mainStyle.selectBackground = R.drawable.picture_selector
+        mainStyle.mainListBackgroundColor =
             ContextCompat.getColor(appContext, R.color.ps_color_white)
-        numberBlueSelectMainStyle.previewSelectBackground =
+        mainStyle.previewSelectBackground =
             R.drawable.picture_selector
 
-        numberBlueSelectMainStyle.selectNormalTextColor =
-            ContextCompat.getColor(appContext, R.color.ps_color_9b)
-        numberBlueSelectMainStyle.selectText = doneTitle
-        numberBlueSelectMainStyle.selectTextColor =
-            ContextCompat.getColor(appContext, R.color.app_color_pri)
-        numberBlueSelectMainStyle.selectText = doneTitle
+        // custom select text on top
+        mainStyle.setSelectText(doneTitle)
+        mainStyle.setCompleteSelectRelativeTop(true)
+        mainStyle.setSelectNormalText(doneTitle)
 
-        numberBlueSelectMainStyle.setStatusBarColor(
+
+        mainStyle.selectNormalTextColor =
+            ContextCompat.getColor(appContext, R.color.ps_color_9b)
+        mainStyle.selectTextColor = primaryColor
+        mainStyle.selectText = doneTitle
+
+        mainStyle.setStatusBarColor(
             ContextCompat.getColor(
                 appContext,
                 R.color.app_color_white
             )
         );
-        numberBlueSelectMainStyle.setDarkStatusBarBlack(true);
+        mainStyle.setDarkStatusBarBlack(true);
 
-        style.setTitleBarStyle(blueTitleBarStyle)
-        style.setBottomBarStyle(numberBlueBottomNavBarStyle)
-        style.setSelectMainStyle(numberBlueSelectMainStyle)
+        style.setTitleBarStyle(titleBar)
+        style.setBottomBarStyle(bottomBar)
+        style.setSelectMainStyle(mainStyle)
         style.setWindowAnimationStyle(animationStyle)
 
 
