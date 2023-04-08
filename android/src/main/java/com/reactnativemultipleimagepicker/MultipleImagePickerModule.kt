@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.media.MediaMetadataRetriever
 import android.os.Build
+import android.os.Bundle
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import com.facebook.react.bridge.*
@@ -18,6 +19,9 @@ import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.entity.LocalMedia.generateLocalMedia
 import com.luck.picture.lib.interfaces.OnResultCallbackListener
 import com.luck.picture.lib.style.*
+import com.luck.picture.lib.utils.StyleUtils
+import com.yalantis.ucrop.UCrop
+import com.yalantis.ucrop.UCrop.Options
 import java.io.*
 import java.util.*
 
@@ -42,8 +46,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
     private var isExportThumbnail: Boolean = false
     private var maxVideo: Int = 20
     private var isCamera: Boolean = true
-    private var isCrop: Boolean = false
-    private var isCropCircle: Boolean = false
+    private var cropOption: UCrop.Options? = null;
 
 
     @ReactMethod
@@ -85,6 +88,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
             .setImageEngine(imageEngine)
             .setMaxSelectNum(maxSelectedAssets)
             .setImageSpanCount(numberOfColumn)
+            .setCropEngine(onSetCropEngine())
             .isDirectReturnSingle(true)
             .isSelectZoomAnim(true)
             .isPageStrategy(true, 50)
@@ -115,6 +119,9 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
                             localMedia.pushMap(media)
                         }
                     }
+
+                    println("localMedia: $localMedia")
+
                     promise.resolve(localMedia)
                 }
 
@@ -124,10 +131,13 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
             })
     }
 
+    private fun onSetCropEngine(): CropEngine? {
+        return cropOption?.let { CropEngine(appContext, it) }
+    }
+
     private fun setConfiguration(options: ReadableMap?) {
         if (options != null) {
             handleSelectedAssets(options)
-            val cropping = options.getBoolean("isCrop")
             singleSelectedMode = options.getBoolean("singleSelectedMode")
             maxVideoDuration = options.getInt("maxVideoDuration")
             numberOfColumn = options.getInt("numberOfColumn")
@@ -137,11 +147,67 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
             isExportThumbnail = options.getBoolean("isExportThumbnail")
             maxVideo = options.getInt("maxVideo")
             isCamera = options.getBoolean("usedCameraButton")
-            isCropCircle = options.getBoolean("isCropCircle")
-            isCrop = cropping == true && singleSelectedMode == true
 
             setStyle(options) // set style for UI
+
+            val isCrop = options.getBoolean("isCrop") && singleSelectedMode
+
+            if (isCrop) {
+                buildCropOptions(options)
+            }
+
         }
+    }
+
+    private fun buildCropOptions(libOption: ReadableMap) {
+        val options = UCrop.Options()
+
+        options.setShowCropFrame(true)
+        options.setShowCropGrid(true)
+        options.setCircleDimmedLayer(libOption.getBoolean("isCropCircle"))
+//        options.withAspectRatio(aspect_ratio_x, aspect_ratio_y)
+        options.setCropOutputPathDir(getSandboxPath(appContext))
+        options.isCropDragSmoothToCenter(false)
+//        options.setSkipCropMimeType(getNotSupportCrop())
+        options.isForbidSkipMultipleCrop(true)
+        options.setMaxScaleMultiplier(100f)
+
+        println("style.selectMainStyle.statusBarColor: ${style.selectMainStyle.statusBarColor}")
+        if (style.selectMainStyle.statusBarColor != 0) {
+            val mainStyle: SelectMainStyle = style.selectMainStyle
+            val isDarkStatusBarBlack: Boolean = mainStyle.isDarkStatusBarBlack
+            val statusBarColor: Int = mainStyle.statusBarColor
+            options.isDarkStatusBarBlack(isDarkStatusBarBlack)
+            if (StyleUtils.checkStyleValidity(statusBarColor)) {
+                options.setStatusBarColor(statusBarColor)
+                options.setToolbarColor(statusBarColor)
+            } else {
+                options.setStatusBarColor(ContextCompat.getColor(appContext, R.color.ps_color_grey))
+                options.setToolbarColor(ContextCompat.getColor(appContext, R.color.ps_color_grey))
+            }
+            val titleBarStyle: TitleBarStyle = style.titleBarStyle
+            if (StyleUtils.checkStyleValidity(titleBarStyle.titleTextColor)) {
+                options.setToolbarWidgetColor(titleBarStyle.titleTextColor)
+            } else {
+                options.setToolbarWidgetColor(
+                    ContextCompat.getColor(
+                        appContext,
+                        R.color.ps_color_white
+                    )
+                )
+            }
+        } else {
+            options.setStatusBarColor(ContextCompat.getColor(appContext, R.color.ps_color_grey))
+            options.setToolbarColor(ContextCompat.getColor(appContext, R.color.ps_color_grey))
+            options.setToolbarWidgetColor(
+                ContextCompat.getColor(
+                    appContext,
+                    R.color.ps_color_white
+                )
+            )
+        }
+
+        cropOption = options
     }
 
     private fun setStyle(options: ReadableMap) {
@@ -183,6 +249,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
             ContextCompat.getColor(appContext, R.color.ps_color_53575e)
         bottomBar.bottomPreviewNormalTextColor = R.color.app_color_53575e
         bottomBar.bottomPreviewNormalTextColor = R.color.app_color_black
+        bottomBar.setCompleteCountTips(false)
 
         // MAIN STYLE
         val mainStyle = SelectMainStyle()
@@ -314,7 +381,6 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
         val fullPath: String =
             reactApplicationContext.applicationContext.cacheDir.absolutePath.toString() + "/thumbnails"
         try {
-            var fOut: OutputStream? = null
             val fileName = "thumb-" + UUID.randomUUID().toString() + ".jpeg"
             val file = File(fullPath, fileName)
             file.parentFile?.mkdirs()

@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { useState } from 'react';
-import { Text } from 'react-native';
+import { Image, Text } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import { ScrollView } from 'react-native';
 import { View } from 'react-native';
@@ -23,19 +23,27 @@ export default function App() {
 
   const onPicker = async () => {
     try {
+      const isCrop = true;
+      const singleSelectedMode = true;
+
       const response = await openPicker({
         selectedAssets: images,
         isExportThumbnail: true,
         maxVideo: 1,
-        // singleSelectedMode: true,
-        isCrop: true,
         isCropCircle: true,
         doneTitle: 'Xong',
-        selectedColor: '#245953',
-
-        // cancelTitle: 'Đóng',
+        singleSelectedMode,
+        isCrop,
       });
-      console.log(response);
+
+      if (isCrop) {
+        response.path = response.crop.cropPath;
+        response.width = response.crop.width;
+        response.height = response.crop.height;
+      }
+
+      console.log('response: ', response);
+
       setImages(response);
     } catch (e) {}
   };
