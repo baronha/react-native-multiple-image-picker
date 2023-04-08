@@ -2,26 +2,25 @@ package com.reactnativemultipleimagepicker
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.Color
 import android.media.MediaMetadataRetriever
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import com.facebook.react.bridge.*
-import com.luck.picture.lib.basic.PictureSelector
 import com.luck.picture.lib.app.IApp
 import com.luck.picture.lib.app.PictureAppMaster
-import com.luck.picture.lib.config.PictureConfig
-import com.luck.picture.lib.config.PictureMimeType
+import com.luck.picture.lib.basic.PictureSelector
 import com.luck.picture.lib.config.SelectMimeType
 import com.luck.picture.lib.config.SelectModeConfig
 import com.luck.picture.lib.engine.PictureSelectorEngine
 import com.luck.picture.lib.entity.LocalMedia
-import com.luck.picture.lib.entity.LocalMedia.parseLocalMedia
-import com.luck.picture.lib.listener.OnResultCallbackListener
-import com.luck.picture.lib.manager.UCropManager
-import com.luck.picture.lib.style.PictureParameterStyle
-import com.yalantis.ucrop.model.AspectRatio
-import com.yalantis.ucrop.view.CropImageView
+import com.luck.picture.lib.entity.LocalMedia.generateLocalMedia
+import com.luck.picture.lib.interfaces.OnResultCallbackListener
+import com.luck.picture.lib.style.BottomNavBarStyle
+import com.luck.picture.lib.style.PictureSelectorStyle
+import com.luck.picture.lib.style.PictureWindowAnimationStyle
+import com.luck.picture.lib.style.SelectMainStyle
+import com.luck.picture.lib.style.TitleBarStyle
 import java.io.*
 import java.util.*
 
@@ -34,8 +33,9 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
         return "MultipleImagePicker"
     }
 
+    var style = PictureSelectorStyle()
+
     private var selectedAssets: List<LocalMedia> = ArrayList()
-    private var mPictureParameterStyle: PictureParameterStyle? = null
     private var singleSelectedMode: Boolean = false
     private var maxVideoDuration: Int = 60
     private var numberOfColumn: Int = 3
@@ -48,6 +48,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
     private var isCrop: Boolean = false
     private var isCropCircle: Boolean = false
 
+
     @ReactMethod
     fun openPicker(options: ReadableMap?, promise: Promise): Unit {
         PictureAppMaster.getInstance().app = this
@@ -55,54 +56,53 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
         setConfiguration(options)
 
         //set up configration ucrop
-        val basicUCropConfig = UCropManager.basicOptions(appContext);
-        basicUCropConfig.setShowCropFrame(true)
-        basicUCropConfig.setShowCropGrid(true)
-        basicUCropConfig.setCropDragSmoothToCenter(true)
-        basicUCropConfig.setHideBottomControls(false)
-        basicUCropConfig.setCircleDimmedLayer(isCropCircle)
-        if(isCropCircle){
-            basicUCropConfig.withAspectRatio(1F,1F)
-            basicUCropConfig.setShowCropFrame(false)
-        }else{
-            basicUCropConfig.setAspectRatioOptions(
-                1,
-                AspectRatio("1:2", 1F, 2F),
-                AspectRatio("3:4", 3F, 4F),
-//            AspectRatio(
-//                "RATIO",
-//                CropImageView.DEFAULT_ASPECT_RATIO,
-//                CropImageView.DEFAULT_ASPECT_RATIO
-//            ),
-                AspectRatio("16:9", 16F, 9F),
-                AspectRatio("1:1", 1F, 1F)
-            )
-        }
+//        val basicUCropConfig = UCropManager.basicOptions(appContext);
+//
+//        basicUCropConfig.setShowCropFrame(true)
+//        basicUCropConfig.setShowCropGrid(true)
+//        basicUCropConfig.setCropDragSmoothToCenter(true)
+//        basicUCropConfig.setHideBottomControls(false)
+//        basicUCropConfig.setCircleDimmedLayer(isCropCircle)
+//        if(isCropCircle){
+//            basicUCropConfig.withAspectRatio(1F,1F)
+//            basicUCropConfig.setShowCropFrame(false)
+//        }else{
+//            basicUCropConfig.setAspectRatioOptions(
+//                1,
+//                AspectRatio("1:2", 1F, 2F),
+//                AspectRatio("3:4", 3F, 4F),
+////            AspectRatio(
+////                "RATIO",
+////                CropImageView.DEFAULT_ASPECT_RATIO,
+////                CropImageView.DEFAULT_ASPECT_RATIO
+////            ),
+//                AspectRatio("16:9", 16F, 9F),
+//                AspectRatio("1:1", 1F, 1F)
+//            )
+//        }
 
         var imageEngine = GlideEngine.createGlideEngine();
 
         PictureSelector.create(activity)
-            .openGallery(if (mediaType == "video") SelectMimeType.ofVideo() else if (mediaType == "image") PictureMimeType.ofImage() else PictureMimeType.ofAll())
+            .openGallery(if (mediaType == "video") SelectMimeType.ofVideo() else if (mediaType == "image") SelectMimeType.ofImage() else SelectMimeType.ofAll())
             .setImageEngine(imageEngine)
             .setMaxSelectNum(maxSelectedAssets)
-            .imageSpanCount(numberOfColumn)
-            .isSingleDirectReturn(true)
-            .isZoomAnim(true)
+            .setImageSpanCount(numberOfColumn)
+            .isDirectReturnSingle(true)
+            .isSelectZoomAnim(true)
             .isPageStrategy(true, 50)
-            .isWithVideoImage(true)
-            .videoMaxSecond(maxVideoDuration)
-            .maxVideoSelectNum(if (maxVideo != 20) maxVideo else maxSelectedAssets)
+            .isWithSelectVideoImage(true)
+            .setRecordVideoMaxSecond(maxVideoDuration)
+            .setMaxVideoSelectNum(if (maxVideo != 20) maxVideo else maxSelectedAssets)
             .isMaxSelectEnabledMask(true)
-            .selectionData(selectedAssets)
-            .setPictureStyle(mPictureParameterStyle)
+            .setSelectedData(selectedAssets)
+            .setSelectorUIStyle(style)
             .isPreviewImage(isPreview)
             .isPreviewVideo(isPreview)
-            .isEnableCrop(isCrop)
-            .basicUCropConfig(basicUCropConfig)
-            .isCamera(isCamera)
-            .selectionMode(if (singleSelectedMode) SelectModeConfig.SINGLE else SelectModeConfig.MULTIPLE)
+            .isDisplayCamera(isCamera)
+            .setSelectionMode(if (singleSelectedMode) SelectModeConfig.SINGLE else SelectModeConfig.MULTIPLE)
             .forResult(object : OnResultCallbackListener<LocalMedia?> {
-                override fun onResult(result: MutableList<LocalMedia?>?) {
+                override fun onResult(result: ArrayList<LocalMedia?>?) {
                     val localMedia: WritableArray = WritableNativeArray()
                     if (result?.size == 0) {
                         promise.resolve(localMedia)
@@ -139,35 +139,99 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
             isPreview = options.getBoolean("isPreview")
             isExportThumbnail = options.getBoolean("isExportThumbnail")
             maxVideo = options.getInt("maxVideo")
-            mPictureParameterStyle = getStyle(options)
             isCamera = options.getBoolean("usedCameraButton")
             isCropCircle = options.getBoolean("isCropCircle")
             isCrop = cropping == true && singleSelectedMode == true
+
+            setStyle(options) // set style for UI
         }
     }
 
-    private fun getStyle(options: ReadableMap): PictureParameterStyle? {
-        val pictureStyle = PictureParameterStyle()
-        pictureStyle.pictureCheckedStyle = if(singleSelectedMode) R.drawable.checkbox_selector else R.drawable.picture_selector
+    private fun setStyle(options: ReadableMap) {
+        val doneTitle = options.getString("doneTitle")
+        val previewTitle = options.getString("previewTitle")
 
-        //bottom style
-        pictureStyle.pictureCompleteText = options.getString("doneTitle")
-        pictureStyle.isOpenCheckNumStyle = if(singleSelectedMode) false else true
-        pictureStyle.isCompleteReplaceNum = true
-        pictureStyle.pictureCompleteTextSize = 16
-        pictureStyle.pictureCheckNumBgStyle = R.drawable.num_oval_orange
-        pictureStyle.pictureCompleteTextColor = Color.parseColor("#ffffff")
-        pictureStyle.pictureNavBarColor = Color.parseColor("#000000")
-        pictureStyle.pictureBottomBgColor = Color.parseColor("#393a3e")
-        //preview Style
-        pictureStyle.picturePreviewBottomBgColor = Color.parseColor("#000000")
-        pictureStyle.pictureUnPreviewTextColor = Color.parseColor("#ffffff")
-        //header
-        pictureStyle.pictureTitleDownResId = R.drawable.picture_icon_arrow_down
-        pictureStyle.pictureCancelTextColor = Color.parseColor("#393a3e")
-        pictureStyle.pictureStatusBarColor = Color.parseColor("#393a3e")
-        pictureStyle.pictureTitleBarBackgroundColor = Color.parseColor("#393a3e")
-        return pictureStyle
+        val animationStyle = PictureWindowAnimationStyle()
+        animationStyle.setActivityEnterAnimation(R.anim.ps_anim_up_in)
+        animationStyle.setActivityExitAnimation(R.anim.ps_anim_down_out)
+
+        val blueTitleBarStyle = TitleBarStyle()
+        blueTitleBarStyle.titleBackgroundColor =
+            ContextCompat.getColor(appContext, R.color.app_color_white)
+
+        blueTitleBarStyle.setHideCancelButton(true);
+        blueTitleBarStyle.setAlbumTitleRelativeLeft(true);
+
+        blueTitleBarStyle.setTitleAlbumBackgroundResource(R.drawable.ps_album_bg);
+
+        blueTitleBarStyle.setTitleDrawableRightResource(R.drawable.ps_ic_grey_arrow);
+        blueTitleBarStyle.setPreviewTitleLeftBackResource(R.drawable.ps_ic_black_back);
+        blueTitleBarStyle.setTitleLeftBackResource(R.drawable.ps_ic_black_back);
+
+
+
+        val numberBlueBottomNavBarStyle = BottomNavBarStyle()
+        numberBlueBottomNavBarStyle.bottomPreviewNormalTextColor =
+            ContextCompat.getColor(appContext, R.color.app_color_pri)
+        numberBlueBottomNavBarStyle.bottomPreviewSelectTextColor =
+            ContextCompat.getColor(appContext, R.color.app_color_pri)
+        numberBlueBottomNavBarStyle.bottomNarBarBackgroundColor =
+            ContextCompat.getColor(appContext, R.color.ps_color_white)
+        numberBlueBottomNavBarStyle.bottomSelectNumResources = R.drawable.num_oval_orange
+        numberBlueBottomNavBarStyle.bottomEditorTextColor =
+            ContextCompat.getColor(appContext, R.color.ps_color_53575e)
+        numberBlueBottomNavBarStyle.bottomOriginalTextColor =
+            ContextCompat.getColor(appContext, R.color.ps_color_53575e)
+
+
+        val numberBlueSelectMainStyle = SelectMainStyle()
+
+        numberBlueSelectMainStyle.previewSelectText = previewTitle
+        numberBlueSelectMainStyle.setPreviewSelectNumberStyle(true)
+        numberBlueSelectMainStyle.statusBarColor =
+            ContextCompat.getColor(appContext, R.color.ps_color_blue)
+        numberBlueSelectMainStyle.isSelectNumberStyle = true
+        numberBlueSelectMainStyle.isPreviewSelectNumberStyle = true
+        numberBlueSelectMainStyle.selectBackground = R.drawable.picture_selector
+        numberBlueSelectMainStyle.mainListBackgroundColor =
+            ContextCompat.getColor(appContext, R.color.ps_color_white)
+        numberBlueSelectMainStyle.previewSelectBackground =
+            R.drawable.picture_selector
+
+        numberBlueSelectMainStyle.selectNormalTextColor =
+            ContextCompat.getColor(appContext, R.color.ps_color_9b)
+        numberBlueSelectMainStyle.selectTextColor =
+            ContextCompat.getColor(appContext, R.color.app_color_pri)
+        numberBlueSelectMainStyle.selectText = doneTitle
+        numberBlueSelectMainStyle.setStatusBarColor(ContextCompat.getColor(appContext, R.color.app_color_white));
+        numberBlueSelectMainStyle.setDarkStatusBarBlack(true);
+
+        style.setTitleBarStyle(blueTitleBarStyle)
+        style.setBottomBarStyle(numberBlueBottomNavBarStyle)
+        style.setSelectMainStyle(numberBlueSelectMainStyle)
+        style.setWindowAnimationStyle(animationStyle)
+
+
+//        pictureStyle.selectMainStyle.adapterImageEditorResources =
+//            if (singleSelectedMode) R.drawable.checkbox_selector else R.drawable.picture_selector
+//        numberSelectMainStyle.isSelectNumberStyle = if (singleSelectedMode) false else true
+//        //bottom style
+//        pictureStyle.bottomBarStyle.bottomOriginalText = options.getString("doneTitle")
+//        pictureStyle.isOpenCheckNumStyle = if(singleSelectedMode) false else true
+//        pictureStyle.isCompleteReplaceNum = true
+//        pictureStyle.pictureCompleteTextSize = 16
+//        pictureStyle.pictureCheckNumBgStyle = R.drawable.num_oval_orange
+//        pictureStyle.pictureCompleteTextColor = Color.parseColor("#ffffff")
+//        pictureStyle.pictureNavBarColor = Color.parseColor("#000000")
+//        pictureStyle.pictureBottomBgColor = Color.parseColor("#393a3e")
+//        //preview Style
+//        pictureStyle.picturePreviewBottomBgColor = Color.parseColor("#000000")
+//        pictureStyle.pictureUnPreviewTextColor = Color.parseColor("#ffffff")
+//        //header
+//        pictureStyle.pictureTitleDownResId = R.drawable.picture_icon_arrow_down
+//        pictureStyle.pictureCancelTextColor = Color.parseColor("#393a3e")
+//        pictureStyle.pictureStatusBarColor = Color.parseColor("#393a3e")
+//        pictureStyle.pictureTitleBarBackgroundColor = Color.parseColor("#393a3e")
     }
 
     private fun handleSelectedAssets(options: ReadableMap?) {
@@ -195,35 +259,8 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
     }
 
     private fun handleSelectedAssetItem(asset: ReadableNativeMap): LocalMedia {
-        val id: Long = asset.getDouble("localIdentifier").toLong()
         val path: String? = asset.getString("path")
-        val realPath: String? = asset.getString("realPath")
-        val fileName: String? = asset.getString("fileName")
-        val parentFolderName: String? = asset.getString("parentFolderName")
-        val duration: Long = asset.getDouble("duration").toLong()
-        val chooseModel: Int = asset.getInt("chooseModel")
-        val mimeType: String? = asset.getString("mime")
-        val width: Int = asset.getInt("width")
-        val height: Int = asset.getInt("height")
-        val size: Long = asset.getDouble("size").toLong()
-        val bucketId: Long = asset.getDouble("bucketId").toLong()
-        val dateAddedColumn: Long = Date().time.toLong()
-        val localMedia = parseLocalMedia(
-            id,
-            path,
-            realPath,
-            fileName,
-            parentFolderName,
-            duration,
-            chooseModel,
-            mimeType,
-            width,
-            height,
-            size,
-            bucketId,
-            dateAddedColumn
-        )
-        return localMedia
+        return generateLocalMedia(appContext, path)
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -244,7 +281,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
         media.putDouble("size", item.size.toDouble())
         media.putDouble("bucketId", item.bucketId.toDouble())
         media.putString("parentFolderName", item.parentFolderName)
-        if(item.isCut){
+        if (item.isCut) {
             val crop = WritableNativeMap()
             crop.putString("cropPath", item.cutPath)
             crop.putDouble("width", item.cropImageWidth.toDouble())
@@ -270,7 +307,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
             var fOut: OutputStream? = null
             val fileName = "thumb-" + UUID.randomUUID().toString() + ".jpeg"
             val file = File(fullPath, fileName)
-            file.parentFile.mkdirs()
+            file.parentFile?.mkdirs()
             file.createNewFile()
             try {
                 val fos = FileOutputStream(file)

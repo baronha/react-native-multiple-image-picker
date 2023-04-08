@@ -27,12 +27,15 @@ export default function App() {
         selectedAssets: images,
         isExportThumbnail: true,
         maxVideo: 1,
-        singleSelectedMode: true,
+        // singleSelectedMode: true,
         isCrop: true,
         isCropCircle: true,
         doneTitle: 'Xong',
+        selectedColor: '#245953',
+
+        // cancelTitle: 'Đóng',
       });
-      // console.log(response);
+      console.log(response);
       setImages(response);
     } catch (e) {}
   };
@@ -49,6 +52,7 @@ export default function App() {
             width={Dimensions.get('window').width - 6}
             sourceKey={'path'}
             videoKey={'type'}
+            prefixPath={'file://'}
             conditionCheckVideo={'video'}
             videoURLKey={'thumbnail'}
           />

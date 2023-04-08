@@ -38,7 +38,7 @@ export type PickerErrorCode =
 export type Options<T extends MediaType = MediaType.ALL> = {
   mediaType?: T;
   isPreview?: boolean;
-  isExportThumbnail?:boolean;
+  isExportThumbnail?: boolean;
   selectedColor?: string;
   tapHereToChange?: string;
   cancelTitle?: string;
@@ -70,6 +70,7 @@ export type Options<T extends MediaType = MediaType.ALL> = {
   thumbnailWidth?: number;
   thumbnailHeight?: number;
   haveThumbnail?: boolean;
+  previewTitle?: string;
 };
 
 export interface SinglePickerOptions {
