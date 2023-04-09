@@ -23,26 +23,25 @@ export default function App() {
 
   const onPicker = async () => {
     try {
-      const isCrop = true;
       const singleSelectedMode = true;
 
       const response = await openPicker({
         selectedAssets: images,
         isExportThumbnail: true,
         maxVideo: 1,
-        isCropCircle: true,
         doneTitle: 'Xong',
         singleSelectedMode,
-        isCrop,
+        isCrop: true,
+        isCropCircle: true,
       });
 
-      if (isCrop) {
-        response.path = response.crop.cropPath;
-        response.width = response.crop.width;
-        response.height = response.crop.height;
-      }
+      const crop = response.crop;
 
-      console.log('response: ', response);
+      if (crop) {
+        response.path = crop.path;
+        response.width = crop.width;
+        response.height = crop.height;
+      }
 
       setImages(response);
     } catch (e) {}
@@ -65,7 +64,7 @@ export default function App() {
             videoURLKey={'thumbnail'}
           />
           <TouchableOpacity style={style.buttonOpen} onPress={onPicker}>
-            <Text style={style.textOpen}>Open Gallery</Text>
+            <Text style={style.textOpen}>Open Picker</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

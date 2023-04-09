@@ -47,41 +47,17 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
     private var maxVideo: Int = 20
     private var isCamera: Boolean = true
     private var cropOption: UCrop.Options? = null;
+    private var primaryColor: Int = Color.BLACK;
 
 
     @ReactMethod
     fun openPicker(options: ReadableMap?, promise: Promise): Unit {
         PictureAppMaster.getInstance().app = this
         val activity = currentActivity
-        setConfiguration(options)
-
-        //set up configration ucrop
-//        val basicUCropConfig = UCropManager.basicOptions(appContext);
-//
-//        basicUCropConfig.setShowCropFrame(true)
-//        basicUCropConfig.setShowCropGrid(true)
-//        basicUCropConfig.setCropDragSmoothToCenter(true)
-//        basicUCropConfig.setHideBottomControls(false)
-//        basicUCropConfig.setCircleDimmedLayer(isCropCircle)
-//        if(isCropCircle){
-//            basicUCropConfig.withAspectRatio(1F,1F)
-//            basicUCropConfig.setShowCropFrame(false)
-//        }else{
-//            basicUCropConfig.setAspectRatioOptions(
-//                1,
-//                AspectRatio("1:2", 1F, 2F),
-//                AspectRatio("3:4", 3F, 4F),
-////            AspectRatio(
-////                "RATIO",
-////                CropImageView.DEFAULT_ASPECT_RATIO,
-////                CropImageView.DEFAULT_ASPECT_RATIO
-////            ),
-//                AspectRatio("16:9", 16F, 9F),
-//                AspectRatio("1:1", 1F, 1F)
-//            )
-//        }
-
         var imageEngine = GlideEngine.createGlideEngine();
+
+        // set config
+        setConfiguration(options)
 
         PictureSelector.create(activity)
             .openGallery(if (mediaType == "video") SelectMimeType.ofVideo() else if (mediaType == "image") SelectMimeType.ofImage() else SelectMimeType.ofAll())
@@ -119,9 +95,6 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
                             localMedia.pushMap(media)
                         }
                     }
-
-                    println("localMedia: $localMedia")
-
                     promise.resolve(localMedia)
                 }
 
@@ -153,59 +126,26 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
             val isCrop = options.getBoolean("isCrop") && singleSelectedMode
 
             if (isCrop) {
-                buildCropOptions(options)
+                setCropOptions(options)
             }
-
         }
     }
 
-    private fun buildCropOptions(libOption: ReadableMap) {
+    private fun setCropOptions(libOption: ReadableMap) {
         val options = UCrop.Options()
+        val mainStyle: SelectMainStyle = style.selectMainStyle
 
         options.setShowCropFrame(true)
         options.setShowCropGrid(true)
         options.setCircleDimmedLayer(libOption.getBoolean("isCropCircle"))
-//        options.withAspectRatio(aspect_ratio_x, aspect_ratio_y)
         options.setCropOutputPathDir(getSandboxPath(appContext))
         options.isCropDragSmoothToCenter(false)
-//        options.setSkipCropMimeType(getNotSupportCrop())
         options.isForbidSkipMultipleCrop(true)
         options.setMaxScaleMultiplier(100f)
-
-        println("style.selectMainStyle.statusBarColor: ${style.selectMainStyle.statusBarColor}")
-        if (style.selectMainStyle.statusBarColor != 0) {
-            val mainStyle: SelectMainStyle = style.selectMainStyle
-            val isDarkStatusBarBlack: Boolean = mainStyle.isDarkStatusBarBlack
-            val statusBarColor: Int = mainStyle.statusBarColor
-            options.isDarkStatusBarBlack(isDarkStatusBarBlack)
-            if (StyleUtils.checkStyleValidity(statusBarColor)) {
-                options.setStatusBarColor(statusBarColor)
-                options.setToolbarColor(statusBarColor)
-            } else {
-                options.setStatusBarColor(ContextCompat.getColor(appContext, R.color.ps_color_grey))
-                options.setToolbarColor(ContextCompat.getColor(appContext, R.color.ps_color_grey))
-            }
-            val titleBarStyle: TitleBarStyle = style.titleBarStyle
-            if (StyleUtils.checkStyleValidity(titleBarStyle.titleTextColor)) {
-                options.setToolbarWidgetColor(titleBarStyle.titleTextColor)
-            } else {
-                options.setToolbarWidgetColor(
-                    ContextCompat.getColor(
-                        appContext,
-                        R.color.ps_color_white
-                    )
-                )
-            }
-        } else {
-            options.setStatusBarColor(ContextCompat.getColor(appContext, R.color.ps_color_grey))
-            options.setToolbarColor(ContextCompat.getColor(appContext, R.color.ps_color_grey))
-            options.setToolbarWidgetColor(
-                ContextCompat.getColor(
-                    appContext,
-                    R.color.ps_color_white
-                )
-            )
-        }
+        options.setLogoColor(primaryColor)
+        options.setToolbarWidgetColor(R.color.app_color_black)
+        options.setStatusBarColor(mainStyle.statusBarColor)
+        options.isDarkStatusBarBlack(mainStyle.isDarkStatusBarBlack)
 
         cropOption = options
     }
@@ -213,7 +153,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
     private fun setStyle(options: ReadableMap) {
         val doneTitle = options.getString("doneTitle")
 
-        val primaryColor: Int = Color.parseColor(options.getString("selectedColor"))
+        primaryColor = Color.parseColor(options.getString("selectedColor"))
 
         // ANIMATION SLIDE FROM BOTTOM
         val animationStyle = PictureWindowAnimationStyle()
@@ -360,14 +300,13 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
         media.putString("parentFolderName", item.parentFolderName)
         if (item.isCut) {
             val crop = WritableNativeMap()
-            crop.putString("cropPath", item.cutPath)
+            crop.putString("path", item.cutPath)
             crop.putDouble("width", item.cropImageWidth.toDouble())
             crop.putDouble("height", item.cropImageHeight.toDouble())
             media.putMap("crop", crop)
         }
         if (type === "video" && isExportThumbnail) {
             val thumbnail = createThumbnail(item.realPath)
-            println("thumbnail: $thumbnail")
             media.putString("thumbnail", thumbnail)
         }
         return media

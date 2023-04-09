@@ -20,8 +20,8 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
     var videoCount = 0
     var imageRequestOptions = PHImageRequestOptions();
     var videoRequestOptions = PHVideoRequestOptions.init()
-
-
+    
+    
     // controller
     
     
@@ -208,29 +208,29 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
     
     func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
         
-        let TLAsset = self.selectedAssets.first;
         let filePath = getImagePathFromUIImage(uiImage: image, prefix: "crop")
-                
-        TLAsset?.phAsset?.setValue(image.size.width, forKey: "pixelWidth")
-        TLAsset?.phAsset?.setValue(image.size.height, forKey: "pixelHeight")
+        let TLAsset = self.selectedAssets.first;
         
-        let object = MediaResponse(filePath: filePath, mime: "image/jpeg", withTLAsset: TLAsset!)
-        
-        if(object.data != nil){
-            object.data!["isCrop"] = true
-            resolve([object.data])
-        }else{
-            resolve([])
-        }
-                
+        // Dismiss twice for crop controller & picker controller
         DispatchQueue.main.async {
             self.getTopMostViewController()?.dismiss(animated: true, completion: {
-                self.getTopMostViewController()?.dismiss(animated: true, completion: nil)
+                self.getTopMostViewController()?.dismiss(animated: true, completion: {
+                    
+                    if(filePath != "" && TLAsset != nil){
+                        self.fetchAsset(TLAsset: TLAsset!) { object in
+                            
+                            object.data!["crop"] = [
+                                "height": image.size.height,
+                                "width": image.size.width,
+                                "path": filePath
+                            ]
+                            
+                            self.resolve([object.data]) // reolve crop data
+                        }
+                    }
+                })
             })
         }
-//
-//        self.dismissComplete()
-//        self.dismissComplete()
     }
     
     func presentCropViewController(image: UIImage) {
@@ -277,7 +277,7 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate,UINavi
             dismissComplete()
             return;
         }
-
+        
         
         self.selectedAssets = withTLPHAssets
         
