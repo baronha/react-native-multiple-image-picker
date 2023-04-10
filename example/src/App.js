@@ -32,7 +32,6 @@ export default function App() {
         doneTitle: 'Xong',
         singleSelectedMode,
         isCrop: true,
-        isCropCircle: true,
       });
 
       const crop = response.crop;

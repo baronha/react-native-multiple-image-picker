@@ -105,7 +105,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
     }
 
     private fun onSetCropEngine(): CropEngine? {
-        return cropOption?.let { CropEngine(appContext, it) }
+        return cropOption?.let { CropEngine(it) }
     }
 
     private fun setConfiguration(options: ReadableMap?) {
@@ -123,7 +123,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
 
             setStyle(options) // set style for UI
 
-            val isCrop = options.getBoolean("isCrop") && singleSelectedMode
+            val isCrop = options.getBoolean("isCrop") && singleSelectedMode == true
 
             if (isCrop) {
                 setCropOptions(options)

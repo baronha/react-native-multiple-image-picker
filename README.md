@@ -1,12 +1,17 @@
-# React Native Multiple Image Picker (RNMIP)
+# React Native Multiple Image Picker
 
 <p align="center">
   <img src="./files/banner.png" width="100%">
 </p>
 
-React Native Multiple Image Picker enables application to pick images and videos from multiple smart album in iOS/Android, similar to the current Facebook App. React Native Multiple Image Picker is based on two libraries available, [TLPhotoPicker](https://github.com/tilltue/TLPhotoPicker) and [PictureSelector](https://github.com/LuckSiege/PictureSelector)
+[![iOS][iOS]][iOS-URL] [![Android][Android]][Android-URL] [![Swift][Swift]][Swift-URL] [![Kotlin][Kotlin]][Kotlin-URL] [![React-Native][React-Native]][React-Native-URL] ![SmoothScroll][SmoothScroll] ![CROP-IMAGE](https://img.shields.io/badge/Crop_Image-EA4C89?style=for-the-badge)
+
+## Overview
+
+ enables application to pick images and videos from multiple smart album in iOS/Android, similar to the current Facebook App. React Native Multiple Image Picker is based on two libraries available, [TLPhotoPicker](https://github.com/tilltue/TLPhotoPicker) and [PictureSelector](https://github.com/LuckSiege/PictureSelector)
 
 > Related: [React Native Photo Editor](https://github.com/baronha/react-native-photo-editor)
+
 
 ## Demo 👉👈
 
@@ -169,3 +174,25 @@ MIT
 [TLPhotoPicker](https://github.com/tilltue/TLPhotoPicker/blob/master/LICENSE)
 <br>
 [PictureSelector](https://github.com/LuckSiege/PictureSelector/blob/master/LICENSE)
+
+
+<!-- Badge for README -->
+[iOS]: https://img.shields.io/badge/iOS-000000?style=for-the-badge&logo=ios&logoColor=white
+[iOS-URL]: https://www.apple.com/ios
+
+[Android]: https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white
+[Android-URL]: https://www.android.com/
+
+[React-Native]: https://img.shields.io/badge/React_Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
+[React-Native-URL]: https://reactnative.dev/
+
+[React-Native]: https://img.shields.io/badge/React_Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
+[React-Native-URL]: https://reactnative.dev/
+
+[Swift]: https://img.shields.io/badge/Swift-FA7343?style=for-the-badge&logo=swift&logoColor=white
+[Swift-URL]: https://developer.apple.com/swift/
+
+[Kotlin]: https://img.shields.io/badge/Kotlin-0095D5?&style=for-the-badge&logo=kotlin&logoColor=white
+[Kotlin-URL]: https://kotlinlang.org/
+
+[SmoothScroll]: https://img.shields.io/badge/Smooth_Scroll-FCC624?style=for-the-badge
