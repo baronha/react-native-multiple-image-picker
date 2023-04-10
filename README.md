@@ -31,17 +31,21 @@
 
 ## Video Demo 📺
 
-### Picker
+### Picker Controller
 
 | ![ios] | ![android] |
 | ------ | ---------- |
-|        |            |
+| <video src="https://user-images.githubusercontent.com/23580920/230963821-ca8c374c-b762-45a6-822f-832cbc7ce222.mp4" /> | <video src="https://user-images.githubusercontent.com/23580920/230963885-cfc1cdea-5674-4bd6-b220-0be19013be82.mp4" /> |
 
-### Crop
+### Crop Controller
 
 | ![ios] | ![android] |
 | ------ | ---------- |
-|        |            |
+|    <video src="https://user-images.githubusercontent.com/23580920/230964438-c96391af-a1ae-4ae9-af73-ab3ec84cdad6.mp4" />    |    <video src="https://user-images.githubusercontent.com/23580920/230964447-75e4feb8-2f2d-43ae-99d4-2300f4453627.mp4" />        |
+
+
+
+
 
 ## Installation
 
