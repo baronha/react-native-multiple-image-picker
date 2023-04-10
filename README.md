@@ -4,20 +4,44 @@
   <img src="./files/banner.png" width="100%">
 </p>
 
-[![iOS][iOS]][iOS-URL] [![Android][Android]][Android-URL] [![Swift][Swift]][Swift-URL] [![Kotlin][Kotlin]][Kotlin-URL] [![React-Native][React-Native]][React-Native-URL] ![SmoothScroll][SmoothScroll] ![CROP-IMAGE](https://img.shields.io/badge/Crop_Image-EA4C89?style=for-the-badge)
+[![iOS][iOS]][iOS-URL] [![Android][Android]][Android-URL] [![Swift][Swift]][Swift-URL] [![Kotlin][Kotlin]][Kotlin-URL] [![React-Native][React-Native]][React-Native-URL] 
 
 ## Overview
 
- enables application to pick images and videos from multiple smart album in iOS/Android, similar to the current Facebook App. React Native Multiple Image Picker is based on two libraries available, [TLPhotoPicker](https://github.com/tilltue/TLPhotoPicker) and [PictureSelector](https://github.com/LuckSiege/PictureSelector)
+![NativeModule](https://img.shields.io/badge/Native_Module-0052CC?style=for-the-badge) ![SmoothScroll](https://img.shields.io/badge/Smooth_Scroll-FCC624?style=for-the-badge) ![CropImage](https://img.shields.io/badge/Crop_Image-EA4C89?style=for-the-badge)
+
+ React Native Multiple Image Picker enables application to pick images and videos from multiple smart album in iOS/Android, similar to the current Facebook App. React Native Multiple Image Picker is based on two libraries available, [TLPhotoPicker](https://github.com/tilltue/TLPhotoPicker) and [PictureSelector](https://github.com/LuckSiege/PictureSelector)
 
 > Related: [React Native Photo Editor](https://github.com/baronha/react-native-photo-editor)
 
+## Features 🔥
 
-## Demo 👉👈
+|     | ![Logo][Logo]                                                                  |
+| --- | ------------------------------------------------------------------------------ |
+| 🌄   | Choose multiple images/video.                                                  |
+| 📦   | Support smart album `(camera roll, selfies, panoramas, favorites, videos...)`. |
+| 0️⃣   | Selected order index.                                                          |
+| 📺   | Display video duration.                                                        |
+| 🎆   | Preview image/video.                                                           |
+| ⛅️   | Support iCloud Photo Library.                                                  |
+| 🔪   | Crop image (new) ✨                                                             |
+| 🌚   | Crop image circle for Avatar (new) ✨                                           |
+| 🌪   | Scrolling performance                                                          |
+| ▶️   | Playback video and live photos(for iOS)                                        |
 
-| iOS                                                  | Android                                                  |
-| ---------------------------------------------------- | -------------------------------------------------------- |
-| <img src="./files/demo-main-ios.gif" height="720px"> | <img src="./files/demo-main-android.gif" height="720px"> |
+## Video Demo 📺
+
+### Picker
+
+| ![ios] | ![android] |
+| ------ | ---------- |
+|        |            |
+
+### Crop
+
+| ![ios] | ![android] |
+| ------ | ---------- |
+|        |            |
 
 ## Installation
 
@@ -73,9 +97,21 @@ Here are some related issues in the RN repo: [Issue 30202](https://github.com/fa
 > Add Permission in `AndroidManifest.xml`
 
 ```xml
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+<uses-permission android:name="android.permission.WRITE_MEDIA_STORAGE" />
+<uses-permission android:name="android.permission.WRITE_SETTINGS" />
+<uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+<uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+<uses-permission android:name="android.permission.RECORD_AUDIO" />
+<uses-permission android:name="android.permission.CAMERA" />
+<uses-permission android:name="android.permission.VIBRATE" />
+
+Android 13
+<uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+<uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+<uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
 ```
 ## Usage
 
@@ -86,22 +122,6 @@ import MultipleImagePicker from '@baronha/react-native-multiple-image-picker';
 // ...
 const response = await MultipleImagePicker.openPicker(options);
 ```
-
-## Features
-
-- [x] Selected order index.
-- [x] Support smart album collection.
-- [x] Camera roll, selfies, panoramas, favorites, videos, custom users album
-- [x] Support Camera
-- [x] Playback video and live photos.
-- [x] Just one. playback first video or live Photo in bounds of visible cell.
-- [x] Display video duration.
-- [x] Async phasset request and displayed cell.
-- [x] Scrolling performance is better than facebook in displaying video assets collection.
-- [x] Reload of changes that occur in the Photos library.
-- [x] Preview photo.
-- [x] Download from iCloud.
-      ...etc
 
 ## Options
 
@@ -128,8 +148,8 @@ const response = await MultipleImagePicker.openPicker(options);
 | maximumMessageTitle                         | string |                     Notification                      |   iOS    | The title of the alert when the user chooses to exceed the specified number of pictures           |
 | messageTitleButton                          | string |                     Notification                      |   iOS    | The title of button in the alert when the user chooses to exceed the specified number of pictures |
 | tapHereToChange                             | string |                  Tap here to change                   |   iOS    | The sub-title in navigation bar (under albums's name in iOS)                                      |
-| maximumMessage                              | string | You have selected the maximum number of media allowed |   iOS   | The description of the alert when the user chooses to exceed the specified number of pictures     |
-| maximumVideoMessage                         | string | You have selected the maximum number of media allowed |   iOS   | The description of the alert when the user chooses to exceed the specified number of videos       |
+| maximumMessage                              | string | You have selected the maximum number of media allowed |   iOS    | The description of the alert when the user chooses to exceed the specified number of pictures     |
+| maximumVideoMessage                         | string | You have selected the maximum number of media allowed |   iOS    | The description of the alert when the user chooses to exceed the specified number of videos       |
 
 #### selectedAssets (Important)
 
@@ -140,7 +160,7 @@ Get an Array value only(Only works when ```singleSelectedMode === false```). If 
 | Property         |  Type  | Platform | Description                                                                                          |
 | ---------------- | :----: | :------: | :--------------------------------------------------------------------------------------------------- |
 | path             | string |   Both   | Selected media's path                                                                                |
-| fileName         | string |   Both   | Selected media's file name                                                                            |
+| fileName         | string |   Both   | Selected media's file name                                                                           |
 | localIdentifier  | string |   Both   | Selected media's local identifier                                                                    |
 | width            | number |   Both   | Selected photo/video width                                                                           |
 | height           | number |   Both   | Selected photo/video height                                                                          |
@@ -155,8 +175,8 @@ Get an Array value only(Only works when ```singleSelectedMode === false```). If 
 
 ## To Do
 
-- [ ] (Bug) Record Video (iOS).
-- [ ] Crop Image in iOS.
+- [x] Crop Image in iOS.
+- [ ] Preview Controller for `iOS`
 
 ## Performance
 
@@ -195,4 +215,5 @@ MIT
 [Kotlin]: https://img.shields.io/badge/Kotlin-0095D5?&style=for-the-badge&logo=kotlin&logoColor=white
 [Kotlin-URL]: https://kotlinlang.org/
 
-[SmoothScroll]: https://img.shields.io/badge/Smooth_Scroll-FCC624?style=for-the-badge
+[Logo]: https://img.shields.io/badge/Multiple_Image_Picker-000000?style=for-the-badge
+
