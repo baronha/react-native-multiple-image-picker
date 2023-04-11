@@ -194,6 +194,7 @@ Get an Array value only(Only works when ```singleSelectedMode === false```). If 
 
 - [x] Crop Image in iOS.
 - [ ] Preview Controller for `iOS`
+- [ ] Permission
 
 ## Performance
 
