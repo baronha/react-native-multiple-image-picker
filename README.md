@@ -177,9 +177,18 @@ Get an Array value only(Only works when ```singleSelectedMode === false```). If 
 | size             | number |   Both   | Selected photo/video size in bytes                                                                   |
 | duration         | number |   Both   | duration of the video (0 for images)                                                                 |
 | thumbnail        | string |   Both   | Appears only in video format and you must have set isExportThumbnail = true. See [options](#Options) |
+| [crop](#crop-response)      | object |   Both    | reponse data when `isCrop: true`                                                 |
 | realPath         | string | Android  | Real path to file                                                                                    |
 | parentFolderName | string | Android  | Parent folder name of file                                                                           |
 | creationDate     | string |   iOS    | UNIX timestamp when image was created                                                                |
+
+### Crop Response
+
+| Property         |  Type  | Platform | 
+| ---------------- | :----: | :------: | 
+| path             | string |   Both   | 
+| width         | number |   Both   |
+| height         | number |   Both   |
 
 ## To Do
 
