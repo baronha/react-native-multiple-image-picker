@@ -1,5 +1,5 @@
-![Logo][Logo]
 # React Native Multiple Image Picker
+![Logo][Logo]
 
 <p align="center">
   <img src="./files/banner.png" width="100%">
@@ -19,7 +19,7 @@
 
 |     | ![Logo][Logo]                                                                  |
 | --- | ------------------------------------------------------------------------------ |
-| 🐳  | Save selected image status for later session                                    |
+| 🐳  | Save selected image status for later session.                                    |
 | 🌄  | Choose multiple images/video.                                                  |
 | 📦  | Support smart album `(camera roll, selfies, panoramas, favorites, videos...)`. |
 | 0️⃣  | Selected order index.                                                          |
@@ -28,8 +28,8 @@
 | ⛅️  | Support iCloud Photo Library.                                                  |
 | 🔪  | Crop image (new) ✨                                                             |
 | 🌚  | Crop image circle for Avatar (new) ✨                                           |
-| 🌪  | Scrolling performance                                                          |
-| ▶️   | Playback video and live photos(for iOS)                                        |
+| 🌪  | Scrolling performance.                                                          |
+| ▶️   | Playback video and live photos(for iOS).                                        |
 
 ## Video Demo 📺
 
@@ -233,5 +233,5 @@ MIT
 [Kotlin]: https://img.shields.io/badge/Kotlin-0095D5?&style=for-the-badge&logo=kotlin&logoColor=white
 [Kotlin-URL]: https://kotlinlang.org/
 
-[Logo]: https://img.shields.io/badge/React_Native_Multiple_Image_Picker-000000?style=for-the-badge
+[Logo]: https://img.shields.io/badge/React_Native_Multiple_Image_Picker-DF78C3?style=for-the-badge
 
