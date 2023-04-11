@@ -37,7 +37,10 @@
     "ios",
     "android"
   ],
-  "repository": "https://github.com/baronha/react-native-multiple-image-picker",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/baronha/react-native-multiple-image-picker.git"
+  },
   "author": "Baron Ha. <baronn.ha@gmail.com> (https://github.com/baronha)",
   "license": "MIT",
   "bugs": {
