@@ -1,3 +1,4 @@
+![Logo][Logo]
 # React Native Multiple Image Picker
 
 <p align="center">
@@ -222,5 +223,5 @@ MIT
 [Kotlin]: https://img.shields.io/badge/Kotlin-0095D5?&style=for-the-badge&logo=kotlin&logoColor=white
 [Kotlin-URL]: https://kotlinlang.org/
 
-[Logo]: https://img.shields.io/badge/Multiple_Image_Picker-000000?style=for-the-badge
+[Logo]: https://img.shields.io/badge/React_Native_Multiple_Image_Picker-000000?style=for-the-badge
 
