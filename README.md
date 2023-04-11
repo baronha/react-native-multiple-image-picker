@@ -1,4 +1,3 @@
-# React Native Multiple Image Picker
 ![Logo][Logo]
 
 <p align="center">
