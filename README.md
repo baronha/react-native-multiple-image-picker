@@ -18,15 +18,16 @@
 
 |     | ![Logo][Logo]                                                                  |
 | --- | ------------------------------------------------------------------------------ |
-| 🌄   | Choose multiple images/video.                                                  |
-| 📦   | Support smart album `(camera roll, selfies, panoramas, favorites, videos...)`. |
-| 0️⃣   | Selected order index.                                                          |
-| 📺   | Display video duration.                                                        |
-| 🎆   | Preview image/video.                                                           |
-| ⛅️   | Support iCloud Photo Library.                                                  |
-| 🔪   | Crop image (new) ✨                                                             |
-| 🌚   | Crop image circle for Avatar (new) ✨                                           |
-| 🌪   | Scrolling performance                                                          |
+| 🐳  | Save selected image status for later session                                    |
+| 🌄  | Choose multiple images/video.                                                  |
+| 📦  | Support smart album `(camera roll, selfies, panoramas, favorites, videos...)`. |
+| 0️⃣  | Selected order index.                                                          |
+| 📺  | Display video duration.                                                        |
+| 🎆  | Preview image/video.                                                           |
+| ⛅️  | Support iCloud Photo Library.                                                  |
+| 🔪  | Crop image (new) ✨                                                             |
+| 🌚  | Crop image circle for Avatar (new) ✨                                           |
+| 🌪  | Scrolling performance                                                          |
 | ▶️   | Playback video and live photos(for iOS)                                        |
 
 ## Video Demo 📺
@@ -144,6 +145,8 @@ const response = await MultipleImagePicker.openPicker(options);
 | doneTitle                                   | string |                         Done                          |   Both   | Title in button Done                                                                              |
 | cancelTitle                                 | string |                        Cancel                         |   Both   | Title in button Cancel                                                                            |
 | selectedColor                               | string |                        #FB9300                        |   Both   | The color of the mark in the row when the user selected                                           |
+| isCrop                         | Boolean | false |   Both    |    Enable crop image for `singleSelectedMode: true`    |
+| isCropCircle                         | Boolean | false |   Both    | Crop Image Circle for Avatar.       |
 | autoPlay                                    |  bool  |                         true                          |   iOS    | Auto play video                                                                                   |
 | allowedLivePhotos                           |  bool  |                         true                          |   iOS    | Allowed Live Photos type                                                                          |
 | emptyMessage                                | string |                       No albums                       |   iOS    | Show string when gallery empty                                                                    |
