@@ -52,7 +52,7 @@
 
 ```sh
 npm i @baronha/react-native-multiple-image-picker
-or
+// or
 yarn add @baronha/react-native-multiple-image-picker
 ```
 
