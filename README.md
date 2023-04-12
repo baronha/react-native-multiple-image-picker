@@ -123,9 +123,9 @@ Here are some related issues in the RN repo: [Issue 30202](https://github.com/fa
 See [options](#Options)
 
 ```js
-import MultipleImagePicker from '@baronha/react-native-multiple-image-picker';
+import { openPicker } from '@baronha/react-native-multiple-image-picker';
 // ...
-const response = await MultipleImagePicker.openPicker(options);
+const response = await openPicker(options);
 ```
 
 ## Options
