@@ -143,7 +143,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
         options.isForbidSkipMultipleCrop(true)
         options.setMaxScaleMultiplier(100f)
         options.setLogoColor(primaryColor)
-        options.setToolbarWidgetColor(R.color.app_color_black)
+        options.setToolbarWidgetColor(Color.parseColor("000"))
         options.setStatusBarColor(mainStyle.statusBarColor)
         options.isDarkStatusBarBlack(mainStyle.isDarkStatusBarBlack)
 
