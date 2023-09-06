@@ -99,7 +99,7 @@ func getThumbnail(from moviePath: String, in seconds: Double) -> String? {
         thumbnail = UIImage(cgImage: imgRef)
     }
     
-    let fullPath = getImagePathFromUIImage(uiImage: thumbnail!, prefix: "thumb")
+    let fullPath = thumbnail != nil ? getImagePathFromUIImage(uiImage: thumbnail!, prefix: "thumb") : nil
 
     return fullPath;
     
