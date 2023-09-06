@@ -127,6 +127,8 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
 
             if (isCrop) {
                 setCropOptions(options)
+            } else {
+                cropOption = null
             }
         }
     }
