@@ -5,47 +5,44 @@
 //  Created by Donquijote on 02/04/2023.
 //
 
-import TLPhotoPicker
-import Photos
 import Foundation
+import Photos
+import TLPhotoPicker
 
 public struct MediaResponse {
-    
     public enum MediaType: String {
         case image, video
     }
 
-    public var data: NSMutableDictionary? = nil
-    
+    public var data: NSMutableDictionary?
     
     init(filePath: String?, mime: String?, withTLAsset TLAsset: TLPHAsset, isExportThumbnail: Bool = false) {
-        
         let asset = TLAsset.phAsset
         
-        if(asset != nil){
+        if asset != nil {
             var media = [
                 "path": filePath! as String,
                 "localIdentifier": asset?.localIdentifier ?? "" as String,
-                "fileName":TLAsset.originalFileName!,
-                "width": Int(asset?.pixelWidth ?? 0 ) as NSNumber,
-                "height": Int(asset?.pixelHeight ?? 0 ) as NSNumber,
+                "fileName": TLAsset.originalFileName!,
+                "width": Int(asset?.pixelWidth ?? 0) as NSNumber,
+                "height": Int(asset?.pixelHeight ?? 0) as NSNumber,
                 "mime": mime!,
                 "creationDate": asset?.creationDate ?? "",
                 "type": asset?.mediaType == .video ? "video" : "image",
-            ] as [String : Any]
+            ] as [String: Any]
             
             // check video type
-            if(asset?.mediaType == .video){
-                //get video's thumbnail
-                if(isExportThumbnail){
+            if asset?.mediaType == .video {
+                // get video's thumbnail
+                if isExportThumbnail {
                     media["thumbnail"] = getThumbnail(from: filePath!, in: 0.1)
                 }
-                //get video size
+                // get video size
                 TLAsset.videoSize { size in
                     media["size"] = size
                 }
                 media["duration"] = asset?.duration
-            }else{
+            } else {
                 TLAsset.photoSize { photoSize in
                     media["size"] = photoSize
                 }
@@ -54,9 +51,7 @@ public struct MediaResponse {
             self.data = NSMutableDictionary(dictionary: media)
         }
     }
-    
 }
-
 
 func getImagePathFromUIImage(uiImage: UIImage, prefix: String? = "thumb") -> String {
     // save to temp directory
@@ -70,10 +65,8 @@ func getImagePathFromUIImage(uiImage: UIImage, prefix: String? = "thumb") -> Str
     
     fileManager.createFile(atPath: fullPath, contents: data, attributes: nil)
     
-    return fullPath;
-    
+    return fullPath
 }
-
 
 func getThumbnail(from moviePath: String, in seconds: Double) -> String? {
     let filepath = moviePath.replacingOccurrences(
@@ -85,15 +78,14 @@ func getThumbnail(from moviePath: String, in seconds: Double) -> String? {
     let generator = AVAssetImageGenerator(asset: asset)
     generator.appliesPreferredTrackTransform = true
     
-    var _: Error? = nil
+    var _: Error?
     let time = CMTimeMake(value: 1, timescale: 60)
     
-    var imgRef: CGImage? = nil
+    var imgRef: CGImage?
     do {
         imgRef = try generator.copyCGImage(at: time, actualTime: nil)
-    } catch _ {
-    }
-    var thumbnail: UIImage? = nil
+    } catch _ {}
+    var thumbnail: UIImage?
     
     if let imgRef = imgRef {
         thumbnail = UIImage(cgImage: imgRef)
@@ -101,6 +93,5 @@ func getThumbnail(from moviePath: String, in seconds: Double) -> String? {
     
     let fullPath = thumbnail != nil ? getImagePathFromUIImage(uiImage: thumbnail!, prefix: "thumb") : nil
 
-    return fullPath;
-    
+    return fullPath
 }
