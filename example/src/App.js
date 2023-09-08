@@ -1,6 +1,12 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { useState } from 'react';
-import { Image, Text } from 'react-native';
+import {
+  Image,
+  LayoutAnimation,
+  Platform,
+  Text,
+  UIManager,
+} from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import { ScrollView } from 'react-native';
 import { View } from 'react-native';
@@ -11,6 +17,22 @@ import { SafeAreaView } from 'react-native';
 import { StyleSheet } from 'react-native';
 import ImageGrid from '@baronha/react-native-image-grid';
 import { openPicker } from '@baronha/react-native-multiple-image-picker';
+
+UIManager.setLayoutAnimationEnabledExperimental &&
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+
+const layoutEffect = () => {
+  LayoutAnimation.configureNext({
+    duration: 300,
+    create: {
+      type: LayoutAnimation.Types.easeInEaseOut,
+      property: LayoutAnimation.Properties.opacity,
+    },
+    update: {
+      type: LayoutAnimation.Types.easeInEaseOut,
+    },
+  });
+};
 
 const { width } = Dimensions.get('window');
 
@@ -23,7 +45,7 @@ export default function App() {
 
   const onPicker = async () => {
     try {
-      const singleSelectedMode = true;
+      const singleSelectedMode = false;
 
       const response = await openPicker({
         selectedAssets: images,
@@ -42,8 +64,15 @@ export default function App() {
         response.height = crop.height;
       }
 
-      setImages(response);
+      setImages(Array.isArray(response) ? response : [response]);
+      layoutEffect();
     } catch (e) {}
+  };
+
+  const onRemovePhoto = (_, index) => {
+    const data = [...images].filter((_, idx) => idx !== index);
+    setImages(data);
+    layoutEffect();
   };
 
   return (
@@ -51,16 +80,18 @@ export default function App() {
       <ScrollView contentContainerStyle={{ paddingTop: 132 }}>
         <View style={{ alignItems: 'center' }}>
           <ImageGrid
-            dataImage={Array.isArray(images) ? images : [images]}
+            dataImage={images}
             onPressImage={onPressImage}
             // spaceSize={10}
             containerStyle={{ marginTop: 3 }}
             width={Dimensions.get('window').width - 6}
             sourceKey={'path'}
             videoKey={'type'}
-            prefixPath={'file://'}
+            prefixPath={Platform.OS === 'ios' ? 'file://' : null}
             conditionCheckVideo={'video'}
             videoURLKey={'thumbnail'}
+            showDelete
+            onDeleteImage={onRemovePhoto}
           />
           <TouchableOpacity style={style.buttonOpen} onPress={onPicker}>
             <Text style={style.textOpen}>Open Picker</Text>
