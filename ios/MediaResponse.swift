@@ -35,8 +35,9 @@ public struct MediaResponse {
             if asset?.mediaType == .video {
                 // get video's thumbnail
                 if isExportThumbnail {
-                    media["thumbnail"] = getThumbnail(from: filePath!, in: 0.1)
+                    media["thumbnail"] = getVideoThumbnail(from: filePath!, in: 0.1)
                 }
+                
                 // get video size
                 TLAsset.videoSize { size in
                     media["size"] = size
@@ -68,7 +69,7 @@ func getImagePathFromUIImage(uiImage: UIImage, prefix: String? = "thumb") -> Str
     return fullPath
 }
 
-func getThumbnail(from moviePath: String, in seconds: Double) -> String? {
+func getVideoThumbnail(from moviePath: String, in seconds: Double) -> String? {
     let filepath = moviePath.replacingOccurrences(
         of: "file://",
         with: "")

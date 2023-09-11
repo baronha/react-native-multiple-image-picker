@@ -16,11 +16,18 @@ Pod::Spec.new do |s|
 
   s.source_files = "ios/**/*.{h,m,mm,swift,lproj}"
 
-  s.resource_bundles = { 'MultipleImagePicker' => ['ios/**/*.xib'] }
+  s.resource_bundles = { 'MultipleImagePicker' => ['ios/**/*.{xib}'] }
   #s.resources = 'ios/MultipleImagePicker.bundle'
 
   s.dependency 'React-Core'
   s.dependency 'TLPhotoPicker', '2.1.9'
   s.dependency 'CropViewController', '2.6.1'
+
+  s.subspec 'Viewer' do |vw|
+    vw.name             = "Viewer"
+    vw.source_files     = "ios/Viewer/*.{h,m,mm,swift,lproj}"
+    vw.resource_bundles = { "Viewer" => "ios/Viewer/*.{lproj,storyboard,xcassets}" }
+    vw.requires_arc     = true
+  end
       
 end

@@ -7,13 +7,52 @@
 //
 
 import Foundation
-import TLPhotoPicker
 import PhotosUI
+import TLPhotoPicker
 
 class Cell: TLPhotoCollectionViewCell {
-        
     var configure = MultipleImagePickerConfigure
-    
+
+    static let longPressNotification = Notification.Name("CellLongPressNotification")
+
+    // Khởi tạo cell và thiết lập sự kiện Long Press
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.setupLongPressGesture()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        self.setupLongPressGesture()
+    }
+
+    private func setupLongPressGesture() {
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongPress(_:)))
+        addGestureRecognizer(longPressGesture)
+    }
+
+    // Xử lý sự kiện Long Press
+    @objc private func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
+        guard gestureRecognizer.state == .began,
+              let collectionView = superview as? UICollectionView
+        else {
+            return
+        }
+
+        NotificationCenter.default.post(name: Cell.longPressNotification, object: self)
+    }
+
+    private func findViewController() -> UIViewController? {
+        var responder: UIResponder? = self
+        while let currentResponder = responder {
+            if let viewController = currentResponder as? UIViewController {
+                return viewController
+            }
+            responder = currentResponder.next
+        }
+        return nil
+    }
+
     override var duration: TimeInterval? {
         didSet {
             self.durationLabel?.isHidden = self.duration == nil ? true : false
@@ -21,7 +60,7 @@ class Cell: TLPhotoCollectionViewCell {
             self.durationLabel?.text = timeFormatted(timeInterval: duration)
         }
     }
-    
+
     override var isCameraCell: Bool {
         didSet {
             self.orderLabel?.isHidden = self.isCameraCell
@@ -51,5 +90,4 @@ class Cell: TLPhotoCollectionViewCell {
             self.videoIconImageView?.accessibilityIgnoresInvertColors = true
         }
     }
-    
 }
