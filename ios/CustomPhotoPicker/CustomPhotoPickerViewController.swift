@@ -23,7 +23,13 @@ class CustomPhotoPickerViewController: TLPhotosPickerViewController, ViewerContr
     func viewerController(_ viewerController: ViewerController, viewableAt indexPath: IndexPath) -> Viewable {
         let viewable = ViewerPhoto(id: UUID().uuidString)
 
-        if let cell = collectionView?.cellForItem(at: indexPath) as? Cell, let placeholder = cell.imageView?.image {
+        if let cell = collectionView?.cellForItem(at: indexPath) as? Cell, let placeholder = cell.imageView?.image, let asset = cell.asset {
+            viewable.assetID = asset.localIdentifier
+
+            if asset.duration > 0 {
+                viewable.type = .video
+            }
+
             viewable.placeholder = placeholder
         }
 
