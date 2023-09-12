@@ -10,7 +10,9 @@ import Foundation
 import TLPhotoPicker
 
 class CustomPhotoPickerViewController: TLPhotosPickerViewController, ViewerControllerDataSource {
-    func numberOfItemsInViewerController(_ viewerController: ViewerController) -> Int {
+    var viewerController: ViewerController?
+
+    func numberOfItemsInViewerController(_: ViewerController) -> Int {
         var count = 0
 
         for section in 0 ..< collectionView.numberOfSections {
@@ -20,8 +22,8 @@ class CustomPhotoPickerViewController: TLPhotosPickerViewController, ViewerContr
         return count
     }
 
-    func viewerController(_ viewerController: ViewerController, viewableAt indexPath: IndexPath) -> Viewable {
-        let viewable = ViewerPhoto(id: UUID().uuidString)
+    func viewerController(_: ViewerController, viewableAt indexPath: IndexPath) -> Viewable {
+        let viewable = PreviewItem(id: UUID().uuidString)
 
         if let cell = collectionView?.cellForItem(at: indexPath) as? Cell, let placeholder = cell.imageView?.image, let asset = cell.asset {
             viewable.assetID = asset.localIdentifier
@@ -49,11 +51,16 @@ class CustomPhotoPickerViewController: TLPhotosPickerViewController, ViewerContr
     @objc func handleCellLongPress(_ notification: Notification) {
         if let cell = notification.object as? Cell {
             if let indexPath = collectionView.indexPath(for: cell) {
-                let viewerController = ViewerController(initialIndexPath: indexPath, collectionView: collectionView)
+                self.viewerController = ViewerController(initialIndexPath: indexPath, collectionView: collectionView)
 
-                viewerController.dataSource = self
+                self.viewerController!.dataSource = self
 
-                self.present(viewerController, animated: true, completion: nil)
+                let headerView = PreviewHeaderView()
+                headerView.viewDelegate = self
+
+                self.viewerController!.headerView = headerView
+
+                self.present(self.viewerController!, animated: true, completion: nil)
             }
         }
     }
@@ -82,7 +89,7 @@ class CustomPhotoPickerViewController: TLPhotosPickerViewController, ViewerContr
         }
     }
 
-    func cellOnLongPress(_ cell: Cell) {
+    func cellOnLongPress(_: Cell) {
         //
     }
 
@@ -93,5 +100,18 @@ class CustomPhotoPickerViewController: TLPhotosPickerViewController, ViewerContr
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+    }
+}
+
+extension CustomPhotoPickerViewController: PreviewHeaderViewDelegate {
+    func headerView(_: PreviewHeaderView, didPressClearButton _: UIButton) {
+        self.viewerController?.dismiss(nil)
+    }
+
+    func headerView(_: PreviewHeaderView, didDoneMenuButton _: UIButton) {
+//        let rect = CGRect(x: 0, y: 0, width: 50, height: 50)
+//        self.optionsController = OptionsController(sourceView: button, sourceRect: rect)
+//        self.optionsController!.delegate = self
+//        self.viewerController?.present(self.optionsController!, animated: true, completion: nil)
     }
 }

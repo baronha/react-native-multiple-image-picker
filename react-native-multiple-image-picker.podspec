@@ -25,8 +25,8 @@ Pod::Spec.new do |s|
 
   s.subspec 'Viewer' do |vw|
     vw.name             = "Viewer"
-    vw.source_files     = "ios/Viewer/*.{h,m,mm,swift,lproj}"
-    vw.resource_bundles = { "Viewer" => "ios/Viewer/*.{lproj,storyboard,xcassets}" }
+    vw.source_files = 'ios/Viewer'
+    vw.resource_bundles = { "Viewer" => "ios/Viewer/*.xcassets" }
     vw.requires_arc     = true
   end
       

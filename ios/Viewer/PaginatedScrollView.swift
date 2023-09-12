@@ -23,10 +23,11 @@ class PaginatedScrollView: UIScrollView, ViewableControllerContainer {
         self.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 
         #if os(iOS)
-        self.decelerationRate = UIScrollView.DecelerationRate.fast
+            self.decelerationRate = UIScrollView.DecelerationRate.fast
         #endif
     }
 
+    @available(*, unavailable)
     required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -72,7 +73,7 @@ class PaginatedScrollView: UIScrollView, ViewableControllerContainer {
         bounds.origin.x = bounds.size.width * CGFloat(page)
         bounds.origin.y = 0
 
-            self.scrollRectToVisible(bounds, animated: animated)
+        self.scrollRectToVisible(bounds, animated: animated)
     }
 
     func goRight() {
@@ -92,7 +93,6 @@ class PaginatedScrollView: UIScrollView, ViewableControllerContainer {
 }
 
 extension PaginatedScrollView: UIScrollViewDelegate {
-
     func scrollViewWillBeginDragging(_: UIScrollView) {
         self.shoudEvaluate = true
     }

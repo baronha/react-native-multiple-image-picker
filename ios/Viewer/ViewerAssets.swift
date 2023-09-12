@@ -1,18 +1,25 @@
 import UIKit
 
 class ViewerAssets {
-    static let bundle = Bundle(for: ViewerAssets.self)
+    class func bundle() -> Bundle {
+        let podBundle = Bundle(for: ViewerAssets.self)
+        if let url = podBundle.url(forResource: "Viewer", withExtension: "bundle") {
+            let bundle = Bundle(url: url)
+            return bundle ?? podBundle
+        }
+        return podBundle
+    }
 }
 
 extension UIImage {
-    static var darkCircle = MultipleImagePickerBundle.podBundleImage(named: "dark-circle")
-    static var pause = MultipleImagePickerBundle.podBundleImage(named: "pause")
-    static var play = MultipleImagePickerBundle.podBundleImage(named: "play")
-    static var `repeat` = MultipleImagePickerBundle.podBundleImage(named: "repeat")
-    static var seek = MultipleImagePickerBundle.podBundleImage(named: "seek")
-    public static var close = MultipleImagePickerBundle.podBundleImage(named: "close")
+    static var darkCircle = UIImage(name: "dark-circle")
+    static var pause = UIImage(name: "pause")
+    static var play = UIImage(name: "play")
+    static var `repeat` = UIImage(name: "repeat")
+    static var seek = UIImage(name: "seek")
+    public static var close = UIImage(name: "close")
 
     convenience init(name: String) {
-        self.init(named: name, in: MultipleImagePickerBundle.bundle(), compatibleWith: nil)!
+        self.init(named: name, in: ViewerAssets.bundle(), compatibleWith: nil)!
     }
 }

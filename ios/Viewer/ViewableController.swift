@@ -265,8 +265,8 @@ class ViewableController: UIViewController {
         super.viewWillLayoutSubviews()
 
         let buttonImage = UIImage.play
-        let buttonHeight = buttonImage?.size.height ?? 24.0
-        let buttonWidth = buttonImage?.size.width ?? 24.0
+        let buttonHeight = buttonImage.size.height
+        let buttonWidth = buttonImage.size.width
         self.playButton.frame = CGRect(x: (self.view.frame.size.width - buttonWidth) / 2, y: (self.view.frame.size.height - buttonHeight) / 2, width: buttonHeight, height: buttonHeight)
         self.repeatButton.frame = CGRect(x: (self.view.frame.size.width - buttonWidth) / 2, y: (self.view.frame.size.height - buttonHeight) / 2, width: buttonHeight, height: buttonHeight)
         self.pauseButton.frame = CGRect(x: (self.view.frame.size.width - buttonWidth) / 2, y: (self.view.frame.size.height - buttonHeight) / 2, width: buttonHeight, height: buttonHeight)
