@@ -3,7 +3,19 @@ import Photos
 import TLPhotoPicker
 import UIKit
 
-var MultipleImagePickerConfigure = TLPhotosPickerConfigure()
+extension TLPhotosPickerConfigure {
+    var isPreview: Bool {
+        get { return true }
+        set {}
+    }
+
+    var isCrop: Bool {
+        get { return true }
+        set {}
+    }
+}
+
+var config = TLPhotosPickerConfigure()
 
 @objc(MultipleImagePicker)
 class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate, UINavigationControllerDelegate, TLPhotosPickerLogDelegate, CropViewControllerDelegate {
@@ -59,7 +71,7 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate, UINav
         viewController.didExceedMaximumNumberOfSelection = { [weak self] picker in
             self?.showExceededMaximumAlert(vc: picker, isVideo: false)
         }
-        viewController.configure = MultipleImagePickerConfigure
+        viewController.configure = config
         viewController.selectedAssets = self.selectedAssets
         viewController.logDelegate = self
     
@@ -91,33 +103,35 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate, UINav
         self.videoRequestOptions.isNetworkAccessAllowed = true
         
         // config options
-        MultipleImagePickerConfigure.tapHereToChange = self.options["tapHereToChange"] as! String
-        MultipleImagePickerConfigure.numberOfColumn = self.options["numberOfColumn"] as! Int
-        MultipleImagePickerConfigure.cancelTitle = self.options["cancelTitle"] as! String
-        MultipleImagePickerConfigure.doneTitle = self.options["doneTitle"] as! String
-        MultipleImagePickerConfigure.emptyMessage = self.options["emptyMessage"] as! String
-        MultipleImagePickerConfigure.selectMessage = self.options["selectMessage"] as! String
-        MultipleImagePickerConfigure.deselectMessage = self.options["deselectMessage"] as! String
-        MultipleImagePickerConfigure.usedCameraButton = self.options["usedCameraButton"] as! Bool
-        MultipleImagePickerConfigure.usedPrefetch = self.options["usedPrefetch"] as! Bool
-        MultipleImagePickerConfigure.allowedLivePhotos = self.options["allowedLivePhotos"] as! Bool
-        MultipleImagePickerConfigure.allowedVideo = self.options["allowedVideo"] as! Bool
-        MultipleImagePickerConfigure.allowedAlbumCloudShared = self.options["allowedAlbumCloudShared"] as! Bool
-        MultipleImagePickerConfigure.allowedVideoRecording = self.options["allowedVideoRecording"] as! Bool
-        MultipleImagePickerConfigure.maxVideoDuration = self.options["maxVideoDuration"] as? TimeInterval
-        MultipleImagePickerConfigure.autoPlay = self.options["autoPlay"] as! Bool
-        MultipleImagePickerConfigure.muteAudio = self.options["muteAudio"] as! Bool
-        MultipleImagePickerConfigure.singleSelectedMode = (self.options["singleSelectedMode"])! as! Bool
-        MultipleImagePickerConfigure.maxSelectedAssets = self.options["maxSelectedAssets"] as? Int
-        MultipleImagePickerConfigure.selectedColor = UIColor(hex: self.options["selectedColor"] as! String)
+        config.tapHereToChange = self.options["tapHereToChange"] as! String
+        config.numberOfColumn = self.options["numberOfColumn"] as! Int
+        config.cancelTitle = self.options["cancelTitle"] as! String
+        config.doneTitle = self.options["doneTitle"] as! String
+        config.emptyMessage = self.options["emptyMessage"] as! String
+        config.selectMessage = self.options["selectMessage"] as! String
+        config.deselectMessage = self.options["deselectMessage"] as! String
+        config.usedCameraButton = self.options["usedCameraButton"] as! Bool
+        config.usedPrefetch = self.options["usedPrefetch"] as! Bool
+        config.allowedLivePhotos = self.options["allowedLivePhotos"] as! Bool
+        config.allowedVideo = self.options["allowedVideo"] as! Bool
+        config.allowedAlbumCloudShared = self.options["allowedAlbumCloudShared"] as! Bool
+        config.allowedVideoRecording = self.options["allowedVideoRecording"] as! Bool
+        config.maxVideoDuration = self.options["maxVideoDuration"] as? TimeInterval
+        config.autoPlay = self.options["autoPlay"] as! Bool
+        config.muteAudio = self.options["muteAudio"] as! Bool
+        config.singleSelectedMode = (self.options["singleSelectedMode"])! as! Bool
+        config.maxSelectedAssets = self.options["maxSelectedAssets"] as? Int
+        config.selectedColor = UIColor(hex: self.options["selectedColor"] as! String)
+        
+        config.isPreview = self.options["isPreview"] as? Bool ?? false
         
         let mediaType = self.options["mediaType"] as! String
         
-        MultipleImagePickerConfigure.mediaType = mediaType == "video" ? PHAssetMediaType.video : mediaType == "image" ? PHAssetMediaType.image : nil
+        config.mediaType = mediaType == "video" ? PHAssetMediaType.video : mediaType == "image" ? PHAssetMediaType.image : nil
         
-        MultipleImagePickerConfigure.nibSet = (nibName: "Cell", bundle: MultipleImagePickerBundle.bundle())
+        config.nibSet = (nibName: "Cell", bundle: MultipleImagePickerBundle.bundle())
         
-        MultipleImagePickerConfigure.allowedPhotograph = self.options["allowedPhotograph"] as! Bool
+        config.allowedPhotograph = self.options["allowedPhotograph"] as! Bool
         //        configure.preventAutomaticLimitedAccessAlert = self.options["preventAutomaticLimitedAccessAlert"]
         
         if options["selectedAssets"] != nil {
@@ -128,10 +142,7 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate, UINav
     func handleSelectedAssets(selectedList: NSArray) {
         let assetsExist = selectedList.filter { ($0 as! NSObject).value(forKey: "localIdentifier") != nil }
         self.videoCount = selectedList.filter { ($0 as! NSObject).value(forKey: "type") as? String == "video" }.count
-        
-        let existLastItem = (assetsExist.last as? [String: Any])?["localIdentifier"] as? String
-        let selectedLastItem = self.selectedAssets.last?.phAsset?.localIdentifier as? String
-        
+
         var assets = [TLPHAsset]()
         for index in 0 ..< assetsExist.count {
             let value = assetsExist[index]
@@ -194,10 +205,10 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate, UINav
     func presentCropViewController(image: UIImage) {
         let cropViewController = CropViewController(croppingStyle: (self.options["isCropCircle"] as! Bool) ? .circular : .default, image: image)
         cropViewController.delegate = self
-        cropViewController.doneButtonTitle = MultipleImagePickerConfigure.doneTitle
-        cropViewController.doneButtonColor = MultipleImagePickerConfigure.selectedColor
+        cropViewController.doneButtonTitle = config.doneTitle
+        cropViewController.doneButtonColor = config.selectedColor
         
-        cropViewController.cancelButtonTitle = MultipleImagePickerConfigure.cancelTitle
+        cropViewController.cancelButtonTitle = config.cancelTitle
         
         self.getTopMostViewController()?.present(cropViewController, animated: true, completion: nil)
     }

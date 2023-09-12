@@ -11,8 +11,6 @@ import PhotosUI
 import TLPhotoPicker
 
 class Cell: TLPhotoCollectionViewCell {
-    var configure = MultipleImagePickerConfigure
-
     static let longPressNotification = Notification.Name("CellLongPressNotification")
 
     // Khởi tạo cell và thiết lập sự kiện Long Press
@@ -70,7 +68,7 @@ class Cell: TLPhotoCollectionViewCell {
 
     override public var selectedAsset: Bool {
         willSet(newValue) {
-            self.orderLabel?.backgroundColor = newValue ? self.configure.selectedColor : UIColor(red: 1, green: 1, blue: 1, alpha: 0.3)
+            self.orderLabel?.backgroundColor = newValue ? config.selectedColor : UIColor(red: 1, green: 1, blue: 1, alpha: 0.3)
         }
     }
 
@@ -82,7 +80,7 @@ class Cell: TLPhotoCollectionViewCell {
         self.orderLabel?.layer.cornerRadius = 12
         self.orderLabel?.layer.borderWidth = 2
         self.orderLabel?.layer.borderColor = UIColor.white.cgColor
-        self.videoIconImageView?.image = self.configure.videoIcon
+        self.videoIconImageView?.image = config.videoIcon
         if #available(iOS 11.0, *) {
             self.imageView?.accessibilityIgnoresInvertColors = true
             self.playerView?.accessibilityIgnoresInvertColors = true

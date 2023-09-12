@@ -55,8 +55,12 @@ class CustomPhotoPickerViewController: TLPhotosPickerViewController, ViewerContr
 
                 self.viewerController!.dataSource = self
 
+                self.viewerController?.viewSafeAreaInsetsDidChange()
+
                 let headerView = PreviewHeaderView()
                 headerView.viewDelegate = self
+
+                headerView.backgroundColor = .white
 
                 self.viewerController!.headerView = headerView
 
@@ -69,7 +73,7 @@ class CustomPhotoPickerViewController: TLPhotosPickerViewController, ViewerContr
         super.makeUI()
         self.collectionView.backgroundColor = .white
         self.customNavItem.leftBarButtonItem?.tintColor = .black
-        self.customNavItem.rightBarButtonItem?.tintColor = MultipleImagePickerConfigure.selectedColor
+        self.customNavItem.rightBarButtonItem?.tintColor = config.selectedColor
 
         for subview in self.view.subviews {
             guard let navbar = subview as? UINavigationBar else {
@@ -108,7 +112,12 @@ extension CustomPhotoPickerViewController: PreviewHeaderViewDelegate {
         self.viewerController?.dismiss(nil)
     }
 
-    func headerView(_: PreviewHeaderView, didDoneMenuButton _: UIButton) {
+    func headerView(_: PreviewHeaderView, didPressDoneButton _: UIButton) {
+        DispatchQueue.main.async {
+            self.viewerController?.dismiss {
+                self.dismiss(animated: true)
+            }
+        }
 //        let rect = CGRect(x: 0, y: 0, width: 50, height: 50)
 //        self.optionsController = OptionsController(sourceView: button, sourceRect: rect)
 //        self.optionsController!.delegate = self
