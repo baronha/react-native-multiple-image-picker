@@ -114,13 +114,9 @@ extension CustomPhotoPickerViewController: PreviewHeaderViewDelegate {
 
     func headerView(_: PreviewHeaderView, didPressDoneButton _: UIButton) {
         DispatchQueue.main.async {
-            self.viewerController?.dismiss {
+            self.viewerController?.dismiss(animated: false, completion: {
                 self.dismiss(animated: true)
-            }
+            })
         }
-//        let rect = CGRect(x: 0, y: 0, width: 50, height: 50)
-//        self.optionsController = OptionsController(sourceView: button, sourceRect: rect)
-//        self.optionsController!.delegate = self
-//        self.viewerController?.present(self.optionsController!, animated: true, completion: nil)
     }
 }
