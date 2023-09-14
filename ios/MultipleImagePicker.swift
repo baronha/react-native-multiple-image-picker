@@ -18,7 +18,7 @@ extension TLPhotosPickerConfigure {
 var config = TLPhotosPickerConfigure()
 
 @objc(MultipleImagePicker)
-class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate, UINavigationControllerDelegate, TLPhotosPickerLogDelegate, CropViewControllerDelegate {
+class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate, UINavigationControllerDelegate {
     @objc static func requiresMainQueueSetup() -> Bool {
         return false
     }
@@ -31,36 +31,10 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate, UINav
     var videoCount = 0
     var imageRequestOptions = PHImageRequestOptions()
     var videoRequestOptions = PHVideoRequestOptions()
-    
-    // controller
-    
+        
     // resolve/reject assets
     var resolve: RCTPromiseResolveBlock!
     var reject: RCTPromiseRejectBlock!
-    
-    func selectedCameraCell(picker: TLPhotosPickerViewController) {
-        let generator = UIImpactFeedbackGenerator(style: .medium)
-        generator.impactOccurred()
-    }
-    
-    func deselectedPhoto(picker: TLPhotosPickerViewController, at: Int) {
-        let generator = UIImpactFeedbackGenerator(style: .light)
-        generator.impactOccurred()
-        let cell = picker.collectionView(picker.collectionView, cellForItemAt: IndexPath(row: at, section: 0)) as! Cell
-        if cell.asset?.mediaType == PHAssetMediaType.video {
-            self.videoCount -= 1
-        }
-    }
-    
-    func selectedPhoto(picker: TLPhotosPickerViewController, at: Int) {
-        let generator = UIImpactFeedbackGenerator(style: .medium)
-        generator.impactOccurred()
-    }
-    
-    func selectedAlbum(picker: TLPhotosPickerViewController, title: String, at: Int) {
-        let generator = UIImpactFeedbackGenerator(style: .medium)
-        generator.impactOccurred()
-    }
     
     @objc(openPicker:withResolver:withRejecter:)
     func openPicker(options: NSDictionary, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
@@ -174,31 +148,6 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate, UINav
     func dismissComplete() {
         DispatchQueue.main.async {
             self.getTopMostViewController()?.dismiss(animated: true, completion: nil)
-        }
-    }
-    
-    func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
-        let filePath = getImagePathFromUIImage(uiImage: image, prefix: "crop")
-        let TLAsset = self.selectedAssets.first
-        
-        // Dismiss twice for crop controller & picker controller
-        DispatchQueue.main.async {
-            self.getTopMostViewController()?.dismiss(animated: true, completion: {
-                self.getTopMostViewController()?.dismiss(animated: true, completion: {
-                    if filePath != "", TLAsset != nil {
-                        self.fetchAsset(TLAsset: TLAsset!) { object in
-                            
-                            object.data!["crop"] = [
-                                "height": image.size.height,
-                                "width": image.size.width,
-                                "path": filePath,
-                            ]
-                            
-                            self.resolve([object.data])
-                        }
-                    }
-                })
-            })
         }
     }
     
@@ -334,5 +283,60 @@ extension UIViewController {
             topMostViewController = presentedViewController
         }
         return topMostViewController
+    }
+}
+
+// TLPhotosPickerLogDelegate
+extension MultipleImagePicker: TLPhotosPickerLogDelegate {
+    func selectedCameraCell(picker: TLPhotosPickerViewController) {
+        let generator = UIImpactFeedbackGenerator(style: .medium)
+        generator.impactOccurred()
+    }
+    
+    func deselectedPhoto(picker: TLPhotosPickerViewController, at: Int) {
+        let generator = UIImpactFeedbackGenerator(style: .light)
+        generator.impactOccurred()
+        let cell = picker.collectionView(picker.collectionView, cellForItemAt: IndexPath(row: at, section: 0)) as! Cell
+        if cell.asset?.mediaType == PHAssetMediaType.video {
+            self.videoCount -= 1
+        }
+    }
+    
+    func selectedPhoto(picker: TLPhotosPickerViewController, at: Int) {
+        let generator = UIImpactFeedbackGenerator(style: .medium)
+        generator.impactOccurred()
+    }
+    
+    func selectedAlbum(picker: TLPhotosPickerViewController, title: String, at: Int) {
+        let generator = UIImpactFeedbackGenerator(style: .medium)
+        generator.impactOccurred()
+    }
+}
+
+// CropViewControllerDelegate
+extension MultipleImagePicker: CropViewControllerDelegate {
+    func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
+        let filePath = getImagePathFromUIImage(uiImage: image, prefix: "crop")
+        let TLAsset = self.selectedAssets.first
+        
+        // Dismiss twice for crop controller & picker controller
+        DispatchQueue.main.async {
+            self.getTopMostViewController()?.dismiss(animated: true, completion: {
+                self.getTopMostViewController()?.dismiss(animated: true, completion: {
+                    if filePath != "", TLAsset != nil {
+                        self.fetchAsset(TLAsset: TLAsset!) { object in
+                            
+                            object.data!["crop"] = [
+                                "height": image.size.height,
+                                "width": image.size.width,
+                                "path": filePath,
+                            ]
+                            
+                            self.resolve([object.data])
+                        }
+                    }
+                })
+            })
+        }
     }
 }

@@ -60,8 +60,6 @@ class CustomPhotoPickerViewController: TLPhotosPickerViewController, ViewerContr
                 let headerView = PreviewHeaderView()
                 headerView.viewDelegate = self
 
-                headerView.backgroundColor = .white
-
                 self.viewerController!.headerView = headerView
 
                 self.present(self.viewerController!, animated: true, completion: nil)

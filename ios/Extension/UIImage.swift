@@ -8,7 +8,7 @@
 import UIKit
 
 extension UIImage {
-    func getTintColor(_ color: UIColor) -> UIImage? {
+    func setTintColor(_ color: UIColor) -> UIImage? {
         if #available(iOS 13.0, *) {
             return self.withTintColor(color, renderingMode: .alwaysOriginal)
         } else {
@@ -25,5 +25,13 @@ extension UIImage {
             UIGraphicsEndImageContext()
             return tintedImage!
         }
+    }
+
+    func resize(to size: CGSize) -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(size, false, UIScreen.main.scale)
+        self.draw(in: CGRect(origin: .zero, size: size))
+        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return resizedImage
     }
 }
