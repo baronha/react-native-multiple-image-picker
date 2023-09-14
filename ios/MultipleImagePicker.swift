@@ -130,24 +130,18 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate, UINav
         let assetsExist = selectedList.filter { ($0 as! NSObject).value(forKey: "localIdentifier") != nil }
         self.videoCount = selectedList.filter { ($0 as! NSObject).value(forKey: "type") as? String == "video" }.count
         
-        let existLastItem = (assetsExist.last as? [String: Any])?["localIdentifier"] as? String
-        let selectedLastItem = self.selectedAssets.last?.phAsset?.localIdentifier as? String
-        
-        // compare count & last item's localIdentifier => handle exist list
-        if assetsExist.count != self.selectedAssets.count && selectedLastItem != existLastItem {
-            var assets = [TLPHAsset]()
-            for index in 0 ..< assetsExist.count {
-                let value = assetsExist[index]
-                let localIdentifier = (value as! NSObject).value(forKey: "localIdentifier") as! String
-                if !localIdentifier.isEmpty {
-                    var TLAsset = TLPHAsset.asset(with: localIdentifier)
-                    TLAsset?.selectedOrder = index + 1
-                    assets.insert(TLAsset!, at: index)
-                }
+        var assets = [TLPHAsset]()
+        for index in 0 ..< assetsExist.count {
+            let value = assetsExist[index]
+            let localIdentifier = (value as! NSObject).value(forKey: "localIdentifier") as! String
+            if !localIdentifier.isEmpty {
+                var TLAsset = TLPHAsset.asset(with: localIdentifier)
+                TLAsset?.selectedOrder = index + 1
+                assets.insert(TLAsset!, at: index)
             }
-            self.selectedAssets = assets
-            self.videoCount = assets.filter { $0.phAsset?.mediaType == .video }.count
         }
+        self.selectedAssets = assets
+        self.videoCount = assets.filter { $0.phAsset?.mediaType == .video }.count
     }
     
     func createAttachmentResponse(filePath: String?, withFilename filename: String?, withType type: String?, withAsset asset: PHAsset, withTLAsset TLAsset: TLPHAsset) -> [AnyHashable: Any]? {
