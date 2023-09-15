@@ -45,7 +45,7 @@ export default function App() {
 
   const onPicker = async () => {
     try {
-      const singleSelectedMode = false;
+      const singleSelectedMode = true;
 
       const response = await openPicker({
         selectedAssets: images,

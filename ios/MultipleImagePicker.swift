@@ -3,15 +3,22 @@ import Photos
 import TLPhotoPicker
 import UIKit
 
+var _isCrop = true
+var _isPreview = true
+
 extension TLPhotosPickerConfigure {
     var isPreview: Bool {
-        get { return true }
-        set {}
+        get { return _isPreview }
+        set {
+            _isPreview = newValue
+        }
     }
 
     var isCrop: Bool {
-        get { return true }
-        set {}
+        get { return _isCrop }
+        set {
+            _isCrop = newValue
+        }
     }
 }
 
@@ -40,6 +47,11 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate, UINav
     func openPicker(options: NSDictionary, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
         self.setConfiguration(options: options, resolve: resolve, reject: reject)
         let viewController = CustomPhotoPickerViewController()
+        
+        viewController.dismissPhotoPicker = { [weak self] withPHAssets in
+            self?.dismissPhotoPicker(withTLPHAssets: withPHAssets)
+        }
+        
         viewController.delegate = self
         
         viewController.didExceedMaximumNumberOfSelection = { [weak self] picker in
@@ -98,6 +110,8 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate, UINav
         config.selectedColor = UIColor(hex: self.options["selectedColor"] as! String)
         
         config.isPreview = self.options["isPreview"] as? Bool ?? false
+        
+        config.isCrop = (config.singleSelectedMode && self.options["isCrop"] as! Bool)
         
         let mediaType = self.options["mediaType"] as! String
         
@@ -167,7 +181,7 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate, UINav
         }, completionBlock: { filePath, fileType in
             
             let object = MediaResponse(filePath: filePath.absoluteString, mime: fileType, withTLAsset: TLAsset, isExportThumbnail: self.options["isExportThumbnail"] as! Bool)
-            
+                        
             DispatchQueue.main.async {
                 completion(object)
             }
@@ -187,17 +201,18 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate, UINav
         let selectedAssetsCount = self.selectedAssets.count
         
         // check logic code for isCrop
-        let cropCondition = (options["singleSelectedMode"] as! Bool) && (self.options["isCrop"] as! Bool) && withTLPHAssets.first?.type == .photo
+        
+        let isCrop = config.isCrop && withTLPHAssets.first?.type == .photo
         
         // check difference
-        if withTLPHAssetsCount == selectedAssetsCount && withTLPHAssets[withTLPHAssetsCount - 1].phAsset?.localIdentifier == self.selectedAssets[selectedAssetsCount - 1].phAsset?.localIdentifier && !cropCondition {
+        if withTLPHAssetsCount == selectedAssetsCount && withTLPHAssets[withTLPHAssetsCount - 1].phAsset?.localIdentifier == self.selectedAssets[selectedAssetsCount - 1].phAsset?.localIdentifier && !isCrop {
             self.dismissComplete()
             return
         }
         
         self.selectedAssets = withTLPHAssets
         
-        if cropCondition {
+        if isCrop {
             let uiImage = withTLPHAssets.first?.fullResolutionImage
             if uiImage != nil {
                 self.presentCropViewController(image: (withTLPHAssets.first?.fullResolutionImage)!)

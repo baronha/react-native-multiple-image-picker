@@ -11,6 +11,8 @@ import Photos
 import TLPhotoPicker
 
 class CustomPhotoPickerViewController: TLPhotosPickerViewController, ViewerControllerDataSource {
+    var dismissPhotoPicker: ((_ withTLPHAssets: [TLPHAsset]) -> Void)?
+
     var viewerController: ViewerController?
 
     func numberOfItemsInViewerController(_: ViewerController) -> Int {
@@ -41,7 +43,9 @@ class CustomPhotoPickerViewController: TLPhotosPickerViewController, ViewerContr
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(self.handleCellLongPress(_:)), name: Cell.longPressNotification, object: nil)
+        if config.isPreview {
+            NotificationCenter.default.addObserver(self, selector: #selector(self.handleCellLongPress(_:)), name: Cell.longPressNotification, object: nil)
+        }
     }
 
     deinit {
@@ -116,9 +120,21 @@ extension CustomPhotoPickerViewController: PreviewHeaderViewDelegate, PreviewFoo
 
     func headerView(_: PreviewHeaderView, didPressDoneButton _: UIButton) {
         DispatchQueue.main.async {
-            self.viewerController?.dismiss(animated: false, completion: {
-                self.dismiss(animated: true)
-            })
+            self.viewerController?.dismiss {
+                if config.singleSelectedMode {
+                    DispatchQueue.main.async {
+                        if let indexPath = self.viewerController?.currentIndexPath {
+                            guard let cell = self.collectionView.cellForItem(at: indexPath) as? TLPhotoCollectionViewCell, let localID = cell.asset?.localIdentifier else { return }
+
+                            guard let asset = TLPHAsset.asset(with: localID) else { return }
+
+                            self.dismissPhotoPicker!([asset])
+                        }
+                    }
+                } else {
+                    self.dismissPhotoPicker!(self.selectedAssets)
+                }
+            }
         }
     }
 
@@ -209,7 +225,7 @@ extension CustomPhotoPickerViewController: ViewerControllerDelegate {
 
         guard let cell = self.collectionView.cellForItem(at: indexPath) as? TLPhotoCollectionViewCell, let localID = cell.asset?.localIdentifier else { return }
 
-        guard var asset = TLPHAsset.asset(with: localID) else { return }
+        guard let asset = TLPHAsset.asset(with: localID) else { return }
 
         if let index = selectedAssets.firstIndex(where: { $0.phAsset == asset.phAsset }) {
             button.selectedAsset = true
