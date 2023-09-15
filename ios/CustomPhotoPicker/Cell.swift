@@ -31,8 +31,7 @@ class Cell: TLPhotoCollectionViewCell {
 
     // Xử lý sự kiện Long Press
     @objc private func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
-        guard gestureRecognizer.state == .began,
-              let collectionView = superview as? UICollectionView
+        guard gestureRecognizer.state == .began
         else {
             return
         }

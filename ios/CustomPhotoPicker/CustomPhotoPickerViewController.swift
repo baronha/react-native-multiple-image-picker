@@ -55,12 +55,17 @@ class CustomPhotoPickerViewController: TLPhotosPickerViewController, ViewerContr
 
                 self.viewerController!.dataSource = self
 
-                self.viewerController?.viewSafeAreaInsetsDidChange()
-
                 let headerView = PreviewHeaderView()
                 headerView.viewDelegate = self
 
                 self.viewerController!.headerView = headerView
+
+                if config.singleSelectedMode != true {
+                    let footerView = PreviewFooterView()
+                    footerView.viewDelegate = self
+
+                    self.viewerController!.footerView = footerView
+                }
 
                 self.present(self.viewerController!, animated: true, completion: nil)
             }
@@ -105,7 +110,7 @@ class CustomPhotoPickerViewController: TLPhotosPickerViewController, ViewerContr
     }
 }
 
-extension CustomPhotoPickerViewController: PreviewHeaderViewDelegate {
+extension CustomPhotoPickerViewController: PreviewHeaderViewDelegate, PreviewFooterViewDelegate {
     func headerView(_: PreviewHeaderView, didPressClearButton _: UIButton) {
         self.viewerController?.dismiss(nil)
     }
@@ -116,5 +121,9 @@ extension CustomPhotoPickerViewController: PreviewHeaderViewDelegate {
                 self.dismiss(animated: true)
             })
         }
+    }
+
+    func footerView(_: PreviewFooterView, didPressSelectButton _: UIButton) {
+        self.viewerController?.dismiss(nil)
     }
 }

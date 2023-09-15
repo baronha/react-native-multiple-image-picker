@@ -9,7 +9,7 @@ class PreviewHeaderView: UIView {
     weak var viewDelegate: PreviewHeaderViewDelegate?
 
     lazy var clearButton: UIButton = {
-        let image = UIImage.close.setTintColor(.black)?.resize(to: .init(width: 18, height: 18))
+        let image = UIImage.close.resize(to: .init(width: 18, height: 18))
 
         let button = UIButton(type: .custom)
 
@@ -21,25 +21,26 @@ class PreviewHeaderView: UIView {
     }()
 
     lazy var doneButton: UIButton = {
-        let button = UIButton(type: .system) // Sử dụng type .system cho button với giao diện người dùng tiêu chuẩn
+        let button = UIButton(type: .system)
 
-        // Đặt tiêu đề (text) cho button
         button.setTitle(config.doneTitle, for: .normal)
-
-        // Đặt màu chữ và màu nền cho button (tuỳ chọn)
-        button.setTitleColor(config.selectedColor, for: .normal)
-
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: UIFont.labelFontSize)
-
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: UIFont.systemFontSize)
         button.addTarget(self, action: #selector(PreviewHeaderView.doneAction(button:)), for: .touchUpInside)
+        button.backgroundColor = config.selectedColor
+
+        button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 14, bottom: 8, right: 14)
+
+        button.layer.cornerRadius = 6.0
+
+        button.setContentHuggingPriority(.required, for: .vertical)
+        button.setContentCompressionResistancePriority(.required, for: .vertical)
 
         return button
     }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-
-        self.backgroundColor = .white
 
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -55,10 +56,9 @@ class PreviewHeaderView: UIView {
         stackView.addArrangedSubview(self.doneButton)
 
         NSLayoutConstraint.activate([
-            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
-            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
-            stackView.topAnchor.constraint(equalTo: topAnchor),
-            stackView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            stackView.topAnchor.constraint(equalTo: topAnchor, constant: 12),
         ])
     }
 
