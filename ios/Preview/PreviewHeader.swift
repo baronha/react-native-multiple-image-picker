@@ -25,16 +25,17 @@ class PreviewHeaderView: UIView {
 
         button.setTitle(config.doneTitle, for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: UIFont.systemFontSize)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: UIFont.labelFontSize)
         button.addTarget(self, action: #selector(PreviewHeaderView.doneAction(button:)), for: .touchUpInside)
-        button.backgroundColor = config.selectedColor
 
-        button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 14, bottom: 8, right: 14)
+//        button.backgroundColor = config.selectedColor
 
-        button.layer.cornerRadius = 6.0
+//        button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 14, bottom: 8, right: 14)
+//
+//        button.layer.cornerRadius = 6.0
 
-        button.setContentHuggingPriority(.required, for: .vertical)
-        button.setContentCompressionResistancePriority(.required, for: .vertical)
+//        button.setContentHuggingPriority(.required, for: .vertical)
+//        button.setContentCompressionResistancePriority(.required, for: .vertical)
 
         return button
     }()

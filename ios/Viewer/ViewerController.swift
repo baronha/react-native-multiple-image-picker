@@ -1,12 +1,12 @@
 import CoreData
 import UIKit
 
-public protocol ViewerControllerDataSource: class {
+public protocol ViewerControllerDataSource: AnyObject {
     func numberOfItemsInViewerController(_ viewerController: ViewerController) -> Int
     func viewerController(_ viewerController: ViewerController, viewableAt indexPath: IndexPath) -> Viewable
 }
 
-public protocol ViewerControllerDelegate: class {
+public protocol ViewerControllerDelegate: AnyObject {
     func viewerController(_ viewerController: ViewerController, didChangeFocusTo indexPath: IndexPath)
     func viewerControllerDidDismiss(_ viewerController: ViewerController)
     func viewerController(_ viewerController: ViewerController, didFailDisplayingViewableAt indexPath: IndexPath, error: NSError)

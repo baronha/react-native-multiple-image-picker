@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Photos
 import TLPhotoPicker
 
 class CustomPhotoPickerViewController: TLPhotosPickerViewController, ViewerControllerDataSource {
@@ -64,6 +65,8 @@ class CustomPhotoPickerViewController: TLPhotosPickerViewController, ViewerContr
                     let footerView = PreviewFooterView()
                     footerView.viewDelegate = self
 
+                    self.viewerController?.delegate = self
+
                     self.viewerController!.footerView = footerView
                 }
 
@@ -96,10 +99,6 @@ class CustomPhotoPickerViewController: TLPhotosPickerViewController, ViewerContr
         }
     }
 
-    func cellOnLongPress(_: Cell) {
-        //
-    }
-
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: true)
@@ -123,7 +122,112 @@ extension CustomPhotoPickerViewController: PreviewHeaderViewDelegate, PreviewFoo
         }
     }
 
-    func footerView(_: PreviewFooterView, didPressSelectButton _: UIButton) {
-        self.viewerController?.dismiss(nil)
+    private func canSelect(phAsset: PHAsset) -> Bool {
+        if let closure = self.canSelectAsset {
+            return closure(phAsset)
+        } else if let delegate = self.delegate {
+            return delegate.canSelectAsset(phAsset: phAsset)
+        }
+        return true
+    }
+
+    private func getSelectedAssets(_ asset: TLPHAsset) -> TLPHAsset? {
+        if let index = self.selectedAssets.firstIndex(where: { $0.phAsset == asset.phAsset }) {
+            return self.selectedAssets[index]
+        }
+        return nil
+    }
+
+    private func orderUpdateCells() {
+        let visibleIndexPaths = self.collectionView.indexPathsForVisibleItems.sorted(by: { $0.row < $1.row })
+
+        for indexPath in visibleIndexPaths {
+            guard let cell = self.collectionView.cellForItem(at: indexPath) as? TLPhotoCollectionViewCell,
+                  let localID = cell.asset?.localIdentifier,
+                  let asset = TLPHAsset.asset(with: localID) else { continue }
+
+            if let selectedAsset = getSelectedAssets(asset) {
+                cell.selectedAsset = true
+                cell.orderLabel?.text = "\(selectedAsset.selectedOrder)"
+            } else {
+                cell.selectedAsset = false
+            }
+        }
+    }
+
+    func footerView(_: PreviewFooterView, didPressSelectButton button: SelectButton) {
+        let generator = UIImpactFeedbackGenerator(style: .medium)
+        generator.impactOccurred()
+
+        if let indexPath = self.viewerController?.currentIndexPath {
+            guard let cell = self.collectionView.cellForItem(at: indexPath) as? TLPhotoCollectionViewCell, let localID = cell.asset?.localIdentifier else { return }
+
+            guard var asset = TLPHAsset.asset(with: localID), let phAsset = asset.phAsset else { return }
+
+            if let index = selectedAssets.firstIndex(where: { $0.phAsset == asset.phAsset }) {
+                // deselect
+                logDelegate?.deselectedPhoto(picker: self, at: indexPath.row)
+                selectedAssets.remove(at: index)
+                #if swift(>=4.1)
+                    selectedAssets = selectedAssets.enumerated().compactMap { offset, asset -> TLPHAsset? in
+                        var asset = asset
+                        asset.selectedOrder = offset + 1
+                        return asset
+                    }
+                #else
+                    selectedAssets = selectedAssets.enumerated().flatMap { offset, asset -> TLPHAsset? in
+                        var asset = asset
+                        asset.selectedOrder = offset + 1
+                        return asset
+                    }
+                #endif
+                cell.selectedAsset = false
+                button.selectedAsset = false
+                self.orderUpdateCells()
+
+            } else {
+                // select
+                logDelegate?.selectedPhoto(picker: self, at: indexPath.row)
+                guard !maxCheck(), self.canSelect(phAsset: phAsset) else { return }
+
+                asset.selectedOrder = selectedAssets.count + 1
+                selectedAssets.append(asset)
+                cell.selectedAsset = true
+                button.selectedAsset = true
+                cell.orderLabel?.text = "\(asset.selectedOrder)"
+                button.setTitle("\(asset.selectedOrder)", for: .normal)
+            }
+        }
+    }
+}
+
+extension CustomPhotoPickerViewController: ViewerControllerDelegate {
+    func viewerController(_ viewerController: ViewerController, didChangeFocusTo indexPath: IndexPath) {
+        guard let footerView = viewerController.footerView as? PreviewFooterView else { return }
+
+        guard let button = footerView.selectButton else { return }
+
+        guard let cell = self.collectionView.cellForItem(at: indexPath) as? TLPhotoCollectionViewCell, let localID = cell.asset?.localIdentifier else { return }
+
+        guard var asset = TLPHAsset.asset(with: localID) else { return }
+
+        if let index = selectedAssets.firstIndex(where: { $0.phAsset == asset.phAsset }) {
+            button.selectedAsset = true
+            button.setTitle("\(index + 1)", for: .normal)
+        } else {
+            button.selectedAsset = false
+        }
+    }
+
+    func viewerControllerDidDismiss(_: ViewerController) {
+        //
+    }
+
+    func viewerController(_: ViewerController, didFailDisplayingViewableAt _: IndexPath, error _: NSError) {
+        //
+    }
+
+    func viewerController(_: ViewerController, didLongPressViewableAt _: IndexPath) {
+        //
     }
 }
