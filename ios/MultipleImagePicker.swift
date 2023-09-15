@@ -130,7 +130,6 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate, UINav
     func handleSelectedAssets(selectedList: NSArray) {
         let assetsExist = selectedList.filter { ($0 as! NSObject).value(forKey: "localIdentifier") != nil }
         self.videoCount = selectedList.filter { ($0 as! NSObject).value(forKey: "type") as? String == "video" }.count
-
         var assets = [TLPHAsset]()
         for index in 0 ..< assetsExist.count {
             let value = assetsExist[index]
