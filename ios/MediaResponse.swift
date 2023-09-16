@@ -35,8 +35,9 @@ public struct MediaResponse {
             if asset?.mediaType == .video {
                 // get video's thumbnail
                 if isExportThumbnail {
-                    media["thumbnail"] = getThumbnail(from: filePath!, in: 0.1)
+                    media["thumbnail"] = getVideoThumbnail(from: filePath!, in: 0.1)
                 }
+                
                 // get video size
                 TLAsset.videoSize { size in
                     media["size"] = size
@@ -53,22 +54,29 @@ public struct MediaResponse {
     }
 }
 
-func getImagePathFromUIImage(uiImage: UIImage, prefix: String? = "thumb") -> String {
+func getImagePathFromUIImage(uiImage: UIImage, prefix: String? = "thumb") -> String? {
     // save to temp directory
-    let tempDirectory = FileManager.default.urls(
-        for: .cachesDirectory,
-        in: .userDomainMask).map(\.path).last
+    
+    let fileManager = FileManager.default
+    
+    guard
+        let tempDirectory = FileManager.default.urls(
+            for: .cachesDirectory,
+            in: .userDomainMask).map(\.path).last
+    else {
+        return nil
+    }
     
     let data = uiImage.jpegData(compressionQuality: 1.0)
-    let fileManager = FileManager.default
-    let fullPath = URL(fileURLWithPath: tempDirectory ?? "").appendingPathComponent("\(prefix ?? "thumb")-\(ProcessInfo.processInfo.globallyUniqueString).jpg").path
     
+    let fullPath = URL(fileURLWithPath: tempDirectory).appendingPathComponent("\(prefix ?? "thumb")-\(ProcessInfo.processInfo.globallyUniqueString).jpg").path
+
     fileManager.createFile(atPath: fullPath, contents: data, attributes: nil)
     
-    return fullPath
+    return "file://" + fullPath
 }
 
-func getThumbnail(from moviePath: String, in seconds: Double) -> String? {
+func getVideoThumbnail(from moviePath: String, in seconds: Double) -> String? {
     let filepath = moviePath.replacingOccurrences(
         of: "file://",
         with: "")

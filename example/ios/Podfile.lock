@@ -330,7 +330,12 @@ PODS:
   - React-jsinspector (0.71.5)
   - React-logger (0.71.5):
     - glog
-  - react-native-multiple-image-picker (1.0.1):
+  - react-native-multiple-image-picker (1.0.3):
+    - CropViewController (= 2.6.1)
+    - React-Core
+    - react-native-multiple-image-picker/Viewer (= 1.0.3)
+    - TLPhotoPicker (= 2.1.9)
+  - react-native-multiple-image-picker/Viewer (1.0.3):
     - CropViewController (= 2.6.1)
     - React-Core
     - TLPhotoPicker (= 2.1.9)
@@ -418,7 +423,7 @@ PODS:
     - React-jsi (= 0.71.5)
     - React-logger (= 0.71.5)
     - React-perflogger (= 0.71.5)
-  - SocketRocket (0.6.0)
+  - SocketRocket (0.6.1)
   - TLPhotoPicker (2.1.9)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
@@ -613,7 +618,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 1579bf3207afadc72ac3638a66a102d1bf5263e3
   React-jsinspector: 14a342151ab810862998dfc99e2720746734e9b3
   React-logger: 94ec392ae471683635e4bf874d4e82f675399d2d
-  react-native-multiple-image-picker: 418868907d4ffb9c7a279009ee5645c43c941d1e
+  react-native-multiple-image-picker: 83b0fe4a14eaa7ae6fd5e5af46d7706ce26b2c7b
   React-perflogger: 883a55a9a899535eaf06d0029108ef9ef22cce92
   React-RCTActionSheet: 1a3b8416688a3d291367be645022886f71d6842a
   React-RCTAnimation: e5560cb72d91ba35151d51e2eb0d467b42763f43
@@ -627,7 +632,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: f0f5ad6417803de42e022d99247a6b1ddaf46c13
   React-runtimeexecutor: 511f4301d85daf85abface9afb8d2df2d49f87d3
   ReactCommon: 4f43b72066f27bfe1f63838c61763f59e7112536
-  SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
+  SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   TLPhotoPicker: 939c40eaad130b69f9571e61e021e8120fa76329
   Yoga: cd7d7f509dbfac14ee7f31a6c750acb957cd5022
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
