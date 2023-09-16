@@ -113,7 +113,7 @@ class CustomPhotoPickerViewController: TLPhotosPickerViewController, ViewerContr
     }
 }
 
-extension CustomPhotoPickerViewController: PreviewHeaderViewDelegate, PreviewFooterViewDelegate {
+extension CustomPhotoPickerViewController: PreviewHeaderViewDelegate {
     func headerView(_: PreviewHeaderView, didPressClearButton _: UIButton) {
         self.viewerController?.dismiss(nil)
     }
@@ -121,23 +121,39 @@ extension CustomPhotoPickerViewController: PreviewHeaderViewDelegate, PreviewFoo
     func headerView(_: PreviewHeaderView, didPressDoneButton _: UIButton) {
         DispatchQueue.main.async {
             self.viewerController?.dismiss {
-                if config.singleSelectedMode {
-                    DispatchQueue.main.async {
-                        if let indexPath = self.viewerController?.currentIndexPath {
-                            guard let cell = self.collectionView.cellForItem(at: indexPath) as? TLPhotoCollectionViewCell, let localID = cell.asset?.localIdentifier else { return }
+                if config.singleSelectedMode || (self.selectedAssets.count == 0) {
+                    guard
+                        let indexPath = self.viewerController?.currentIndexPath,
 
-                            guard let asset = TLPHAsset.asset(with: localID) else { return }
+                        let cell = self.collectionView.cellForItem(at: indexPath) as? TLPhotoCollectionViewCell,
 
-                            self.dismissPhotoPicker!([asset])
-                        }
+                        let localID = cell.asset?.localIdentifier,
+
+                        var asset = TLPHAsset.asset(with: localID),
+
+                        let phAsset = asset.phAsset,
+
+                        self.canSelect(phAsset: phAsset)
+
+                    else { return }
+
+                    self.logDelegate?.selectedPhoto(picker: self, at: indexPath.row)
+
+                    asset.selectedOrder = 1
+                    if !config.singleSelectedMode {
+                        cell.selectedAsset = true
+                        cell.orderLabel?.text = "\(asset.selectedOrder)"
                     }
-                } else {
-                    self.dismissPhotoPicker!(self.selectedAssets)
+
+                    self.selectedAssets = [asset]
                 }
+                self.dismissPhotoPicker!(self.selectedAssets)
             }
         }
     }
+}
 
+extension CustomPhotoPickerViewController: PreviewFooterViewDelegate {
     private func canSelect(phAsset: PHAsset) -> Bool {
         if let closure = self.canSelectAsset {
             return closure(phAsset)
