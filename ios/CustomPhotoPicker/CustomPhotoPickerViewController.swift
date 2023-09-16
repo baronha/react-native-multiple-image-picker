@@ -10,36 +10,10 @@ import Foundation
 import Photos
 import TLPhotoPicker
 
-class CustomPhotoPickerViewController: TLPhotosPickerViewController, ViewerControllerDataSource {
+class CustomPhotoPickerViewController: TLPhotosPickerViewController {
     var dismissPhotoPicker: ((_ withTLPHAssets: [TLPHAsset]) -> Void)?
 
     var viewerController: ViewerController?
-
-    func numberOfItemsInViewerController(_: ViewerController) -> Int {
-        var count = 0
-
-        for section in 0 ..< collectionView.numberOfSections {
-            count += collectionView.numberOfItems(inSection: section)
-        }
-
-        return count
-    }
-
-    func viewerController(_: ViewerController, viewableAt indexPath: IndexPath) -> Viewable {
-        let viewable = PreviewItem(id: UUID().uuidString)
-
-        if let cell = collectionView?.cellForItem(at: indexPath) as? Cell, let placeholder = cell.imageView?.image, let asset = cell.asset {
-            viewable.assetID = asset.localIdentifier
-
-            if asset.duration > 0 {
-                viewable.type = .video
-            }
-
-            viewable.placeholder = placeholder
-        }
-
-        return viewable
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,10 +43,10 @@ class CustomPhotoPickerViewController: TLPhotosPickerViewController, ViewerContr
                     let footerView = PreviewFooterView()
                     footerView.viewDelegate = self
 
-                    self.viewerController?.delegate = self
-
                     self.viewerController!.footerView = footerView
                 }
+
+                self.viewerController?.delegate = self
 
                 self.present(self.viewerController!, animated: true, completion: nil)
             }
@@ -110,6 +84,34 @@ class CustomPhotoPickerViewController: TLPhotosPickerViewController, ViewerContr
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+    }
+}
+
+extension CustomPhotoPickerViewController: ViewerControllerDataSource {
+    func numberOfItemsInViewerController(_: ViewerController) -> Int {
+        var count = 0
+
+        for section in 0 ..< collectionView.numberOfSections {
+            count += collectionView.numberOfItems(inSection: section)
+        }
+
+        return count
+    }
+
+    func viewerController(_: ViewerController, viewableAt indexPath: IndexPath) -> Viewable {
+        let viewable = PreviewItem(id: UUID().uuidString)
+
+        if let cell = collectionView?.cellForItem(at: indexPath) as? Cell, let placeholder = cell.imageView?.image, let asset = cell.asset {
+            viewable.assetID = asset.localIdentifier
+
+            if asset.duration > 0 {
+                viewable.type = .video
+            }
+
+            viewable.placeholder = placeholder
+        }
+
+        return viewable
     }
 }
 
@@ -235,11 +237,22 @@ extension CustomPhotoPickerViewController: PreviewFooterViewDelegate {
 
 extension CustomPhotoPickerViewController: ViewerControllerDelegate {
     func viewerController(_ viewerController: ViewerController, didChangeFocusTo indexPath: IndexPath) {
-        guard let footerView = viewerController.footerView as? PreviewFooterView else { return }
+        if indexPath.row == 0 {
+            let cell = self.collectionView.cellForItem(at: indexPath) as? TLPhotoCollectionViewCell
+
+            if cell?.isCameraCell == true {
+                viewerController.dismiss(nil)
+                return
+            }
+        }
+
+        guard let footerView = viewerController.footerView as? PreviewFooterView
+        else { return }
 
         guard let button = footerView.selectButton else { return }
 
-        guard let cell = self.collectionView.cellForItem(at: indexPath) as? TLPhotoCollectionViewCell, let localID = cell.asset?.localIdentifier else { return }
+        guard let cell = self.collectionView.cellForItem(at: indexPath) as? TLPhotoCollectionViewCell, let localID = cell.asset?.localIdentifier
+        else { return }
 
         guard let asset = TLPHAsset.asset(with: localID) else { return }
 

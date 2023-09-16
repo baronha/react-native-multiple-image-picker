@@ -27,14 +27,12 @@ class PreviewItem: Viewable {
     }
 
     func media(_ completion: @escaping (_ image: UIImage?, _ error: NSError?) -> Void) {
-        if let assetID = self.assetID {
+        if let assetID = assetID {
             if let asset = PHAsset.fetchAssets(withLocalIdentifiers: [assetID], options: nil).firstObject {
                 PreviewItem.image(for: asset) { image in
                     completion(image, nil)
                 }
             }
-        } else {
-            completion(self.placeholder, nil)
         }
     }
 
