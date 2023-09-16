@@ -224,20 +224,7 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate, UINav
         // add loading view
         let alert = UIAlertController(title: nil, message: "Please wait...", preferredStyle: .alert)
         
-        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
-        
-        loadingIndicator.hidesWhenStopped = true
-        loadingIndicator.style = UIActivityIndicatorView.Style.gray
-        
-        if #available(iOS 13.0, *) {
-            loadingIndicator.color = .secondaryLabel
-        } else {
-            loadingIndicator.color = .black
-        }
-        
-        loadingIndicator.startAnimating()
-        
-        alert.view.addSubview(loadingIndicator)
+        alert.showLoading()
         
         // handle controller
         self.getTopMostViewController()?.present(alert, animated: true, completion: {
@@ -330,27 +317,58 @@ extension MultipleImagePicker: TLPhotosPickerLogDelegate {
 // CropViewControllerDelegate
 extension MultipleImagePicker: CropViewControllerDelegate {
     func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
-        let filePath = getImagePathFromUIImage(uiImage: image, prefix: "crop")
-        let TLAsset = self.selectedAssets.first
+        guard
+            let TLAsset = self.selectedAssets.first,
+            let filePath = getImagePathFromUIImage(uiImage: image, prefix: "crop")
+        else {
+            self.dismissComplete()
+            return
+        }
         
         // Dismiss twice for crop controller & picker controller
         DispatchQueue.main.async {
-            self.getTopMostViewController()?.dismiss(animated: true, completion: {
-                self.getTopMostViewController()?.dismiss(animated: true, completion: {
-                    if filePath != "", TLAsset != nil {
-                        self.fetchAsset(TLAsset: TLAsset!) { object in
+            cropViewController.dismiss(animated: true) {
+                let alert = UIAlertController(title: nil, message: "Please wait...", preferredStyle: .alert)
+                        
+                alert.showLoading()
+
+                self.getTopMostViewController()?.present(alert, animated: true) {
+                    self.fetchAsset(TLAsset: TLAsset) { object in
                             
-                            object.data!["crop"] = [
-                                "height": image.size.height,
-                                "width": image.size.width,
-                                "path": filePath,
-                            ]
+                        object.data!["crop"] = [
+                            "height": image.size.height,
+                            "width": image.size.width,
+                            "path": filePath,
+                        ]
                             
+                        DispatchQueue.main.async {
                             self.resolve([object.data])
+                            alert.dismiss(animated: true) {
+                                self.getTopMostViewController()?.dismiss(animated: true)
+                            }
                         }
                     }
-                })
-            })
+                }
+            }
         }
+    }
+}
+
+extension UIAlertController {
+    func showLoading() {
+        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
+        
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.style = UIActivityIndicatorView.Style.gray
+        
+        if #available(iOS 13.0, *) {
+            loadingIndicator.color = .secondaryLabel
+        } else {
+            loadingIndicator.color = .black
+        }
+        
+        loadingIndicator.startAnimating()
+        
+        self.view.addSubview(loadingIndicator)
     }
 }

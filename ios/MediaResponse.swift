@@ -54,19 +54,26 @@ public struct MediaResponse {
     }
 }
 
-func getImagePathFromUIImage(uiImage: UIImage, prefix: String? = "thumb") -> String {
+func getImagePathFromUIImage(uiImage: UIImage, prefix: String? = "thumb") -> String? {
     // save to temp directory
-    let tempDirectory = FileManager.default.urls(
-        for: .cachesDirectory,
-        in: .userDomainMask).map(\.path).last
+    
+    let fileManager = FileManager.default
+    
+    guard
+        let tempDirectory = FileManager.default.urls(
+            for: .cachesDirectory,
+            in: .userDomainMask).map(\.path).last
+    else {
+        return nil
+    }
     
     let data = uiImage.jpegData(compressionQuality: 1.0)
-    let fileManager = FileManager.default
-    let fullPath = URL(fileURLWithPath: tempDirectory ?? "").appendingPathComponent("\(prefix ?? "thumb")-\(ProcessInfo.processInfo.globallyUniqueString).jpg").path
     
+    let fullPath = URL(fileURLWithPath: tempDirectory).appendingPathComponent("\(prefix ?? "thumb")-\(ProcessInfo.processInfo.globallyUniqueString).jpg").path
+
     fileManager.createFile(atPath: fullPath, contents: data, attributes: nil)
     
-    return fullPath
+    return "file://" + fullPath
 }
 
 func getVideoThumbnail(from moviePath: String, in seconds: Double) -> String? {
