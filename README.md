@@ -45,7 +45,10 @@
 |    <video src="https://user-images.githubusercontent.com/23580920/230964438-c96391af-a1ae-4ae9-af73-ab3ec84cdad6.mp4" />    |    <video src="https://user-images.githubusercontent.com/23580920/230964447-75e4feb8-2f2d-43ae-99d4-2300f4453627.mp4" />        |
 
 
-
+### Preview Controller
+| ![ios] | ![android] |
+| ------ | ---------- |
+|    <video src="https://github.com/baronha/react-native-multiple-image-picker/assets/23580920/8874f52b-804f-4878-821e-eef7c2d9228c" />    |    <video src="https://github.com/baronha/react-native-multiple-image-picker/assets/23580920/6d5b5559-5b48-48ce-a3de-9e4afcf8da83" />        |
 
 
 ## Installation
