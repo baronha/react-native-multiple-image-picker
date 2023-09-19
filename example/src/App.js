@@ -54,6 +54,8 @@ export default function App() {
         doneTitle: 'Xong',
         singleSelectedMode,
         isCrop: true,
+        usedCameraButton: false,
+        mediaType: 'video',
       });
 
       const crop = response.crop;

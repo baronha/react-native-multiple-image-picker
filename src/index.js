@@ -1,6 +1,5 @@
 import { NativeModules, Dimensions } from 'react-native';
 const { width, height } = Dimensions.get('window');
-const { MultipleImagePicker } = NativeModules;
 
 let defaultOptions = {
   //**iOS**//
@@ -61,7 +60,9 @@ export const openPicker = (optionsPicker) => {
 
   return new Promise(async (resolve, reject) => {
     try {
-      const response = await MultipleImagePicker.openPicker(options);
+      const response = await NativeModules.MultipleImagePicker.openPicker(
+        options
+      );
       if (response?.length) {
         if (isSingle) {
           resolve(response[0]);
@@ -75,3 +76,5 @@ export const openPicker = (optionsPicker) => {
     }
   });
 };
+
+export default { openPicker };

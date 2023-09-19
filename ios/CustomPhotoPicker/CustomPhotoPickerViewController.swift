@@ -27,6 +27,16 @@ class CustomPhotoPickerViewController: TLPhotosPickerViewController {
         NotificationCenter.default.removeObserver(self)
     }
 
+    func getTotalCount() -> Int {
+        var count = 0
+
+        for section in 0 ..< collectionView.numberOfSections {
+            count += collectionView.numberOfItems(inSection: section)
+        }
+
+        return count
+    }
+
     @objc func handleCellLongPress(_ notification: Notification) {
         if let cell = notification.object as? Cell {
             if let indexPath = collectionView.indexPath(for: cell) {
@@ -89,13 +99,7 @@ class CustomPhotoPickerViewController: TLPhotosPickerViewController {
 
 extension CustomPhotoPickerViewController: ViewerControllerDataSource {
     func numberOfItemsInViewerController(_: ViewerController) -> Int {
-        var count = 0
-
-        for section in 0 ..< collectionView.numberOfSections {
-            count += collectionView.numberOfItems(inSection: section)
-        }
-
-        return count
+        return self.getTotalCount()
     }
 
     func viewerController(_: ViewerController, viewableAt indexPath: IndexPath) -> Viewable {
@@ -123,33 +127,35 @@ extension CustomPhotoPickerViewController: PreviewHeaderViewDelegate {
     func headerView(_: PreviewHeaderView, didPressDoneButton _: UIButton) {
         DispatchQueue.main.async {
             self.viewerController?.dismiss {
-                if config.singleSelectedMode || (self.selectedAssets.count == 0) {
-                    guard
-                        let indexPath = self.viewerController?.currentIndexPath,
+                DispatchQueue.main.async {
+                    if config.singleSelectedMode || (self.selectedAssets.count == 0) {
+                        guard
+                            let indexPath = self.viewerController?.currentIndexPath,
 
-                        let cell = self.collectionView.cellForItem(at: indexPath) as? TLPhotoCollectionViewCell,
+                            let cell = self.collectionView.cellForItem(at: indexPath) as? TLPhotoCollectionViewCell,
 
-                        let localID = cell.asset?.localIdentifier,
+                            let localID = cell.asset?.localIdentifier,
 
-                        var asset = TLPHAsset.asset(with: localID),
+                            var asset = TLPHAsset.asset(with: localID),
 
-                        let phAsset = asset.phAsset,
+                            let phAsset = asset.phAsset,
 
-                        self.canSelect(phAsset: phAsset)
+                            self.canSelect(phAsset: phAsset)
 
-                    else { return }
+                        else { return }
 
-                    self.logDelegate?.selectedPhoto(picker: self, at: indexPath.row)
+                        self.logDelegate?.selectedPhoto(picker: self, at: indexPath.row)
 
-                    asset.selectedOrder = 1
-                    if !config.singleSelectedMode {
-                        cell.selectedAsset = true
-                        cell.orderLabel?.text = "\(asset.selectedOrder)"
+                        asset.selectedOrder = 1
+                        if !config.singleSelectedMode {
+                            cell.selectedAsset = true
+                            cell.orderLabel?.text = "\(asset.selectedOrder)"
+                        }
+                        self.selectedAssets = [asset]
                     }
 
-                    self.selectedAssets = [asset]
+                    self.dismissPhotoPicker!(self.selectedAssets)
                 }
-                self.dismissPhotoPicker!(self.selectedAssets)
             }
         }
     }

@@ -1,5 +1,6 @@
 import CropViewController
 import Photos
+import PhotosUI
 import TLPhotoPicker
 import UIKit
 
@@ -25,19 +26,18 @@ extension TLPhotosPickerConfigure {
 var config = TLPhotosPickerConfigure()
 
 @objc(MultipleImagePicker)
-class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate, UINavigationControllerDelegate {
+class MultipleImagePicker: NSObject, UINavigationControllerDelegate {
     @objc static func requiresMainQueueSetup() -> Bool {
         return false
     }
-    
-    var window: UIWindow?
-    var bridge: RCTBridge!
+
     var selectedAssets = [TLPHAsset]()
     var options = NSMutableDictionary()
     var videoAssets = [PHAsset]()
     var videoCount = 0
     var imageRequestOptions = PHImageRequestOptions()
     var videoRequestOptions = PHVideoRequestOptions()
+    var viewController: CustomPhotoPickerViewController? = nil
         
     // resolve/reject assets
     var resolve: RCTPromiseResolveBlock!
@@ -46,30 +46,71 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate, UINav
     @objc(openPicker:withResolver:withRejecter:)
     func openPicker(options: NSDictionary, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
         self.setConfiguration(options: options, resolve: resolve, reject: reject)
-        let viewController = CustomPhotoPickerViewController()
         
-        viewController.dismissPhotoPicker = { [weak self] withPHAssets in
+        self.viewController = CustomPhotoPickerViewController()
+        
+        self.viewController!.delegate = self
+        
+        // dismissPhotoPicker for CustomPhotoPickerViewController()
+        self.viewController!.dismissPhotoPicker = { [weak self] withPHAssets in
             self?.dismissPhotoPicker(withTLPHAssets: withPHAssets)
         }
         
-        viewController.delegate = self
-        
-        viewController.didExceedMaximumNumberOfSelection = { [weak self] picker in
+        self.viewController!.didExceedMaximumNumberOfSelection = { [weak self] picker in
             self?.showExceededMaximumAlert(vc: picker, isVideo: false)
         }
-        viewController.configure = config
-        viewController.selectedAssets = self.selectedAssets
-        viewController.logDelegate = self
-    
-        DispatchQueue.main.async {
-            viewController.modalTransitionStyle = .coverVertical
-            viewController.modalPresentationStyle = .fullScreen
-            
-            self.getTopMostViewController()?.present(viewController, animated: true, completion: nil)
+       
+        self.viewController!.selectedAssets = self.selectedAssets
+        self.viewController!.logDelegate = self
+        
+        self.viewController!.configure = config
+        
+        // handle for Authorization === '.limit' on iOS 14 && limit selected === 0
+        if #available(iOS 14, *) {
+            PHPhotoLibrary.requestAuthorization(for: .readWrite) { [weak self] status in
+                if status == .limited {
+                    let options = PHFetchOptions()
+                    options.predicate = NSPredicate(format: "mediaType = %d", config.mediaType != nil ?
+                        (config.mediaType == .image ? PHAssetMediaType.image.rawValue : PHAssetMediaType.video.rawValue) : PHAssetMediaType.unknown.rawValue)
+                    
+                    let fetchResult = PHAsset.fetchAssets(with: options)
+                    if fetchResult.count == 0 {
+                        self!.presentLimitedLibraryPicker()
+                        return
+                    }
+                }
+                self!.navigatePicker()
+            }
+        } else {
+            self.navigatePicker()
         }
     }
     
-    func setConfiguration(options: NSDictionary, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+    func presentLimitedLibraryPicker() {
+        if #available(iOS 14, *) {
+            DispatchQueue.main.async {
+                PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: self.getTopMostViewController()!)
+            }
+        }
+    }
+
+    func navigatePicker() {
+        DispatchQueue.main.async {
+            self.viewController!.modalTransitionStyle = .coverVertical
+            self.viewController!.modalPresentationStyle = .fullScreen
+            self.getTopMostViewController()?.present(self.viewController!, animated: true, completion: nil)
+        }
+    }
+    
+    func getTopMostViewController() -> UIViewController? {
+        var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
+        while let presentedViewController = topMostViewController?.presentedViewController {
+            topMostViewController = presentedViewController
+        }
+        return topMostViewController
+    }
+    
+    private func setConfiguration(options: NSDictionary, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
         self.resolve = resolve
         self.reject = reject
         
@@ -120,13 +161,12 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate, UINav
         config.nibSet = (nibName: "Cell", bundle: MultipleImagePickerBundle.bundle())
         
         config.allowedPhotograph = self.options["allowedPhotograph"] as! Bool
-        //        configure.preventAutomaticLimitedAccessAlert = self.options["preventAutomaticLimitedAccessAlert"]
         
         if options["selectedAssets"] != nil {
             self.handleSelectedAssets(selectedList: options["selectedAssets"] as! NSArray)
         }
     }
-    
+
     func handleSelectedAssets(selectedList: NSArray) {
         let assetsExist = selectedList.filter { ($0 as! NSObject).value(forKey: "localIdentifier") != nil }
         self.videoCount = selectedList.filter { ($0 as! NSObject).value(forKey: "type") as? String == "video" }.count
@@ -142,138 +182,6 @@ class MultipleImagePicker: NSObject, TLPhotosPickerViewControllerDelegate, UINav
         }
         self.selectedAssets = assets
         self.videoCount = assets.filter { $0.phAsset?.mediaType == .video }.count
-    }
-
-    func shouldDismissPhotoPicker(withTLPHAssets: [TLPHAsset]) -> Bool {
-        return false
-    }
-    
-    func photoPickerDidCancel() {
-        self.reject("PICKER_CANCELLED", "User has canceled", nil)
-    }
-    
-    internal func dismissLoading() {
-        if let vc = self.getTopMostViewController()?.presentedViewController, vc is UIAlertController {
-            self.getTopMostViewController()?.dismiss(animated: false, completion: nil)
-        }
-    }
-    
-    func dismissComplete() {
-        DispatchQueue.main.async {
-            self.getTopMostViewController()?.dismiss(animated: true, completion: nil)
-        }
-    }
-    
-    func presentCropViewController(image: UIImage) {
-        let cropViewController = CropViewController(croppingStyle: (self.options["isCropCircle"] as! Bool) ? .circular : .default, image: image)
-        cropViewController.delegate = self
-        cropViewController.doneButtonTitle = config.doneTitle
-        cropViewController.doneButtonColor = config.selectedColor
-        
-        cropViewController.cancelButtonTitle = config.cancelTitle
-        
-        self.getTopMostViewController()?.present(cropViewController, animated: true, completion: nil)
-    }
-    
-    func fetchAsset(TLAsset: TLPHAsset, completion: @escaping (MediaResponse) -> Void) {
-        TLAsset.tempCopyMediaFile(videoRequestOptions: self.videoRequestOptions, imageRequestOptions: self.imageRequestOptions, livePhotoRequestOptions: nil, exportPreset: AVAssetExportPresetHighestQuality, convertLivePhotosToJPG: true, progressBlock: { _ in
-        }, completionBlock: { filePath, fileType in
-            
-            let object = MediaResponse(filePath: filePath.absoluteString, mime: fileType, withTLAsset: TLAsset, isExportThumbnail: self.options["isExportThumbnail"] as! Bool)
-                        
-            DispatchQueue.main.async {
-                completion(object)
-            }
-        })
-    }
-    
-    func dismissPhotoPicker(withTLPHAssets: [TLPHAsset]) {
-        // check with asset picker
-        if withTLPHAssets.count == 0 {
-            self.resolve([])
-            self.dismissComplete()
-            return
-        }
-        
-        // define count
-        let withTLPHAssetsCount = withTLPHAssets.count
-        let selectedAssetsCount = self.selectedAssets.count
-        
-        // check logic code for isCrop
-        
-        let isCrop = config.isCrop && withTLPHAssets.first?.type == .photo
-        
-        // check difference
-        if withTLPHAssetsCount == selectedAssetsCount && withTLPHAssets[withTLPHAssetsCount - 1].phAsset?.localIdentifier == self.selectedAssets[selectedAssetsCount - 1].phAsset?.localIdentifier && !isCrop {
-            self.dismissComplete()
-            return
-        }
-        
-        self.selectedAssets = withTLPHAssets
-        
-        if isCrop {
-            let uiImage = withTLPHAssets.first?.fullResolutionImage
-            if uiImage != nil {
-                self.presentCropViewController(image: (withTLPHAssets.first?.fullResolutionImage)!)
-                return
-            }
-        }
-        
-        let selections = NSMutableArray(array: withTLPHAssets)
-        
-        // add loading view
-        let alert = UIAlertController(title: nil, message: "Please wait...", preferredStyle: .alert)
-        
-        alert.showLoading()
-        
-        // handle controller
-        self.getTopMostViewController()?.present(alert, animated: true, completion: {
-            let group = DispatchGroup()
-            
-            for TLAsset in withTLPHAssets {
-                group.enter()
-                self.fetchAsset(TLAsset: TLAsset) { object in
-                    let index = TLAsset.selectedOrder - 1
-                    selections[index] = object.data as Any
-                    group.leave()
-                }
-            }
-            
-            group.notify(queue: .main) { [self] in
-                self.resolve(selections)
-                DispatchQueue.main.async {
-                    alert.dismiss(animated: true, completion: {
-                        self.dismissComplete()
-                    })
-                }
-            }
-        })
-    }
-    
-    func getTopMostViewController() -> UIViewController? {
-        var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
-        while let presentedViewController = topMostViewController?.presentedViewController {
-            topMostViewController = presentedViewController
-        }
-        return topMostViewController
-    }
-    
-    func showExceededMaximumAlert(vc: UIViewController, isVideo: Bool) {
-        let alert = UIAlertController(title: self.options["maximumMessageTitle"] as? String, message: self.options[isVideo ? "maximumVideoMessage" : "maximumMessage"] as? String, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: self.options["messageTitleButton"] as? String, style: .default, handler: nil))
-        vc.present(alert, animated: true, completion: nil)
-    }
-    
-    func canSelectAsset(phAsset: PHAsset) -> Bool {
-        let maxVideo = self.options["maxVideo"]
-        if phAsset.mediaType == .video {
-            if self.videoCount == maxVideo as! Int && !(self.options["singleSelectedMode"] as! Bool) {
-                self.showExceededMaximumAlert(vc: self.getTopMostViewController()!, isVideo: true)
-                return false
-            }
-            self.videoCount += 1
-        }
-        return true
     }
 }
 
@@ -370,5 +278,125 @@ extension UIAlertController {
         loadingIndicator.startAnimating()
         
         self.view.addSubview(loadingIndicator)
+    }
+}
+
+extension MultipleImagePicker: TLPhotosPickerViewControllerDelegate {
+    func shouldDismissPhotoPicker(withTLPHAssets: [TLPHAsset]) -> Bool {
+        return false
+    }
+    
+    func photoPickerDidCancel() {
+        self.reject("PICKER_CANCELLED", "User has canceled", nil)
+    }
+
+    func dismissComplete() {
+        DispatchQueue.main.async {
+            self.getTopMostViewController()?.dismiss(animated: true, completion: nil)
+        }
+    }
+    
+    func presentCropViewController(image: UIImage) {
+        let cropViewController = CropViewController(croppingStyle: (self.options["isCropCircle"] as! Bool) ? .circular : .default, image: image)
+        cropViewController.delegate = self
+        cropViewController.doneButtonTitle = config.doneTitle
+        cropViewController.doneButtonColor = config.selectedColor
+        
+        cropViewController.cancelButtonTitle = config.cancelTitle
+        
+        self.getTopMostViewController()?.present(cropViewController, animated: true, completion: nil)
+    }
+    
+    func fetchAsset(TLAsset: TLPHAsset, completion: @escaping (MediaResponse) -> Void) {
+        TLAsset.tempCopyMediaFile(videoRequestOptions: self.videoRequestOptions, imageRequestOptions: self.imageRequestOptions, livePhotoRequestOptions: nil, exportPreset: AVAssetExportPresetHighestQuality, convertLivePhotosToJPG: true, progressBlock: { _ in
+        }, completionBlock: { filePath, fileType in
+            
+            let object = MediaResponse(filePath: filePath.absoluteString, mime: fileType, withTLAsset: TLAsset, isExportThumbnail: self.options["isExportThumbnail"] as! Bool)
+                        
+            DispatchQueue.main.async {
+                completion(object)
+            }
+        })
+    }
+    
+    func dismissPhotoPicker(withTLPHAssets: [TLPHAsset]) {
+        // check with asset picker
+        if withTLPHAssets.count == 0 {
+            self.resolve([])
+            self.dismissComplete()
+            return
+        }
+        
+        // define count
+        let withTLPHAssetsCount = withTLPHAssets.count
+        let selectedAssetsCount = self.selectedAssets.count
+        
+        // check logic code for isCrop
+        
+        let isCrop = config.isCrop && withTLPHAssets.first?.type == .photo
+        
+        // check difference
+        if withTLPHAssetsCount == selectedAssetsCount && withTLPHAssets[withTLPHAssetsCount - 1].phAsset?.localIdentifier == self.selectedAssets[selectedAssetsCount - 1].phAsset?.localIdentifier && !isCrop {
+            self.dismissComplete()
+            return
+        }
+        
+        self.selectedAssets = withTLPHAssets
+        
+        if isCrop {
+            let uiImage = withTLPHAssets.first?.fullResolutionImage
+            if uiImage != nil {
+                self.presentCropViewController(image: (withTLPHAssets.first?.fullResolutionImage)!)
+                return
+            }
+        }
+        
+        let selections = NSMutableArray(array: withTLPHAssets)
+        
+        // add loading view
+        let alert = UIAlertController(title: nil, message: "Please wait...", preferredStyle: .alert)
+        
+        alert.showLoading()
+        
+        // handle controller
+        self.getTopMostViewController()?.present(alert, animated: true, completion: {
+            let group = DispatchGroup()
+            
+            for TLAsset in withTLPHAssets {
+                group.enter()
+                self.fetchAsset(TLAsset: TLAsset) { object in
+                    let index = TLAsset.selectedOrder - 1
+                    selections[index] = object.data as Any
+                    group.leave()
+                }
+            }
+            
+            group.notify(queue: .main) { [self] in
+                self.resolve(selections)
+                DispatchQueue.main.async {
+                    alert.dismiss(animated: true, completion: {
+                        self.dismissComplete()
+                    })
+                }
+            }
+        })
+    }
+
+    func showExceededMaximumAlert(vc: UIViewController, isVideo: Bool) {
+        let alert = UIAlertController(title: self.options["maximumMessageTitle"] as? String, message: self.options[isVideo ? "maximumVideoMessage" : "maximumMessage"] as? String, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: self.options["messageTitleButton"] as? String, style: .default, handler: nil))
+        vc.present(alert, animated: true, completion: nil)
+    }
+    
+    func canSelectAsset(phAsset: PHAsset) -> Bool {
+        let maxVideo = self.options["maxVideo"]
+        if phAsset.mediaType == .video {
+            if self.videoCount == maxVideo as! Int && !(self.options["singleSelectedMode"] as! Bool) {
+                self.showExceededMaximumAlert(vc: self.getTopMostViewController()!, isVideo: true)
+                return false
+            }
+            self.videoCount += 1
+        }
+        return true
     }
 }
