@@ -1,6 +1,5 @@
 import CropViewController
 import Photos
-import PhotosUI
 import TLPhotoPicker
 import UIKit
 
@@ -35,9 +34,6 @@ class MultipleImagePicker: NSObject, UINavigationControllerDelegate {
     var options = NSMutableDictionary()
     var videoAssets = [PHAsset]()
     var videoCount = 0
-    var imageRequestOptions = PHImageRequestOptions()
-    var videoRequestOptions = PHVideoRequestOptions()
-    var viewController: CustomPhotoPickerViewController? = nil
         
     // resolve/reject assets
     var resolve: RCTPromiseResolveBlock!
@@ -46,62 +42,84 @@ class MultipleImagePicker: NSObject, UINavigationControllerDelegate {
     @objc(openPicker:withResolver:withRejecter:)
     func openPicker(options: NSDictionary, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
         self.setConfiguration(options: options, resolve: resolve, reject: reject)
-        
-        self.viewController = CustomPhotoPickerViewController()
-        
-        self.viewController!.delegate = self
-        
-        // dismissPhotoPicker for CustomPhotoPickerViewController()
-        self.viewController!.dismissPhotoPicker = { [weak self] withPHAssets in
-            self?.dismissPhotoPicker(withTLPHAssets: withPHAssets)
-        }
-        
-        self.viewController!.didExceedMaximumNumberOfSelection = { [weak self] picker in
-            self?.showExceededMaximumAlert(vc: picker, isVideo: false)
-        }
-       
-        self.viewController!.selectedAssets = self.selectedAssets
-        self.viewController!.logDelegate = self
-        
-        self.viewController!.configure = config
-        
+
         // handle for Authorization === '.limit' on iOS 14 && limit selected === 0
         if #available(iOS 14, *) {
-            PHPhotoLibrary.requestAuthorization(for: .readWrite) { [weak self] status in
+            PHPhotoLibrary.requestAuthorization(for: .readWrite) { status in
                 if status == .limited {
-                    let options = PHFetchOptions()
-                    options.predicate = NSPredicate(format: "mediaType = %d", config.mediaType != nil ?
-                        (config.mediaType == .image ? PHAssetMediaType.image.rawValue : PHAssetMediaType.video.rawValue) : PHAssetMediaType.unknown.rawValue)
-                    
-                    let fetchResult = PHAsset.fetchAssets(with: options)
-                    if fetchResult.count == 0 {
-                        self!.presentLimitedLibraryPicker()
-                        return
-                    }
+                    self.handleLimitedCondition()
+                    return
                 }
-                self!.navigatePicker()
+                self.navigatePicker()
             }
+            
         } else {
             self.navigatePicker()
         }
     }
     
-    func presentLimitedLibraryPicker() {
-        if #available(iOS 14, *) {
-            DispatchQueue.main.async {
-                PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: self.getTopMostViewController()!)
-            }
-        }
-    }
-
-    func navigatePicker() {
-        DispatchQueue.main.async {
-            self.viewController!.modalTransitionStyle = .coverVertical
-            self.viewController!.modalPresentationStyle = .fullScreen
-            self.getTopMostViewController()?.present(self.viewController!, animated: true, completion: nil)
+    private func handleLimitedCondition() {
+        let options = PHFetchOptions()
+        options.predicate = NSPredicate(format: "mediaType = %d", config.mediaType != nil ?
+            (config.mediaType == .image ? PHAssetMediaType.image.rawValue : PHAssetMediaType.video.rawValue) : PHAssetMediaType.unknown.rawValue)
+        let fetchResult = PHAsset.fetchAssets(with: options)
+        
+        if fetchResult.count == 0 {
+            self.presentLimitedController()
+        } else {
+            self.navigatePicker()
         }
     }
     
+    private func presentLimitedController() {
+        DispatchQueue.main.async {
+            if #available(iOS 14, *) {
+                if #available(iOS 15, *) {
+                    let topViewController = self.getTopMostViewController()!
+                    var show = 0
+                    
+                    PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: topViewController) { _ in
+                        show += 1 // presentLimitedLibraryPicker run twice and I DONT KNOWWWWW...
+                        if show == 1 {
+                            topViewController.dismiss(animated: true) {
+                                self.handleLimitedCondition()
+                            }
+                        }
+                    }
+                    
+                } else {
+                    PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: self.getTopMostViewController()!)
+                }
+            }
+        }
+    }
+    
+    func navigatePicker() {
+        let viewController = CustomPhotoPickerViewController()
+        
+        viewController.delegate = self
+        
+        // dismissPhotoPicker for CustomPhotoPickerViewController()
+        viewController.dismissPhotoPicker = { [weak self] withPHAssets in
+            self?.dismissPhotoPicker(withTLPHAssets: withPHAssets)
+        }
+        
+        viewController.didExceedMaximumNumberOfSelection = { [weak self] picker in
+            self?.showExceededMaximumAlert(vc: picker, isVideo: false)
+        }
+       
+        viewController.selectedAssets = self.selectedAssets
+        viewController.logDelegate = self
+        
+        viewController.configure = config
+        
+        DispatchQueue.main.async {
+            viewController.modalTransitionStyle = .coverVertical
+            viewController.modalPresentationStyle = .fullScreen
+            self.getTopMostViewController()?.present(viewController, animated: true, completion: nil)
+        }
+    }
+
     func getTopMostViewController() -> UIViewController? {
         var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
         while let presentedViewController = topMostViewController?.presentedViewController {
@@ -119,15 +137,6 @@ class MultipleImagePicker: NSObject, UINavigationControllerDelegate {
                 self.options.setValue(options[key], forKey: key as! String)
             }
         }
-        
-        // set image / video request option.
-        self.imageRequestOptions.deliveryMode = .fastFormat
-        self.imageRequestOptions.resizeMode = .fast
-        self.imageRequestOptions.isNetworkAccessAllowed = true
-        self.imageRequestOptions.isSynchronous = false
-        self.videoRequestOptions.version = PHVideoRequestOptionsVersion.current
-        self.videoRequestOptions.deliveryMode = PHVideoRequestOptionsDeliveryMode.automatic
-        self.videoRequestOptions.isNetworkAccessAllowed = true
         
         // config options
         config.tapHereToChange = self.options["tapHereToChange"] as! String
@@ -308,7 +317,20 @@ extension MultipleImagePicker: TLPhotosPickerViewControllerDelegate {
     }
     
     func fetchAsset(TLAsset: TLPHAsset, completion: @escaping (MediaResponse) -> Void) {
-        TLAsset.tempCopyMediaFile(videoRequestOptions: self.videoRequestOptions, imageRequestOptions: self.imageRequestOptions, livePhotoRequestOptions: nil, exportPreset: AVAssetExportPresetHighestQuality, convertLivePhotosToJPG: true, progressBlock: { _ in
+        // set image / video request option.
+        let imageRequestOptions = PHImageRequestOptions()
+        let videoRequestOptions = PHVideoRequestOptions()
+        
+        imageRequestOptions.deliveryMode = .fastFormat
+        imageRequestOptions.resizeMode = .fast
+        imageRequestOptions.isNetworkAccessAllowed = true
+        imageRequestOptions.isSynchronous = false
+        
+        videoRequestOptions.version = PHVideoRequestOptionsVersion.current
+        videoRequestOptions.deliveryMode = PHVideoRequestOptionsDeliveryMode.automatic
+        videoRequestOptions.isNetworkAccessAllowed = true
+
+        TLAsset.tempCopyMediaFile(videoRequestOptions: videoRequestOptions, imageRequestOptions: imageRequestOptions, livePhotoRequestOptions: nil, exportPreset: AVAssetExportPresetHighestQuality, convertLivePhotosToJPG: true, progressBlock: { _ in
         }, completionBlock: { filePath, fileType in
             
             let object = MediaResponse(filePath: filePath.absoluteString, mime: fileType, withTLAsset: TLAsset, isExportThumbnail: self.options["isExportThumbnail"] as! Bool)

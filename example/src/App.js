@@ -45,7 +45,7 @@ export default function App() {
 
   const onPicker = async () => {
     try {
-      const singleSelectedMode = false;
+      const singleSelectedMode = true;
 
       const response = await openPicker({
         selectedAssets: images,
@@ -55,7 +55,7 @@ export default function App() {
         singleSelectedMode,
         isCrop: true,
         usedCameraButton: false,
-        mediaType: 'video',
+        mediaType: 'image',
       });
 
       const crop = response.crop;
