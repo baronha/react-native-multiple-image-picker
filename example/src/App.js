@@ -1,12 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { useState } from 'react';
-import {
-  Image,
-  LayoutAnimation,
-  Platform,
-  Text,
-  UIManager,
-} from 'react-native';
+import { LayoutAnimation, Platform, Text, UIManager } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import { ScrollView } from 'react-native';
 import { View } from 'react-native';
