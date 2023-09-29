@@ -93,14 +93,16 @@ interface MediaTypeResults {
   [MediaType.ALL]: ImageResults | VideoResults;
 }
 
-export type openPicker = <T extends MediaType = MediaType.ALL>(
+export type IOpenPicker = <T extends MediaType = MediaType.ALL>(
   options: MultiPickerOptions & MediaTypeOptions[T] & Options<T>
 ) => Promise<MediaTypeResults[T][]>;
 
 type MultipleImagePickerType = {
-  openPicker: openPicker;
+  openPicker: IOpenPicker;
 };
 
 const { MultipleImagePicker } = NativeModules;
+
+export const { openPicker } = MultipleImagePicker as MultipleImagePickerType;
 
 export default MultipleImagePicker as MultipleImagePickerType;
