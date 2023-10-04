@@ -78,7 +78,12 @@ class MultipleImagePicker: NSObject, UINavigationControllerDelegate {
                     let topViewController = self.getTopMostViewController()!
                     var show = 0
                     
-                    PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: topViewController) { _ in
+                    PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: topViewController) { log in
+                        if(log.isEmpty){
+                            topViewController.dismiss(animated: true)
+                            return
+                        }
+                        
                         show += 1 // presentLimitedLibraryPicker run twice and I DONT KNOWWWWW...
                         if show == 1 {
                             topViewController.dismiss(animated: true) {
