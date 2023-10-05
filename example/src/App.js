@@ -49,7 +49,7 @@ export default function App() {
         singleSelectedMode,
         isCrop: true,
         usedCameraButton: false,
-        mediaType: 'image',
+        mediaType: 'video',
       });
 
       const crop = response.crop;

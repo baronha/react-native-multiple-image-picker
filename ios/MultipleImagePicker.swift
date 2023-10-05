@@ -58,13 +58,17 @@ class MultipleImagePicker: NSObject, UINavigationControllerDelegate {
         }
     }
     
-    private func handleLimitedCondition() {
+    private func fetchAssetCount() -> Int {
         let options = PHFetchOptions()
         options.predicate = NSPredicate(format: "mediaType = %d", config.mediaType != nil ?
             (config.mediaType == .image ? PHAssetMediaType.image.rawValue : PHAssetMediaType.video.rawValue) : PHAssetMediaType.unknown.rawValue)
         let fetchResult = PHAsset.fetchAssets(with: options)
-        
-        if fetchResult.count == 0 {
+        return fetchResult.count
+    }
+    
+    private func handleLimitedCondition() {
+        let count = self.fetchAssetCount()
+        if count == 0 {
             self.presentLimitedController()
         } else {
             self.navigatePicker()
@@ -78,9 +82,12 @@ class MultipleImagePicker: NSObject, UINavigationControllerDelegate {
                     let topViewController = self.getTopMostViewController()!
                     var show = 0
                     
-                    PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: topViewController) { log in
-                        if(log.isEmpty){
-                            topViewController.dismiss(animated: true)
+                    PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: topViewController) { _ in
+                        let count = self.fetchAssetCount() // check count after presentLimitedLibraryPicker
+                        if count == 0 {
+                            topViewController.dismiss(animated: true) {
+                                self.reject("LIMITED_ACCESS_CANCELLED", "User has canceled", nil)
+                            }
                             return
                         }
                         
