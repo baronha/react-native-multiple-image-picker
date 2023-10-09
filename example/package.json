@@ -6,7 +6,8 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
-    "start": "react-native start"
+    "start": "react-native start",
+    "pod": "cd ios && RCT_NEW_ARCH_ENABLED=1 bundle exec pod install --verbose && cd .."
   },
   "dependencies": {
     "@baronha/react-native-image-grid": "^0.2.7",
