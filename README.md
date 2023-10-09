@@ -194,10 +194,12 @@ Get an Array value only(Only works when ```singleSelectedMode === false```). If 
 ## To Do
 
 - [x] Crop Image in iOS.
-- [x] Preview Controller for `iOS`
-- [x] Handle Permission when limited on `iOS`
+- [x] Preview Controller for `iOS`.
+- [x] Handle Permission when limited on `iOS`.
+- [ ] Migrating Library to the New Architecture.
 - [ ] Open Camera Controller.
 - [ ] Open Crop Controller.
+- [ ] Open Preview Controller.
 
 ## Performance
 

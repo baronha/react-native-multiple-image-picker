@@ -49,7 +49,6 @@ export default function App() {
         singleSelectedMode,
         isCrop: true,
         usedCameraButton: false,
-        mediaType: 'video',
       });
 
       const crop = response.crop;
