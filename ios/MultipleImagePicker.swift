@@ -40,7 +40,7 @@ class MultipleImagePicker: NSObject, UINavigationControllerDelegate {
     var reject: RCTPromiseRejectBlock!
     
     @objc(openPicker:withResolver:withRejecter:)
-    func openPicker(options: NSDictionary, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+    public func openPicker(options: NSDictionary, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
         self.setConfiguration(options: options, resolve: resolve, reject: reject)
 
         // handle for Authorization === '.limit' on iOS 14 && limit selected === 0

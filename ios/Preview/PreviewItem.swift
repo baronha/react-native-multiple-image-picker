@@ -1,6 +1,6 @@
 //
 //  ViewerPhoto.swift
-//  react-native-multiple-image-picker
+//  @baronha/react-native-multiple-image-picker
 //
 //  Created by BẢO HÀ on 10/09/2023.
 //

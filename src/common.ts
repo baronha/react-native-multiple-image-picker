@@ -1,7 +1,8 @@
-import { NativeModules, Dimensions } from 'react-native';
-const { width, height } = Dimensions.get('window');
+import { Dimensions } from 'react-native';
 
-let defaultOptions = {
+export const { width, height } = Dimensions.get('window');
+
+export const pickerOptionDefault = {
   //**iOS**//
   usedPrefetch: false,
   allowedAlbumCloudShared: false,
@@ -25,12 +26,6 @@ let defaultOptions = {
   cancelTitle: 'Cancel',
   tapHereToChange: 'Tap here to change',
 
-  //****//
-
-  //**Android**//
-
-  //****//
-
   //**Both**//
   usedCameraButton: true,
   allowedVideo: true,
@@ -49,32 +44,3 @@ let defaultOptions = {
   isCrop: false,
   isCropCircle: false,
 };
-
-export const openPicker = (optionsPicker) => {
-  const options = {
-    ...defaultOptions,
-    ...optionsPicker,
-  };
-  const isSingle = options?.singleSelectedMode ?? false;
-  if (isSingle) options.selectedAssets = [];
-
-  return new Promise(async (resolve, reject) => {
-    try {
-      const response = await NativeModules.MultipleImagePicker.openPicker(
-        options
-      );
-      if (response?.length) {
-        if (isSingle) {
-          resolve(response[0]);
-        }
-        resolve(response);
-        return;
-      }
-      resolve([]);
-    } catch (e) {
-      reject(e);
-    }
-  });
-};
-
-export default { openPicker };

@@ -1,4 +1,4 @@
-import { NativeModules, Image } from 'react-native';
+import { Image } from 'react-native';
 
 export enum MediaType {
   VIDEO = 'video',
@@ -6,7 +6,7 @@ export enum MediaType {
   ALL = 'all',
 }
 
-export type Results = {
+export type Result = {
   path: string;
   fileName: string;
   localIdentifier: string;
@@ -20,12 +20,12 @@ export type Results = {
   creationDate?: string;
 };
 
-export interface VideoResults extends Results {
+export interface VideoResult extends Result {
   type: MediaType.VIDEO;
   thumbnail?: string;
 }
 
-export interface ImageResults extends Results {
+export interface ImageResult extends Result {
   type: MediaType.IMAGE;
   thumbnail?: undefined;
 }
@@ -73,36 +73,26 @@ export type Options<T extends MediaType = MediaType.ALL> = {
 };
 
 export interface SinglePickerOptions {
-  selectedAssets?: Results;
+  selectedAssets?: Result;
   singleSelectedMode: true;
 }
 
 export interface MultiPickerOptions {
-  selectedAssets?: Results[];
+  selectedAssets?: Result[];
   singleSelectedMode?: false;
 }
 
-interface MediaTypeOptions {
+interface MediaTypeOption {
   [MediaType.VIDEO]: { isExportThumbnail?: boolean };
-  [MediaType.ALL]: MediaTypeOptions[MediaType.VIDEO];
+  [MediaType.ALL]: MediaTypeOption[MediaType.VIDEO];
 }
 
-interface MediaTypeResults {
-  [MediaType.IMAGE]: ImageResults;
-  [MediaType.VIDEO]: VideoResults;
-  [MediaType.ALL]: ImageResults | VideoResults;
+export interface MediaTypeResult {
+  [MediaType.IMAGE]: ImageResult;
+  [MediaType.VIDEO]: VideoResult;
+  [MediaType.ALL]: ImageResult | VideoResult;
 }
 
 export type IOpenPicker = <T extends MediaType = MediaType.ALL>(
-  options: MultiPickerOptions & MediaTypeOptions[T] & Options<T>
-) => Promise<MediaTypeResults[T][]>;
-
-type MultipleImagePickerType = {
-  openPicker: IOpenPicker;
-};
-
-const { MultipleImagePicker } = NativeModules;
-
-export const { openPicker } = MultipleImagePicker as MultipleImagePickerType;
-
-export default MultipleImagePicker as MultipleImagePickerType;
+  options: MultiPickerOptions & MediaTypeOption & Options<T>
+) => Promise<MediaTypeResult[T][]>;

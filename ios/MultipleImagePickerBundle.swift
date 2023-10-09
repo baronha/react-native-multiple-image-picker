@@ -1,6 +1,6 @@
 //
 //  ImagePickerBundle.swift
-//  MultipleImagePicker
+//  @baronha/react-native-multiple-image-picker
 //
 //  Created by Bảo on 27/01/2021.
 //  Copyright © 2021 Facebook. All rights reserved.
@@ -17,7 +17,7 @@ open class MultipleImagePickerBundle {
         }
         return nil
     }
-    
+
     class func bundle() -> Bundle {
         let podBundle = Bundle(for: MultipleImagePickerBundle.self)
         if let url = podBundle.url(forResource: "MultipleImagePicker", withExtension: "bundle") {

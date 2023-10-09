@@ -1,6 +1,6 @@
 //
 //  CustomPhotoPickerViewController.swift
-//  MultipleImagePicker
+//  @baronha/react-native-multiple-image-picker
 //
 //  Created by Bảo on 17/01/2021.
 //  Copyright © 2021 Facebook. All rights reserved.

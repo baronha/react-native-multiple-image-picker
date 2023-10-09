@@ -1,6 +1,6 @@
 //
 //  MediaResponse.swift
-//  react-native-multiple-image-picker
+//  @baronha/react-native-multiple-image-picker
 //
 //  Created by Donquijote on 02/04/2023.
 //
