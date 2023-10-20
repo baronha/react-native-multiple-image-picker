@@ -60,14 +60,20 @@ class MultipleImagePicker: NSObject, UINavigationControllerDelegate {
     
     private func fetchAssetCount() -> Int {
         let options = PHFetchOptions()
-        options.predicate = NSPredicate(format: "mediaType = %d", config.mediaType != nil ?
-            (config.mediaType == .image ? PHAssetMediaType.image.rawValue : PHAssetMediaType.video.rawValue) : PHAssetMediaType.unknown.rawValue)
+        
+        if config.mediaType != nil {
+            let mediaType =
+                config.mediaType == .image ? PHAssetMediaType.image.rawValue : PHAssetMediaType.video.rawValue
+            options.predicate = NSPredicate(format: "mediaType = %d", mediaType)
+        }
+        
         let fetchResult = PHAsset.fetchAssets(with: options)
         return fetchResult.count
     }
     
     private func handleLimitedCondition() {
         let count = self.fetchAssetCount()
+        print("count: ", count)
         if count == 0 {
             self.presentLimitedController()
         } else {

@@ -330,12 +330,12 @@ PODS:
   - React-jsinspector (0.71.5)
   - React-logger (0.71.5):
     - glog
-  - react-native-multiple-image-picker (1.1.3):
+  - react-native-multiple-image-picker (1.1.5):
     - CropViewController (= 2.6.1)
     - React-Core
-    - react-native-multiple-image-picker/Viewer (= 1.1.3)
+    - react-native-multiple-image-picker/Viewer (= 1.1.5)
     - TLPhotoPicker (= 2.1.9)
-  - react-native-multiple-image-picker/Viewer (1.1.3):
+  - react-native-multiple-image-picker/Viewer (1.1.5):
     - CropViewController (= 2.6.1)
     - React-Core
     - TLPhotoPicker (= 2.1.9)
@@ -618,7 +618,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 1579bf3207afadc72ac3638a66a102d1bf5263e3
   React-jsinspector: 14a342151ab810862998dfc99e2720746734e9b3
   React-logger: 94ec392ae471683635e4bf874d4e82f675399d2d
-  react-native-multiple-image-picker: 5a00e1b775cd483a4a5622c73a8ca45cb77571dd
+  react-native-multiple-image-picker: 87f2655d149443b576cec0cba8b5fc9f88de57bb
   React-perflogger: 883a55a9a899535eaf06d0029108ef9ef22cce92
   React-RCTActionSheet: 1a3b8416688a3d291367be645022886f71d6842a
   React-RCTAnimation: e5560cb72d91ba35151d51e2eb0d467b42763f43
