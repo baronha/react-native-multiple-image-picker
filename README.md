@@ -130,6 +130,14 @@ import { openPicker } from '@baronha/react-native-multiple-image-picker';
 const response = await openPicker(options);
 ```
 
+### TypeScript
+
+```typescript
+import MultipleImagePicker from '@baronha/react-native-multiple-image-picker';
+// ...
+const response = await MultipleImagePicker.openPicker(options);
+```
+
 ## Options
 
 | Property                                    |  Type  |                     Default value                     | Platform | Description                                                                                       |
