@@ -4,8 +4,8 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.media.MediaMetadataRetriever
+import android.net.Uri
 import android.os.Build
-import android.os.Bundle
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import com.facebook.react.bridge.*
@@ -14,14 +14,17 @@ import com.luck.picture.lib.app.PictureAppMaster
 import com.luck.picture.lib.basic.PictureSelector
 import com.luck.picture.lib.config.SelectMimeType
 import com.luck.picture.lib.config.SelectModeConfig
+import com.luck.picture.lib.engine.CompressFileEngine
 import com.luck.picture.lib.engine.PictureSelectorEngine
 import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.entity.LocalMedia.generateLocalMedia
+import com.luck.picture.lib.interfaces.OnKeyValueResultCallbackListener
 import com.luck.picture.lib.interfaces.OnResultCallbackListener
 import com.luck.picture.lib.style.*
-import com.luck.picture.lib.utils.StyleUtils
 import com.yalantis.ucrop.UCrop
-import com.yalantis.ucrop.UCrop.Options
+import top.zibin.luban.Luban
+import top.zibin.luban.OnCompressListener
+import top.zibin.luban.OnNewCompressListener
 import java.io.*
 import java.util.*
 
@@ -48,6 +51,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
     private var isCamera: Boolean = true
     private var cropOption: UCrop.Options? = null;
     private var primaryColor: Int = Color.BLACK;
+    private var compressSize: Int = 1024;
 
 
     @ReactMethod
@@ -78,6 +82,23 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
             .isPreviewVideo(isPreview)
             .isDisplayCamera(isCamera)
             .setSelectionMode(if (singleSelectedMode) SelectModeConfig.SINGLE else SelectModeConfig.MULTIPLE)
+            .setCompressEngine(CompressFileEngine { context, source, call ->
+                Luban.with(context).load(source).ignoreBy(compressSize).setCompressListener(object: OnNewCompressListener{
+                    override fun onStart() {}
+
+                    override fun onSuccess(source: String?, compressFile: File?) {
+                        if (compressFile != null) {
+                            call?.onCallback(source,compressFile.absolutePath)
+                        }else{
+                            call?.onCallback(source,null)
+                        }
+                    }
+
+                    override fun onError(source: String?, e: Throwable?) {
+                        call?.onCallback(source,null)
+                    }
+                })
+            })
             .forResult(object : OnResultCallbackListener<LocalMedia?> {
                 override fun onResult(result: ArrayList<LocalMedia?>?) {
                     val localMedia: WritableArray = WritableNativeArray()
@@ -120,6 +141,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
             isExportThumbnail = options.getBoolean("isExportThumbnail")
             maxVideo = options.getInt("maxVideo")
             isCamera = options.getBoolean("usedCameraButton")
+            compressSize = options.getInt("compressSize")
 
             setStyle(options) // set style for UI
 
