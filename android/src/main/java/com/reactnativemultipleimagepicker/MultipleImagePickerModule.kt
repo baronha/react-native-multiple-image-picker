@@ -12,14 +12,18 @@ import com.facebook.react.bridge.*
 import com.luck.picture.lib.app.IApp
 import com.luck.picture.lib.app.PictureAppMaster
 import com.luck.picture.lib.basic.PictureSelector
+import com.luck.picture.lib.config.SelectLimitType
 import com.luck.picture.lib.config.SelectMimeType
 import com.luck.picture.lib.config.SelectModeConfig
+import com.luck.picture.lib.config.SelectorConfig
 import com.luck.picture.lib.engine.PictureSelectorEngine
 import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.entity.LocalMedia.generateLocalMedia
 import com.luck.picture.lib.interfaces.OnResultCallbackListener
+import com.luck.picture.lib.interfaces.OnSelectLimitTipsListener
 import com.luck.picture.lib.style.*
 import com.luck.picture.lib.utils.StyleUtils
+import com.luck.picture.lib.utils.ToastUtils
 import com.yalantis.ucrop.UCrop
 import com.yalantis.ucrop.UCrop.Options
 import java.io.*
@@ -48,6 +52,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
     private var isCamera: Boolean = true
     private var cropOption: UCrop.Options? = null;
     private var primaryColor: Int = Color.BLACK;
+    private var maximumMessage: String = ""
 
 
     @ReactMethod
@@ -71,13 +76,22 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
             .isWithSelectVideoImage(true)
             .setRecordVideoMaxSecond(maxVideoDuration)
             .setMaxVideoSelectNum(if (maxVideo != 20) maxVideo else maxSelectedAssets)
-            .isMaxSelectEnabledMask(true)
+//            .isMaxSelectEnabledMask(true)
             .setSelectedData(selectedAssets)
             .setSelectorUIStyle(style)
             .isPreviewImage(isPreview)
             .isPreviewVideo(isPreview)
             .isDisplayCamera(isCamera)
             .setSelectionMode(if (singleSelectedMode) SelectModeConfig.SINGLE else SelectModeConfig.MULTIPLE)
+            .setSelectLimitTipsListener(object : OnSelectLimitTipsListener {
+                override fun onSelectLimitTips(context: Context?, media: LocalMedia?, config: SelectorConfig?, limitType: Int): Boolean {
+                    if (limitType == SelectLimitType.SELECT_MAX_SELECT_LIMIT) {
+                        ToastUtils.showToast(activity, maximumMessage)
+                        return true
+                    }
+                    return false
+                }
+            })
             .forResult(object : OnResultCallbackListener<LocalMedia?> {
                 override fun onResult(result: ArrayList<LocalMedia?>?) {
                     val localMedia: WritableArray = WritableNativeArray()
@@ -120,6 +134,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
             isExportThumbnail = options.getBoolean("isExportThumbnail")
             maxVideo = options.getInt("maxVideo")
             isCamera = options.getBoolean("usedCameraButton")
+            maximumMessage = options.getString("maximumMessage").toString()
 
             setStyle(options) // set style for UI
 
@@ -145,7 +160,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
         options.isForbidSkipMultipleCrop(true)
         options.setMaxScaleMultiplier(100f)
         options.setLogoColor(primaryColor)
-        options.setToolbarWidgetColor(R.color.app_color_black)
+        options.setToolbarWidgetColor(Color.parseColor("000"))
         options.setStatusBarColor(mainStyle.statusBarColor)
         options.isDarkStatusBarBlack(mainStyle.isDarkStatusBarBlack)
 
