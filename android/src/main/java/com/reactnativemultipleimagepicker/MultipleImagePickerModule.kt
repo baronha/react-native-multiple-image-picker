@@ -52,7 +52,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
     private var isCamera: Boolean = true
     private var cropOption: UCrop.Options? = null;
     private var primaryColor: Int = Color.BLACK;
-    private var compressSize: Int = 1024;
+    private var compressSize: Int = 10240; //Do not compress when the origin image file size less than one value, default 10Kb
 
 
     @ReactMethod
@@ -153,7 +153,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
             isExportThumbnail = options.getBoolean("isExportThumbnail")
             maxVideo = options.getInt("maxVideo")
             isCamera = options.getBoolean("usedCameraButton")
-            compressSize = options.getInt("compressSize")
+            if(options.hasKey("compressSize")) compressSize = options.getInt("compressSize")
 
             setStyle(options) // set style for UI
 
