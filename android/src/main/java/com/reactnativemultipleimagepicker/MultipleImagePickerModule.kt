@@ -4,11 +4,12 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.media.MediaMetadataRetriever
-import android.net.Uri
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
 import com.facebook.react.bridge.*
+import com.luck.lib.camerax.SimpleCameraX
 import com.luck.picture.lib.app.IApp
 import com.luck.picture.lib.app.PictureAppMaster
 import com.luck.picture.lib.basic.PictureSelector
@@ -18,12 +19,12 @@ import com.luck.picture.lib.engine.CompressFileEngine
 import com.luck.picture.lib.engine.PictureSelectorEngine
 import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.entity.LocalMedia.generateLocalMedia
-import com.luck.picture.lib.interfaces.OnKeyValueResultCallbackListener
+import com.luck.picture.lib.entity.MediaExtraInfo
 import com.luck.picture.lib.interfaces.OnResultCallbackListener
 import com.luck.picture.lib.style.*
+import com.luck.picture.lib.utils.MediaUtils
 import com.yalantis.ucrop.UCrop
 import top.zibin.luban.Luban
-import top.zibin.luban.OnCompressListener
 import top.zibin.luban.OnNewCompressListener
 import java.io.*
 import java.util.*
@@ -82,9 +83,20 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
             .isPreviewVideo(isPreview)
             .isDisplayCamera(isCamera)
             .setSelectionMode(if (singleSelectedMode) SelectModeConfig.SINGLE else SelectModeConfig.MULTIPLE)
+            .setCameraInterceptListener { fragment, cameraMode, requestCode ->
+                val camera = SimpleCameraX.of()
+                camera.setCameraMode(cameraMode)
+                camera.setImageEngine { context, url, imageView ->
+                    Glide.with(
+                        context
+                    ).load(url).into(imageView)
+                }
+                camera.start(fragment.requireActivity(), fragment, requestCode)
+            }
             .setCompressEngine(CompressFileEngine { context, source, call ->
                 Luban.with(context).load(source).ignoreBy(compressSize).setCompressListener(object: OnNewCompressListener{
-                    override fun onStart() {}
+                    override fun onStart() {
+                    }
 
                     override fun onSuccess(source: String?, compressFile: File?) {
                         if (compressFile != null) {
@@ -97,7 +109,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
                     override fun onError(source: String?, e: Throwable?) {
                         call?.onCallback(source,null)
                     }
-                })
+                }).launch()
             })
             .forResult(object : OnResultCallbackListener<LocalMedia?> {
                 override fun onResult(result: ArrayList<LocalMedia?>?) {
@@ -307,19 +319,30 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun createAttachmentResponse(item: LocalMedia): WritableMap {
         val media: WritableMap = WritableNativeMap()
+        var width: Int = item.width;
+        var height: Int = item.height;
+        var fileSize: Long = item.size;
+        var path: String = item.path;
+        if(item.isCompressed){
+            val info: MediaExtraInfo = MediaUtils.getImageSize(reactApplicationContext,item.compressPath);
+            width = info.width
+            height = info.height
+            fileSize = File(item.compressPath).length()
+            path = item.compressPath;
+        }
         val type: String = if (item.mimeType.startsWith("video/")) "video" else "image"
-        media.putString("path", item.path)
+        media.putString("path", path)
         media.putString("realPath", item.realPath)
         media.putString("fileName", item.fileName)
-        media.putInt("width", item.width)
-        media.putInt("height", item.height)
+        media.putInt("width", width)
+        media.putInt("height", height)
         media.putString("mime", item.mimeType)
         media.putString("type", type)
         media.putInt("localIdentifier", item.id.toInt())
         media.putInt("position", item.position)
         media.putInt("chooseModel", item.chooseModel)
         media.putDouble("duration", item.duration.toDouble())
-        media.putDouble("size", item.size.toDouble())
+        media.putDouble("size", fileSize.toDouble())
         media.putDouble("bucketId", item.bucketId.toDouble())
         media.putString("parentFolderName", item.parentFolderName)
         if (item.isCut) {
