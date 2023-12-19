@@ -154,8 +154,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
             maxVideo = options.getInt("maxVideo")
             isCamera = options.getBoolean("usedCameraButton")
             if(options.hasKey("compressSize")) compressSize = options.getInt("compressSize")
-
-            setStyle(options) // set style for UI
+            
 
             val isCrop = options.getBoolean("isCrop") && singleSelectedMode == true
 
@@ -179,112 +178,11 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
         options.isForbidSkipMultipleCrop(true)
         options.setMaxScaleMultiplier(100f)
         options.setLogoColor(primaryColor)
-        options.setToolbarWidgetColor(R.color.app_color_black)
+        options.setToolbarWidgetColor(Color.BLACK)
         options.setStatusBarColor(mainStyle.statusBarColor)
         options.isDarkStatusBarBlack(mainStyle.isDarkStatusBarBlack)
 
         cropOption = options
-    }
-
-    private fun setStyle(options: ReadableMap) {
-        val doneTitle = options.getString("doneTitle")
-
-        primaryColor = Color.parseColor(options.getString("selectedColor"))
-
-        // ANIMATION SLIDE FROM BOTTOM
-        val animationStyle = PictureWindowAnimationStyle()
-        animationStyle.setActivityEnterAnimation(R.anim.ps_anim_up_in)
-        animationStyle.setActivityExitAnimation(R.anim.ps_anim_down_out)
-
-        // TITLE BAR
-        val titleBar = TitleBarStyle()
-        titleBar.titleBackgroundColor =
-            ContextCompat.getColor(appContext, R.color.app_color_white)
-
-        titleBar.setHideCancelButton(true);
-        titleBar.setAlbumTitleRelativeLeft(true);
-
-        titleBar.setTitleAlbumBackgroundResource(R.drawable.ps_album_bg);
-        titleBar.setTitleDrawableRightResource(R.drawable.ps_ic_grey_arrow);
-        titleBar.setPreviewTitleLeftBackResource(R.drawable.ps_ic_black_back);
-        titleBar.setTitleLeftBackResource(R.drawable.ps_ic_black_back);
-        titleBar.setHideCancelButton(true)
-
-        // BOTTOM BAR
-        val bottomBar = BottomNavBarStyle()
-        bottomBar.bottomPreviewNormalTextColor =
-            ContextCompat.getColor(appContext, R.color.app_color_pri)
-        bottomBar.bottomPreviewSelectTextColor =
-            ContextCompat.getColor(appContext, R.color.app_color_pri)
-        bottomBar.bottomNarBarBackgroundColor =
-            ContextCompat.getColor(appContext, R.color.ps_color_white)
-        bottomBar.bottomSelectNumResources = R.drawable.num_oval_orange
-        bottomBar.bottomEditorTextColor =
-            ContextCompat.getColor(appContext, R.color.ps_color_53575e)
-        bottomBar.bottomOriginalTextColor =
-            ContextCompat.getColor(appContext, R.color.ps_color_53575e)
-        bottomBar.bottomPreviewNormalTextColor = R.color.app_color_53575e
-        bottomBar.bottomPreviewNormalTextColor = R.color.app_color_black
-        bottomBar.setCompleteCountTips(false)
-
-        // MAIN STYLE
-        val mainStyle = SelectMainStyle()
-
-        mainStyle.setPreviewSelectRelativeBottom(true)
-        mainStyle.setSelectNumberStyle(if (singleSelectedMode) false else true)
-        mainStyle.setPreviewSelectNumberStyle(true);
-        mainStyle.isSelectNumberStyle = true
-        mainStyle.selectBackground = R.drawable.picture_selector
-        mainStyle.mainListBackgroundColor =
-            ContextCompat.getColor(appContext, R.color.ps_color_white)
-        mainStyle.previewSelectBackground =
-            R.drawable.picture_selector
-
-        // custom select text on top
-        mainStyle.setSelectText(doneTitle)
-        mainStyle.setCompleteSelectRelativeTop(true)
-        mainStyle.setSelectNormalText(doneTitle)
-
-
-        mainStyle.selectNormalTextColor =
-            ContextCompat.getColor(appContext, R.color.ps_color_9b)
-        mainStyle.selectTextColor = primaryColor
-        mainStyle.selectText = doneTitle
-
-        mainStyle.setStatusBarColor(
-            ContextCompat.getColor(
-                appContext,
-                R.color.app_color_white
-            )
-        );
-        mainStyle.setDarkStatusBarBlack(true);
-
-        style.setTitleBarStyle(titleBar)
-        style.setBottomBarStyle(bottomBar)
-        style.setSelectMainStyle(mainStyle)
-        style.setWindowAnimationStyle(animationStyle)
-
-
-//        pictureStyle.selectMainStyle.adapterImageEditorResources =
-//            if (singleSelectedMode) R.drawable.checkbox_selector else R.drawable.picture_selector
-//        numberSelectMainStyle.isSelectNumberStyle = if (singleSelectedMode) false else true
-//        //bottom style
-//        pictureStyle.bottomBarStyle.bottomOriginalText = options.getString("doneTitle")
-//        pictureStyle.isOpenCheckNumStyle = if(singleSelectedMode) false else true
-//        pictureStyle.isCompleteReplaceNum = true
-//        pictureStyle.pictureCompleteTextSize = 16
-//        pictureStyle.pictureCheckNumBgStyle = R.drawable.num_oval_orange
-//        pictureStyle.pictureCompleteTextColor = Color.parseColor("#ffffff")
-//        pictureStyle.pictureNavBarColor = Color.parseColor("#000000")
-//        pictureStyle.pictureBottomBgColor = Color.parseColor("#393a3e")
-//        //preview Style
-//        pictureStyle.picturePreviewBottomBgColor = Color.parseColor("#000000")
-//        pictureStyle.pictureUnPreviewTextColor = Color.parseColor("#ffffff")
-//        //header
-//        pictureStyle.pictureTitleDownResId = R.drawable.picture_icon_arrow_down
-//        pictureStyle.pictureCancelTextColor = Color.parseColor("#393a3e")
-//        pictureStyle.pictureStatusBarColor = Color.parseColor("#393a3e")
-//        pictureStyle.pictureTitleBarBackgroundColor = Color.parseColor("#393a3e")
     }
 
     private fun handleSelectedAssets(options: ReadableMap?) {
@@ -350,6 +248,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
             crop.putString("path", item.cutPath)
             crop.putDouble("width", item.cropImageWidth.toDouble())
             crop.putDouble("height", item.cropImageHeight.toDouble())
+            crop.putDouble("size", File(item.cutPath).length().toDouble())
             media.putMap("crop", crop)
         }
         if (type === "video" && isExportThumbnail) {
