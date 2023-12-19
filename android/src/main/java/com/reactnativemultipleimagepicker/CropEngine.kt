@@ -27,6 +27,7 @@ class CropEngine(cropOption: UCrop.Options) : CropFileEngine {
     ) {
         val uCrop = UCrop.of(srcUri!!, destinationUri!!, dataSource)
         uCrop.withOptions(options)
+        uCrop.withAspectRatio(1F,1F)
         uCrop.setImageEngine(object : UCropImageEngine {
             override fun loadImage(context: Context, url: String, imageView: ImageView) {
                 if (!assertValidRequest(context)) {
