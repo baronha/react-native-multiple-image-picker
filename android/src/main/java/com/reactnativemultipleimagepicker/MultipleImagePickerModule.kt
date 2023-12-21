@@ -118,6 +118,58 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
             })
     }
 
+
+
+    @ReactMethod
+    fun launchCamera(options: ReadableMap?, promise: Promise): Unit {
+        PictureAppMaster.getInstance().app = this
+        val activity = currentActivity
+
+        // set config
+        setConfiguration(options)
+
+        PictureSelector.create(activity)
+            .openCamera(SelectMimeType.ofImage())
+            .setCropEngine(onSetCropEngine())
+//            .setRecordVideoMaxSecond(maxVideoDuration)
+//            .isMaxSelectEnabledMask(true)
+//            .setSelectedData(selectedAssets)
+//            .setSelectLimitTipsListener(object : OnSelectLimitTipsListener {
+//                override fun onSelectLimitTips(context: Context?, media: LocalMedia?, config: SelectorConfig?, limitType: Int): Boolean {
+//                    if (limitType == SelectLimitType.SELECT_MAX_SELECT_LIMIT) {
+//                        ToastUtils.showToast(activity, maximumMessage)
+//                        return true
+//                    }
+//                    return false
+//                }
+//            })
+            .forResult(object : OnResultCallbackListener<LocalMedia?> {
+                override fun onResult(result: ArrayList<LocalMedia?>?) {
+                    val localMedia: WritableArray = WritableNativeArray()
+                    if (result?.size == 0) {
+                        promise.resolve(localMedia)
+                        return
+                    }
+                    if (result?.size == selectedAssets.size && (result[result.size - 1] as LocalMedia).id == (selectedAssets[selectedAssets.size - 1].id)) {
+                        return
+                    }
+                    if (result != null) {
+                        for (i in 0 until result.size) {
+                            val item: LocalMedia = result[i] as LocalMedia
+                            val media: WritableMap = createAttachmentResponse(item)
+                            localMedia.pushMap(media)
+                        }
+                    }
+                    promise.resolve(localMedia)
+                }
+
+                override fun onCancel() {
+                    promise.reject("PICKER_CANCELLED", "User has canceled", null)
+                }
+            })
+    }
+
+
     private fun onSetCropEngine(): CropEngine? {
         return cropOption?.let { CropEngine(it) }
     }
