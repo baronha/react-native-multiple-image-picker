@@ -14,12 +14,24 @@ class CustomPhotoPickerViewController: TLPhotosPickerViewController {
     var dismissPhotoPicker: ((_ withTLPHAssets: [TLPHAsset]) -> Void)?
 
     var viewerController: ViewerController?
+    
+    override var selectedAssets: [TLPHAsset]  {
+        didSet {
+            self.updateNavigationBarButtonState(enable: selectedAssets.count > 0)
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         if config.isPreview {
             NotificationCenter.default.addObserver(self, selector: #selector(self.handleCellLongPress(_:)), name: Cell.longPressNotification, object: nil)
         }
+    }
+    
+    func updateNavigationBarButtonState(enable: Bool) {
+        guard let customNavItem = self.customNavItem else { return }
+        guard let item = self.customNavItem.rightBarButtonItems?.first else { return  }
+        item.isEnabled = enable
     }
 
     deinit {
@@ -68,7 +80,14 @@ class CustomPhotoPickerViewController: TLPhotosPickerViewController {
         self.collectionView.backgroundColor = .white
         self.customNavItem.leftBarButtonItem?.tintColor = .black
         self.customNavItem.rightBarButtonItem?.tintColor = config.selectedColor
+        /// 设置未点击的颜色
+        let attributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor(hex: "#666666")
+        ]
+        self.customNavItem.rightBarButtonItem?.setTitleTextAttributes(attributes, for: .disabled)
 
+        /// 默认不可点击
+        updateNavigationBarButtonState(enable: false)
         for subview in self.view.subviews {
             guard let navbar = subview as? UINavigationBar else {
                 break
