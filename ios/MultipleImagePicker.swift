@@ -25,7 +25,8 @@ extension TLPhotosPickerConfigure {
 var config = TLPhotosPickerConfigure()
 
 @objc(MultipleImagePicker)
-class MultipleImagePicker: NSObject, UINavigationControllerDelegate {
+class MultipleImagePicker: NSObject, UINavigationControllerDelegate, CameraManagerDelegate {
+ 
     @objc static func requiresMainQueueSetup() -> Bool {
         return false
     }
@@ -38,6 +39,13 @@ class MultipleImagePicker: NSObject, UINavigationControllerDelegate {
     // resolve/reject assets
     var resolve: RCTPromiseResolveBlock!
     var reject: RCTPromiseRejectBlock!
+    
+    lazy var cameraManager: CameraManager? = {
+        guard let topViewController = UIApplication.topViewController() else { return nil  }
+        let cameraManager = CameraManager(viewController: topViewController)
+        cameraManager.delegate = self
+        return cameraManager
+    }()
     
     @objc(openPicker:withResolver:withRejecter:)
     func openPicker(options: NSDictionary, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
@@ -55,6 +63,17 @@ class MultipleImagePicker: NSObject, UINavigationControllerDelegate {
             
         } else {
             self.navigatePicker()
+        }
+    }
+    
+    @objc(launchCamera:withResolver:withRejecter:)
+    func launchCamera(options: NSDictionary, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+        debugPrint("++++++++++ launchCamera")
+        self.resolve = resolve
+        self.reject = reject
+        DispatchQueue.main.async {
+            guard let cameraManager = self.cameraManager else { return }
+            cameraManager.openCamera()
         }
     }
     
@@ -209,6 +228,20 @@ class MultipleImagePicker: NSObject, UINavigationControllerDelegate {
         }
         self.selectedAssets = assets
         self.videoCount = assets.filter { $0.phAsset?.mediaType == .video }.count
+    }
+}
+
+extension MultipleImagePicker {
+    func didSelectImage(_ path: String) {
+        DispatchQueue.main.async {
+            debugPrint("++++++++++ didSelectImage: \(path)")
+            let fullPath = "file://" + path
+            self.resolve(["path":fullPath])
+        }
+    }
+    
+    func handleUnauthorizedCameraAccess() {
+        reject("LIMITED_ACCESS_CANCELLED", "LIMITED_ACCESS_CANCELLED", nil)
     }
 }
 
