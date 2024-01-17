@@ -26,6 +26,7 @@ var config = TLPhotosPickerConfigure()
 
 @objc(MultipleImagePicker)
 class MultipleImagePicker: NSObject, UINavigationControllerDelegate {
+ 
     @objc static func requiresMainQueueSetup() -> Bool {
         return false
     }
@@ -38,6 +39,13 @@ class MultipleImagePicker: NSObject, UINavigationControllerDelegate {
     // resolve/reject assets
     var resolve: RCTPromiseResolveBlock!
     var reject: RCTPromiseRejectBlock!
+    
+    lazy var cameraManager: CameraManager? = {
+        guard let topViewController = UIApplication.topViewController() else { return nil  }
+        let cameraManager = CameraManager(viewController: topViewController)
+        cameraManager.delegate = self
+        return cameraManager
+    }()
     
     @objc(openPicker:withResolver:withRejecter:)
     func openPicker(options: NSDictionary, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
@@ -55,6 +63,17 @@ class MultipleImagePicker: NSObject, UINavigationControllerDelegate {
             
         } else {
             self.navigatePicker()
+        }
+    }
+    
+    @objc(launchCamera:withResolver:withRejecter:)
+    func launchCamera(options: NSDictionary, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+        debugPrint("++++++++++ launchCamera")
+        self.resolve = resolve
+        self.reject = reject
+        DispatchQueue.main.async {
+            guard let cameraManager = self.cameraManager else { return }
+            cameraManager.showCameraIfAuthorized()
         }
     }
     
@@ -209,6 +228,19 @@ class MultipleImagePicker: NSObject, UINavigationControllerDelegate {
         }
         self.selectedAssets = assets
         self.videoCount = assets.filter { $0.phAsset?.mediaType == .video }.count
+    }
+}
+
+extension MultipleImagePicker: CameraManagerDelegate  {
+    func didSelectPhoto(_ assets: [TLPHAsset]) {
+        guard let asset = assets.first else { return  }
+        
+        DispatchQueue.main.async {
+            self.options["isExportThumbnail"] = false
+            self.fetchAsset(TLAsset: asset) { object in
+                self.resolve([object.data])
+            }
+        }
     }
 }
 

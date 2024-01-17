@@ -30,6 +30,7 @@
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libMultipleImagePicker.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMultipleImagePicker.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		4EA2729B2B567FD300C43954 /* CameraManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
 		92E8355B25E2656A00B0304C /* MultipleImagePickerBundle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultipleImagePickerBundle.swift; sourceTree = "<group>"; };
 		92E8355C25E2656A00B0304C /* MultipleImagePicker.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MultipleImagePicker.bundle; sourceTree = "<group>"; };
 		92E8366225E2689000B0304C /* Cell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
@@ -69,6 +70,7 @@
 				92E8355B25E2656A00B0304C /* MultipleImagePickerBundle.swift */,
 				F4FF95D6245B92E800C19C63 /* MultipleImagePicker.swift */,
 				B3E7B5891CC2AC0600A0062D /* MultipleImagePicker.m */,
+				4EA2729B2B567FD300C43954 /* CameraManager.swift */,
 				F4FF95D5245B92E700C19C63 /* MultipleImagePicker-Bridging-Header.h */,
 				134814211AA4EA7D00B7C361 /* Products */,
 			);
