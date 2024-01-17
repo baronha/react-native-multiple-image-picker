@@ -25,7 +25,7 @@ extension TLPhotosPickerConfigure {
 var config = TLPhotosPickerConfigure()
 
 @objc(MultipleImagePicker)
-class MultipleImagePicker: NSObject, UINavigationControllerDelegate, CameraManagerDelegate {
+class MultipleImagePicker: NSObject, UINavigationControllerDelegate {
  
     @objc static func requiresMainQueueSetup() -> Bool {
         return false
@@ -73,7 +73,7 @@ class MultipleImagePicker: NSObject, UINavigationControllerDelegate, CameraManag
         self.reject = reject
         DispatchQueue.main.async {
             guard let cameraManager = self.cameraManager else { return }
-            cameraManager.openCamera()
+            cameraManager.showCameraIfAuthorized()
         }
     }
     
@@ -231,17 +231,16 @@ class MultipleImagePicker: NSObject, UINavigationControllerDelegate, CameraManag
     }
 }
 
-extension MultipleImagePicker {
-    func didSelectImage(_ path: String) {
+extension MultipleImagePicker: CameraManagerDelegate  {
+    func didSelectPhoto(_ assets: [TLPHAsset]) {
+        guard let asset = assets.first else { return  }
+        
         DispatchQueue.main.async {
-            debugPrint("++++++++++ didSelectImage: \(path)")
-            let fullPath = "file://" + path
-            self.resolve(["path":fullPath])
+            self.options["isExportThumbnail"] = false
+            self.fetchAsset(TLAsset: asset) { object in
+                self.resolve([object.data])
+            }
         }
-    }
-    
-    func handleUnauthorizedCameraAccess() {
-        reject("LIMITED_ACCESS_CANCELLED", "LIMITED_ACCESS_CANCELLED", nil)
     }
 }
 

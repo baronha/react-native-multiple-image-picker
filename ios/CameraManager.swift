@@ -7,78 +7,70 @@
 
 import AVFoundation
 import UIKit
+import Photos
+import TLPhotoPicker
+
 
 protocol CameraManagerDelegate: AnyObject {
-    func didSelectImage(_ path: String)
-    
-    func handleUnauthorizedCameraAccess()
+    func didSelectPhoto(_ assets: [TLPHAsset])
 }
 
 
-class CameraManager: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class CameraManager: NSObject {
     
     weak var viewController: UIViewController?
     
     weak var delegate: CameraManagerDelegate?
+    
+    lazy var customPhotoPickerViewController = {
+       let customPhotoPickerViewController = CustomPhotoPickerViewController()
+        customPhotoPickerViewController.logDelegate = self
+       return customPhotoPickerViewController
+    }()
     
     
     init(viewController: UIViewController) {
         super.init()
         self.viewController = viewController
     }
-    
-    func openCamera() {
-        // 检查设备是否支持相机
-        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            // 检查相机权限
-            AVCaptureDevice.requestAccess(for: .video) { [weak self] (granted) in
-                if granted {
-                    // 在主线程中打开相机
-                    DispatchQueue.main.async {
-                        debugPrint("++++++++++ \(self)")
-                        self?.showImagePicker(sourceType: .camera)
-                    }
-                } else {
-                    // 用户未授权相机访问，您可以采取适当的措施，例如显示警告
-                    self?.delegate?.handleUnauthorizedCameraAccess()
-                    debugPrint("++++++++++ 用户未授权相机访问")
-                }
-            }
-        } else {
-            // 设备不支持相机，您可以采取适当的措施，例如显示警告
-            delegate?.handleUnauthorizedCameraAccess()
-            debugPrint("++++++++++ 设备不支持相机")
-        }
+}
+
+extension CameraManager: TLPhotosPickerLogDelegate {
+    func selectedCameraCell(picker: TLPhotoPicker.TLPhotosPickerViewController) {
+        debugPrint("++++++++++  selectedCameraCell")
     }
     
-    private func showImagePicker(sourceType: UIImagePickerController.SourceType) {
-        let imagePicker = UIImagePickerController()
-        imagePicker.sourceType = sourceType
-        imagePicker.delegate = self
-        self.viewController?.present(imagePicker, animated: true, completion: nil)
+    func deselectedPhoto(picker: TLPhotoPicker.TLPhotosPickerViewController, at: Int) {
+        debugPrint("++++++++++  deselectedPhoto")
     }
     
-    // 实现UIImagePickerControllerDelegate协议的方法，处理从相机选择的照片或视频
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        // 处理选择的媒体
-        guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return  }
-        let uniqueFilename = UUID().uuidString + ".jpg"
-        let tmpURL = FileManager.default.temporaryDirectory.appendingPathComponent(uniqueFilename)
-        guard let imageData = image.jpegData(compressionQuality: 0.4 ) else { return}
-        do {
-            try imageData.write(to: tmpURL)
-            debugPrint("++++++++++ 图像已写入到tmp目录：\(tmpURL)")
-        } catch {
-            debugPrint("++++++++++ 写入图像到tmp目录失败：\(error.localizedDescription)")
-        }
-        delegate?.didSelectImage(tmpURL.path)
-        // 关闭相机界面
-        picker.dismiss(animated: true, completion: nil)
+    func selectedPhoto(picker: TLPhotoPicker.TLPhotosPickerViewController, at: Int) {
+        debugPrint("++++++++++  selectedPhoto \(picker.selectedAssets)")
+        self.delegate?.didSelectPhoto(picker.selectedAssets)
+    }
+    
+    func selectedAlbum(picker: TLPhotoPicker.TLPhotosPickerViewController, title: String, at: Int) {
+        debugPrint("++++++++++  selectedAlbum")
     }
 }
 
 
+// MARK: - Camera Picker
+extension CameraManager: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+     func showCameraIfAuthorized() {
+         showCamera()
+    }
 
+    private func showCamera() {
+
+        let picker = UIImagePickerController()
+        picker.sourceType = .camera
+        picker.delegate = customPhotoPickerViewController
+        viewController?.present(picker, animated: true, completion: nil)
+    }
+}
+
+/// 获取顶层的控制器
 extension UIApplication {
     class func topViewController(controller: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
         if let navigationController = controller as? UINavigationController {
