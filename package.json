@@ -14,7 +14,7 @@
     "picture_library",
     "ios",
     "cpp",
-    "renpho-react-native-multiple-image-picker.podspec",
+    "react-native-multiple-image-picker.podspec",
     "!lib/typescript/example",
     "!android/build",
     "!ios/build",
