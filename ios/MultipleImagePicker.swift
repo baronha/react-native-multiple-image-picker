@@ -233,7 +233,7 @@ class MultipleImagePicker: NSObject, UINavigationControllerDelegate {
 
 extension MultipleImagePicker: CameraManagerDelegate  {
     func didSelectPhoto(_ assets: [TLPHAsset]) {
-        guard let asset = assets.first else { return  }
+        guard let asset = assets.last else { return  }
         
         DispatchQueue.main.async {
             self.options["isExportThumbnail"] = false
