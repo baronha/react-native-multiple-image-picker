@@ -3,10 +3,15 @@ package com.reactnativemultipleimagepicker
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.Point
 import android.media.MediaMetadataRetriever
 import android.os.Build
-import android.os.Bundle
+import android.util.TypedValue
+import android.view.Gravity
+import android.view.WindowManager
+import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import com.facebook.react.bridge.*
 import com.luck.picture.lib.app.IApp
@@ -22,10 +27,8 @@ import com.luck.picture.lib.entity.LocalMedia.generateLocalMedia
 import com.luck.picture.lib.interfaces.OnResultCallbackListener
 import com.luck.picture.lib.interfaces.OnSelectLimitTipsListener
 import com.luck.picture.lib.style.*
-import com.luck.picture.lib.utils.StyleUtils
 import com.luck.picture.lib.utils.ToastUtils
 import com.yalantis.ucrop.UCrop
-import com.yalantis.ucrop.UCrop.Options
 import java.io.*
 import java.util.*
 
@@ -86,7 +89,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
             .setSelectLimitTipsListener(object : OnSelectLimitTipsListener {
                 override fun onSelectLimitTips(context: Context?, media: LocalMedia?, config: SelectorConfig?, limitType: Int): Boolean {
                     if (limitType == SelectLimitType.SELECT_MAX_SELECT_LIMIT) {
-                        ToastUtils.showToast(activity, maximumMessage)
+                        showToast(activity, maximumMessage)
                         return true
                     }
                     return false
@@ -118,7 +121,46 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
             })
     }
 
+    private fun showToast(context: Context?, msg: String) {
+        context?.apply {
+            val textView = AppCompatTextView(context)
+            textView.setBackgroundResource(R.drawable.picker_bg_corner_15_solid_333333)
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
+            textView.gravity = Gravity.CENTER
+            textView.setTextColor(context.getColor(R.color.picker_color_white))
+            textView.minWidth = dp2px(context, 50f)
+            var maxWidth: Int = getScreenWidth(this) - dp2px(context, 30f)
+            if (maxWidth < 0) {
+                maxWidth = getScreenWidth(this)
+            }
+            textView.maxWidth = maxWidth
+            textView.text = msg
+            val padding: Int = dp2px(context, 15f)
+            textView.setPadding(padding, padding, padding, padding)
+            val toast = Toast(context)
+            toast.setGravity(Gravity.CENTER, 0, 0)
+            toast.duration = Toast.LENGTH_LONG
+            toast.view = textView
+            toast.show()
 
+        }
+
+    }
+
+    fun dp2px(context: Context, value: Float): Int {
+        return (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, value, context.resources.displayMetrics) + 0.5f).toInt()
+    }
+
+    fun getScreenWidth(context: Context): Int {
+        val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager ?: return -1
+        val point = Point()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            wm.defaultDisplay.getRealSize(point)
+        } else {
+            wm.defaultDisplay.getSize(point)
+        }
+        return point.x
+    }
 
     @ReactMethod
     fun launchCamera(options: ReadableMap?, promise: Promise): Unit {
@@ -266,7 +308,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
         mainStyle.setPreviewSelectRelativeBottom(true)
         mainStyle.setSelectNumberStyle(if (singleSelectedMode) false else true)
         mainStyle.setPreviewSelectNumberStyle(true);
-        mainStyle.isSelectNumberStyle = true
+        mainStyle.isSelectNumberStyle = false
         mainStyle.selectBackground = R.drawable.picture_selector
         mainStyle.mainListBackgroundColor =
             ContextCompat.getColor(appContext, R.color.ps_color_white)
