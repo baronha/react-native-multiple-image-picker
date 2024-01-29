@@ -279,6 +279,13 @@ extension MultipleImagePicker: TLPhotosPickerLogDelegate {
         let generator = UIImpactFeedbackGenerator(style: .medium)
         generator.impactOccurred()
     }
+    
+    func handleNoCameraPermissions(picker: TLPhotosPickerViewController) {
+        debugPrint("++++++++++ handleNoCameraPermissions")
+        if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
+            UIApplication.shared.open(settingsURL)
+        }
+    }
 }
 
 // CropViewControllerDelegate
