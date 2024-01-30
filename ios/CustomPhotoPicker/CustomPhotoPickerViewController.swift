@@ -86,6 +86,17 @@ class CustomPhotoPickerViewController: TLPhotosPickerViewController {
         ]
         self.customNavItem.rightBarButtonItem?.setTitleTextAttributes(attributes, for: .disabled)
 
+        if #available(iOS 15.0, *) {
+            debugPrint("++++++++++++++++makeUI ios15.0 不包含iOS15")
+        } else {
+            debugPrint("++++++++++++++++makeUI")
+            /// 设置未点击的颜色
+            let attributeNormal: [NSAttributedString.Key: Any] = [
+                .foregroundColor: config.selectedColor
+            ]
+            self.customNavItem.rightBarButtonItem?.setTitleTextAttributes(attributeNormal, for: .normal)
+        }
+        
         /// 默认不可点击
         updateNavigationBarButtonState(enable: false)
         for subview in self.view.subviews {
