@@ -31,7 +31,13 @@ class CustomPhotoPickerViewController: TLPhotosPickerViewController {
     func updateNavigationBarButtonState(enable: Bool) {
         guard let customNavItem = self.customNavItem else { return }
         guard let item = self.customNavItem.rightBarButtonItems?.first else { return  }
-        item.isEnabled = enable
+        DispatchQueue.main.async {
+            let newTintColor = enable ? config.selectedColor : UIColor(hex: "#666666")
+            if item.tintColor != newTintColor {
+                item.tintColor = newTintColor
+            }
+        }
+        debugPrint("+++++++++++ \(Thread.current)")
     }
 
     deinit {
@@ -80,23 +86,7 @@ class CustomPhotoPickerViewController: TLPhotosPickerViewController {
         self.collectionView.backgroundColor = .white
         self.customNavItem.leftBarButtonItem?.tintColor = .black
         self.customNavItem.rightBarButtonItem?.tintColor = config.selectedColor
-        /// 设置未点击的颜色
-        let attributes: [NSAttributedString.Key: Any] = [
-            .foregroundColor: UIColor(hex: "#666666")
-        ]
-        self.customNavItem.rightBarButtonItem?.setTitleTextAttributes(attributes, for: .disabled)
 
-        if #available(iOS 15.0, *) {
-            debugPrint("++++++++++++++++makeUI ios15.0 不包含iOS15")
-        } else {
-            debugPrint("++++++++++++++++makeUI")
-            /// 设置未点击的颜色
-            let attributeNormal: [NSAttributedString.Key: Any] = [
-                .foregroundColor: config.selectedColor
-            ]
-            self.customNavItem.rightBarButtonItem?.setTitleTextAttributes(attributeNormal, for: .normal)
-        }
-        
         /// 默认不可点击
         updateNavigationBarButtonState(enable: false)
         for subview in self.view.subviews {
