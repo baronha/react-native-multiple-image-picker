@@ -1,36 +1,38 @@
 {
-  "name": "@baronha/react-native-multiple-image-picker",
-  "version": "1.1.6",
-  "description": "react-native-multiple-image-picker enables application to pick images and videos from multiple smart album in iOS/Android, similar to the current facebook app.",
+  "name": "react-native-multiple-image-picker",
+  "version": "0.1.0",
+  "description": "� react-native-multiple-image-picker enables applications to pick images and videos from multiple smart albums in iOS/Android, similar to the current Facebook app.�",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
-  "types": "src/index.d.ts",
+  "types": "lib/typescript/src/index.d.ts",
   "react-native": "src/index",
   "source": "src/index",
   "files": [
     "src",
     "lib",
     "android",
-    "picture_library",
     "ios",
     "cpp",
-    "react-native-multiple-image-picker.podspec",
-    "!lib/typescript/example",
-    "!android/build",
+    "*.podspec",
     "!ios/build",
+    "!android/build",
+    "!android/gradle",
+    "!android/gradlew",
+    "!android/gradlew.bat",
+    "!android/local.properties",
     "!**/__tests__",
     "!**/__fixtures__",
-    "!**/__mocks__"
+    "!**/__mocks__",
+    "!**/.*"
   ],
   "scripts": {
+    "example": "yarn workspace react-native-multiple-image-picker-example",
     "test": "jest",
-    "typescript": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
+    "clean": "del-cli android/build example/android/build example/android/app/build example/ios/build lib",
     "prepare": "bob build",
-    "release": "release-it",
-    "example": "yarn --cwd example",
-    "pods": "cd example && pod-install --quiet",
-    "bootstrap": "yarn example && yarn && yarn pods"
+    "release": "release-it"
   },
   "keywords": [
     "react-native",
@@ -39,9 +41,9 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/baronha/react-native-multiple-image-picker.git"
+    "url": "git+https://github.com/baronha/react-native-multiple-image-picker.git"
   },
-  "author": "Baron Ha. <baronn.ha@gmail.com> (https://github.com/baronha)",
+  "author": "Bảo Hà. <baronn.ha@gmail.com> (https://github.com/baronha)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/baronha/react-native-multiple-image-picker/issues"
@@ -51,41 +53,43 @@
     "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
-    "@commitlint/config-conventional": "^11.0.0",
-    "@react-native-community/eslint-config": "^2.0.0",
-    "@release-it/conventional-changelog": "^2.0.0",
-    "@types/jest": "^26.0.0",
-    "@types/react": "^16.9.19",
-    "@types/react-native": "0.62.13",
-    "commitlint": "^11.0.0",
-    "eslint": "^7.2.0",
-    "eslint-config-prettier": "^7.0.0",
-    "eslint-plugin-prettier": "^3.1.3",
-    "jest": "^26.0.1",
-    "pod-install": "^0.1.0",
-    "prettier": "^2.0.5",
-    "react": "16.13.1",
-    "react-native": "0.63.4",
-    "react-native-builder-bob": "^0.17.1",
-    "release-it": "^14.2.2",
-    "typescript": "^4.1.3"
+    "@commitlint/config-conventional": "^17.0.2",
+    "@evilmartians/lefthook": "^1.5.0",
+    "@react-native/eslint-config": "^0.73.1",
+    "@release-it/conventional-changelog": "^5.0.0",
+    "@types/jest": "^29.5.5",
+    "@types/react": "^18.2.44",
+    "commitlint": "^17.0.2",
+    "del-cli": "^5.1.0",
+    "eslint": "^8.51.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "jest": "^29.7.0",
+    "prettier": "^3.0.3",
+    "react": "18.2.0",
+    "react-native": "0.73.6",
+    "react-native-builder-bob": "^0.20.0",
+    "release-it": "^15.0.0",
+    "turbo": "^1.10.7",
+    "typescript": "^5.2.2"
+  },
+  "resolutions": {
+    "@types/react": "^18.2.44"
   },
   "peerDependencies": {
     "react": "*",
     "react-native": "*"
   },
+  "workspaces": [
+    "example"
+  ],
+  "packageManager": "yarn@3.6.1",
   "jest": {
     "preset": "react-native",
     "modulePathIgnorePatterns": [
       "<rootDir>/example/node_modules",
       "<rootDir>/lib/"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "yarn lint && yarn typescript"
-    }
   },
   "commitlint": {
     "extends": [
@@ -112,7 +116,7 @@
   "eslintConfig": {
     "root": true,
     "extends": [
-      "@react-native-community",
+      "@react-native",
       "prettier"
     ],
     "rules": {
@@ -152,5 +156,10 @@
         }
       ]
     ]
+  },
+  "codegenConfig": {
+    "name": "RNMultipleImagePickerSpec",
+    "type": "modules",
+    "jsSrcsDir": "src"
   }
 }
