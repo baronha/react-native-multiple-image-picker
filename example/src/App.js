@@ -10,7 +10,7 @@ import { SafeAreaView } from 'react-native';
 
 import { StyleSheet } from 'react-native';
 import ImageGrid from '@baronha/react-native-image-grid';
-import { openPicker } from '@baronha/react-native-multiple-image-picker';
+import { openPicker } from 'react-native-multiple-image-picker';
 
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
