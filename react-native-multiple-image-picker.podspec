@@ -10,24 +10,17 @@ Pod::Spec.new do |s|
   s.license      = package["license"]
   s.authors      = package["author"]
 
-  s.platforms    = { :ios => "10.0" }
+  s.platforms    = { :ios => min_ios_version_supported }
   s.source       = { :git => "https://github.com/baronha/react-native-multiple-image-picker.git", :tag => "#{s.version}" }
-  s.swift_version = '5.0'
 
-  s.source_files = "ios/**/*.{h,m,mm,swift,lproj}"
+  s.source_files = "ios/**/*.{h,m,mm,swift}"
 
-  s.resource_bundles = { 'MultipleImagePicker' => ['ios/**/*.{xib}'] }
-  #s.resources = 'ios/MultipleImagePicker.bundle'
+  # s.dependency "HXPhotoPicker", "4.1.7"
 
-  s.dependency 'React-Core'
-  s.dependency 'TLPhotoPicker', '2.1.9'
-  s.dependency 'CropViewController', '2.6.1'
+  s.dependency "HXPhotoPicker/Picker/Lite", "4.1.7"
+  # s.dependency "HXPhotoPicker/Picker", "4.1.7"
+  # s.dependency "HXPhotoPicker/Picker", "4.1.7"
 
-  s.subspec 'Viewer' do |vw|
-    vw.name             = "Viewer"
-    vw.source_files = 'ios/Viewer'
-    vw.resource_bundles = { "Viewer" => "ios/Viewer/*.xcassets" }
-    vw.requires_arc     = true
-  end
-      
+
+  install_modules_dependencies(s)
 end
