@@ -308,7 +308,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
         mainStyle.setPreviewSelectRelativeBottom(true)
         mainStyle.setSelectNumberStyle(if (singleSelectedMode) false else true)
         mainStyle.setPreviewSelectNumberStyle(true);
-        mainStyle.isSelectNumberStyle = false
+        mainStyle.isSelectNumberStyle = true
         mainStyle.selectBackground = R.drawable.picture_selector
         mainStyle.mainListBackgroundColor =
             ContextCompat.getColor(appContext, R.color.ps_color_white)

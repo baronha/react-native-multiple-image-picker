@@ -1,12 +1,13 @@
-<vector android:height="24dp" android:viewportHeight="120"
-    android:viewportWidth="120" android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
-    <path android:fillColor="#57BD69" android:fillType="evenOdd"
-        android:pathData="M60,60m-60,0a60,60 0,1 1,120 0a60,60 0,1 1,-120 0"
-        android:strokeColor="#00000000" android:strokeWidth="1"/>
-    <path android:fillColor="#FFFFFF" android:fillType="evenOdd"
-        android:pathData="M32.45,61.42C34.4,59.47 37.57,59.47 39.52,61.42L55.08,76.98C57.03,78.93 57.03,82.1 55.08,84.05C53.12,86 49.96,86 48,84.05L32.45,68.5C30.5,66.54 30.5,63.38 32.45,61.42Z"
-        android:strokeColor="#00000000" android:strokeWidth="1"/>
-    <path android:fillColor="#FFFFFF" android:fillType="evenOdd"
-        android:pathData="M92.55,39.5C94.5,41.46 94.5,44.62 92.55,46.58L55.08,84.05C53.12,86 49.96,86 48,84.05C46.05,82.1 46.05,78.93 48,76.98L85.48,39.5C87.43,37.55 90.6,37.55 92.55,39.5Z"
-        android:strokeColor="#00000000" android:strokeWidth="1"/>
-</vector>
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval"
+    android:useLevel="false">
+
+    <solid android:color="@color/app_color_pri" />
+    <stroke
+        android:width="1.5dp"
+        android:color="@color/app_color_white" />
+    <size
+        android:width="24dp"
+        android:height="24dp" />
+</shape>
