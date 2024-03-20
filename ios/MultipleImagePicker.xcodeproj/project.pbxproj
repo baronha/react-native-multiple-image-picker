@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4EA0D05C2BAA939A009B3C9B /* CustomFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EA0D05B2BAA939A009B3C9B /* CustomFooterView.swift */; };
 		92E8355E25E2656A00B0304C /* MultipleImagePickerBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E8355B25E2656A00B0304C /* MultipleImagePickerBundle.swift */; };
 		92E835AF25E2662700B0304C /* MultipleImagePicker.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 92E8355C25E2656A00B0304C /* MultipleImagePicker.bundle */; };
 		92E8366525E2689000B0304C /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E8366225E2689000B0304C /* Cell.swift */; };
@@ -30,6 +31,7 @@
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libMultipleImagePicker.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMultipleImagePicker.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		4EA0D05B2BAA939A009B3C9B /* CustomFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomFooterView.swift; sourceTree = "<group>"; };
 		4EA2729B2B567FD300C43954 /* CameraManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
 		92E8355B25E2656A00B0304C /* MultipleImagePickerBundle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultipleImagePickerBundle.swift; sourceTree = "<group>"; };
 		92E8355C25E2656A00B0304C /* MultipleImagePicker.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MultipleImagePicker.bundle; sourceTree = "<group>"; };
@@ -79,6 +81,7 @@
 		92E8366025E2683B00B0304C /* CustomPhotoPicker */ = {
 			isa = PBXGroup;
 			children = (
+				4EA0D05B2BAA939A009B3C9B /* CustomFooterView.swift */,
 				92E8366225E2689000B0304C /* Cell.swift */,
 				92E8366325E2689000B0304C /* Cell.xib */,
 				92E8366425E2689000B0304C /* CustomPhotoPickerViewController.swift */,
@@ -164,6 +167,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4EA0D05C2BAA939A009B3C9B /* CustomFooterView.swift in Sources */,
 				F4FF95D7245B92E800C19C63 /* MultipleImagePicker.swift in Sources */,
 				92E8355E25E2656A00B0304C /* MultipleImagePickerBundle.swift in Sources */,
 				92E8366A25E268A600B0304C /* Viewable.swift in Sources */,

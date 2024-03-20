@@ -58,35 +58,56 @@ class CustomPhotoPickerViewController: TLPhotosPickerViewController {
     @objc func handleCellLongPress(_ notification: Notification) {
         if let cell = notification.object as? Cell {
             if let indexPath = collectionView.indexPath(for: cell) {
-                self.viewerController = ViewerController(initialIndexPath: indexPath, collectionView: collectionView)
-
-                self.viewerController!.dataSource = self
-
-                let headerView = PreviewHeaderView()
-                headerView.viewDelegate = self
-
-                self.viewerController!.headerView = headerView
-
-                if config.singleSelectedMode != true {
-                    let footerView = PreviewFooterView()
-                    footerView.viewDelegate = self
-
-                    self.viewerController!.footerView = footerView
-                }
-
-                self.viewerController?.delegate = self
-
-                self.present(self.viewerController!, animated: true, completion: nil)
+               showImagePreview(indexPath)
             }
         }
     }
+    
+    private func showImagePreview(_ indexPath: IndexPath = IndexPath(row: 1, section: 0)) {
+        self.viewerController = ViewerController(initialIndexPath: indexPath, collectionView: collectionView)
+
+        self.viewerController!.dataSource = self
+
+        let headerView = PreviewHeaderView()
+        headerView.viewDelegate = self
+
+        self.viewerController!.headerView = headerView
+
+        if config.singleSelectedMode != true {
+            let footerView = PreviewFooterView()
+            footerView.viewDelegate = self
+
+            self.viewerController!.footerView = footerView
+        }
+
+        self.viewerController?.delegate = self
+
+        self.present(self.viewerController!, animated: true, completion: nil)
+    }
+    
 
     override func makeUI() {
         super.makeUI()
         self.collectionView.backgroundColor = .white
+        self.collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 44, right: 0)
         self.customNavItem.leftBarButtonItem?.tintColor = .black
         self.customNavItem.rightBarButtonItem?.tintColor = config.selectedColor
+        
+        let bottomView = CustomFooterView()
+        bottomView.delegate = self
+        view.addSubview(bottomView)
 
+        // 禁用AutoresizingMask，确保使用Auto Layout
+        bottomView.translatesAutoresizingMaskIntoConstraints = false
+        // 添加左侧约束：左侧边缘与父视图左侧对齐
+        bottomView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        // 添加右侧约束：右侧边缘与父视图右侧对齐
+        bottomView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        // 添加底部约束：底部边缘与父视图底部对齐
+        bottomView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        // 添加高度约束：高度为44
+        bottomView.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        
         /// 默认不可点击
         updateNavigationBarButtonState(enable: false)
         for subview in self.view.subviews {
@@ -133,6 +154,8 @@ extension CustomPhotoPickerViewController: ViewerControllerDataSource {
             }
 
             viewable.placeholder = placeholder
+        
+            debugPrint("[john] placeholder:\(placeholder) assetID:\(viewable.assetID!)")
         }
 
         return viewable
@@ -300,5 +323,13 @@ extension CustomPhotoPickerViewController: ViewerControllerDelegate {
 
     func viewerController(_: ViewerController, didLongPressViewableAt _: IndexPath) {
         //
+    }
+}
+
+
+extension CustomPhotoPickerViewController: BottomPreviewButtonDelegate {
+    
+    func bottomPreviewButtonTapped() {
+        showImagePreview()
     }
 }
