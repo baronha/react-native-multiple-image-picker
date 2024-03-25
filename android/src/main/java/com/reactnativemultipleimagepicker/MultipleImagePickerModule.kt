@@ -278,7 +278,6 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
 
         titleBar.setHideCancelButton(true);
         titleBar.setAlbumTitleRelativeLeft(true);
-
         titleBar.setTitleAlbumBackgroundResource(R.drawable.ps_album_bg);
         titleBar.setTitleDrawableRightResource(R.drawable.ps_ic_grey_arrow);
         titleBar.setPreviewTitleLeftBackResource(R.drawable.ps_ic_black_back);
@@ -288,9 +287,9 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
         // BOTTOM BAR
         val bottomBar = BottomNavBarStyle()
         bottomBar.bottomPreviewNormalTextColor =
-            ContextCompat.getColor(appContext, R.color.app_color_pri)
+            ContextCompat.getColor(appContext, R.color.color_0a79c3)
         bottomBar.bottomPreviewSelectTextColor =
-            ContextCompat.getColor(appContext, R.color.app_color_pri)
+            ContextCompat.getColor(appContext, R.color.color_0a79c3)
         bottomBar.bottomNarBarBackgroundColor =
             ContextCompat.getColor(appContext, R.color.ps_color_white)
         bottomBar.bottomSelectNumResources = R.drawable.num_oval_orange
