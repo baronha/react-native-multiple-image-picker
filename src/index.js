@@ -77,4 +77,31 @@ export const openPicker = (optionsPicker) => {
   });
 };
 
-export default { openPicker };
+export const launchCamera = (optionsPicker) => {
+  const options = {
+    ...defaultOptions,
+    ...optionsPicker,
+  };
+  const isSingle = options?.singleSelectedMode ?? false;
+  if (isSingle) options.selectedAssets = [];
+
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response = await NativeModules.MultipleImagePicker.launchCamera(
+        options
+      );
+      if (response?.length) {
+        if (isSingle) {
+          resolve(response[0]);
+        }
+        resolve(response);
+        return;
+      }
+      resolve([]);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+export default { openPicker, launchCamera };
