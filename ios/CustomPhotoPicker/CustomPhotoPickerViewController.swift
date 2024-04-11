@@ -15,6 +15,8 @@ class CustomPhotoPickerViewController: TLPhotosPickerViewController {
 
     var viewerController: ViewerController?
     
+    var lastSelectedIndexPath: IndexPath = IndexPath(row: 1, section: 0)
+    
     override var selectedAssets: [TLPHAsset]  {
         didSet {
             self.updateNavigationBarButtonState(enable: selectedAssets.count > 0)
@@ -33,8 +35,15 @@ class CustomPhotoPickerViewController: TLPhotosPickerViewController {
         guard let item = self.customNavItem.rightBarButtonItems?.first else { return  }
         DispatchQueue.main.async {
             let newTintColor = enable ? config.selectedColor : UIColor(hex: "#666666")
-            if item.tintColor != newTintColor {
-                item.tintColor = newTintColor
+            if #available(iOS 15.0, *) {
+                if item.tintColor != newTintColor {
+                    item.tintColor = newTintColor
+                }
+            }else {
+                let attributeNormal: [NSAttributedString.Key: Any] = [
+                    .foregroundColor: newTintColor
+                ]
+                item.setTitleTextAttributes(attributeNormal, for: .normal)
             }
         }
         debugPrint("+++++++++++ \(Thread.current)")
@@ -89,24 +98,23 @@ class CustomPhotoPickerViewController: TLPhotosPickerViewController {
     override func makeUI() {
         super.makeUI()
         self.collectionView.backgroundColor = .white
-        self.collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 44, right: 0)
+//        self.collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 44, right: 0)
         self.customNavItem.leftBarButtonItem?.tintColor = .black
         self.customNavItem.rightBarButtonItem?.tintColor = config.selectedColor
-        
-        let bottomView = CustomFooterView()
-        bottomView.delegate = self
-        view.addSubview(bottomView)
-
-        // 禁用AutoresizingMask，确保使用Auto Layout
-        bottomView.translatesAutoresizingMaskIntoConstraints = false
-        // 添加左侧约束：左侧边缘与父视图左侧对齐
-        bottomView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        // 添加右侧约束：右侧边缘与父视图右侧对齐
-        bottomView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        // 添加底部约束：底部边缘与父视图底部对齐
-        bottomView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        // 添加高度约束：高度为44
-        bottomView.heightAnchor.constraint(equalToConstant: 44).isActive = true
+//        let bottomView = CustomFooterView()
+//        bottomView.delegate = self
+//        view.addSubview(bottomView)
+//
+//        // 禁用AutoresizingMask，确保使用Auto Layout
+//        bottomView.translatesAutoresizingMaskIntoConstraints = false
+//        // 添加左侧约束：左侧边缘与父视图左侧对齐
+//        bottomView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+//        // 添加右侧约束：右侧边缘与父视图右侧对齐
+//        bottomView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+//        // 添加底部约束：底部边缘与父视图底部对齐
+//        bottomView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+//        // 添加高度约束：高度为44
+//        bottomView.heightAnchor.constraint(equalToConstant: 44).isActive = true
         
         /// 默认不可点击
         updateNavigationBarButtonState(enable: false)
@@ -324,12 +332,18 @@ extension CustomPhotoPickerViewController: ViewerControllerDelegate {
     func viewerController(_: ViewerController, didLongPressViewableAt _: IndexPath) {
         //
     }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        super.collectionView(collectionView, didSelectItemAt: indexPath)
+        
+        lastSelectedIndexPath = indexPath
+    }
 }
 
 
 extension CustomPhotoPickerViewController: BottomPreviewButtonDelegate {
     
     func bottomPreviewButtonTapped() {
-        showImagePreview()
+        showImagePreview(lastSelectedIndexPath)
     }
 }
