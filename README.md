@@ -210,6 +210,13 @@ or [pull request](https://github.com/baronha/react-native-multiple-image-picker/
 
 See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
 
+## Contributors ✨
+
+Thanks go to these wonderful people:
+
+<!-- readme: collaborators,contributors -start -->
+<!-- readme: collaborators,contributors -end -->
+
 ## License
 
 MIT
