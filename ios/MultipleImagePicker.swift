@@ -462,9 +462,16 @@ extension MultipleImagePicker: TLPhotosPickerViewControllerDelegate {
     }
 
     func showExceededMaximumAlert(vc: UIViewController, isVideo: Bool) {
-        let alert = UIAlertController(title: self.options["maximumMessageTitle"] as? String, message: self.options[isVideo ? "maximumVideoMessage" : "maximumMessage"] as? String, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: self.options["messageTitleButton"] as? String, style: .default, handler: nil))
-        vc.present(alert, animated: true, completion: nil)
+//        let alert = UIAlertController(title: self.options["maximumMessageTitle"] as? String, message: self.options[isVideo ? "maximumVideoMessage" : "maximumMessage"] as? String, preferredStyle: .alert)
+//        alert.addAction(UIAlertAction(title: self.options["messageTitleButton"] as? String, style: .default, handler: nil))
+//        vc.present(alert, animated: true, completion: nil)
+        let alert = UIAlertController(title: nil,
+                                      message: self.options[isVideo ? "maximumVideoMessage" : "maximumMessage"] as? String, preferredStyle: .alert)
+        self.getTopMostViewController()?.present(alert, animated: true)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.getTopMostViewController()?.dismiss(animated: true)
+        }
     }
     
     func canSelectAsset(phAsset: PHAsset) -> Bool {
