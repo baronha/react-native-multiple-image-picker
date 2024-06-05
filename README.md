@@ -219,13 +219,6 @@ Thanks go to these wonderful people:
 	<tbody>
 		<tr>
             <td align="center">
-                <a href="https://github.com/tuanngocptn">
-                    <img src="https://avatars.githubusercontent.com/u/22292704?v=4" width="100;" alt="tuanngocptn"/>
-                    <br />
-                    <sub><b>Nick - Ngoc Pham</b></sub>
-                </a>
-            </td>
-            <td align="center">
                 <a href="https://github.com/baronha">
                     <img src="https://avatars.githubusercontent.com/u/23580920?v=4" width="100;" alt="baronha"/>
                     <br />
@@ -260,8 +253,6 @@ Thanks go to these wonderful people:
                     <sub><b>Denis Bevilacqua</b></sub>
                 </a>
             </td>
-		</tr>
-		<tr>
             <td align="center">
                 <a href="https://github.com/ctrleffive">
                     <img src="https://avatars.githubusercontent.com/u/35224957?v=4" width="100;" alt="ctrleffive"/>
@@ -269,6 +260,8 @@ Thanks go to these wonderful people:
                     <sub><b>Chandu J S</b></sub>
                 </a>
             </td>
+		</tr>
+		<tr>
             <td align="center">
                 <a href="https://github.com/rxdsrex">
                     <img src="https://avatars.githubusercontent.com/u/21159505?v=4" width="100;" alt="rxdsrex"/>
@@ -302,6 +295,13 @@ Thanks go to these wonderful people:
                     <img src="https://avatars.githubusercontent.com/u/108206954?v=4" width="100;" alt="hieuphan1030"/>
                     <br />
                     <sub><b>hieuphan1030</b></sub>
+                </a>
+            </td>
+            <td align="center">
+                <a href="https://github.com/tuanngocptn">
+                    <img src="https://avatars.githubusercontent.com/u/22292704?v=4" width="100;" alt="tuanngocptn"/>
+                    <br />
+                    <sub><b>Nick - Ngoc Pham</b></sub>
                 </a>
             </td>
 		</tr>
