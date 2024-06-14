@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   s.authors      = package["author"]
 
   s.platforms    = { :ios => "10.0" }
-  s.source       = { :git => "https://github.com/baronha/react-native-multiple-image-picker.git", :tag => "#{s.version}" }
+  s.source       = { :git => "https://github.com/kingka/react-native-multiple-image-picker.git", :tag => "#{s.version}" }
   s.swift_version = '5.0'
 
   s.source_files = "ios/**/*.{h,m,mm,swift,lproj}"
@@ -20,7 +20,7 @@ Pod::Spec.new do |s|
   #s.resources = 'ios/MultipleImagePicker.bundle'
 
   s.dependency 'React-Core'
-  s.dependency 'TLPhotoPicker', '2.1.9'
+  s.dependency 'TLPhotoPicker', '2.2.0'
   s.dependency 'CropViewController', '2.6.1'
 
   s.subspec 'Viewer' do |vw|
