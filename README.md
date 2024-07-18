@@ -268,6 +268,13 @@ Thanks go to these wonderful people:
 		</tr>
 		<tr>
             <td align="center">
+                <a href="https://github.com/shafiqjefri">
+                    <img src="https://avatars.githubusercontent.com/u/126740667?v=4" width="100;" alt="shafiqjefri"/>
+                    <br />
+                    <sub><b>shafiqjefri</b></sub>
+                </a>
+            </td>
+            <td align="center">
                 <a href="https://github.com/rxdsrex">
                     <img src="https://avatars.githubusercontent.com/u/21159505?v=4" width="100;" alt="rxdsrex"/>
                     <br />
@@ -302,6 +309,8 @@ Thanks go to these wonderful people:
                     <sub><b>cd-butterfly</b></sub>
                 </a>
             </td>
+		</tr>
+		<tr>
             <td align="center">
                 <a href="https://github.com/hieuphan1030">
                     <img src="https://avatars.githubusercontent.com/u/108206954?v=4" width="100;" alt="hieuphan1030"/>
@@ -309,8 +318,6 @@ Thanks go to these wonderful people:
                     <sub><b>hieuphan1030</b></sub>
                 </a>
             </td>
-		</tr>
-		<tr>
             <td align="center">
                 <a href="https://github.com/tuanngocptn">
                     <img src="https://avatars.githubusercontent.com/u/22292704?v=4" width="100;" alt="tuanngocptn"/>
