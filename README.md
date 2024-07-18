@@ -201,6 +201,11 @@ Get an Array value only(Only works when ```singleSelectedMode === false```). If 
 - [ ] Open Crop Controller.
 - [ ] Open Preview Controller.
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=baronha/react-native-multiple-image-picker&type=Date)](https://star-history.com/#bytebase/star-history&Date)
+
+
 ## Performance
 
 We're trying to improve performance. If you have a better solution, please open a [issue](https://github.com/baronha/react-native-multiple-image-picker/issues)
