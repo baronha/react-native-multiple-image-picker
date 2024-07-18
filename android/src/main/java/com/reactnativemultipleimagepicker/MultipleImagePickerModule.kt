@@ -3,25 +3,32 @@ package com.reactnativemultipleimagepicker
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.Point
 import android.media.MediaMetadataRetriever
 import android.os.Build
-import android.os.Bundle
+import android.util.TypedValue
+import android.view.Gravity
+import android.view.WindowManager
+import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import com.facebook.react.bridge.*
 import com.luck.picture.lib.app.IApp
 import com.luck.picture.lib.app.PictureAppMaster
 import com.luck.picture.lib.basic.PictureSelector
+import com.luck.picture.lib.config.SelectLimitType
 import com.luck.picture.lib.config.SelectMimeType
 import com.luck.picture.lib.config.SelectModeConfig
+import com.luck.picture.lib.config.SelectorConfig
 import com.luck.picture.lib.engine.PictureSelectorEngine
 import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.entity.LocalMedia.generateLocalMedia
 import com.luck.picture.lib.interfaces.OnResultCallbackListener
+import com.luck.picture.lib.interfaces.OnSelectLimitTipsListener
 import com.luck.picture.lib.style.*
-import com.luck.picture.lib.utils.StyleUtils
+import com.luck.picture.lib.utils.ToastUtils
 import com.yalantis.ucrop.UCrop
-import com.yalantis.ucrop.UCrop.Options
 import java.io.*
 import java.util.*
 
@@ -48,6 +55,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
     private var isCamera: Boolean = true
     private var cropOption: UCrop.Options? = null;
     private var primaryColor: Int = Color.BLACK;
+    private var maximumMessage: String = ""
 
 
     @ReactMethod
@@ -71,13 +79,22 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
             .isWithSelectVideoImage(true)
             .setRecordVideoMaxSecond(maxVideoDuration)
             .setMaxVideoSelectNum(if (maxVideo != 20) maxVideo else maxSelectedAssets)
-            .isMaxSelectEnabledMask(true)
+//            .isMaxSelectEnabledMask(true)
             .setSelectedData(selectedAssets)
             .setSelectorUIStyle(style)
             .isPreviewImage(isPreview)
             .isPreviewVideo(isPreview)
             .isDisplayCamera(isCamera)
             .setSelectionMode(if (singleSelectedMode) SelectModeConfig.SINGLE else SelectModeConfig.MULTIPLE)
+            .setSelectLimitTipsListener(object : OnSelectLimitTipsListener {
+                override fun onSelectLimitTips(context: Context?, media: LocalMedia?, config: SelectorConfig?, limitType: Int): Boolean {
+                    if (limitType == SelectLimitType.SELECT_MAX_SELECT_LIMIT) {
+                        showToast(activity, maximumMessage)
+                        return true
+                    }
+                    return false
+                }
+            })
             .forResult(object : OnResultCallbackListener<LocalMedia?> {
                 override fun onResult(result: ArrayList<LocalMedia?>?) {
                     val localMedia: WritableArray = WritableNativeArray()
@@ -104,6 +121,97 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
             })
     }
 
+    private fun showToast(context: Context?, msg: String) {
+        context?.apply {
+            val textView = AppCompatTextView(context)
+            textView.setBackgroundResource(R.drawable.picker_bg_corner_15_solid_333333)
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
+            textView.gravity = Gravity.CENTER
+            textView.setTextColor(context.getColor(R.color.picker_color_white))
+            textView.minWidth = dp2px(context, 50f)
+            var maxWidth: Int = getScreenWidth(this) - dp2px(context, 30f)
+            if (maxWidth < 0) {
+                maxWidth = getScreenWidth(this)
+            }
+            textView.maxWidth = maxWidth
+            textView.text = msg
+            val padding: Int = dp2px(context, 15f)
+            textView.setPadding(padding, padding, padding, padding)
+            val toast = Toast(context)
+            toast.setGravity(Gravity.CENTER, 0, 0)
+            toast.duration = Toast.LENGTH_LONG
+            toast.view = textView
+            toast.show()
+
+        }
+
+    }
+
+    fun dp2px(context: Context, value: Float): Int {
+        return (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, value, context.resources.displayMetrics) + 0.5f).toInt()
+    }
+
+    fun getScreenWidth(context: Context): Int {
+        val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager ?: return -1
+        val point = Point()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            wm.defaultDisplay.getRealSize(point)
+        } else {
+            wm.defaultDisplay.getSize(point)
+        }
+        return point.x
+    }
+
+    @ReactMethod
+    fun launchCamera(options: ReadableMap?, promise: Promise): Unit {
+        PictureAppMaster.getInstance().app = this
+        val activity = currentActivity
+
+        // set config
+        setConfiguration(options)
+
+        PictureSelector.create(activity)
+            .openCamera(SelectMimeType.ofImage())
+            .setCropEngine(onSetCropEngine())
+//            .setRecordVideoMaxSecond(maxVideoDuration)
+//            .isMaxSelectEnabledMask(true)
+//            .setSelectedData(selectedAssets)
+//            .setSelectLimitTipsListener(object : OnSelectLimitTipsListener {
+//                override fun onSelectLimitTips(context: Context?, media: LocalMedia?, config: SelectorConfig?, limitType: Int): Boolean {
+//                    if (limitType == SelectLimitType.SELECT_MAX_SELECT_LIMIT) {
+//                        ToastUtils.showToast(activity, maximumMessage)
+//                        return true
+//                    }
+//                    return false
+//                }
+//            })
+            .forResult(object : OnResultCallbackListener<LocalMedia?> {
+                override fun onResult(result: ArrayList<LocalMedia?>?) {
+                    val localMedia: WritableArray = WritableNativeArray()
+                    if (result?.size == 0) {
+                        promise.resolve(localMedia)
+                        return
+                    }
+                    if (result?.size == selectedAssets.size && (result[result.size - 1] as LocalMedia).id == (selectedAssets[selectedAssets.size - 1].id)) {
+                        return
+                    }
+                    if (result != null) {
+                        for (i in 0 until result.size) {
+                            val item: LocalMedia = result[i] as LocalMedia
+                            val media: WritableMap = createAttachmentResponse(item)
+                            localMedia.pushMap(media)
+                        }
+                    }
+                    promise.resolve(localMedia)
+                }
+
+                override fun onCancel() {
+                    promise.reject("PICKER_CANCELLED", "User has canceled", null)
+                }
+            })
+    }
+
+
     private fun onSetCropEngine(): CropEngine? {
         return cropOption?.let { CropEngine(it) }
     }
@@ -120,6 +228,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
             isExportThumbnail = options.getBoolean("isExportThumbnail")
             maxVideo = options.getInt("maxVideo")
             isCamera = options.getBoolean("usedCameraButton")
+            maximumMessage = options.getString("maximumMessage").toString()
 
             setStyle(options) // set style for UI
 
@@ -145,7 +254,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
         options.isForbidSkipMultipleCrop(true)
         options.setMaxScaleMultiplier(100f)
         options.setLogoColor(primaryColor)
-        options.setToolbarWidgetColor(R.color.app_color_black)
+        options.setToolbarWidgetColor(Color.parseColor("000"))
         options.setStatusBarColor(mainStyle.statusBarColor)
         options.isDarkStatusBarBlack(mainStyle.isDarkStatusBarBlack)
 
@@ -169,7 +278,6 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
 
         titleBar.setHideCancelButton(true);
         titleBar.setAlbumTitleRelativeLeft(true);
-
         titleBar.setTitleAlbumBackgroundResource(R.drawable.ps_album_bg);
         titleBar.setTitleDrawableRightResource(R.drawable.ps_ic_grey_arrow);
         titleBar.setPreviewTitleLeftBackResource(R.drawable.ps_ic_black_back);
@@ -179,9 +287,9 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
         // BOTTOM BAR
         val bottomBar = BottomNavBarStyle()
         bottomBar.bottomPreviewNormalTextColor =
-            ContextCompat.getColor(appContext, R.color.app_color_pri)
+            ContextCompat.getColor(appContext, R.color.color_0a79c3)
         bottomBar.bottomPreviewSelectTextColor =
-            ContextCompat.getColor(appContext, R.color.app_color_pri)
+            ContextCompat.getColor(appContext, R.color.color_0a79c3)
         bottomBar.bottomNarBarBackgroundColor =
             ContextCompat.getColor(appContext, R.color.ps_color_white)
         bottomBar.bottomSelectNumResources = R.drawable.num_oval_orange
