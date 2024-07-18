@@ -27,24 +27,24 @@ class GlideEngine private constructor() : ImageEngine {
       return
     }
     Glide.with(context)
-      .load(url)
-      .into(imageView)
+            .load(url)
+            .into(imageView)
   }
 
   override fun loadImage(
-    context: Context,
-    imageView: ImageView,
-    url: String,
-    maxWidth: Int,
-    maxHeight: Int
+          context: Context,
+          imageView: ImageView,
+          url: String,
+          maxWidth: Int,
+          maxHeight: Int
   ) {
     if (!ActivityCompatHelper.assertValidRequest(context)) {
       return
     }
     Glide.with(context)
-      .load(url)
-      .override(maxWidth, maxHeight)
-      .into(imageView)
+            .load(url)
+            .override(maxWidth, maxHeight)
+            .into(imageView)
   }
 
   /**
@@ -59,13 +59,12 @@ class GlideEngine private constructor() : ImageEngine {
       return
     }
     Glide.with(context)
-      .asBitmap()
-      .load(url)
-      .override(180, 180)
-      .sizeMultiplier(0.5f)
-      .transform(CenterCrop(), RoundedCorners(8))
-      .placeholder(R.drawable.ps_image_placeholder)
-      .into(imageView)
+            .asBitmap()
+            .load(url)
+            .override(180, 180)
+            .sizeMultiplier(0.5f)
+            .transform(CenterCrop(), RoundedCorners(8))
+            .into(imageView)
   }
 
   /**
@@ -80,11 +79,11 @@ class GlideEngine private constructor() : ImageEngine {
       return
     }
     Glide.with(context)
-      .load(url)
-      .override(200, 200)
-      .centerCrop()
-      .placeholder(R.drawable.ps_image_placeholder)
-      .into(imageView)
+            .load(url)
+            .override(200, 200)
+            .centerCrop()
+            .placeholder(com.luck.picture.lib.R.drawable.ps_image_placeholder)
+            .into(imageView)
   }
 
   override fun pauseRequests(context: Context) {
