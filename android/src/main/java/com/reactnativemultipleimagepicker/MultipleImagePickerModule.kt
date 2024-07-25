@@ -163,7 +163,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
         // ANIMATION SLIDE FROM BOTTOM
         val animationStyle = PictureWindowAnimationStyle()
         animationStyle.setActivityEnterAnimation(com.luck.picture.lib.R.anim.ps_anim_up_in)
-        animationStyle.setActivityExitAnimation(com.luck.picture.lib.R.anim.ps_anim_up_in)
+        animationStyle.setActivityExitAnimation(com.luck.picture.lib.R.anim.ps_anim_down_out)
 
         // TITLE BAR
         val titleBar = TitleBarStyle()

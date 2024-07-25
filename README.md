@@ -224,6 +224,13 @@ Thanks go to these wonderful people:
 	<tbody>
 		<tr>
             <td align="center">
+                <a href="https://github.com/cd-butterfly">
+                    <img src="https://avatars.githubusercontent.com/u/6622823?v=4" width="100;" alt="cd-butterfly"/>
+                    <br />
+                    <sub><b>cd-butterfly</b></sub>
+                </a>
+            </td>
+            <td align="center">
                 <a href="https://github.com/baronha">
                     <img src="https://avatars.githubusercontent.com/u/23580920?v=4" width="100;" alt="baronha"/>
                     <br />
@@ -258,6 +265,8 @@ Thanks go to these wonderful people:
                     <sub><b>Denis Bevilacqua</b></sub>
                 </a>
             </td>
+		</tr>
+		<tr>
             <td align="center">
                 <a href="https://github.com/ctrleffive">
                     <img src="https://avatars.githubusercontent.com/u/35224957?v=4" width="100;" alt="ctrleffive"/>
@@ -265,8 +274,6 @@ Thanks go to these wonderful people:
                     <sub><b>Chandu J S</b></sub>
                 </a>
             </td>
-		</tr>
-		<tr>
             <td align="center">
                 <a href="https://github.com/shafiqjefri">
                     <img src="https://avatars.githubusercontent.com/u/126740667?v=4" width="100;" alt="shafiqjefri"/>
@@ -300,13 +307,6 @@ Thanks go to these wonderful people:
                     <img src="https://avatars.githubusercontent.com/u/1430376?v=4" width="100;" alt="ouabing"/>
                     <br />
                     <sub><b>abing</b></sub>
-                </a>
-            </td>
-            <td align="center">
-                <a href="https://github.com/cd-butterfly">
-                    <img src="https://avatars.githubusercontent.com/u/6622823?v=4" width="100;" alt="cd-butterfly"/>
-                    <br />
-                    <sub><b>cd-butterfly</b></sub>
                 </a>
             </td>
 		</tr>
