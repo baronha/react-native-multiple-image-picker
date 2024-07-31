@@ -124,17 +124,17 @@ dependencies {
   // noinspection GradleDynamicVersion
   api 'com.facebook.react:react-native:+'
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  implementation 'com.github.bumptech.glide:glide:4.12.0'
+  implementation 'com.github.bumptech.glide:glide:4.16.0'
   annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
   // PictureSelector basic (Necessary)
-  implementation 'io.github.lucksiege:pictureselector:v3.11.1'
+  implementation 'io.github.lucksiege:pictureselector:v3.11.2'
 
   // image compress library (Not necessary)
-  implementation 'io.github.lucksiege:compress:v3.11.1'
+  implementation 'io.github.lucksiege:compress:v3.11.2'
 
   // uCrop library (Not necessary)
-  implementation 'io.github.lucksiege:ucrop:v3.11.1'
+  implementation 'io.github.lucksiege:ucrop:v3.11.2'
 
   // simple camerax library (Not necessary)
-  implementation 'io.github.lucksiege:camerax:v3.11.1'
+  implementation 'io.github.lucksiege:camerax:v3.11.2'
 }

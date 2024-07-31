@@ -53,6 +53,8 @@ export default function App() {
 
       const crop = response.crop;
 
+      console.log('crop: ', crop);
+
       if (crop) {
         response.path = crop.path;
         response.width = crop.width;
@@ -61,7 +63,9 @@ export default function App() {
 
       setImages(Array.isArray(response) ? response : [response]);
       layoutEffect();
-    } catch (e) {}
+    } catch (e) {
+      //
+    }
   };
 
   const onRemovePhoto = (_, index) => {
@@ -82,7 +86,7 @@ export default function App() {
             width={Dimensions.get('window').width - 6}
             sourceKey={'path'}
             videoKey={'type'}
-            prefixPath={Platform.OS === 'ios' ? 'file://' : null}
+            prefixPath={Platform.OS === 'ios' ? 'file://' : ''}
             conditionCheckVideo={'video'}
             videoURLKey={'thumbnail'}
             showDelete

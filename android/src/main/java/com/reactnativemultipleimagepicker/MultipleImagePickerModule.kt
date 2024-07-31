@@ -5,9 +5,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.media.MediaMetadataRetriever
-import android.os.Build
-import android.os.Bundle
-import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import com.facebook.react.bridge.*
 import com.luck.picture.lib.app.IApp
@@ -20,15 +17,11 @@ import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.entity.LocalMedia.generateLocalMedia
 import com.luck.picture.lib.interfaces.OnResultCallbackListener
 import com.luck.picture.lib.style.*
-import com.luck.picture.lib.utils.StyleUtils
-import com.reactnativemultipleimagepicker.R.color.app_color_black
-import com.yalantis.ucrop.UCrop
 import com.yalantis.ucrop.UCrop.Options
 import java.io.*
 import java.util.*
 
 
-@Suppress("INCOMPATIBLE_ENUM_COMPARISON", "UNCHECKED_CAST")
 class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
         ReactContextBaseJavaModule(reactContext), IApp {
 
@@ -36,7 +29,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
         return "MultipleImagePicker"
     }
 
-    var style = PictureSelectorStyle()
+    private var style = PictureSelectorStyle()
 
     private var selectedAssets: List<LocalMedia> = ArrayList()
     private var singleSelectedMode: Boolean = false
@@ -48,15 +41,15 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
     private var isExportThumbnail: Boolean = false
     private var maxVideo: Int = 20
     private var isCamera: Boolean = true
-    private var cropOption: UCrop.Options? = null;
-    private var primaryColor: Int = Color.BLACK;
+    private var cropOption: Options? = null
+    private var primaryColor: Int = Color.BLACK
 
 
     @ReactMethod
     fun openPicker(options: ReadableMap?, promise: Promise): Unit {
         PictureAppMaster.getInstance().app = this
         val activity = currentActivity
-        var imageEngine = GlideEngine.createGlideEngine();
+        val imageEngine = GlideEngine.createGlideEngine()
 
         // set config
         setConfiguration(options)
@@ -125,7 +118,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
 
             setStyle(options) // set style for UI
 
-            val isCrop = options.getBoolean("isCrop") && singleSelectedMode == true
+            val isCrop = options.getBoolean("isCrop") && singleSelectedMode
 
             if (isCrop) {
                 setCropOptions(options)
@@ -137,7 +130,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
 
     @SuppressLint("ResourceAsColor")
     private fun setCropOptions(libOption: ReadableMap) {
-        val options = UCrop.Options()
+        val options = Options()
         val mainStyle: SelectMainStyle = style.selectMainStyle
 
         options.setShowCropFrame(true)
@@ -148,7 +141,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
         options.isForbidSkipMultipleCrop(true)
         options.setMaxScaleMultiplier(100f)
         options.setLogoColor(primaryColor)
-        options.setToolbarWidgetColor(app_color_black)
+        options.setToolbarWidgetColor(Color.BLACK)
         options.setStatusBarColor(mainStyle.statusBarColor)
         options.isDarkStatusBarBlack(mainStyle.isDarkStatusBarBlack)
 
@@ -162,22 +155,22 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
 
         // ANIMATION SLIDE FROM BOTTOM
         val animationStyle = PictureWindowAnimationStyle()
-        animationStyle.setActivityEnterAnimation(com.luck.picture.lib.R.anim.ps_anim_up_in)
-        animationStyle.setActivityExitAnimation(com.luck.picture.lib.R.anim.ps_anim_down_out)
+        animationStyle.setActivityEnterAnimation(R.anim.ps_anim_up_in)
+        animationStyle.setActivityExitAnimation(R.anim.ps_anim_down_out)
 
         // TITLE BAR
         val titleBar = TitleBarStyle()
         titleBar.titleBackgroundColor =
                 ContextCompat.getColor(appContext, R.color.app_color_white)
 
-        titleBar.setHideCancelButton(true);
-        titleBar.setAlbumTitleRelativeLeft(true);
+        titleBar.isHideCancelButton = true
+        titleBar.isAlbumTitleRelativeLeft = true
 
-        titleBar.setTitleAlbumBackgroundResource(com.luck.picture.lib.R.drawable.ps_album_bg);
-        titleBar.setTitleDrawableRightResource(com.luck.picture.lib.R.drawable.ps_ic_grey_arrow);
-        titleBar.setPreviewTitleLeftBackResource(com.luck.picture.lib.R.drawable.ps_ic_black_back);
-        titleBar.setTitleLeftBackResource(com.luck.picture.lib.R.drawable.ps_ic_black_back);
-        titleBar.setHideCancelButton(true)
+        titleBar.titleAlbumBackgroundResource = R.drawable.ps_album_bg
+        titleBar.titleDrawableRightResource = R.drawable.ps_ic_grey_arrow
+        titleBar.previewTitleLeftBackResource = R.drawable.ps_ic_black_back
+        titleBar.titleLeftBackResource = R.drawable.ps_ic_black_back
+        titleBar.isHideCancelButton = true
 
         // BOTTOM BAR
         val bottomBar = BottomNavBarStyle()
@@ -186,74 +179,50 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
         bottomBar.bottomPreviewSelectTextColor =
                 ContextCompat.getColor(appContext, R.color.app_color_pri)
         bottomBar.bottomNarBarBackgroundColor =
-                ContextCompat.getColor(appContext, com.luck.picture.lib.R.color.ps_color_white)
+                ContextCompat.getColor(appContext, R.color.ps_color_white)
         bottomBar.bottomSelectNumResources = R.drawable.num_oval_orange
         bottomBar.bottomEditorTextColor =
-                ContextCompat.getColor(appContext, com.luck.picture.lib.R.color.ps_color_53575e)
+                ContextCompat.getColor(appContext, R.color.ps_color_53575e)
         bottomBar.bottomOriginalTextColor =
-                ContextCompat.getColor(appContext, com.luck.picture.lib.R.color.ps_color_53575e)
+                ContextCompat.getColor(appContext, R.color.ps_color_53575e)
         bottomBar.bottomPreviewNormalTextColor = R.color.app_color_53575e
-        bottomBar.bottomPreviewNormalTextColor = app_color_black
-        bottomBar.setCompleteCountTips(false)
+        bottomBar.bottomPreviewNormalTextColor = Color.BLACK
+        bottomBar.isCompleteCountTips = false
 
         // MAIN STYLE
         val mainStyle = SelectMainStyle()
 
-        mainStyle.setPreviewSelectRelativeBottom(true)
-        mainStyle.setSelectNumberStyle(if (singleSelectedMode) false else true)
-        mainStyle.setPreviewSelectNumberStyle(true);
+        mainStyle.isPreviewSelectRelativeBottom = true
+        mainStyle.isSelectNumberStyle = !singleSelectedMode
+        mainStyle.isPreviewSelectNumberStyle = true
         mainStyle.isSelectNumberStyle = true
         mainStyle.selectBackground = R.drawable.picture_selector
         mainStyle.mainListBackgroundColor =
-                ContextCompat.getColor(appContext, com.luck.picture.lib.R.color.ps_color_white)
+                ContextCompat.getColor(appContext, R.color.ps_color_white)
         mainStyle.previewSelectBackground =
                 R.drawable.picture_selector
 
         // custom select text on top
-        mainStyle.setSelectText(doneTitle)
-        mainStyle.setCompleteSelectRelativeTop(true)
-        mainStyle.setSelectNormalText(doneTitle)
+        mainStyle.selectText = doneTitle
+        mainStyle.isCompleteSelectRelativeTop = true
+        mainStyle.selectNormalText = doneTitle
 
 
         mainStyle.selectNormalTextColor =
-                ContextCompat.getColor(appContext, com.luck.picture.lib.R.color.ps_color_9b)
+                ContextCompat.getColor(appContext, R.color.ps_color_9b)
         mainStyle.selectTextColor = primaryColor
         mainStyle.selectText = doneTitle
 
-        mainStyle.setStatusBarColor(
-                ContextCompat.getColor(
-                        appContext,
-                        R.color.app_color_white
-                )
-        );
-        mainStyle.setDarkStatusBarBlack(true);
+        mainStyle.statusBarColor = ContextCompat.getColor(
+            appContext,
+            R.color.app_color_white
+        )
+        mainStyle.isDarkStatusBarBlack = true
 
-        style.setTitleBarStyle(titleBar)
-        style.setBottomBarStyle(bottomBar)
-        style.setSelectMainStyle(mainStyle)
-        style.setWindowAnimationStyle(animationStyle)
-
-
-//        pictureStyle.selectMainStyle.adapterImageEditorResources =
-//            if (singleSelectedMode) R.drawable.checkbox_selector else R.drawable.picture_selector
-//        numberSelectMainStyle.isSelectNumberStyle = if (singleSelectedMode) false else true
-//        //bottom style
-//        pictureStyle.bottomBarStyle.bottomOriginalText = options.getString("doneTitle")
-//        pictureStyle.isOpenCheckNumStyle = if(singleSelectedMode) false else true
-//        pictureStyle.isCompleteReplaceNum = true
-//        pictureStyle.pictureCompleteTextSize = 16
-//        pictureStyle.pictureCheckNumBgStyle = R.drawable.num_oval_orange
-//        pictureStyle.pictureCompleteTextColor = Color.parseColor("#ffffff")
-//        pictureStyle.pictureNavBarColor = Color.parseColor("#000000")
-//        pictureStyle.pictureBottomBgColor = Color.parseColor("#393a3e")
-//        //preview Style
-//        pictureStyle.picturePreviewBottomBgColor = Color.parseColor("#000000")
-//        pictureStyle.pictureUnPreviewTextColor = Color.parseColor("#ffffff")
-//        //header
-//        pictureStyle.pictureTitleDownResId = R.drawable.picture_icon_arrow_down
-//        pictureStyle.pictureCancelTextColor = Color.parseColor("#393a3e")
-//        pictureStyle.pictureStatusBarColor = Color.parseColor("#393a3e")
-//        pictureStyle.pictureTitleBarBackgroundColor = Color.parseColor("#393a3e")
+        style.titleBarStyle = titleBar
+        style.bottomBarStyle = bottomBar
+        style.selectMainStyle = mainStyle
+        style.windowAnimationStyle = animationStyle
     }
 
     private fun handleSelectedAssets(options: ReadableMap?) {
@@ -265,7 +234,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
                 if (assets.size() > 0) {
                     val list = mutableListOf<LocalMedia>()
                     for (i in 0 until assets.size()) {
-                        val asset: ReadableNativeMap = assets.getMap(i) as ReadableNativeMap
+                        val asset: ReadableNativeMap = assets.getMap(i)
                         val localMedia: LocalMedia = handleSelectedAssetItem(asset)
                         list.add(localMedia)
                     }
@@ -285,7 +254,6 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
         return generateLocalMedia(appContext, path)
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun createAttachmentResponse(item: LocalMedia): WritableMap {
         val media: WritableMap = WritableNativeMap()
         val type: String = if (item.mimeType.startsWith("video/")) "video" else "image"
@@ -305,7 +273,7 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
         media.putString("parentFolderName", item.parentFolderName)
         if (item.isCut) {
             val crop = WritableNativeMap()
-            crop.putString("path", item.cutPath)
+            crop.putString("path", "file://${item.cutPath}")
             crop.putDouble("width", item.cropImageWidth.toDouble())
             crop.putDouble("height", item.cropImageHeight.toDouble())
             media.putMap("crop", crop)
@@ -344,22 +312,6 @@ class MultipleImagePickerModule(reactContext: ReactApplicationContext) :
             println("Error: " + e.message)
             return ""
         }
-    }
-
-    private fun createDirIfNotExists(path: String): File {
-        val dir = File(path)
-        if (dir.exists()) {
-            return dir
-        }
-        try {
-            dir.mkdirs()
-            // Add .nomedia to hide the thumbnail directory from gallery
-            val noMedia = File(path, ".nomedia")
-            noMedia.createNewFile()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-        return dir
     }
 
     override fun getAppContext(): Context {
