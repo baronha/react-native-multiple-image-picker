@@ -56,6 +56,14 @@ class HybridMultipleImagePicker: HybridMultipleImagePickerSpec {
                     Task {
                         group.enter()
                         let assetResult = try await photo.urlResult(compression)
+                        photo.getImageData { result in
+                            switch result {
+                            case .success(let data):
+                                print("data: ", data.dataUTI)
+                            case .failure:
+                                break
+                            }
+                        }
 //                        let result = self.getResult(photo, assetURLResult: assetResult)
 //
 //                        data.append(result)
@@ -84,9 +92,9 @@ class HybridMultipleImagePicker: HybridMultipleImagePickerSpec {
 }
 
 extension HybridMultipleImagePicker {
-//    func getResult(_ asset: PhotoAsset, assetURLResult: AssetURLResult) -> Result {
-//        return Result(path: "", fileName: "file", localIdentifier: asset.localAssetIdentifier, width: asset.imageSize.width, height: asset.imageSize.height, mime: assetURLResult.urlType, size: assetURLResult.url.fileSize, bucketId: nil, realPath: nil, parentFolderName: nil, creationDate: asset.phAsset?.creationDate)
-//    }
+    func getResult(_ asset: PhotoAsset, assetURLResult: AssetURLResult) -> Result {
+        return Result(path: assetURLResult.url.absoluteString, fileName: "file", localIdentifier: asset.localAssetIdentifier, width: asset.imageSize.width, height: asset.imageSize.height, mime: "", size: Double(asset.fileSize), bucketId: nil, realPath: nil, parentFolderName: nil, creationDate: asset.phAsset?.creationDate.)
+    }
 }
 
 extension UIAlertController {
