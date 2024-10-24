@@ -24,6 +24,10 @@ export type Language =
   | 'french'
   | 'arabic'
 
+export type CropConfig = {
+  circle?: boolean
+}
+
 export interface Text {
   finish?: string
   original?: string
@@ -32,32 +36,20 @@ export interface Text {
 
 export interface NitroConfig {
   mediaType: MediaType
+
   selectedAssets: Result[]
+
   selectBoxStyle: SelectBoxStyle
+
   selectMode: SelectMode
 
   numberOfColumn?: number
 
   isPreview?: boolean
-  isExportThumbnail?: boolean
 
   primaryColor?: number
-  deselectMessage?: string
+
   allowedCamera?: boolean
-
-  allowedLivePhotos?: boolean
-  allowedVideo?: boolean
-
-  allowedPhotograph?: boolean // for camera ?: allow this option when you want to take a photos
-  allowedVideoRecording?: boolean //for camera ?: allow this option when you want to recording video.
-
-  messageTitleButton?: string
-  //resize thumbnail
-  thumbnailWidth?: number
-  thumbnailHeight?: number
-  haveThumbnail?: boolean
-
-  singleSelectedMode?: boolean
 
   allowSwipeToSelect?: boolean
 
@@ -68,11 +60,15 @@ export interface NitroConfig {
   spacing?: number
 
   isHiddenPreviewButton?: boolean
+
   isHiddenOriginalButton?: boolean
+
   isShowPreviewList?: boolean
+
   allowHapticTouchPreview?: boolean
 
   isShowAssetNumber?: boolean
+
   allowedLimit?: boolean
 
   maxPhoto?: number
@@ -87,8 +83,6 @@ export interface NitroConfig {
 
   maxFileSize?: number
 
-  compressQuality?: number
-
   videoQuality?: number
 
   imageQuality?: number
@@ -98,6 +92,8 @@ export interface NitroConfig {
   text?: Text
 
   language: Language
+
+  crop?: CropConfig
 }
 
 export interface Config

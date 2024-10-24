@@ -32,6 +32,8 @@ namespace margelo::nitro::imagepicker { enum class Presentation; }
 namespace margelo::nitro::imagepicker { struct Text; }
 // Forward declaration of `Language` to properly resolve imports.
 namespace margelo::nitro::imagepicker { enum class Language; }
+// Forward declaration of `CropConfig` to properly resolve imports.
+namespace margelo::nitro::imagepicker { struct CropConfig; }
 
 #include "MediaType.hpp"
 #include <vector>
@@ -43,6 +45,7 @@ namespace margelo::nitro::imagepicker { enum class Language; }
 #include "Presentation.hpp"
 #include "Text.hpp"
 #include "Language.hpp"
+#include "CropConfig.hpp"
 
 namespace margelo::nitro::imagepicker {
 
@@ -63,9 +66,6 @@ namespace margelo::nitro::imagepicker {
     std::optional<bool> allowedCamera     SWIFT_PRIVATE;
     std::optional<bool> allowedLivePhotos     SWIFT_PRIVATE;
     std::optional<bool> allowedVideo     SWIFT_PRIVATE;
-    std::optional<bool> allowedPhotograph     SWIFT_PRIVATE;
-    std::optional<bool> allowedVideoRecording     SWIFT_PRIVATE;
-    std::optional<std::string> messageTitleButton     SWIFT_PRIVATE;
     std::optional<double> thumbnailWidth     SWIFT_PRIVATE;
     std::optional<double> thumbnailHeight     SWIFT_PRIVATE;
     std::optional<bool> haveThumbnail     SWIFT_PRIVATE;
@@ -86,15 +86,15 @@ namespace margelo::nitro::imagepicker {
     std::optional<double> maxVideoDuration     SWIFT_PRIVATE;
     std::optional<double> minVideoDuration     SWIFT_PRIVATE;
     std::optional<double> maxFileSize     SWIFT_PRIVATE;
-    std::optional<double> compressQuality     SWIFT_PRIVATE;
     std::optional<double> videoQuality     SWIFT_PRIVATE;
     std::optional<double> imageQuality     SWIFT_PRIVATE;
     Presentation presentation     SWIFT_PRIVATE;
     std::optional<Text> text     SWIFT_PRIVATE;
     Language language     SWIFT_PRIVATE;
+    std::optional<CropConfig> crop     SWIFT_PRIVATE;
 
   public:
-    explicit NitroConfig(MediaType mediaType, std::vector<Result> selectedAssets, SelectBoxStyle selectBoxStyle, SelectMode selectMode, std::optional<double> numberOfColumn, std::optional<bool> isPreview, std::optional<bool> isExportThumbnail, std::optional<double> primaryColor, std::optional<std::string> deselectMessage, std::optional<bool> allowedCamera, std::optional<bool> allowedLivePhotos, std::optional<bool> allowedVideo, std::optional<bool> allowedPhotograph, std::optional<bool> allowedVideoRecording, std::optional<std::string> messageTitleButton, std::optional<double> thumbnailWidth, std::optional<double> thumbnailHeight, std::optional<bool> haveThumbnail, std::optional<bool> singleSelectedMode, std::optional<bool> allowSwipeToSelect, std::optional<bool> isCrop, std::optional<bool> isCropCircle, std::optional<double> spacing, std::optional<bool> isHiddenPreviewButton, std::optional<bool> isHiddenOriginalButton, std::optional<bool> isShowPreviewList, std::optional<bool> allowHapticTouchPreview, std::optional<bool> isShowAssetNumber, std::optional<bool> allowedLimit, std::optional<double> maxPhoto, std::optional<double> maxVideo, std::optional<double> maxSelect, std::optional<double> maxVideoDuration, std::optional<double> minVideoDuration, std::optional<double> maxFileSize, std::optional<double> compressQuality, std::optional<double> videoQuality, std::optional<double> imageQuality, Presentation presentation, std::optional<Text> text, Language language): mediaType(mediaType), selectedAssets(selectedAssets), selectBoxStyle(selectBoxStyle), selectMode(selectMode), numberOfColumn(numberOfColumn), isPreview(isPreview), isExportThumbnail(isExportThumbnail), primaryColor(primaryColor), deselectMessage(deselectMessage), allowedCamera(allowedCamera), allowedLivePhotos(allowedLivePhotos), allowedVideo(allowedVideo), allowedPhotograph(allowedPhotograph), allowedVideoRecording(allowedVideoRecording), messageTitleButton(messageTitleButton), thumbnailWidth(thumbnailWidth), thumbnailHeight(thumbnailHeight), haveThumbnail(haveThumbnail), singleSelectedMode(singleSelectedMode), allowSwipeToSelect(allowSwipeToSelect), isCrop(isCrop), isCropCircle(isCropCircle), spacing(spacing), isHiddenPreviewButton(isHiddenPreviewButton), isHiddenOriginalButton(isHiddenOriginalButton), isShowPreviewList(isShowPreviewList), allowHapticTouchPreview(allowHapticTouchPreview), isShowAssetNumber(isShowAssetNumber), allowedLimit(allowedLimit), maxPhoto(maxPhoto), maxVideo(maxVideo), maxSelect(maxSelect), maxVideoDuration(maxVideoDuration), minVideoDuration(minVideoDuration), maxFileSize(maxFileSize), compressQuality(compressQuality), videoQuality(videoQuality), imageQuality(imageQuality), presentation(presentation), text(text), language(language) {}
+    explicit NitroConfig(MediaType mediaType, std::vector<Result> selectedAssets, SelectBoxStyle selectBoxStyle, SelectMode selectMode, std::optional<double> numberOfColumn, std::optional<bool> isPreview, std::optional<bool> isExportThumbnail, std::optional<double> primaryColor, std::optional<std::string> deselectMessage, std::optional<bool> allowedCamera, std::optional<bool> allowedLivePhotos, std::optional<bool> allowedVideo, std::optional<double> thumbnailWidth, std::optional<double> thumbnailHeight, std::optional<bool> haveThumbnail, std::optional<bool> singleSelectedMode, std::optional<bool> allowSwipeToSelect, std::optional<bool> isCrop, std::optional<bool> isCropCircle, std::optional<double> spacing, std::optional<bool> isHiddenPreviewButton, std::optional<bool> isHiddenOriginalButton, std::optional<bool> isShowPreviewList, std::optional<bool> allowHapticTouchPreview, std::optional<bool> isShowAssetNumber, std::optional<bool> allowedLimit, std::optional<double> maxPhoto, std::optional<double> maxVideo, std::optional<double> maxSelect, std::optional<double> maxVideoDuration, std::optional<double> minVideoDuration, std::optional<double> maxFileSize, std::optional<double> videoQuality, std::optional<double> imageQuality, Presentation presentation, std::optional<Text> text, Language language, std::optional<CropConfig> crop): mediaType(mediaType), selectedAssets(selectedAssets), selectBoxStyle(selectBoxStyle), selectMode(selectMode), numberOfColumn(numberOfColumn), isPreview(isPreview), isExportThumbnail(isExportThumbnail), primaryColor(primaryColor), deselectMessage(deselectMessage), allowedCamera(allowedCamera), allowedLivePhotos(allowedLivePhotos), allowedVideo(allowedVideo), thumbnailWidth(thumbnailWidth), thumbnailHeight(thumbnailHeight), haveThumbnail(haveThumbnail), singleSelectedMode(singleSelectedMode), allowSwipeToSelect(allowSwipeToSelect), isCrop(isCrop), isCropCircle(isCropCircle), spacing(spacing), isHiddenPreviewButton(isHiddenPreviewButton), isHiddenOriginalButton(isHiddenOriginalButton), isShowPreviewList(isShowPreviewList), allowHapticTouchPreview(allowHapticTouchPreview), isShowAssetNumber(isShowAssetNumber), allowedLimit(allowedLimit), maxPhoto(maxPhoto), maxVideo(maxVideo), maxSelect(maxSelect), maxVideoDuration(maxVideoDuration), minVideoDuration(minVideoDuration), maxFileSize(maxFileSize), videoQuality(videoQuality), imageQuality(imageQuality), presentation(presentation), text(text), language(language), crop(crop) {}
   };
 
 } // namespace margelo::nitro::imagepicker
@@ -121,9 +121,6 @@ namespace margelo::nitro {
         JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, "allowedCamera")),
         JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, "allowedLivePhotos")),
         JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, "allowedVideo")),
-        JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, "allowedPhotograph")),
-        JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, "allowedVideoRecording")),
-        JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "messageTitleButton")),
         JSIConverter<std::optional<double>>::fromJSI(runtime, obj.getProperty(runtime, "thumbnailWidth")),
         JSIConverter<std::optional<double>>::fromJSI(runtime, obj.getProperty(runtime, "thumbnailHeight")),
         JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, "haveThumbnail")),
@@ -144,12 +141,12 @@ namespace margelo::nitro {
         JSIConverter<std::optional<double>>::fromJSI(runtime, obj.getProperty(runtime, "maxVideoDuration")),
         JSIConverter<std::optional<double>>::fromJSI(runtime, obj.getProperty(runtime, "minVideoDuration")),
         JSIConverter<std::optional<double>>::fromJSI(runtime, obj.getProperty(runtime, "maxFileSize")),
-        JSIConverter<std::optional<double>>::fromJSI(runtime, obj.getProperty(runtime, "compressQuality")),
         JSIConverter<std::optional<double>>::fromJSI(runtime, obj.getProperty(runtime, "videoQuality")),
         JSIConverter<std::optional<double>>::fromJSI(runtime, obj.getProperty(runtime, "imageQuality")),
         JSIConverter<Presentation>::fromJSI(runtime, obj.getProperty(runtime, "presentation")),
         JSIConverter<std::optional<Text>>::fromJSI(runtime, obj.getProperty(runtime, "text")),
-        JSIConverter<Language>::fromJSI(runtime, obj.getProperty(runtime, "language"))
+        JSIConverter<Language>::fromJSI(runtime, obj.getProperty(runtime, "language")),
+        JSIConverter<std::optional<CropConfig>>::fromJSI(runtime, obj.getProperty(runtime, "crop"))
       );
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const NitroConfig& arg) {
@@ -166,9 +163,6 @@ namespace margelo::nitro {
       obj.setProperty(runtime, "allowedCamera", JSIConverter<std::optional<bool>>::toJSI(runtime, arg.allowedCamera));
       obj.setProperty(runtime, "allowedLivePhotos", JSIConverter<std::optional<bool>>::toJSI(runtime, arg.allowedLivePhotos));
       obj.setProperty(runtime, "allowedVideo", JSIConverter<std::optional<bool>>::toJSI(runtime, arg.allowedVideo));
-      obj.setProperty(runtime, "allowedPhotograph", JSIConverter<std::optional<bool>>::toJSI(runtime, arg.allowedPhotograph));
-      obj.setProperty(runtime, "allowedVideoRecording", JSIConverter<std::optional<bool>>::toJSI(runtime, arg.allowedVideoRecording));
-      obj.setProperty(runtime, "messageTitleButton", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.messageTitleButton));
       obj.setProperty(runtime, "thumbnailWidth", JSIConverter<std::optional<double>>::toJSI(runtime, arg.thumbnailWidth));
       obj.setProperty(runtime, "thumbnailHeight", JSIConverter<std::optional<double>>::toJSI(runtime, arg.thumbnailHeight));
       obj.setProperty(runtime, "haveThumbnail", JSIConverter<std::optional<bool>>::toJSI(runtime, arg.haveThumbnail));
@@ -189,12 +183,12 @@ namespace margelo::nitro {
       obj.setProperty(runtime, "maxVideoDuration", JSIConverter<std::optional<double>>::toJSI(runtime, arg.maxVideoDuration));
       obj.setProperty(runtime, "minVideoDuration", JSIConverter<std::optional<double>>::toJSI(runtime, arg.minVideoDuration));
       obj.setProperty(runtime, "maxFileSize", JSIConverter<std::optional<double>>::toJSI(runtime, arg.maxFileSize));
-      obj.setProperty(runtime, "compressQuality", JSIConverter<std::optional<double>>::toJSI(runtime, arg.compressQuality));
       obj.setProperty(runtime, "videoQuality", JSIConverter<std::optional<double>>::toJSI(runtime, arg.videoQuality));
       obj.setProperty(runtime, "imageQuality", JSIConverter<std::optional<double>>::toJSI(runtime, arg.imageQuality));
       obj.setProperty(runtime, "presentation", JSIConverter<Presentation>::toJSI(runtime, arg.presentation));
       obj.setProperty(runtime, "text", JSIConverter<std::optional<Text>>::toJSI(runtime, arg.text));
       obj.setProperty(runtime, "language", JSIConverter<Language>::toJSI(runtime, arg.language));
+      obj.setProperty(runtime, "crop", JSIConverter<std::optional<CropConfig>>::toJSI(runtime, arg.crop));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -214,9 +208,6 @@ namespace margelo::nitro {
       if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, "allowedCamera"))) return false;
       if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, "allowedLivePhotos"))) return false;
       if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, "allowedVideo"))) return false;
-      if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, "allowedPhotograph"))) return false;
-      if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, "allowedVideoRecording"))) return false;
-      if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, "messageTitleButton"))) return false;
       if (!JSIConverter<std::optional<double>>::canConvert(runtime, obj.getProperty(runtime, "thumbnailWidth"))) return false;
       if (!JSIConverter<std::optional<double>>::canConvert(runtime, obj.getProperty(runtime, "thumbnailHeight"))) return false;
       if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, "haveThumbnail"))) return false;
@@ -237,12 +228,12 @@ namespace margelo::nitro {
       if (!JSIConverter<std::optional<double>>::canConvert(runtime, obj.getProperty(runtime, "maxVideoDuration"))) return false;
       if (!JSIConverter<std::optional<double>>::canConvert(runtime, obj.getProperty(runtime, "minVideoDuration"))) return false;
       if (!JSIConverter<std::optional<double>>::canConvert(runtime, obj.getProperty(runtime, "maxFileSize"))) return false;
-      if (!JSIConverter<std::optional<double>>::canConvert(runtime, obj.getProperty(runtime, "compressQuality"))) return false;
       if (!JSIConverter<std::optional<double>>::canConvert(runtime, obj.getProperty(runtime, "videoQuality"))) return false;
       if (!JSIConverter<std::optional<double>>::canConvert(runtime, obj.getProperty(runtime, "imageQuality"))) return false;
       if (!JSIConverter<Presentation>::canConvert(runtime, obj.getProperty(runtime, "presentation"))) return false;
       if (!JSIConverter<std::optional<Text>>::canConvert(runtime, obj.getProperty(runtime, "text"))) return false;
       if (!JSIConverter<Language>::canConvert(runtime, obj.getProperty(runtime, "language"))) return false;
+      if (!JSIConverter<std::optional<CropConfig>>::canConvert(runtime, obj.getProperty(runtime, "crop"))) return false;
       return true;
     }
   };

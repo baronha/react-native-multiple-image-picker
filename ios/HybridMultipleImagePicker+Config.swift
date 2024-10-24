@@ -50,9 +50,6 @@ extension HybridMultipleImagePicker {
             photoList.allowAddLimit = allowedLimit
         }
 
-        config.videoSelectionTapAction = .quickSelect
-        config.photoSelectionTapAction = .quickSelect
-
         // check media type
         switch options.mediaType {
         case .image:
@@ -110,13 +107,44 @@ extension HybridMultipleImagePicker {
 
         config.navigationTitleColor = .systemBackground
 
-        if let isPreview = options.isPreview {
+        let isPreview = options.isPreview
+
+        if let isPreview {
             config.previewView.bottomView.isShowPreviewList = isPreview
             config.photoList.bottomView.isHiddenPreviewButton = !isPreview
             config.photoList.allowHapticTouchPreview = !isPreview
             config.photoList.bottomView.previewListTickColor = .clear
             config.photoList.bottomView.isShowSelectedView = isPreview
+
+            if isPreview {
+                config.videoSelectionTapAction = .preview
+                config.photoSelectionTapAction = .preview
+            } else {
+                config.videoSelectionTapAction = .quickSelect
+                config.photoSelectionTapAction = .quickSelect
+            }
         }
+
+        if let crop = options.crop {
+            config.editorOptions = [.photo, .gifPhoto, .livePhoto]
+
+            var editor = config.editor
+
+            editor.cropSize.isRoundCrop = crop.circle ?? false
+
+            editor.photo.defaultSelectedToolOption = .cropSize
+            editor.toolsView = .init(toolOptions: [.init(imageType: config.editor.imageResource.editor.tools.cropSize, type: .cropSize)])
+
+            editor.isFixedCropSizeState = true
+            editor.cropSize.isFixedRatio = true
+
+            config.editor = editor
+
+        } else {
+            config.previewView.bottomView.isHiddenEditButton = true
+        }
+
+        config.photoList.finishSelectionAfterTakingPhoto = true
 
         setLanguage(options)
 
@@ -136,10 +164,13 @@ extension HybridMultipleImagePicker {
         if let text = options.text {
             if let finish = text.finish {
                 config.textManager.picker.photoList.bottomView.finishTitle = .custom(finish)
+                config.textManager.picker.preview.bottomView.finishTitle = .custom(finish)
+                config.editor.textManager.editor.crop.maskListFinishTitle = .custom(finish)
             }
 
             if let original = text.original {
                 config.textManager.picker.photoList.bottomView.originalTitle = .custom(original)
+                config.textManager.picker.preview.bottomView.originalTitle = .custom(original)
             }
 
             if let preview = text.preview {

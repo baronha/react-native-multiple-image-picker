@@ -10,10 +10,13 @@
 #include <fbjni/fbjni.h>
 #include "NitroConfig.hpp"
 
+#include "CropConfig.hpp"
+#include "JCropConfig.hpp"
 #include "JLanguage.hpp"
 #include "JMediaType.hpp"
 #include "JPresentation.hpp"
 #include "JResult.hpp"
+#include "JResultType.hpp"
 #include "JSelectBoxStyle.hpp"
 #include "JSelectMode.hpp"
 #include "JText.hpp"
@@ -21,6 +24,7 @@
 #include "MediaType.hpp"
 #include "Presentation.hpp"
 #include "Result.hpp"
+#include "ResultType.hpp"
 #include "SelectBoxStyle.hpp"
 #include "SelectMode.hpp"
 #include "Text.hpp"
@@ -70,12 +74,6 @@ namespace margelo::nitro::imagepicker {
       jni::local_ref<jni::JBoolean> allowedLivePhotos = this->getFieldValue(fieldAllowedLivePhotos);
       static const auto fieldAllowedVideo = clazz->getField<jni::JBoolean>("allowedVideo");
       jni::local_ref<jni::JBoolean> allowedVideo = this->getFieldValue(fieldAllowedVideo);
-      static const auto fieldAllowedPhotograph = clazz->getField<jni::JBoolean>("allowedPhotograph");
-      jni::local_ref<jni::JBoolean> allowedPhotograph = this->getFieldValue(fieldAllowedPhotograph);
-      static const auto fieldAllowedVideoRecording = clazz->getField<jni::JBoolean>("allowedVideoRecording");
-      jni::local_ref<jni::JBoolean> allowedVideoRecording = this->getFieldValue(fieldAllowedVideoRecording);
-      static const auto fieldMessageTitleButton = clazz->getField<jni::JString>("messageTitleButton");
-      jni::local_ref<jni::JString> messageTitleButton = this->getFieldValue(fieldMessageTitleButton);
       static const auto fieldThumbnailWidth = clazz->getField<jni::JDouble>("thumbnailWidth");
       jni::local_ref<jni::JDouble> thumbnailWidth = this->getFieldValue(fieldThumbnailWidth);
       static const auto fieldThumbnailHeight = clazz->getField<jni::JDouble>("thumbnailHeight");
@@ -116,8 +114,6 @@ namespace margelo::nitro::imagepicker {
       jni::local_ref<jni::JDouble> minVideoDuration = this->getFieldValue(fieldMinVideoDuration);
       static const auto fieldMaxFileSize = clazz->getField<jni::JDouble>("maxFileSize");
       jni::local_ref<jni::JDouble> maxFileSize = this->getFieldValue(fieldMaxFileSize);
-      static const auto fieldCompressQuality = clazz->getField<jni::JDouble>("compressQuality");
-      jni::local_ref<jni::JDouble> compressQuality = this->getFieldValue(fieldCompressQuality);
       static const auto fieldVideoQuality = clazz->getField<jni::JDouble>("videoQuality");
       jni::local_ref<jni::JDouble> videoQuality = this->getFieldValue(fieldVideoQuality);
       static const auto fieldImageQuality = clazz->getField<jni::JDouble>("imageQuality");
@@ -128,6 +124,8 @@ namespace margelo::nitro::imagepicker {
       jni::local_ref<JText> text = this->getFieldValue(fieldText);
       static const auto fieldLanguage = clazz->getField<JLanguage>("language");
       jni::local_ref<JLanguage> language = this->getFieldValue(fieldLanguage);
+      static const auto fieldCrop = clazz->getField<JCropConfig>("crop");
+      jni::local_ref<JCropConfig> crop = this->getFieldValue(fieldCrop);
       return NitroConfig(
         mediaType->toCpp(),
         [&]() {
@@ -150,9 +148,6 @@ namespace margelo::nitro::imagepicker {
         allowedCamera != nullptr ? std::make_optional(allowedCamera->value()) : std::nullopt,
         allowedLivePhotos != nullptr ? std::make_optional(allowedLivePhotos->value()) : std::nullopt,
         allowedVideo != nullptr ? std::make_optional(allowedVideo->value()) : std::nullopt,
-        allowedPhotograph != nullptr ? std::make_optional(allowedPhotograph->value()) : std::nullopt,
-        allowedVideoRecording != nullptr ? std::make_optional(allowedVideoRecording->value()) : std::nullopt,
-        messageTitleButton != nullptr ? std::make_optional(messageTitleButton->toStdString()) : std::nullopt,
         thumbnailWidth != nullptr ? std::make_optional(thumbnailWidth->value()) : std::nullopt,
         thumbnailHeight != nullptr ? std::make_optional(thumbnailHeight->value()) : std::nullopt,
         haveThumbnail != nullptr ? std::make_optional(haveThumbnail->value()) : std::nullopt,
@@ -173,12 +168,12 @@ namespace margelo::nitro::imagepicker {
         maxVideoDuration != nullptr ? std::make_optional(maxVideoDuration->value()) : std::nullopt,
         minVideoDuration != nullptr ? std::make_optional(minVideoDuration->value()) : std::nullopt,
         maxFileSize != nullptr ? std::make_optional(maxFileSize->value()) : std::nullopt,
-        compressQuality != nullptr ? std::make_optional(compressQuality->value()) : std::nullopt,
         videoQuality != nullptr ? std::make_optional(videoQuality->value()) : std::nullopt,
         imageQuality != nullptr ? std::make_optional(imageQuality->value()) : std::nullopt,
         presentation->toCpp(),
         text != nullptr ? std::make_optional(text->toCpp()) : std::nullopt,
-        language->toCpp()
+        language->toCpp(),
+        crop != nullptr ? std::make_optional(crop->toCpp()) : std::nullopt
       );
     }
 
@@ -209,9 +204,6 @@ namespace margelo::nitro::imagepicker {
         value.allowedCamera.has_value() ? jni::JBoolean::valueOf(value.allowedCamera.value()) : nullptr,
         value.allowedLivePhotos.has_value() ? jni::JBoolean::valueOf(value.allowedLivePhotos.value()) : nullptr,
         value.allowedVideo.has_value() ? jni::JBoolean::valueOf(value.allowedVideo.value()) : nullptr,
-        value.allowedPhotograph.has_value() ? jni::JBoolean::valueOf(value.allowedPhotograph.value()) : nullptr,
-        value.allowedVideoRecording.has_value() ? jni::JBoolean::valueOf(value.allowedVideoRecording.value()) : nullptr,
-        value.messageTitleButton.has_value() ? jni::make_jstring(value.messageTitleButton.value()) : nullptr,
         value.thumbnailWidth.has_value() ? jni::JDouble::valueOf(value.thumbnailWidth.value()) : nullptr,
         value.thumbnailHeight.has_value() ? jni::JDouble::valueOf(value.thumbnailHeight.value()) : nullptr,
         value.haveThumbnail.has_value() ? jni::JBoolean::valueOf(value.haveThumbnail.value()) : nullptr,
@@ -232,12 +224,12 @@ namespace margelo::nitro::imagepicker {
         value.maxVideoDuration.has_value() ? jni::JDouble::valueOf(value.maxVideoDuration.value()) : nullptr,
         value.minVideoDuration.has_value() ? jni::JDouble::valueOf(value.minVideoDuration.value()) : nullptr,
         value.maxFileSize.has_value() ? jni::JDouble::valueOf(value.maxFileSize.value()) : nullptr,
-        value.compressQuality.has_value() ? jni::JDouble::valueOf(value.compressQuality.value()) : nullptr,
         value.videoQuality.has_value() ? jni::JDouble::valueOf(value.videoQuality.value()) : nullptr,
         value.imageQuality.has_value() ? jni::JDouble::valueOf(value.imageQuality.value()) : nullptr,
         JPresentation::fromCpp(value.presentation),
         value.text.has_value() ? JText::fromCpp(value.text.value()) : nullptr,
-        JLanguage::fromCpp(value.language)
+        JLanguage::fromCpp(value.language),
+        value.crop.has_value() ? JCropConfig::fromCpp(value.crop.value()) : nullptr
       );
     }
   };

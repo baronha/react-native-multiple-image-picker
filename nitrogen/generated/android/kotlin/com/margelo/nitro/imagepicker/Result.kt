@@ -26,5 +26,8 @@ data class Result(
   val bucketId: Double?,
   val realPath: String?,
   val parentFolderName: String?,
-  val creationDate: String?
+  val creationDate: Double?,
+  val type: ResultType?,
+  val duration: Double?,
+  val thumbnail: String?
 )

@@ -8,6 +8,8 @@
 #pragma once
 
 // Forward declarations of C++ defined types
+// Forward declaration of `CropConfig` to properly resolve imports.
+namespace margelo::nitro::imagepicker { struct CropConfig; }
 // Forward declaration of `HybridMultipleImagePickerSpec` to properly resolve imports.
 namespace margelo::nitro::imagepicker { class HybridMultipleImagePickerSpec; }
 // Forward declaration of `Language` to properly resolve imports.
@@ -18,6 +20,8 @@ namespace margelo::nitro::imagepicker { enum class MediaType; }
 namespace margelo::nitro::imagepicker { struct NitroConfig; }
 // Forward declaration of `Presentation` to properly resolve imports.
 namespace margelo::nitro::imagepicker { enum class Presentation; }
+// Forward declaration of `ResultType` to properly resolve imports.
+namespace margelo::nitro::imagepicker { enum class ResultType; }
 // Forward declaration of `Result` to properly resolve imports.
 namespace margelo::nitro::imagepicker { struct Result; }
 // Forward declaration of `SelectBoxStyle` to properly resolve imports.
@@ -28,12 +32,14 @@ namespace margelo::nitro::imagepicker { enum class SelectMode; }
 namespace margelo::nitro::imagepicker { struct Text; }
 
 // Include C++ defined types
+#include "CropConfig.hpp"
 #include "HybridMultipleImagePickerSpec.hpp"
 #include "Language.hpp"
 #include "MediaType.hpp"
 #include "NitroConfig.hpp"
 #include "Presentation.hpp"
 #include "Result.hpp"
+#include "ResultType.hpp"
 #include "SelectBoxStyle.hpp"
 #include "SelectMode.hpp"
 #include "Text.hpp"

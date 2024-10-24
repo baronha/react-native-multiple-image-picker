@@ -18,7 +18,7 @@ public extension Result {
   /**
    * Create a new instance of `Result`.
    */
-  init(path: String, fileName: String, localIdentifier: String, width: Double, height: Double, mime: String, size: Double, bucketId: Double?, realPath: String?, parentFolderName: String?, creationDate: String?) {
+  init(path: String, fileName: String, localIdentifier: String, width: Double, height: Double, mime: String, size: Double, bucketId: Double?, realPath: String?, parentFolderName: String?, creationDate: Double?, type: ResultType?, duration: Double?, thumbnail: String?) {
     self.init(std.string(path), std.string(fileName), std.string(localIdentifier), width, height, std.string(mime), size, { () -> bridge.std__optional_double_ in
       if let __unwrappedValue = bucketId {
         return bridge.create_std__optional_double_(__unwrappedValue)
@@ -37,8 +37,26 @@ public extension Result {
       } else {
         return .init()
       }
-    }(), { () -> bridge.std__optional_std__string_ in
+    }(), { () -> bridge.std__optional_double_ in
       if let __unwrappedValue = creationDate {
+        return bridge.create_std__optional_double_(__unwrappedValue)
+      } else {
+        return .init()
+      }
+    }(), { () -> bridge.std__optional_ResultType_ in
+      if let __unwrappedValue = type {
+        return bridge.create_std__optional_ResultType_(__unwrappedValue)
+      } else {
+        return .init()
+      }
+    }(), { () -> bridge.std__optional_double_ in
+      if let __unwrappedValue = duration {
+        return bridge.create_std__optional_double_(__unwrappedValue)
+      } else {
+        return .init()
+      }
+    }(), { () -> bridge.std__optional_std__string_ in
+      if let __unwrappedValue = thumbnail {
         return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
       } else {
         return .init()
@@ -186,11 +204,62 @@ public extension Result {
     }
   }
   
-  var creationDate: String? {
+  var creationDate: Double? {
+    @inline(__always)
+    get {
+      return self.__creationDate.value
+    }
+    @inline(__always)
+    set {
+      self.__creationDate = { () -> bridge.std__optional_double_ in
+        if let __unwrappedValue = newValue {
+          return bridge.create_std__optional_double_(__unwrappedValue)
+        } else {
+          return .init()
+        }
+      }()
+    }
+  }
+  
+  var type: ResultType? {
+    @inline(__always)
+    get {
+      return self.__type.value
+    }
+    @inline(__always)
+    set {
+      self.__type = { () -> bridge.std__optional_ResultType_ in
+        if let __unwrappedValue = newValue {
+          return bridge.create_std__optional_ResultType_(__unwrappedValue)
+        } else {
+          return .init()
+        }
+      }()
+    }
+  }
+  
+  var duration: Double? {
+    @inline(__always)
+    get {
+      return self.__duration.value
+    }
+    @inline(__always)
+    set {
+      self.__duration = { () -> bridge.std__optional_double_ in
+        if let __unwrappedValue = newValue {
+          return bridge.create_std__optional_double_(__unwrappedValue)
+        } else {
+          return .init()
+        }
+      }()
+    }
+  }
+  
+  var thumbnail: String? {
     @inline(__always)
     get {
       return { () -> String? in
-        if let __unwrapped = self.__creationDate.value {
+        if let __unwrapped = self.__thumbnail.value {
           return String(__unwrapped)
         } else {
           return nil
@@ -199,7 +268,7 @@ public extension Result {
     }
     @inline(__always)
     set {
-      self.__creationDate = { () -> bridge.std__optional_std__string_ in
+      self.__thumbnail = { () -> bridge.std__optional_std__string_ in
         if let __unwrappedValue = newValue {
           return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
         } else {

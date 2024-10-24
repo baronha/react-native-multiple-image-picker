@@ -1,3 +1,5 @@
+type ResultType = 'image' | 'video'
+
 export interface Result {
   path: string
   fileName: string
@@ -9,5 +11,8 @@ export interface Result {
   bucketId?: number
   realPath?: string
   parentFolderName?: string
-  creationDate?: string
+  creationDate?: number
+  type?: ResultType
+  duration?: number
+  thumbnail?: string
 }

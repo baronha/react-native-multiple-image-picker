@@ -15,7 +15,13 @@ const Picker = NitroModules.createHybridObject<MultipleImagePicker>(
   'MultipleImagePicker'
 )
 
-export async function openPicker(conf: Config): Promise<object[]> {
+type IPromisePicker<T extends Config> = T['selectMode'] extends 'single'
+  ? Result
+  : Result[]
+
+export async function openPicker<T extends Config>(
+  conf: T
+): Promise<IPromisePicker<T>> {
   return new Promise((resolved, rejected) => {
     const config = { ...defaultOptions, ...conf } as NitroConfig
     config.primaryColor = processColor(config.primaryColor) as any
@@ -23,9 +29,7 @@ export async function openPicker(conf: Config): Promise<object[]> {
     return Picker.openPicker(
       config,
       (result: Result[]) => {
-        console.log('result: ', result)
-
-        resolved([])
+        resolved(result as IPromisePicker<T>)
       },
       (reject: number) => {
         rejected(reject)
@@ -35,35 +39,15 @@ export async function openPicker(conf: Config): Promise<object[]> {
 }
 
 const defaultOptions: Config = {
-  //**iOS**//
-
-  //resize thumbnail
-  haveThumbnail: true,
-
-  thumbnailWidth: Math.round(width / 2),
-  thumbnailHeight: Math.round(height / 2),
-  allowedLivePhotos: true,
-  emptyMessage: 'No albums',
   primaryColor: '#FB9300',
-
-  //****//
-
-  //**Android**//
-
-  //****//
-
-  //**Both**//
   allowedCamera: true,
   allowedVideo: true,
   allowedLimit: true,
-  allowedPhotograph: true, // for camera : allow this option when you want to take a photos
-  allowedVideoRecording: false, //for camera : allow this option when you want to recording video.
   numberOfColumn: 3,
   isPreview: true,
   mediaType: 'all',
   isExportThumbnail: false,
   selectedAssets: [],
-  singleSelectedMode: false,
   isCrop: false,
   isCropCircle: false,
   selectBoxStyle: 'number',

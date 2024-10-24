@@ -18,7 +18,7 @@ public extension NitroConfig {
   /**
    * Create a new instance of `NitroConfig`.
    */
-  init(mediaType: MediaType, selectedAssets: [Result], selectBoxStyle: SelectBoxStyle, selectMode: SelectMode, numberOfColumn: Double?, isPreview: Bool?, isExportThumbnail: Bool?, primaryColor: Double?, deselectMessage: String?, allowedCamera: Bool?, allowedLivePhotos: Bool?, allowedVideo: Bool?, allowedPhotograph: Bool?, allowedVideoRecording: Bool?, messageTitleButton: String?, thumbnailWidth: Double?, thumbnailHeight: Double?, haveThumbnail: Bool?, singleSelectedMode: Bool?, allowSwipeToSelect: Bool?, isCrop: Bool?, isCropCircle: Bool?, spacing: Double?, isHiddenPreviewButton: Bool?, isHiddenOriginalButton: Bool?, isShowPreviewList: Bool?, allowHapticTouchPreview: Bool?, isShowAssetNumber: Bool?, allowedLimit: Bool?, maxPhoto: Double?, maxVideo: Double?, maxSelect: Double?, maxVideoDuration: Double?, minVideoDuration: Double?, maxFileSize: Double?, compressQuality: Double?, videoQuality: Double?, imageQuality: Double?, presentation: Presentation, text: Text?, language: Language) {
+  init(mediaType: MediaType, selectedAssets: [Result], selectBoxStyle: SelectBoxStyle, selectMode: SelectMode, numberOfColumn: Double?, isPreview: Bool?, isExportThumbnail: Bool?, primaryColor: Double?, deselectMessage: String?, allowedCamera: Bool?, allowedLivePhotos: Bool?, allowedVideo: Bool?, thumbnailWidth: Double?, thumbnailHeight: Double?, haveThumbnail: Bool?, singleSelectedMode: Bool?, allowSwipeToSelect: Bool?, isCrop: Bool?, isCropCircle: Bool?, spacing: Double?, isHiddenPreviewButton: Bool?, isHiddenOriginalButton: Bool?, isShowPreviewList: Bool?, allowHapticTouchPreview: Bool?, isShowAssetNumber: Bool?, allowedLimit: Bool?, maxPhoto: Double?, maxVideo: Double?, maxSelect: Double?, maxVideoDuration: Double?, minVideoDuration: Double?, maxFileSize: Double?, videoQuality: Double?, imageQuality: Double?, presentation: Presentation, text: Text?, language: Language, crop: CropConfig?) {
     self.init(mediaType, { () -> bridge.std__vector_Result_ in
       var __vector = bridge.create_std__vector_Result_(selectedAssets.count)
       for __item in selectedAssets {
@@ -70,24 +70,6 @@ public extension NitroConfig {
     }(), { () -> bridge.std__optional_bool_ in
       if let __unwrappedValue = allowedVideo {
         return bridge.create_std__optional_bool_(__unwrappedValue)
-      } else {
-        return .init()
-      }
-    }(), { () -> bridge.std__optional_bool_ in
-      if let __unwrappedValue = allowedPhotograph {
-        return bridge.create_std__optional_bool_(__unwrappedValue)
-      } else {
-        return .init()
-      }
-    }(), { () -> bridge.std__optional_bool_ in
-      if let __unwrappedValue = allowedVideoRecording {
-        return bridge.create_std__optional_bool_(__unwrappedValue)
-      } else {
-        return .init()
-      }
-    }(), { () -> bridge.std__optional_std__string_ in
-      if let __unwrappedValue = messageTitleButton {
-        return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
       } else {
         return .init()
       }
@@ -212,12 +194,6 @@ public extension NitroConfig {
         return .init()
       }
     }(), { () -> bridge.std__optional_double_ in
-      if let __unwrappedValue = compressQuality {
-        return bridge.create_std__optional_double_(__unwrappedValue)
-      } else {
-        return .init()
-      }
-    }(), { () -> bridge.std__optional_double_ in
       if let __unwrappedValue = videoQuality {
         return bridge.create_std__optional_double_(__unwrappedValue)
       } else {
@@ -235,7 +211,13 @@ public extension NitroConfig {
       } else {
         return .init()
       }
-    }(), language)
+    }(), language, { () -> bridge.std__optional_CropConfig_ in
+      if let __unwrappedValue = crop {
+        return bridge.create_std__optional_CropConfig_(__unwrappedValue)
+      } else {
+        return .init()
+      }
+    }())
   }
 
   var mediaType: MediaType {
@@ -423,63 +405,6 @@ public extension NitroConfig {
       self.__allowedVideo = { () -> bridge.std__optional_bool_ in
         if let __unwrappedValue = newValue {
           return bridge.create_std__optional_bool_(__unwrappedValue)
-        } else {
-          return .init()
-        }
-      }()
-    }
-  }
-  
-  var allowedPhotograph: Bool? {
-    @inline(__always)
-    get {
-      return self.__allowedPhotograph.value
-    }
-    @inline(__always)
-    set {
-      self.__allowedPhotograph = { () -> bridge.std__optional_bool_ in
-        if let __unwrappedValue = newValue {
-          return bridge.create_std__optional_bool_(__unwrappedValue)
-        } else {
-          return .init()
-        }
-      }()
-    }
-  }
-  
-  var allowedVideoRecording: Bool? {
-    @inline(__always)
-    get {
-      return self.__allowedVideoRecording.value
-    }
-    @inline(__always)
-    set {
-      self.__allowedVideoRecording = { () -> bridge.std__optional_bool_ in
-        if let __unwrappedValue = newValue {
-          return bridge.create_std__optional_bool_(__unwrappedValue)
-        } else {
-          return .init()
-        }
-      }()
-    }
-  }
-  
-  var messageTitleButton: String? {
-    @inline(__always)
-    get {
-      return { () -> String? in
-        if let __unwrapped = self.__messageTitleButton.value {
-          return String(__unwrapped)
-        } else {
-          return nil
-        }
-      }()
-    }
-    @inline(__always)
-    set {
-      self.__messageTitleButton = { () -> bridge.std__optional_std__string_ in
-        if let __unwrappedValue = newValue {
-          return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
         } else {
           return .init()
         }
@@ -827,23 +752,6 @@ public extension NitroConfig {
     }
   }
   
-  var compressQuality: Double? {
-    @inline(__always)
-    get {
-      return self.__compressQuality.value
-    }
-    @inline(__always)
-    set {
-      self.__compressQuality = { () -> bridge.std__optional_double_ in
-        if let __unwrappedValue = newValue {
-          return bridge.create_std__optional_double_(__unwrappedValue)
-        } else {
-          return .init()
-        }
-      }()
-    }
-  }
-  
   var videoQuality: Double? {
     @inline(__always)
     get {
@@ -920,6 +828,29 @@ public extension NitroConfig {
     @inline(__always)
     set {
       self.__language = newValue
+    }
+  }
+  
+  var crop: CropConfig? {
+    @inline(__always)
+    get {
+      return { () -> CropConfig? in
+        if let __unwrapped = self.__crop.value {
+          return __unwrapped
+        } else {
+          return nil
+        }
+      }()
+    }
+    @inline(__always)
+    set {
+      self.__crop = { () -> bridge.std__optional_CropConfig_ in
+        if let __unwrappedValue = newValue {
+          return bridge.create_std__optional_CropConfig_(__unwrappedValue)
+        } else {
+          return .init()
+        }
+      }()
     }
   }
 }

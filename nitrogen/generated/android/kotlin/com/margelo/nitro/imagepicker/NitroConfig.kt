@@ -28,9 +28,6 @@ data class NitroConfig(
   val allowedCamera: Boolean?,
   val allowedLivePhotos: Boolean?,
   val allowedVideo: Boolean?,
-  val allowedPhotograph: Boolean?,
-  val allowedVideoRecording: Boolean?,
-  val messageTitleButton: String?,
   val thumbnailWidth: Double?,
   val thumbnailHeight: Double?,
   val haveThumbnail: Boolean?,
@@ -51,10 +48,10 @@ data class NitroConfig(
   val maxVideoDuration: Double?,
   val minVideoDuration: Double?,
   val maxFileSize: Double?,
-  val compressQuality: Double?,
   val videoQuality: Double?,
   val imageQuality: Double?,
   val presentation: Presentation,
   val text: Text?,
-  val language: Language
+  val language: Language,
+  val crop: CropConfig?
 )

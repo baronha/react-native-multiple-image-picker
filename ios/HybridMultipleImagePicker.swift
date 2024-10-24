@@ -7,6 +7,7 @@
 import Foundation
 import HXPhotoPicker
 import NitroModules
+import Photos
 
 class HybridMultipleImagePicker: HybridMultipleImagePickerSpec {
     var hybridContext = margelo.nitro.HybridContext()
@@ -37,48 +38,58 @@ class HybridMultipleImagePicker: HybridMultipleImagePickerSpec {
                     return 10
                 }()
 
-                // add loading view
-                let alert = UIAlertController(title: nil, message: "Loading...", preferredStyle: .alert)
+                func onFinish() {
+                    // show alert view
+                    let alert = UIAlertController(title: nil, message: "Loading...", preferredStyle: .alert)
 
-                alert.showLoading()
+                    alert.showLoading()
 
-                controller.present(alert, animated: true)
+                    controller.present(alert, animated: true)
 
-                controller.autoDismiss = false
+                    controller.autoDismiss = false
 
-                let compression: PhotoAsset.Compression = .init(imageCompressionQuality: imageQuality, videoExportParameter: .init(preset: .highQuality, quality: videoQuality))
+                    let compression: PhotoAsset.Compression = .init(imageCompressionQuality: imageQuality, videoExportParameter: .init(preset: .highQuality, quality: videoQuality))
 
-                var data: [Result] = []
+                    var data: [Result] = []
 
-                let group = DispatchGroup()
+                    let group = DispatchGroup()
 
-                pickerResult.photoAssets.forEach { photo in
-                    Task {
-                        group.enter()
-                        let assetResult = try await photo.urlResult(compression)
-                        photo.getImageData { result in
-                            switch result {
-                            case .success(let data):
-                                print("data: ", data.dataUTI)
-                            case .failure:
-                                break
+                    pickerResult.photoAssets.forEach { response in
+                        Task {
+                            group.enter()
+
+                            let urlResult = try await response.urlResult(compression)
+
+                            response.getImageData { result in
+                                switch result {
+                                case .success(let imageData):
+
+                                    let resultData = self.getResult(response, urlResult.url)
+
+                                    data.append(resultData)
+
+                                case .failure:
+                                    break
+                                }
+                            }
+
+                            group.leave()
+                        }
+                    }
+
+                    group.notify(queue: .main) {
+                        DispatchQueue.main.async {
+                            alert.dismiss(animated: true) {
+                                controller.dismiss(true)
+                                resolved(data)
                             }
                         }
-//                        let result = self.getResult(photo, assetURLResult: assetResult)
-//
-//                        data.append(result)
-
-                        group.leave()
                     }
                 }
+                
+                if config.singleSelectedMode
 
-                group.notify(queue: .main) {
-                    DispatchQueue.main.async {
-                        alert.dismiss(animated: true) {
-                            controller.dismiss(true)
-                        }
-                    }
-                }
+                onFinish()
 
             } cancel: { cancel in
 
@@ -88,12 +99,6 @@ class HybridMultipleImagePicker: HybridMultipleImagePickerSpec {
                 // photoPickerController Corresponding photo selection controller
             }
         }
-    }
-}
-
-extension HybridMultipleImagePicker {
-    func getResult(_ asset: PhotoAsset, assetURLResult: AssetURLResult) -> Result {
-        return Result(path: assetURLResult.url.absoluteString, fileName: "file", localIdentifier: asset.localAssetIdentifier, width: asset.imageSize.width, height: asset.imageSize.height, mime: "", size: Double(asset.fileSize), bucketId: nil, realPath: nil, parentFolderName: nil, creationDate: asset.phAsset?.creationDate.)
     }
 }
 

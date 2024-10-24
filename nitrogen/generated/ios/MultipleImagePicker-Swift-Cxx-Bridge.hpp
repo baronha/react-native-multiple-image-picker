@@ -14,8 +14,12 @@
 #endif
 
 // Forward declarations of C++ defined types
+// Forward declaration of `CropConfig` to properly resolve imports.
+namespace margelo::nitro::imagepicker { struct CropConfig; }
 // Forward declaration of `HybridMultipleImagePickerSpec` to properly resolve imports.
 namespace margelo::nitro::imagepicker { class HybridMultipleImagePickerSpec; }
+// Forward declaration of `ResultType` to properly resolve imports.
+namespace margelo::nitro::imagepicker { enum class ResultType; }
 // Forward declaration of `Result` to properly resolve imports.
 namespace margelo::nitro::imagepicker { struct Result; }
 // Forward declaration of `Text` to properly resolve imports.
@@ -26,8 +30,10 @@ namespace margelo::nitro::imagepicker { struct Text; }
 namespace MultipleImagePicker { class HybridMultipleImagePickerSpecCxx; }
 
 // Include C++ defined types
+#include "CropConfig.hpp"
 #include "HybridMultipleImagePickerSpec.hpp"
 #include "Result.hpp"
+#include "ResultType.hpp"
 #include "Text.hpp"
 #include <functional>
 #include <memory>
@@ -59,6 +65,15 @@ namespace margelo::nitro::imagepicker::bridge::swift {
     return std::optional<std::string>(value);
   }
   
+  // pragma MARK: std::optional<ResultType>
+  /**
+   * Specialized version of `std::optional<ResultType>`.
+   */
+  using std__optional_ResultType_ = std::optional<ResultType>;
+  inline std::optional<ResultType> create_std__optional_ResultType_(const ResultType& value) {
+    return std::optional<ResultType>(value);
+  }
+  
   // pragma MARK: std::vector<Result>
   /**
    * Specialized version of `std::vector<Result>`.
@@ -86,6 +101,15 @@ namespace margelo::nitro::imagepicker::bridge::swift {
   using std__optional_Text_ = std::optional<Text>;
   inline std::optional<Text> create_std__optional_Text_(const Text& value) {
     return std::optional<Text>(value);
+  }
+  
+  // pragma MARK: std::optional<CropConfig>
+  /**
+   * Specialized version of `std::optional<CropConfig>`.
+   */
+  using std__optional_CropConfig_ = std::optional<CropConfig>;
+  inline std::optional<CropConfig> create_std__optional_CropConfig_(const CropConfig& value) {
+    return std::optional<CropConfig>(value);
   }
   
   // pragma MARK: std::function<void(const std::vector<Result>& /* result */)>

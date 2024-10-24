@@ -10,6 +10,8 @@
 #include <fbjni/fbjni.h>
 #include "Result.hpp"
 
+#include "JResultType.hpp"
+#include "ResultType.hpp"
 #include <optional>
 #include <string>
 
@@ -51,8 +53,14 @@ namespace margelo::nitro::imagepicker {
       jni::local_ref<jni::JString> realPath = this->getFieldValue(fieldRealPath);
       static const auto fieldParentFolderName = clazz->getField<jni::JString>("parentFolderName");
       jni::local_ref<jni::JString> parentFolderName = this->getFieldValue(fieldParentFolderName);
-      static const auto fieldCreationDate = clazz->getField<jni::JString>("creationDate");
-      jni::local_ref<jni::JString> creationDate = this->getFieldValue(fieldCreationDate);
+      static const auto fieldCreationDate = clazz->getField<jni::JDouble>("creationDate");
+      jni::local_ref<jni::JDouble> creationDate = this->getFieldValue(fieldCreationDate);
+      static const auto fieldType = clazz->getField<JResultType>("type");
+      jni::local_ref<JResultType> type = this->getFieldValue(fieldType);
+      static const auto fieldDuration = clazz->getField<jni::JDouble>("duration");
+      jni::local_ref<jni::JDouble> duration = this->getFieldValue(fieldDuration);
+      static const auto fieldThumbnail = clazz->getField<jni::JString>("thumbnail");
+      jni::local_ref<jni::JString> thumbnail = this->getFieldValue(fieldThumbnail);
       return Result(
         path->toStdString(),
         fileName->toStdString(),
@@ -64,7 +72,10 @@ namespace margelo::nitro::imagepicker {
         bucketId != nullptr ? std::make_optional(bucketId->value()) : std::nullopt,
         realPath != nullptr ? std::make_optional(realPath->toStdString()) : std::nullopt,
         parentFolderName != nullptr ? std::make_optional(parentFolderName->toStdString()) : std::nullopt,
-        creationDate != nullptr ? std::make_optional(creationDate->toStdString()) : std::nullopt
+        creationDate != nullptr ? std::make_optional(creationDate->value()) : std::nullopt,
+        type != nullptr ? std::make_optional(type->toCpp()) : std::nullopt,
+        duration != nullptr ? std::make_optional(duration->value()) : std::nullopt,
+        thumbnail != nullptr ? std::make_optional(thumbnail->toStdString()) : std::nullopt
       );
     }
 
@@ -85,7 +96,10 @@ namespace margelo::nitro::imagepicker {
         value.bucketId.has_value() ? jni::JDouble::valueOf(value.bucketId.value()) : nullptr,
         value.realPath.has_value() ? jni::make_jstring(value.realPath.value()) : nullptr,
         value.parentFolderName.has_value() ? jni::make_jstring(value.parentFolderName.value()) : nullptr,
-        value.creationDate.has_value() ? jni::make_jstring(value.creationDate.value()) : nullptr
+        value.creationDate.has_value() ? jni::JDouble::valueOf(value.creationDate.value()) : nullptr,
+        value.type.has_value() ? JResultType::fromCpp(value.type.value()) : nullptr,
+        value.duration.has_value() ? jni::JDouble::valueOf(value.duration.value()) : nullptr,
+        value.thumbnail.has_value() ? jni::make_jstring(value.thumbnail.value()) : nullptr
       );
     }
   };

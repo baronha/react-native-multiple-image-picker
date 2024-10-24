@@ -16,6 +16,8 @@
 #include "JResult.hpp"
 #include <string>
 #include <optional>
+#include "ResultType.hpp"
+#include "JResultType.hpp"
 
 namespace margelo::nitro::imagepicker {
 

@@ -23,6 +23,7 @@ Pod::Spec.new do |s|
   ]
 
   s.dependency "HXPhotoPicker/Picker/Lite", "4.2.3"
+  s.dependency "HXPhotoPicker/Editor/Lite", "4.2.3"
 
   s.pod_target_xcconfig = {
     "GCC_PREPROCESSOR_DEFINITIONS" => "$(inherited) FOLLY_NO_CONFIG FOLLY_CFG_NO_COROUTINES"
