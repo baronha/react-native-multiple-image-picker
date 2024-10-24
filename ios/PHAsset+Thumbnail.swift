@@ -9,27 +9,29 @@ import Photos
 
 extension PHAsset {
     func getVideoThumbnail(from moviePath: String, in seconds: Double) -> String? {
-        let filepath = moviePath.replacingOccurrences(of: "file://", with: "")
-        let vidURL = URL(fileURLWithPath: filepath)
+        if mediaType == .video {
+            let filepath = moviePath.replacingOccurrences(of: "file://", with: "")
+            let vidURL = URL(fileURLWithPath: filepath)
 
-        let asset = AVURLAsset(url: vidURL, options: nil)
-        let generator = AVAssetImageGenerator(asset: asset)
-        generator.appliesPreferredTrackTransform = true
+            let asset = AVURLAsset(url: vidURL, options: nil)
+            let generator = AVAssetImageGenerator(asset: asset)
+            generator.appliesPreferredTrackTransform = true
 
-        let time = CMTime(seconds: seconds, preferredTimescale: 600)
+            let time = CMTime(seconds: seconds, preferredTimescale: 600)
 
-        var thumbnail: UIImage?
+            var thumbnail: UIImage?
 
-        do {
-            let imgRef = try generator.copyCGImage(at: time, actualTime: nil)
-            thumbnail = UIImage(cgImage: imgRef)
-        } catch {
-            print("Lỗi khi tạo thumbnail: \(error)")
-            return nil
-        }
+            do {
+                let imgRef = try generator.copyCGImage(at: time, actualTime: nil)
+                thumbnail = UIImage(cgImage: imgRef)
+            } catch {
+                print("Lỗi khi tạo thumbnail: \(error)")
+                return nil
+            }
 
-        if let thumbnail {
-            return getImagePathFromUIImage(uiImage: thumbnail, prefix: "thumb")
+            if let thumbnail {
+                return getImagePathFromUIImage(uiImage: thumbnail, prefix: "thumb")
+            }
         }
 
         return nil

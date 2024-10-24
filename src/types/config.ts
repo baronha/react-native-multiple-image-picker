@@ -53,10 +53,6 @@ export interface NitroConfig {
 
   allowSwipeToSelect?: boolean
 
-  isCrop?: boolean
-
-  isCropCircle?: boolean
-
   spacing?: number
 
   isHiddenPreviewButton?: boolean

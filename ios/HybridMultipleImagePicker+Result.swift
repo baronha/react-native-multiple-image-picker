@@ -27,7 +27,7 @@ extension HybridMultipleImagePicker {
 
         return Result(path: url.absoluteString,
                       fileName: fileName,
-                      localIdentifier: asset.localAssetIdentifier,
+                      localIdentifier: asset.phAsset!.localIdentifier,
                       width: asset.imageSize.width,
                       height: asset.imageSize.height,
                       mime: mime,

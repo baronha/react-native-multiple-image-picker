@@ -20,15 +20,20 @@ class HybridMultipleImagePicker: HybridMultipleImagePickerSpec {
 
     func openPicker(config: NitroConfig, resolved: @escaping (([Result]) -> Void), rejected: @escaping ((Double) -> Void)) throws {
         setConfig(config)
+        let seleted: [PhotoAsset] = config.selectedAssets.map { result in
+            let asset = PhotoAsset(localIdentifier: result.localIdentifier)
+
+            return asset
+        }
 
         DispatchQueue.main.async {
-            //            var photoAssets: [PhotoAsset] = [PhotoAsset(localIdentifier: "72E53047-CF5A-4C7A-BACF-9499DCBC2A7F")]
-
-            //            print("photoAssets: ", photoAssets)
-
             Photo.picker(
-                self.config
+                self.config,
+                selectedAssets: seleted
             ) { pickerResult, controller in
+
+                controller.autoDismiss = false
+
                 let imageQuality = config.imageQuality ?? 1.0
                 let videoQuality: Int = {
                     if let quality = config.videoQuality {
@@ -38,58 +43,61 @@ class HybridMultipleImagePicker: HybridMultipleImagePickerSpec {
                     return 10
                 }()
 
-                func onFinish() {
-                    // show alert view
-                    let alert = UIAlertController(title: nil, message: "Loading...", preferredStyle: .alert)
+                let compression: PhotoAsset.Compression = .init(imageCompressionQuality: imageQuality, videoExportParameter: .init(preset: videoQuality == 10 ? .highQuality : videoQuality < 5 ? .mediumQuality : .lowQuality, quality: videoQuality))
 
-                    alert.showLoading()
+                // check crop for single
+                if let asset = pickerResult.photoAssets.first, config.selectMode == .single, config.crop != nil, asset.mediaType == .photo, asset.editedResult?.url == nil {
+                    // open crop
+                    Photo.edit(asset: .init(type: .photoAsset(asset)), config: self.config.editor, sender: controller) { editedResult, _ in
 
-                    controller.present(alert, animated: true)
+                        if let photoAsset = pickerResult.photoAssets.first, let result = editedResult.result {
+                            photoAsset.editedResult = .some(result)
 
-                    controller.autoDismiss = false
+                            Task {
+                                let urlResult = try await photoAsset.urlResult(compression)
+                                let resultData = self.getResult(photoAsset, urlResult.url)
 
-                    let compression: PhotoAsset.Compression = .init(imageCompressionQuality: imageQuality, videoExportParameter: .init(preset: .highQuality, quality: videoQuality))
-
-                    var data: [Result] = []
-
-                    let group = DispatchGroup()
-
-                    pickerResult.photoAssets.forEach { response in
-                        Task {
-                            group.enter()
-
-                            let urlResult = try await response.urlResult(compression)
-
-                            response.getImageData { result in
-                                switch result {
-                                case .success(let imageData):
-
-                                    let resultData = self.getResult(response, urlResult.url)
-
-                                    data.append(resultData)
-
-                                case .failure:
-                                    break
+                                DispatchQueue.main.async {
+                                    resolved([resultData])
+                                    controller.dismiss(true)
                                 }
                             }
-
-                            group.leave()
                         }
                     }
 
-                    group.notify(queue: .main) {
-                        DispatchQueue.main.async {
-                            alert.dismiss(animated: true) {
-                                controller.dismiss(true)
-                                resolved(data)
-                            }
+                    return
+                }
+
+                // show alert view
+                let alert = UIAlertController(title: nil, message: "Loading...", preferredStyle: .alert)
+                alert.showLoading()
+                controller.present(alert, animated: true)
+
+                let group = DispatchGroup()
+
+                var data: [Result] = []
+
+                pickerResult.photoAssets.forEach { response in
+                    Task {
+                        group.enter()
+
+                        let urlResult = try await response.urlResult(compression)
+                        let resultData = self.getResult(response, urlResult.url)
+
+                        data.append(resultData)
+
+                        group.leave()
+                    }
+                }
+
+                group.notify(queue: .main) {
+                    DispatchQueue.main.async {
+                        alert.dismiss(animated: true) {
+                            controller.dismiss(true)
+                            resolved(data)
                         }
                     }
                 }
-                
-                if config.singleSelectedMode
-
-                onFinish()
 
             } cancel: { cancel in
 

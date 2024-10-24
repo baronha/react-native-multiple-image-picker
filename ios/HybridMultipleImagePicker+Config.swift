@@ -99,30 +99,28 @@ extension HybridMultipleImagePicker {
 
         config.allowCustomTransitionAnimation = true
 
-        config.appearanceStyle = .normal
+        config.appearanceStyle = .varied
 
         config.isSelectedOriginal = true
 
-        config.isFetchDeatilsAsset = true
+//        config.isFetchDeatilsAsset = true
 
         config.navigationTitleColor = .systemBackground
 
-        let isPreview = options.isPreview
+        let isPreview = options.isPreview ?? true
 
-        if let isPreview {
-            config.previewView.bottomView.isShowPreviewList = isPreview
-            config.photoList.bottomView.isHiddenPreviewButton = !isPreview
-            config.photoList.allowHapticTouchPreview = !isPreview
-            config.photoList.bottomView.previewListTickColor = .clear
-            config.photoList.bottomView.isShowSelectedView = isPreview
+        config.previewView.bottomView.isShowPreviewList = isPreview
+        config.photoList.bottomView.isHiddenPreviewButton = !isPreview
+        config.photoList.allowHapticTouchPreview = !isPreview
+        config.photoList.bottomView.previewListTickColor = .clear
+        config.photoList.bottomView.isShowSelectedView = isPreview
 
-            if isPreview {
-                config.videoSelectionTapAction = .preview
-                config.photoSelectionTapAction = .preview
-            } else {
-                config.videoSelectionTapAction = .quickSelect
-                config.photoSelectionTapAction = .quickSelect
-            }
+        if isPreview {
+            config.videoSelectionTapAction = .preview
+            config.photoSelectionTapAction = .preview
+        } else {
+            config.videoSelectionTapAction = .quickSelect
+            config.photoSelectionTapAction = .quickSelect
         }
 
         if let crop = options.crop {
@@ -130,13 +128,20 @@ extension HybridMultipleImagePicker {
 
             var editor = config.editor
 
-            editor.cropSize.isRoundCrop = crop.circle ?? false
+            let isCircle = crop.circle ?? false
+
+            editor.cropSize.isRoundCrop = isCircle
+
+            if isCircle {
+                editor.cropSize.aspectRatios = []
+            } else {
+                editor.cropSize.aspectRatios = PickerConfiguration.default.editor.cropSize.aspectRatios
+            }
 
             editor.photo.defaultSelectedToolOption = .cropSize
             editor.toolsView = .init(toolOptions: [.init(imageType: config.editor.imageResource.editor.tools.cropSize, type: .cropSize)])
 
             editor.isFixedCropSizeState = true
-            editor.cropSize.isFixedRatio = true
 
             config.editor = editor
 
@@ -165,7 +170,7 @@ extension HybridMultipleImagePicker {
             if let finish = text.finish {
                 config.textManager.picker.photoList.bottomView.finishTitle = .custom(finish)
                 config.textManager.picker.preview.bottomView.finishTitle = .custom(finish)
-                config.editor.textManager.editor.crop.maskListFinishTitle = .custom(finish)
+                config.textManager.editor.crop.maskListFinishTitle = .custom(finish)
             }
 
             if let original = text.original {

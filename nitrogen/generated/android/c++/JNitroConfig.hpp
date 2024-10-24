@@ -62,32 +62,12 @@ namespace margelo::nitro::imagepicker {
       jni::local_ref<jni::JDouble> numberOfColumn = this->getFieldValue(fieldNumberOfColumn);
       static const auto fieldIsPreview = clazz->getField<jni::JBoolean>("isPreview");
       jni::local_ref<jni::JBoolean> isPreview = this->getFieldValue(fieldIsPreview);
-      static const auto fieldIsExportThumbnail = clazz->getField<jni::JBoolean>("isExportThumbnail");
-      jni::local_ref<jni::JBoolean> isExportThumbnail = this->getFieldValue(fieldIsExportThumbnail);
       static const auto fieldPrimaryColor = clazz->getField<jni::JDouble>("primaryColor");
       jni::local_ref<jni::JDouble> primaryColor = this->getFieldValue(fieldPrimaryColor);
-      static const auto fieldDeselectMessage = clazz->getField<jni::JString>("deselectMessage");
-      jni::local_ref<jni::JString> deselectMessage = this->getFieldValue(fieldDeselectMessage);
       static const auto fieldAllowedCamera = clazz->getField<jni::JBoolean>("allowedCamera");
       jni::local_ref<jni::JBoolean> allowedCamera = this->getFieldValue(fieldAllowedCamera);
-      static const auto fieldAllowedLivePhotos = clazz->getField<jni::JBoolean>("allowedLivePhotos");
-      jni::local_ref<jni::JBoolean> allowedLivePhotos = this->getFieldValue(fieldAllowedLivePhotos);
-      static const auto fieldAllowedVideo = clazz->getField<jni::JBoolean>("allowedVideo");
-      jni::local_ref<jni::JBoolean> allowedVideo = this->getFieldValue(fieldAllowedVideo);
-      static const auto fieldThumbnailWidth = clazz->getField<jni::JDouble>("thumbnailWidth");
-      jni::local_ref<jni::JDouble> thumbnailWidth = this->getFieldValue(fieldThumbnailWidth);
-      static const auto fieldThumbnailHeight = clazz->getField<jni::JDouble>("thumbnailHeight");
-      jni::local_ref<jni::JDouble> thumbnailHeight = this->getFieldValue(fieldThumbnailHeight);
-      static const auto fieldHaveThumbnail = clazz->getField<jni::JBoolean>("haveThumbnail");
-      jni::local_ref<jni::JBoolean> haveThumbnail = this->getFieldValue(fieldHaveThumbnail);
-      static const auto fieldSingleSelectedMode = clazz->getField<jni::JBoolean>("singleSelectedMode");
-      jni::local_ref<jni::JBoolean> singleSelectedMode = this->getFieldValue(fieldSingleSelectedMode);
       static const auto fieldAllowSwipeToSelect = clazz->getField<jni::JBoolean>("allowSwipeToSelect");
       jni::local_ref<jni::JBoolean> allowSwipeToSelect = this->getFieldValue(fieldAllowSwipeToSelect);
-      static const auto fieldIsCrop = clazz->getField<jni::JBoolean>("isCrop");
-      jni::local_ref<jni::JBoolean> isCrop = this->getFieldValue(fieldIsCrop);
-      static const auto fieldIsCropCircle = clazz->getField<jni::JBoolean>("isCropCircle");
-      jni::local_ref<jni::JBoolean> isCropCircle = this->getFieldValue(fieldIsCropCircle);
       static const auto fieldSpacing = clazz->getField<jni::JDouble>("spacing");
       jni::local_ref<jni::JDouble> spacing = this->getFieldValue(fieldSpacing);
       static const auto fieldIsHiddenPreviewButton = clazz->getField<jni::JBoolean>("isHiddenPreviewButton");
@@ -142,19 +122,9 @@ namespace margelo::nitro::imagepicker {
         selectMode->toCpp(),
         numberOfColumn != nullptr ? std::make_optional(numberOfColumn->value()) : std::nullopt,
         isPreview != nullptr ? std::make_optional(isPreview->value()) : std::nullopt,
-        isExportThumbnail != nullptr ? std::make_optional(isExportThumbnail->value()) : std::nullopt,
         primaryColor != nullptr ? std::make_optional(primaryColor->value()) : std::nullopt,
-        deselectMessage != nullptr ? std::make_optional(deselectMessage->toStdString()) : std::nullopt,
         allowedCamera != nullptr ? std::make_optional(allowedCamera->value()) : std::nullopt,
-        allowedLivePhotos != nullptr ? std::make_optional(allowedLivePhotos->value()) : std::nullopt,
-        allowedVideo != nullptr ? std::make_optional(allowedVideo->value()) : std::nullopt,
-        thumbnailWidth != nullptr ? std::make_optional(thumbnailWidth->value()) : std::nullopt,
-        thumbnailHeight != nullptr ? std::make_optional(thumbnailHeight->value()) : std::nullopt,
-        haveThumbnail != nullptr ? std::make_optional(haveThumbnail->value()) : std::nullopt,
-        singleSelectedMode != nullptr ? std::make_optional(singleSelectedMode->value()) : std::nullopt,
         allowSwipeToSelect != nullptr ? std::make_optional(allowSwipeToSelect->value()) : std::nullopt,
-        isCrop != nullptr ? std::make_optional(isCrop->value()) : std::nullopt,
-        isCropCircle != nullptr ? std::make_optional(isCropCircle->value()) : std::nullopt,
         spacing != nullptr ? std::make_optional(spacing->value()) : std::nullopt,
         isHiddenPreviewButton != nullptr ? std::make_optional(isHiddenPreviewButton->value()) : std::nullopt,
         isHiddenOriginalButton != nullptr ? std::make_optional(isHiddenOriginalButton->value()) : std::nullopt,
@@ -198,19 +168,9 @@ namespace margelo::nitro::imagepicker {
         JSelectMode::fromCpp(value.selectMode),
         value.numberOfColumn.has_value() ? jni::JDouble::valueOf(value.numberOfColumn.value()) : nullptr,
         value.isPreview.has_value() ? jni::JBoolean::valueOf(value.isPreview.value()) : nullptr,
-        value.isExportThumbnail.has_value() ? jni::JBoolean::valueOf(value.isExportThumbnail.value()) : nullptr,
         value.primaryColor.has_value() ? jni::JDouble::valueOf(value.primaryColor.value()) : nullptr,
-        value.deselectMessage.has_value() ? jni::make_jstring(value.deselectMessage.value()) : nullptr,
         value.allowedCamera.has_value() ? jni::JBoolean::valueOf(value.allowedCamera.value()) : nullptr,
-        value.allowedLivePhotos.has_value() ? jni::JBoolean::valueOf(value.allowedLivePhotos.value()) : nullptr,
-        value.allowedVideo.has_value() ? jni::JBoolean::valueOf(value.allowedVideo.value()) : nullptr,
-        value.thumbnailWidth.has_value() ? jni::JDouble::valueOf(value.thumbnailWidth.value()) : nullptr,
-        value.thumbnailHeight.has_value() ? jni::JDouble::valueOf(value.thumbnailHeight.value()) : nullptr,
-        value.haveThumbnail.has_value() ? jni::JBoolean::valueOf(value.haveThumbnail.value()) : nullptr,
-        value.singleSelectedMode.has_value() ? jni::JBoolean::valueOf(value.singleSelectedMode.value()) : nullptr,
         value.allowSwipeToSelect.has_value() ? jni::JBoolean::valueOf(value.allowSwipeToSelect.value()) : nullptr,
-        value.isCrop.has_value() ? jni::JBoolean::valueOf(value.isCrop.value()) : nullptr,
-        value.isCropCircle.has_value() ? jni::JBoolean::valueOf(value.isCropCircle.value()) : nullptr,
         value.spacing.has_value() ? jni::JDouble::valueOf(value.spacing.value()) : nullptr,
         value.isHiddenPreviewButton.has_value() ? jni::JBoolean::valueOf(value.isHiddenPreviewButton.value()) : nullptr,
         value.isHiddenOriginalButton.has_value() ? jni::JBoolean::valueOf(value.isHiddenOriginalButton.value()) : nullptr,

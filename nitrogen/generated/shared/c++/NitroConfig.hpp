@@ -41,7 +41,6 @@ namespace margelo::nitro::imagepicker { struct CropConfig; }
 #include "SelectBoxStyle.hpp"
 #include "SelectMode.hpp"
 #include <optional>
-#include <string>
 #include "Presentation.hpp"
 #include "Text.hpp"
 #include "Language.hpp"
@@ -60,19 +59,9 @@ namespace margelo::nitro::imagepicker {
     SelectMode selectMode     SWIFT_PRIVATE;
     std::optional<double> numberOfColumn     SWIFT_PRIVATE;
     std::optional<bool> isPreview     SWIFT_PRIVATE;
-    std::optional<bool> isExportThumbnail     SWIFT_PRIVATE;
     std::optional<double> primaryColor     SWIFT_PRIVATE;
-    std::optional<std::string> deselectMessage     SWIFT_PRIVATE;
     std::optional<bool> allowedCamera     SWIFT_PRIVATE;
-    std::optional<bool> allowedLivePhotos     SWIFT_PRIVATE;
-    std::optional<bool> allowedVideo     SWIFT_PRIVATE;
-    std::optional<double> thumbnailWidth     SWIFT_PRIVATE;
-    std::optional<double> thumbnailHeight     SWIFT_PRIVATE;
-    std::optional<bool> haveThumbnail     SWIFT_PRIVATE;
-    std::optional<bool> singleSelectedMode     SWIFT_PRIVATE;
     std::optional<bool> allowSwipeToSelect     SWIFT_PRIVATE;
-    std::optional<bool> isCrop     SWIFT_PRIVATE;
-    std::optional<bool> isCropCircle     SWIFT_PRIVATE;
     std::optional<double> spacing     SWIFT_PRIVATE;
     std::optional<bool> isHiddenPreviewButton     SWIFT_PRIVATE;
     std::optional<bool> isHiddenOriginalButton     SWIFT_PRIVATE;
@@ -94,7 +83,7 @@ namespace margelo::nitro::imagepicker {
     std::optional<CropConfig> crop     SWIFT_PRIVATE;
 
   public:
-    explicit NitroConfig(MediaType mediaType, std::vector<Result> selectedAssets, SelectBoxStyle selectBoxStyle, SelectMode selectMode, std::optional<double> numberOfColumn, std::optional<bool> isPreview, std::optional<bool> isExportThumbnail, std::optional<double> primaryColor, std::optional<std::string> deselectMessage, std::optional<bool> allowedCamera, std::optional<bool> allowedLivePhotos, std::optional<bool> allowedVideo, std::optional<double> thumbnailWidth, std::optional<double> thumbnailHeight, std::optional<bool> haveThumbnail, std::optional<bool> singleSelectedMode, std::optional<bool> allowSwipeToSelect, std::optional<bool> isCrop, std::optional<bool> isCropCircle, std::optional<double> spacing, std::optional<bool> isHiddenPreviewButton, std::optional<bool> isHiddenOriginalButton, std::optional<bool> isShowPreviewList, std::optional<bool> allowHapticTouchPreview, std::optional<bool> isShowAssetNumber, std::optional<bool> allowedLimit, std::optional<double> maxPhoto, std::optional<double> maxVideo, std::optional<double> maxSelect, std::optional<double> maxVideoDuration, std::optional<double> minVideoDuration, std::optional<double> maxFileSize, std::optional<double> videoQuality, std::optional<double> imageQuality, Presentation presentation, std::optional<Text> text, Language language, std::optional<CropConfig> crop): mediaType(mediaType), selectedAssets(selectedAssets), selectBoxStyle(selectBoxStyle), selectMode(selectMode), numberOfColumn(numberOfColumn), isPreview(isPreview), isExportThumbnail(isExportThumbnail), primaryColor(primaryColor), deselectMessage(deselectMessage), allowedCamera(allowedCamera), allowedLivePhotos(allowedLivePhotos), allowedVideo(allowedVideo), thumbnailWidth(thumbnailWidth), thumbnailHeight(thumbnailHeight), haveThumbnail(haveThumbnail), singleSelectedMode(singleSelectedMode), allowSwipeToSelect(allowSwipeToSelect), isCrop(isCrop), isCropCircle(isCropCircle), spacing(spacing), isHiddenPreviewButton(isHiddenPreviewButton), isHiddenOriginalButton(isHiddenOriginalButton), isShowPreviewList(isShowPreviewList), allowHapticTouchPreview(allowHapticTouchPreview), isShowAssetNumber(isShowAssetNumber), allowedLimit(allowedLimit), maxPhoto(maxPhoto), maxVideo(maxVideo), maxSelect(maxSelect), maxVideoDuration(maxVideoDuration), minVideoDuration(minVideoDuration), maxFileSize(maxFileSize), videoQuality(videoQuality), imageQuality(imageQuality), presentation(presentation), text(text), language(language), crop(crop) {}
+    explicit NitroConfig(MediaType mediaType, std::vector<Result> selectedAssets, SelectBoxStyle selectBoxStyle, SelectMode selectMode, std::optional<double> numberOfColumn, std::optional<bool> isPreview, std::optional<double> primaryColor, std::optional<bool> allowedCamera, std::optional<bool> allowSwipeToSelect, std::optional<double> spacing, std::optional<bool> isHiddenPreviewButton, std::optional<bool> isHiddenOriginalButton, std::optional<bool> isShowPreviewList, std::optional<bool> allowHapticTouchPreview, std::optional<bool> isShowAssetNumber, std::optional<bool> allowedLimit, std::optional<double> maxPhoto, std::optional<double> maxVideo, std::optional<double> maxSelect, std::optional<double> maxVideoDuration, std::optional<double> minVideoDuration, std::optional<double> maxFileSize, std::optional<double> videoQuality, std::optional<double> imageQuality, Presentation presentation, std::optional<Text> text, Language language, std::optional<CropConfig> crop): mediaType(mediaType), selectedAssets(selectedAssets), selectBoxStyle(selectBoxStyle), selectMode(selectMode), numberOfColumn(numberOfColumn), isPreview(isPreview), primaryColor(primaryColor), allowedCamera(allowedCamera), allowSwipeToSelect(allowSwipeToSelect), spacing(spacing), isHiddenPreviewButton(isHiddenPreviewButton), isHiddenOriginalButton(isHiddenOriginalButton), isShowPreviewList(isShowPreviewList), allowHapticTouchPreview(allowHapticTouchPreview), isShowAssetNumber(isShowAssetNumber), allowedLimit(allowedLimit), maxPhoto(maxPhoto), maxVideo(maxVideo), maxSelect(maxSelect), maxVideoDuration(maxVideoDuration), minVideoDuration(minVideoDuration), maxFileSize(maxFileSize), videoQuality(videoQuality), imageQuality(imageQuality), presentation(presentation), text(text), language(language), crop(crop) {}
   };
 
 } // namespace margelo::nitro::imagepicker
@@ -115,19 +104,9 @@ namespace margelo::nitro {
         JSIConverter<SelectMode>::fromJSI(runtime, obj.getProperty(runtime, "selectMode")),
         JSIConverter<std::optional<double>>::fromJSI(runtime, obj.getProperty(runtime, "numberOfColumn")),
         JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, "isPreview")),
-        JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, "isExportThumbnail")),
         JSIConverter<std::optional<double>>::fromJSI(runtime, obj.getProperty(runtime, "primaryColor")),
-        JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "deselectMessage")),
         JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, "allowedCamera")),
-        JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, "allowedLivePhotos")),
-        JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, "allowedVideo")),
-        JSIConverter<std::optional<double>>::fromJSI(runtime, obj.getProperty(runtime, "thumbnailWidth")),
-        JSIConverter<std::optional<double>>::fromJSI(runtime, obj.getProperty(runtime, "thumbnailHeight")),
-        JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, "haveThumbnail")),
-        JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, "singleSelectedMode")),
         JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, "allowSwipeToSelect")),
-        JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, "isCrop")),
-        JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, "isCropCircle")),
         JSIConverter<std::optional<double>>::fromJSI(runtime, obj.getProperty(runtime, "spacing")),
         JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, "isHiddenPreviewButton")),
         JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, "isHiddenOriginalButton")),
@@ -157,19 +136,9 @@ namespace margelo::nitro {
       obj.setProperty(runtime, "selectMode", JSIConverter<SelectMode>::toJSI(runtime, arg.selectMode));
       obj.setProperty(runtime, "numberOfColumn", JSIConverter<std::optional<double>>::toJSI(runtime, arg.numberOfColumn));
       obj.setProperty(runtime, "isPreview", JSIConverter<std::optional<bool>>::toJSI(runtime, arg.isPreview));
-      obj.setProperty(runtime, "isExportThumbnail", JSIConverter<std::optional<bool>>::toJSI(runtime, arg.isExportThumbnail));
       obj.setProperty(runtime, "primaryColor", JSIConverter<std::optional<double>>::toJSI(runtime, arg.primaryColor));
-      obj.setProperty(runtime, "deselectMessage", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.deselectMessage));
       obj.setProperty(runtime, "allowedCamera", JSIConverter<std::optional<bool>>::toJSI(runtime, arg.allowedCamera));
-      obj.setProperty(runtime, "allowedLivePhotos", JSIConverter<std::optional<bool>>::toJSI(runtime, arg.allowedLivePhotos));
-      obj.setProperty(runtime, "allowedVideo", JSIConverter<std::optional<bool>>::toJSI(runtime, arg.allowedVideo));
-      obj.setProperty(runtime, "thumbnailWidth", JSIConverter<std::optional<double>>::toJSI(runtime, arg.thumbnailWidth));
-      obj.setProperty(runtime, "thumbnailHeight", JSIConverter<std::optional<double>>::toJSI(runtime, arg.thumbnailHeight));
-      obj.setProperty(runtime, "haveThumbnail", JSIConverter<std::optional<bool>>::toJSI(runtime, arg.haveThumbnail));
-      obj.setProperty(runtime, "singleSelectedMode", JSIConverter<std::optional<bool>>::toJSI(runtime, arg.singleSelectedMode));
       obj.setProperty(runtime, "allowSwipeToSelect", JSIConverter<std::optional<bool>>::toJSI(runtime, arg.allowSwipeToSelect));
-      obj.setProperty(runtime, "isCrop", JSIConverter<std::optional<bool>>::toJSI(runtime, arg.isCrop));
-      obj.setProperty(runtime, "isCropCircle", JSIConverter<std::optional<bool>>::toJSI(runtime, arg.isCropCircle));
       obj.setProperty(runtime, "spacing", JSIConverter<std::optional<double>>::toJSI(runtime, arg.spacing));
       obj.setProperty(runtime, "isHiddenPreviewButton", JSIConverter<std::optional<bool>>::toJSI(runtime, arg.isHiddenPreviewButton));
       obj.setProperty(runtime, "isHiddenOriginalButton", JSIConverter<std::optional<bool>>::toJSI(runtime, arg.isHiddenOriginalButton));
@@ -202,19 +171,9 @@ namespace margelo::nitro {
       if (!JSIConverter<SelectMode>::canConvert(runtime, obj.getProperty(runtime, "selectMode"))) return false;
       if (!JSIConverter<std::optional<double>>::canConvert(runtime, obj.getProperty(runtime, "numberOfColumn"))) return false;
       if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, "isPreview"))) return false;
-      if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, "isExportThumbnail"))) return false;
       if (!JSIConverter<std::optional<double>>::canConvert(runtime, obj.getProperty(runtime, "primaryColor"))) return false;
-      if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, "deselectMessage"))) return false;
       if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, "allowedCamera"))) return false;
-      if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, "allowedLivePhotos"))) return false;
-      if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, "allowedVideo"))) return false;
-      if (!JSIConverter<std::optional<double>>::canConvert(runtime, obj.getProperty(runtime, "thumbnailWidth"))) return false;
-      if (!JSIConverter<std::optional<double>>::canConvert(runtime, obj.getProperty(runtime, "thumbnailHeight"))) return false;
-      if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, "haveThumbnail"))) return false;
-      if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, "singleSelectedMode"))) return false;
       if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, "allowSwipeToSelect"))) return false;
-      if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, "isCrop"))) return false;
-      if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, "isCropCircle"))) return false;
       if (!JSIConverter<std::optional<double>>::canConvert(runtime, obj.getProperty(runtime, "spacing"))) return false;
       if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, "isHiddenPreviewButton"))) return false;
       if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, "isHiddenOriginalButton"))) return false;

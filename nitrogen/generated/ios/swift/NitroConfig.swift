@@ -18,7 +18,7 @@ public extension NitroConfig {
   /**
    * Create a new instance of `NitroConfig`.
    */
-  init(mediaType: MediaType, selectedAssets: [Result], selectBoxStyle: SelectBoxStyle, selectMode: SelectMode, numberOfColumn: Double?, isPreview: Bool?, isExportThumbnail: Bool?, primaryColor: Double?, deselectMessage: String?, allowedCamera: Bool?, allowedLivePhotos: Bool?, allowedVideo: Bool?, thumbnailWidth: Double?, thumbnailHeight: Double?, haveThumbnail: Bool?, singleSelectedMode: Bool?, allowSwipeToSelect: Bool?, isCrop: Bool?, isCropCircle: Bool?, spacing: Double?, isHiddenPreviewButton: Bool?, isHiddenOriginalButton: Bool?, isShowPreviewList: Bool?, allowHapticTouchPreview: Bool?, isShowAssetNumber: Bool?, allowedLimit: Bool?, maxPhoto: Double?, maxVideo: Double?, maxSelect: Double?, maxVideoDuration: Double?, minVideoDuration: Double?, maxFileSize: Double?, videoQuality: Double?, imageQuality: Double?, presentation: Presentation, text: Text?, language: Language, crop: CropConfig?) {
+  init(mediaType: MediaType, selectedAssets: [Result], selectBoxStyle: SelectBoxStyle, selectMode: SelectMode, numberOfColumn: Double?, isPreview: Bool?, primaryColor: Double?, allowedCamera: Bool?, allowSwipeToSelect: Bool?, spacing: Double?, isHiddenPreviewButton: Bool?, isHiddenOriginalButton: Bool?, isShowPreviewList: Bool?, allowHapticTouchPreview: Bool?, isShowAssetNumber: Bool?, allowedLimit: Bool?, maxPhoto: Double?, maxVideo: Double?, maxSelect: Double?, maxVideoDuration: Double?, minVideoDuration: Double?, maxFileSize: Double?, videoQuality: Double?, imageQuality: Double?, presentation: Presentation, text: Text?, language: Language, crop: CropConfig?) {
     self.init(mediaType, { () -> bridge.std__vector_Result_ in
       var __vector = bridge.create_std__vector_Result_(selectedAssets.count)
       for __item in selectedAssets {
@@ -37,21 +37,9 @@ public extension NitroConfig {
       } else {
         return .init()
       }
-    }(), { () -> bridge.std__optional_bool_ in
-      if let __unwrappedValue = isExportThumbnail {
-        return bridge.create_std__optional_bool_(__unwrappedValue)
-      } else {
-        return .init()
-      }
     }(), { () -> bridge.std__optional_double_ in
       if let __unwrappedValue = primaryColor {
         return bridge.create_std__optional_double_(__unwrappedValue)
-      } else {
-        return .init()
-      }
-    }(), { () -> bridge.std__optional_std__string_ in
-      if let __unwrappedValue = deselectMessage {
-        return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
       } else {
         return .init()
       }
@@ -62,55 +50,7 @@ public extension NitroConfig {
         return .init()
       }
     }(), { () -> bridge.std__optional_bool_ in
-      if let __unwrappedValue = allowedLivePhotos {
-        return bridge.create_std__optional_bool_(__unwrappedValue)
-      } else {
-        return .init()
-      }
-    }(), { () -> bridge.std__optional_bool_ in
-      if let __unwrappedValue = allowedVideo {
-        return bridge.create_std__optional_bool_(__unwrappedValue)
-      } else {
-        return .init()
-      }
-    }(), { () -> bridge.std__optional_double_ in
-      if let __unwrappedValue = thumbnailWidth {
-        return bridge.create_std__optional_double_(__unwrappedValue)
-      } else {
-        return .init()
-      }
-    }(), { () -> bridge.std__optional_double_ in
-      if let __unwrappedValue = thumbnailHeight {
-        return bridge.create_std__optional_double_(__unwrappedValue)
-      } else {
-        return .init()
-      }
-    }(), { () -> bridge.std__optional_bool_ in
-      if let __unwrappedValue = haveThumbnail {
-        return bridge.create_std__optional_bool_(__unwrappedValue)
-      } else {
-        return .init()
-      }
-    }(), { () -> bridge.std__optional_bool_ in
-      if let __unwrappedValue = singleSelectedMode {
-        return bridge.create_std__optional_bool_(__unwrappedValue)
-      } else {
-        return .init()
-      }
-    }(), { () -> bridge.std__optional_bool_ in
       if let __unwrappedValue = allowSwipeToSelect {
-        return bridge.create_std__optional_bool_(__unwrappedValue)
-      } else {
-        return .init()
-      }
-    }(), { () -> bridge.std__optional_bool_ in
-      if let __unwrappedValue = isCrop {
-        return bridge.create_std__optional_bool_(__unwrappedValue)
-      } else {
-        return .init()
-      }
-    }(), { () -> bridge.std__optional_bool_ in
-      if let __unwrappedValue = isCropCircle {
         return bridge.create_std__optional_bool_(__unwrappedValue)
       } else {
         return .init()
@@ -304,23 +244,6 @@ public extension NitroConfig {
     }
   }
   
-  var isExportThumbnail: Bool? {
-    @inline(__always)
-    get {
-      return self.__isExportThumbnail.value
-    }
-    @inline(__always)
-    set {
-      self.__isExportThumbnail = { () -> bridge.std__optional_bool_ in
-        if let __unwrappedValue = newValue {
-          return bridge.create_std__optional_bool_(__unwrappedValue)
-        } else {
-          return .init()
-        }
-      }()
-    }
-  }
-  
   var primaryColor: Double? {
     @inline(__always)
     get {
@@ -331,29 +254,6 @@ public extension NitroConfig {
       self.__primaryColor = { () -> bridge.std__optional_double_ in
         if let __unwrappedValue = newValue {
           return bridge.create_std__optional_double_(__unwrappedValue)
-        } else {
-          return .init()
-        }
-      }()
-    }
-  }
-  
-  var deselectMessage: String? {
-    @inline(__always)
-    get {
-      return { () -> String? in
-        if let __unwrapped = self.__deselectMessage.value {
-          return String(__unwrapped)
-        } else {
-          return nil
-        }
-      }()
-    }
-    @inline(__always)
-    set {
-      self.__deselectMessage = { () -> bridge.std__optional_std__string_ in
-        if let __unwrappedValue = newValue {
-          return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
         } else {
           return .init()
         }
@@ -378,108 +278,6 @@ public extension NitroConfig {
     }
   }
   
-  var allowedLivePhotos: Bool? {
-    @inline(__always)
-    get {
-      return self.__allowedLivePhotos.value
-    }
-    @inline(__always)
-    set {
-      self.__allowedLivePhotos = { () -> bridge.std__optional_bool_ in
-        if let __unwrappedValue = newValue {
-          return bridge.create_std__optional_bool_(__unwrappedValue)
-        } else {
-          return .init()
-        }
-      }()
-    }
-  }
-  
-  var allowedVideo: Bool? {
-    @inline(__always)
-    get {
-      return self.__allowedVideo.value
-    }
-    @inline(__always)
-    set {
-      self.__allowedVideo = { () -> bridge.std__optional_bool_ in
-        if let __unwrappedValue = newValue {
-          return bridge.create_std__optional_bool_(__unwrappedValue)
-        } else {
-          return .init()
-        }
-      }()
-    }
-  }
-  
-  var thumbnailWidth: Double? {
-    @inline(__always)
-    get {
-      return self.__thumbnailWidth.value
-    }
-    @inline(__always)
-    set {
-      self.__thumbnailWidth = { () -> bridge.std__optional_double_ in
-        if let __unwrappedValue = newValue {
-          return bridge.create_std__optional_double_(__unwrappedValue)
-        } else {
-          return .init()
-        }
-      }()
-    }
-  }
-  
-  var thumbnailHeight: Double? {
-    @inline(__always)
-    get {
-      return self.__thumbnailHeight.value
-    }
-    @inline(__always)
-    set {
-      self.__thumbnailHeight = { () -> bridge.std__optional_double_ in
-        if let __unwrappedValue = newValue {
-          return bridge.create_std__optional_double_(__unwrappedValue)
-        } else {
-          return .init()
-        }
-      }()
-    }
-  }
-  
-  var haveThumbnail: Bool? {
-    @inline(__always)
-    get {
-      return self.__haveThumbnail.value
-    }
-    @inline(__always)
-    set {
-      self.__haveThumbnail = { () -> bridge.std__optional_bool_ in
-        if let __unwrappedValue = newValue {
-          return bridge.create_std__optional_bool_(__unwrappedValue)
-        } else {
-          return .init()
-        }
-      }()
-    }
-  }
-  
-  var singleSelectedMode: Bool? {
-    @inline(__always)
-    get {
-      return self.__singleSelectedMode.value
-    }
-    @inline(__always)
-    set {
-      self.__singleSelectedMode = { () -> bridge.std__optional_bool_ in
-        if let __unwrappedValue = newValue {
-          return bridge.create_std__optional_bool_(__unwrappedValue)
-        } else {
-          return .init()
-        }
-      }()
-    }
-  }
-  
   var allowSwipeToSelect: Bool? {
     @inline(__always)
     get {
@@ -488,40 +286,6 @@ public extension NitroConfig {
     @inline(__always)
     set {
       self.__allowSwipeToSelect = { () -> bridge.std__optional_bool_ in
-        if let __unwrappedValue = newValue {
-          return bridge.create_std__optional_bool_(__unwrappedValue)
-        } else {
-          return .init()
-        }
-      }()
-    }
-  }
-  
-  var isCrop: Bool? {
-    @inline(__always)
-    get {
-      return self.__isCrop.value
-    }
-    @inline(__always)
-    set {
-      self.__isCrop = { () -> bridge.std__optional_bool_ in
-        if let __unwrappedValue = newValue {
-          return bridge.create_std__optional_bool_(__unwrappedValue)
-        } else {
-          return .init()
-        }
-      }()
-    }
-  }
-  
-  var isCropCircle: Bool? {
-    @inline(__always)
-    get {
-      return self.__isCropCircle.value
-    }
-    @inline(__always)
-    set {
-      self.__isCropCircle = { () -> bridge.std__optional_bool_ in
         if let __unwrappedValue = newValue {
           return bridge.create_std__optional_bool_(__unwrappedValue)
         } else {
