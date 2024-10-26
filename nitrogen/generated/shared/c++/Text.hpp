@@ -23,7 +23,7 @@
 #include <optional>
 #include <string>
 
-namespace margelo::nitro::imagepicker {
+namespace margelo::nitro::multipleimagepicker {
 
   /**
    * A struct which can be represented as a JavaScript object (Text).
@@ -38,11 +38,11 @@ namespace margelo::nitro::imagepicker {
     explicit Text(std::optional<std::string> finish, std::optional<std::string> original, std::optional<std::string> preview): finish(finish), original(original), preview(preview) {}
   };
 
-} // namespace margelo::nitro::imagepicker
+} // namespace margelo::nitro::multipleimagepicker
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::imagepicker;
+  using namespace margelo::nitro::multipleimagepicker;
 
   // C++ Text <> JS Text (object)
   template <>

@@ -12,7 +12,7 @@
 
 #include <functional>
 
-namespace margelo::nitro::imagepicker {
+namespace margelo::nitro::multipleimagepicker {
 
   using namespace facebook;
 
@@ -32,7 +32,7 @@ namespace margelo::nitro::imagepicker {
     }
 
   public:
-    static auto constexpr kJavaDescriptor = "Lcom/margelo/nitro/imagepicker/Func_void_double;";
+    static auto constexpr kJavaDescriptor = "Lcom/margelo/nitro/multipleimagepicker/Func_void_double;";
     static void registerNatives() {
       registerHybrid({makeNativeMethod("call", JFunc_void_double::call)});
     }
@@ -45,4 +45,4 @@ namespace margelo::nitro::imagepicker {
     std::function<void(double /* reject */)> _func;
   };
 
-} // namespace margelo::nitro::imagepicker
+} // namespace margelo::nitro::multipleimagepicker

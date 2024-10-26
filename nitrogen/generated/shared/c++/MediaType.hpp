@@ -23,7 +23,7 @@
 #error NitroModules cannot be found! Are you sure you installed NitroModules properly?
 #endif
 
-namespace margelo::nitro::imagepicker {
+namespace margelo::nitro::multipleimagepicker {
 
   /**
    * An enum which can be represented as a JavaScript union (MediaType).
@@ -34,11 +34,11 @@ namespace margelo::nitro::imagepicker {
     ALL      SWIFT_NAME(all) = 2,
   } CLOSED_ENUM;
 
-} // namespace margelo::nitro::imagepicker
+} // namespace margelo::nitro::multipleimagepicker
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::imagepicker;
+  using namespace margelo::nitro::multipleimagepicker;
 
   // C++ MediaType <> JS MediaType (union)
   template <>

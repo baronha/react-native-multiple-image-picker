@@ -1,17 +1,17 @@
 {
-  "cxxNamespace": ["imagepicker"],
+  "cxxNamespace": ["multipleimagepicker"],
   "ios": {
     "iosModulename": "MultipleImagePicker"
   },
   "android": {
-    "androidNamespace": ["imagepicker"],
+    "androidNamespace": ["multipleimagepicker"],
     "androidCxxLibName": "MultipleImagePicker"
   },
 
   "autolinking": {
     "MultipleImagePicker": {
       "swift": "HybridMultipleImagePicker",
-      "kotlin": "HybridMultipleImagePicker"
+      "kotlin": "MultipleImagePicker"
     }
   },
   "ignorePaths": ["node_modules"]

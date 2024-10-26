@@ -8,7 +8,7 @@
 /**
  * Represents the JS union `Presentation`, backed by a C++ enum.
  */
-public typealias Presentation = margelo.nitro.imagepicker.Presentation
+public typealias Presentation = margelo.nitro.multipleimagepicker.Presentation
 
 public extension Presentation {
   /**

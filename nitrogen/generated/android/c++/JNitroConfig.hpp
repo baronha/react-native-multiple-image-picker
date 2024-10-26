@@ -10,10 +10,9 @@
 #include <fbjni/fbjni.h>
 #include "NitroConfig.hpp"
 
-#include "CropConfig.hpp"
-#include "JCropConfig.hpp"
 #include "JLanguage.hpp"
 #include "JMediaType.hpp"
+#include "JPickerCropConfig.hpp"
 #include "JPresentation.hpp"
 #include "JResult.hpp"
 #include "JResultType.hpp"
@@ -22,6 +21,7 @@
 #include "JText.hpp"
 #include "Language.hpp"
 #include "MediaType.hpp"
+#include "PickerCropConfig.hpp"
 #include "Presentation.hpp"
 #include "Result.hpp"
 #include "ResultType.hpp"
@@ -32,7 +32,7 @@
 #include <string>
 #include <vector>
 
-namespace margelo::nitro::imagepicker {
+namespace margelo::nitro::multipleimagepicker {
 
   using namespace facebook;
 
@@ -41,7 +41,7 @@ namespace margelo::nitro::imagepicker {
    */
   struct JNitroConfig final: public jni::JavaClass<JNitroConfig> {
   public:
-    static auto constexpr kJavaDescriptor = "Lcom/margelo/nitro/imagepicker/NitroConfig;";
+    static auto constexpr kJavaDescriptor = "Lcom/margelo/nitro/multipleimagepicker/NitroConfig;";
 
   public:
     /**
@@ -100,12 +100,12 @@ namespace margelo::nitro::imagepicker {
       jni::local_ref<jni::JDouble> imageQuality = this->getFieldValue(fieldImageQuality);
       static const auto fieldPresentation = clazz->getField<JPresentation>("presentation");
       jni::local_ref<JPresentation> presentation = this->getFieldValue(fieldPresentation);
+      static const auto fieldCrop = clazz->getField<JPickerCropConfig>("crop");
+      jni::local_ref<JPickerCropConfig> crop = this->getFieldValue(fieldCrop);
       static const auto fieldText = clazz->getField<JText>("text");
       jni::local_ref<JText> text = this->getFieldValue(fieldText);
       static const auto fieldLanguage = clazz->getField<JLanguage>("language");
       jni::local_ref<JLanguage> language = this->getFieldValue(fieldLanguage);
-      static const auto fieldCrop = clazz->getField<JCropConfig>("crop");
-      jni::local_ref<JCropConfig> crop = this->getFieldValue(fieldCrop);
       return NitroConfig(
         mediaType->toCpp(),
         [&]() {
@@ -141,9 +141,9 @@ namespace margelo::nitro::imagepicker {
         videoQuality != nullptr ? std::make_optional(videoQuality->value()) : std::nullopt,
         imageQuality != nullptr ? std::make_optional(imageQuality->value()) : std::nullopt,
         presentation->toCpp(),
+        crop != nullptr ? std::make_optional(crop->toCpp()) : std::nullopt,
         text != nullptr ? std::make_optional(text->toCpp()) : std::nullopt,
-        language->toCpp(),
-        crop != nullptr ? std::make_optional(crop->toCpp()) : std::nullopt
+        language->toCpp()
       );
     }
 
@@ -187,11 +187,11 @@ namespace margelo::nitro::imagepicker {
         value.videoQuality.has_value() ? jni::JDouble::valueOf(value.videoQuality.value()) : nullptr,
         value.imageQuality.has_value() ? jni::JDouble::valueOf(value.imageQuality.value()) : nullptr,
         JPresentation::fromCpp(value.presentation),
+        value.crop.has_value() ? JPickerCropConfig::fromCpp(value.crop.value()) : nullptr,
         value.text.has_value() ? JText::fromCpp(value.text.value()) : nullptr,
-        JLanguage::fromCpp(value.language),
-        value.crop.has_value() ? JCropConfig::fromCpp(value.crop.value()) : nullptr
+        JLanguage::fromCpp(value.language)
       );
     }
   };
 
-} // namespace margelo::nitro::imagepicker
+} // namespace margelo::nitro::multipleimagepicker

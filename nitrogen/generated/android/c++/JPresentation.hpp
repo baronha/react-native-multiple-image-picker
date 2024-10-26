@@ -10,7 +10,7 @@
 #include <fbjni/fbjni.h>
 #include "Presentation.hpp"
 
-namespace margelo::nitro::imagepicker {
+namespace margelo::nitro::multipleimagepicker {
 
   using namespace facebook;
 
@@ -19,7 +19,7 @@ namespace margelo::nitro::imagepicker {
    */
   struct JPresentation final: public jni::JavaClass<JPresentation> {
   public:
-    static auto constexpr kJavaDescriptor = "Lcom/margelo/nitro/imagepicker/Presentation;";
+    static auto constexpr kJavaDescriptor = "Lcom/margelo/nitro/multipleimagepicker/Presentation;";
 
   public:
     /**
@@ -55,4 +55,4 @@ namespace margelo::nitro::imagepicker {
     }
   };
 
-} // namespace margelo::nitro::imagepicker
+} // namespace margelo::nitro::multipleimagepicker

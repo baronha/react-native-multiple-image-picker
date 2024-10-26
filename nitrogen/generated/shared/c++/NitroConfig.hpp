@@ -19,21 +19,21 @@
 #endif
 
 // Forward declaration of `MediaType` to properly resolve imports.
-namespace margelo::nitro::imagepicker { enum class MediaType; }
+namespace margelo::nitro::multipleimagepicker { enum class MediaType; }
 // Forward declaration of `Result` to properly resolve imports.
-namespace margelo::nitro::imagepicker { struct Result; }
+namespace margelo::nitro::multipleimagepicker { struct Result; }
 // Forward declaration of `SelectBoxStyle` to properly resolve imports.
-namespace margelo::nitro::imagepicker { enum class SelectBoxStyle; }
+namespace margelo::nitro::multipleimagepicker { enum class SelectBoxStyle; }
 // Forward declaration of `SelectMode` to properly resolve imports.
-namespace margelo::nitro::imagepicker { enum class SelectMode; }
+namespace margelo::nitro::multipleimagepicker { enum class SelectMode; }
 // Forward declaration of `Presentation` to properly resolve imports.
-namespace margelo::nitro::imagepicker { enum class Presentation; }
+namespace margelo::nitro::multipleimagepicker { enum class Presentation; }
+// Forward declaration of `PickerCropConfig` to properly resolve imports.
+namespace margelo::nitro::multipleimagepicker { struct PickerCropConfig; }
 // Forward declaration of `Text` to properly resolve imports.
-namespace margelo::nitro::imagepicker { struct Text; }
+namespace margelo::nitro::multipleimagepicker { struct Text; }
 // Forward declaration of `Language` to properly resolve imports.
-namespace margelo::nitro::imagepicker { enum class Language; }
-// Forward declaration of `CropConfig` to properly resolve imports.
-namespace margelo::nitro::imagepicker { struct CropConfig; }
+namespace margelo::nitro::multipleimagepicker { enum class Language; }
 
 #include "MediaType.hpp"
 #include <vector>
@@ -42,11 +42,11 @@ namespace margelo::nitro::imagepicker { struct CropConfig; }
 #include "SelectMode.hpp"
 #include <optional>
 #include "Presentation.hpp"
+#include "PickerCropConfig.hpp"
 #include "Text.hpp"
 #include "Language.hpp"
-#include "CropConfig.hpp"
 
-namespace margelo::nitro::imagepicker {
+namespace margelo::nitro::multipleimagepicker {
 
   /**
    * A struct which can be represented as a JavaScript object (NitroConfig).
@@ -78,19 +78,19 @@ namespace margelo::nitro::imagepicker {
     std::optional<double> videoQuality     SWIFT_PRIVATE;
     std::optional<double> imageQuality     SWIFT_PRIVATE;
     Presentation presentation     SWIFT_PRIVATE;
+    std::optional<PickerCropConfig> crop     SWIFT_PRIVATE;
     std::optional<Text> text     SWIFT_PRIVATE;
     Language language     SWIFT_PRIVATE;
-    std::optional<CropConfig> crop     SWIFT_PRIVATE;
 
   public:
-    explicit NitroConfig(MediaType mediaType, std::vector<Result> selectedAssets, SelectBoxStyle selectBoxStyle, SelectMode selectMode, std::optional<double> numberOfColumn, std::optional<bool> isPreview, std::optional<double> primaryColor, std::optional<bool> allowedCamera, std::optional<bool> allowSwipeToSelect, std::optional<double> spacing, std::optional<bool> isHiddenPreviewButton, std::optional<bool> isHiddenOriginalButton, std::optional<bool> isShowPreviewList, std::optional<bool> allowHapticTouchPreview, std::optional<bool> isShowAssetNumber, std::optional<bool> allowedLimit, std::optional<double> maxPhoto, std::optional<double> maxVideo, std::optional<double> maxSelect, std::optional<double> maxVideoDuration, std::optional<double> minVideoDuration, std::optional<double> maxFileSize, std::optional<double> videoQuality, std::optional<double> imageQuality, Presentation presentation, std::optional<Text> text, Language language, std::optional<CropConfig> crop): mediaType(mediaType), selectedAssets(selectedAssets), selectBoxStyle(selectBoxStyle), selectMode(selectMode), numberOfColumn(numberOfColumn), isPreview(isPreview), primaryColor(primaryColor), allowedCamera(allowedCamera), allowSwipeToSelect(allowSwipeToSelect), spacing(spacing), isHiddenPreviewButton(isHiddenPreviewButton), isHiddenOriginalButton(isHiddenOriginalButton), isShowPreviewList(isShowPreviewList), allowHapticTouchPreview(allowHapticTouchPreview), isShowAssetNumber(isShowAssetNumber), allowedLimit(allowedLimit), maxPhoto(maxPhoto), maxVideo(maxVideo), maxSelect(maxSelect), maxVideoDuration(maxVideoDuration), minVideoDuration(minVideoDuration), maxFileSize(maxFileSize), videoQuality(videoQuality), imageQuality(imageQuality), presentation(presentation), text(text), language(language), crop(crop) {}
+    explicit NitroConfig(MediaType mediaType, std::vector<Result> selectedAssets, SelectBoxStyle selectBoxStyle, SelectMode selectMode, std::optional<double> numberOfColumn, std::optional<bool> isPreview, std::optional<double> primaryColor, std::optional<bool> allowedCamera, std::optional<bool> allowSwipeToSelect, std::optional<double> spacing, std::optional<bool> isHiddenPreviewButton, std::optional<bool> isHiddenOriginalButton, std::optional<bool> isShowPreviewList, std::optional<bool> allowHapticTouchPreview, std::optional<bool> isShowAssetNumber, std::optional<bool> allowedLimit, std::optional<double> maxPhoto, std::optional<double> maxVideo, std::optional<double> maxSelect, std::optional<double> maxVideoDuration, std::optional<double> minVideoDuration, std::optional<double> maxFileSize, std::optional<double> videoQuality, std::optional<double> imageQuality, Presentation presentation, std::optional<PickerCropConfig> crop, std::optional<Text> text, Language language): mediaType(mediaType), selectedAssets(selectedAssets), selectBoxStyle(selectBoxStyle), selectMode(selectMode), numberOfColumn(numberOfColumn), isPreview(isPreview), primaryColor(primaryColor), allowedCamera(allowedCamera), allowSwipeToSelect(allowSwipeToSelect), spacing(spacing), isHiddenPreviewButton(isHiddenPreviewButton), isHiddenOriginalButton(isHiddenOriginalButton), isShowPreviewList(isShowPreviewList), allowHapticTouchPreview(allowHapticTouchPreview), isShowAssetNumber(isShowAssetNumber), allowedLimit(allowedLimit), maxPhoto(maxPhoto), maxVideo(maxVideo), maxSelect(maxSelect), maxVideoDuration(maxVideoDuration), minVideoDuration(minVideoDuration), maxFileSize(maxFileSize), videoQuality(videoQuality), imageQuality(imageQuality), presentation(presentation), crop(crop), text(text), language(language) {}
   };
 
-} // namespace margelo::nitro::imagepicker
+} // namespace margelo::nitro::multipleimagepicker
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::imagepicker;
+  using namespace margelo::nitro::multipleimagepicker;
 
   // C++ NitroConfig <> JS NitroConfig (object)
   template <>
@@ -123,9 +123,9 @@ namespace margelo::nitro {
         JSIConverter<std::optional<double>>::fromJSI(runtime, obj.getProperty(runtime, "videoQuality")),
         JSIConverter<std::optional<double>>::fromJSI(runtime, obj.getProperty(runtime, "imageQuality")),
         JSIConverter<Presentation>::fromJSI(runtime, obj.getProperty(runtime, "presentation")),
+        JSIConverter<std::optional<PickerCropConfig>>::fromJSI(runtime, obj.getProperty(runtime, "crop")),
         JSIConverter<std::optional<Text>>::fromJSI(runtime, obj.getProperty(runtime, "text")),
-        JSIConverter<Language>::fromJSI(runtime, obj.getProperty(runtime, "language")),
-        JSIConverter<std::optional<CropConfig>>::fromJSI(runtime, obj.getProperty(runtime, "crop"))
+        JSIConverter<Language>::fromJSI(runtime, obj.getProperty(runtime, "language"))
       );
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const NitroConfig& arg) {
@@ -155,9 +155,9 @@ namespace margelo::nitro {
       obj.setProperty(runtime, "videoQuality", JSIConverter<std::optional<double>>::toJSI(runtime, arg.videoQuality));
       obj.setProperty(runtime, "imageQuality", JSIConverter<std::optional<double>>::toJSI(runtime, arg.imageQuality));
       obj.setProperty(runtime, "presentation", JSIConverter<Presentation>::toJSI(runtime, arg.presentation));
+      obj.setProperty(runtime, "crop", JSIConverter<std::optional<PickerCropConfig>>::toJSI(runtime, arg.crop));
       obj.setProperty(runtime, "text", JSIConverter<std::optional<Text>>::toJSI(runtime, arg.text));
       obj.setProperty(runtime, "language", JSIConverter<Language>::toJSI(runtime, arg.language));
-      obj.setProperty(runtime, "crop", JSIConverter<std::optional<CropConfig>>::toJSI(runtime, arg.crop));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -190,9 +190,9 @@ namespace margelo::nitro {
       if (!JSIConverter<std::optional<double>>::canConvert(runtime, obj.getProperty(runtime, "videoQuality"))) return false;
       if (!JSIConverter<std::optional<double>>::canConvert(runtime, obj.getProperty(runtime, "imageQuality"))) return false;
       if (!JSIConverter<Presentation>::canConvert(runtime, obj.getProperty(runtime, "presentation"))) return false;
+      if (!JSIConverter<std::optional<PickerCropConfig>>::canConvert(runtime, obj.getProperty(runtime, "crop"))) return false;
       if (!JSIConverter<std::optional<Text>>::canConvert(runtime, obj.getProperty(runtime, "text"))) return false;
       if (!JSIConverter<Language>::canConvert(runtime, obj.getProperty(runtime, "language"))) return false;
-      if (!JSIConverter<std::optional<CropConfig>>::canConvert(runtime, obj.getProperty(runtime, "crop"))) return false;
       return true;
     }
   };

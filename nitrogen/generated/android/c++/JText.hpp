@@ -13,7 +13,7 @@
 #include <optional>
 #include <string>
 
-namespace margelo::nitro::imagepicker {
+namespace margelo::nitro::multipleimagepicker {
 
   using namespace facebook;
 
@@ -22,7 +22,7 @@ namespace margelo::nitro::imagepicker {
    */
   struct JText final: public jni::JavaClass<JText> {
   public:
-    static auto constexpr kJavaDescriptor = "Lcom/margelo/nitro/imagepicker/Text;";
+    static auto constexpr kJavaDescriptor = "Lcom/margelo/nitro/multipleimagepicker/Text;";
 
   public:
     /**
@@ -58,4 +58,4 @@ namespace margelo::nitro::imagepicker {
     }
   };
 
-} // namespace margelo::nitro::imagepicker
+} // namespace margelo::nitro::multipleimagepicker

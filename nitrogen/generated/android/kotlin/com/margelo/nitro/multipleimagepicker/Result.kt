@@ -5,7 +5,7 @@
 /// Copyright © 2024 Marc Rousavy @ Margelo
 ///
 
-package com.margelo.nitro.imagepicker
+package com.margelo.nitro.multipleimagepicker
 
 import androidx.annotation.Keep
 import com.facebook.proguard.annotations.DoNotStrip
@@ -29,5 +29,6 @@ data class Result(
   val creationDate: Double?,
   val type: ResultType?,
   val duration: Double?,
-  val thumbnail: String?
+  val thumbnail: String?,
+  val crop: Boolean?
 )

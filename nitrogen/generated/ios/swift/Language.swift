@@ -8,7 +8,7 @@
 /**
  * Represents the JS union `Language`, backed by a C++ enum.
  */
-public typealias Language = margelo.nitro.imagepicker.Language
+public typealias Language = margelo.nitro.multipleimagepicker.Language
 
 public extension Language {
   /**

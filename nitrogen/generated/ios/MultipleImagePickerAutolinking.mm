@@ -19,12 +19,12 @@
 
 + (void) load {
   using namespace margelo::nitro;
-  using namespace margelo::nitro::imagepicker;
+  using namespace margelo::nitro::multipleimagepicker;
 
   HybridObjectRegistry::registerHybridObjectConstructor(
     "MultipleImagePicker",
     []() -> std::shared_ptr<HybridObject> {
-      std::shared_ptr<margelo::nitro::imagepicker::HybridMultipleImagePickerSpec> hybridObject = MultipleImagePicker::MultipleImagePickerAutolinking::createMultipleImagePicker();
+      std::shared_ptr<margelo::nitro::multipleimagepicker::HybridMultipleImagePickerSpec> hybridObject = MultipleImagePicker::MultipleImagePickerAutolinking::createMultipleImagePicker();
       return hybridObject;
     }
   );

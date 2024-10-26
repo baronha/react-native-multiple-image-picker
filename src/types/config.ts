@@ -24,7 +24,7 @@ export type Language =
   | 'french'
   | 'arabic'
 
-export type CropConfig = {
+export type PickerCropConfig = {
   circle?: boolean
 }
 
@@ -85,11 +85,11 @@ export interface NitroConfig {
 
   presentation: Presentation
 
+  crop?: PickerCropConfig
+
   text?: Text
 
   language: Language
-
-  crop?: CropConfig
 }
 
 export interface Config

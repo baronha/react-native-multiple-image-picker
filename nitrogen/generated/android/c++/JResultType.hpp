@@ -10,7 +10,7 @@
 #include <fbjni/fbjni.h>
 #include "ResultType.hpp"
 
-namespace margelo::nitro::imagepicker {
+namespace margelo::nitro::multipleimagepicker {
 
   using namespace facebook;
 
@@ -19,7 +19,7 @@ namespace margelo::nitro::imagepicker {
    */
   struct JResultType final: public jni::JavaClass<JResultType> {
   public:
-    static auto constexpr kJavaDescriptor = "Lcom/margelo/nitro/imagepicker/ResultType;";
+    static auto constexpr kJavaDescriptor = "Lcom/margelo/nitro/multipleimagepicker/ResultType;";
 
   public:
     /**
@@ -55,4 +55,4 @@ namespace margelo::nitro::imagepicker {
     }
   };
 
-} // namespace margelo::nitro::imagepicker
+} // namespace margelo::nitro::multipleimagepicker

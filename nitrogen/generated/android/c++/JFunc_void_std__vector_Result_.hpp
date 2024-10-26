@@ -19,7 +19,7 @@
 #include "ResultType.hpp"
 #include "JResultType.hpp"
 
-namespace margelo::nitro::imagepicker {
+namespace margelo::nitro::multipleimagepicker {
 
   using namespace facebook;
 
@@ -48,7 +48,7 @@ namespace margelo::nitro::imagepicker {
     }
 
   public:
-    static auto constexpr kJavaDescriptor = "Lcom/margelo/nitro/imagepicker/Func_void_std__vector_Result_;";
+    static auto constexpr kJavaDescriptor = "Lcom/margelo/nitro/multipleimagepicker/Func_void_std__vector_Result_;";
     static void registerNatives() {
       registerHybrid({makeNativeMethod("call", JFunc_void_std__vector_Result_::call)});
     }
@@ -61,4 +61,4 @@ namespace margelo::nitro::imagepicker {
     std::function<void(const std::vector<Result>& /* result */)> _func;
   };
 
-} // namespace margelo::nitro::imagepicker
+} // namespace margelo::nitro::multipleimagepicker

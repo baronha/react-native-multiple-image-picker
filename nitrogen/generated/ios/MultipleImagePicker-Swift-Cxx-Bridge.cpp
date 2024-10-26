@@ -12,15 +12,15 @@
 #include "MultipleImagePicker-Swift-Cxx-Umbrella.hpp"
 #include <NitroModules/HybridContext.hpp>
 
-namespace margelo::nitro::imagepicker::bridge::swift {
+namespace margelo::nitro::multipleimagepicker::bridge::swift {
 
-  // pragma MARK: std::shared_ptr<margelo::nitro::imagepicker::HybridMultipleImagePickerSpec>
-  std::shared_ptr<margelo::nitro::imagepicker::HybridMultipleImagePickerSpec> create_std__shared_ptr_margelo__nitro__imagepicker__HybridMultipleImagePickerSpec_(void* NONNULL swiftUnsafePointer) {
+  // pragma MARK: std::shared_ptr<margelo::nitro::multipleimagepicker::HybridMultipleImagePickerSpec>
+  std::shared_ptr<margelo::nitro::multipleimagepicker::HybridMultipleImagePickerSpec> create_std__shared_ptr_margelo__nitro__multipleimagepicker__HybridMultipleImagePickerSpec_(void* NONNULL swiftUnsafePointer) {
     MultipleImagePicker::HybridMultipleImagePickerSpecCxx swiftPart = MultipleImagePicker::HybridMultipleImagePickerSpecCxxUnsafe::fromUnsafe(swiftUnsafePointer);
-    return HybridContext::getOrCreate<margelo::nitro::imagepicker::HybridMultipleImagePickerSpecSwift>(swiftPart);
+    return HybridContext::getOrCreate<margelo::nitro::multipleimagepicker::HybridMultipleImagePickerSpecSwift>(swiftPart);
   }
-  void* NONNULL get_std__shared_ptr_margelo__nitro__imagepicker__HybridMultipleImagePickerSpec_(std__shared_ptr_margelo__nitro__imagepicker__HybridMultipleImagePickerSpec_ cppType) {
-    std::shared_ptr<margelo::nitro::imagepicker::HybridMultipleImagePickerSpecSwift> swiftWrapper = std::dynamic_pointer_cast<margelo::nitro::imagepicker::HybridMultipleImagePickerSpecSwift>(cppType);
+  void* NONNULL get_std__shared_ptr_margelo__nitro__multipleimagepicker__HybridMultipleImagePickerSpec_(std__shared_ptr_margelo__nitro__multipleimagepicker__HybridMultipleImagePickerSpec_ cppType) {
+    std::shared_ptr<margelo::nitro::multipleimagepicker::HybridMultipleImagePickerSpecSwift> swiftWrapper = std::dynamic_pointer_cast<margelo::nitro::multipleimagepicker::HybridMultipleImagePickerSpecSwift>(cppType);
   #ifdef NITRO_DEBUG
     if (swiftWrapper == nullptr) [[unlikely]] {
       throw std::runtime_error("Class \"HybridMultipleImagePickerSpec\" is not implemented in Swift!");
@@ -30,4 +30,4 @@ namespace margelo::nitro::imagepicker::bridge::swift {
     return MultipleImagePicker::HybridMultipleImagePickerSpecCxxUnsafe::toUnsafe(swiftPart);
   }
 
-} // namespace margelo::nitro::imagepicker::bridge::swift
+} // namespace margelo::nitro::multipleimagepicker::bridge::swift

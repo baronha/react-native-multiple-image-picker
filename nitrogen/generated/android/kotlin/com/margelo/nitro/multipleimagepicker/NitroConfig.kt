@@ -5,7 +5,7 @@
 /// Copyright © 2024 Marc Rousavy @ Margelo
 ///
 
-package com.margelo.nitro.imagepicker
+package com.margelo.nitro.multipleimagepicker
 
 import androidx.annotation.Keep
 import com.facebook.proguard.annotations.DoNotStrip
@@ -41,7 +41,7 @@ data class NitroConfig(
   val videoQuality: Double?,
   val imageQuality: Double?,
   val presentation: Presentation,
+  val crop: PickerCropConfig?,
   val text: Text?,
-  val language: Language,
-  val crop: CropConfig?
+  val language: Language
 )

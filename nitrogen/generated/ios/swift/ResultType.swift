@@ -8,7 +8,7 @@
 /**
  * Represents the JS union `ResultType`, backed by a C++ enum.
  */
-public typealias ResultType = margelo.nitro.imagepicker.ResultType
+public typealias ResultType = margelo.nitro.multipleimagepicker.ResultType
 
 public extension ResultType {
   /**

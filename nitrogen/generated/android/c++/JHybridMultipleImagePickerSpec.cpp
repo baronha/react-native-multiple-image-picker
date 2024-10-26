@@ -8,25 +8,25 @@
 #include "JHybridMultipleImagePickerSpec.hpp"
 
 // Forward declaration of `NitroConfig` to properly resolve imports.
-namespace margelo::nitro::imagepicker { struct NitroConfig; }
+namespace margelo::nitro::multipleimagepicker { struct NitroConfig; }
 // Forward declaration of `MediaType` to properly resolve imports.
-namespace margelo::nitro::imagepicker { enum class MediaType; }
+namespace margelo::nitro::multipleimagepicker { enum class MediaType; }
 // Forward declaration of `Result` to properly resolve imports.
-namespace margelo::nitro::imagepicker { struct Result; }
+namespace margelo::nitro::multipleimagepicker { struct Result; }
 // Forward declaration of `ResultType` to properly resolve imports.
-namespace margelo::nitro::imagepicker { enum class ResultType; }
+namespace margelo::nitro::multipleimagepicker { enum class ResultType; }
 // Forward declaration of `SelectBoxStyle` to properly resolve imports.
-namespace margelo::nitro::imagepicker { enum class SelectBoxStyle; }
+namespace margelo::nitro::multipleimagepicker { enum class SelectBoxStyle; }
 // Forward declaration of `SelectMode` to properly resolve imports.
-namespace margelo::nitro::imagepicker { enum class SelectMode; }
+namespace margelo::nitro::multipleimagepicker { enum class SelectMode; }
 // Forward declaration of `Presentation` to properly resolve imports.
-namespace margelo::nitro::imagepicker { enum class Presentation; }
+namespace margelo::nitro::multipleimagepicker { enum class Presentation; }
+// Forward declaration of `PickerCropConfig` to properly resolve imports.
+namespace margelo::nitro::multipleimagepicker { struct PickerCropConfig; }
 // Forward declaration of `Text` to properly resolve imports.
-namespace margelo::nitro::imagepicker { struct Text; }
+namespace margelo::nitro::multipleimagepicker { struct Text; }
 // Forward declaration of `Language` to properly resolve imports.
-namespace margelo::nitro::imagepicker { enum class Language; }
-// Forward declaration of `CropConfig` to properly resolve imports.
-namespace margelo::nitro::imagepicker { struct CropConfig; }
+namespace margelo::nitro::multipleimagepicker { enum class Language; }
 
 #include "NitroConfig.hpp"
 #include "JNitroConfig.hpp"
@@ -45,17 +45,17 @@ namespace margelo::nitro::imagepicker { struct CropConfig; }
 #include "JSelectMode.hpp"
 #include "Presentation.hpp"
 #include "JPresentation.hpp"
+#include "PickerCropConfig.hpp"
+#include "JPickerCropConfig.hpp"
 #include "Text.hpp"
 #include "JText.hpp"
 #include "Language.hpp"
 #include "JLanguage.hpp"
-#include "CropConfig.hpp"
-#include "JCropConfig.hpp"
 #include <functional>
 #include "JFunc_void_std__vector_Result_.hpp"
 #include "JFunc_void_double.hpp"
 
-namespace margelo::nitro::imagepicker {
+namespace margelo::nitro::multipleimagepicker {
 
   jni::local_ref<JHybridMultipleImagePickerSpec::jhybriddata> JHybridMultipleImagePickerSpec::initHybrid(jni::alias_ref<jhybridobject> jThis) {
     return makeCxxInstance(jThis);
@@ -81,4 +81,4 @@ namespace margelo::nitro::imagepicker {
     method(_javaPart, JNitroConfig::fromCpp(config), JFunc_void_std__vector_Result_::fromCpp(resolved), JFunc_void_double::fromCpp(rejected));
   }
 
-} // namespace margelo::nitro::imagepicker
+} // namespace margelo::nitro::multipleimagepicker

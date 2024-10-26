@@ -14,16 +14,16 @@
 #endif
 
 // Forward declaration of `NitroConfig` to properly resolve imports.
-namespace margelo::nitro::imagepicker { struct NitroConfig; }
+namespace margelo::nitro::multipleimagepicker { struct NitroConfig; }
 // Forward declaration of `Result` to properly resolve imports.
-namespace margelo::nitro::imagepicker { struct Result; }
+namespace margelo::nitro::multipleimagepicker { struct Result; }
 
 #include "NitroConfig.hpp"
 #include <functional>
 #include <vector>
 #include "Result.hpp"
 
-namespace margelo::nitro::imagepicker {
+namespace margelo::nitro::multipleimagepicker {
 
   using namespace margelo::nitro;
 
@@ -65,4 +65,4 @@ namespace margelo::nitro::imagepicker {
       static constexpr auto TAG = "MultipleImagePicker";
   };
 
-} // namespace margelo::nitro::imagepicker
+} // namespace margelo::nitro::multipleimagepicker

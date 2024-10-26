@@ -23,7 +23,7 @@
 #error NitroModules cannot be found! Are you sure you installed NitroModules properly?
 #endif
 
-namespace margelo::nitro::imagepicker {
+namespace margelo::nitro::multipleimagepicker {
 
   /**
    * An enum which can be represented as a JavaScript union (Presentation).
@@ -33,11 +33,11 @@ namespace margelo::nitro::imagepicker {
     FORMSHEET      SWIFT_NAME(formsheet) = 1,
   } CLOSED_ENUM;
 
-} // namespace margelo::nitro::imagepicker
+} // namespace margelo::nitro::multipleimagepicker
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::imagepicker;
+  using namespace margelo::nitro::multipleimagepicker;
 
   // C++ Presentation <> JS Presentation (union)
   template <>

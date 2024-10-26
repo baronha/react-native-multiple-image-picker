@@ -10,7 +10,7 @@
 #include <fbjni/fbjni.h>
 #include "MediaType.hpp"
 
-namespace margelo::nitro::imagepicker {
+namespace margelo::nitro::multipleimagepicker {
 
   using namespace facebook;
 
@@ -19,7 +19,7 @@ namespace margelo::nitro::imagepicker {
    */
   struct JMediaType final: public jni::JavaClass<JMediaType> {
   public:
-    static auto constexpr kJavaDescriptor = "Lcom/margelo/nitro/imagepicker/MediaType;";
+    static auto constexpr kJavaDescriptor = "Lcom/margelo/nitro/multipleimagepicker/MediaType;";
 
   public:
     /**
@@ -58,4 +58,4 @@ namespace margelo::nitro::imagepicker {
     }
   };
 
-} // namespace margelo::nitro::imagepicker
+} // namespace margelo::nitro::multipleimagepicker

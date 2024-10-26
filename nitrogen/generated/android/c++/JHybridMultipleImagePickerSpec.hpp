@@ -14,14 +14,14 @@
 
 
 
-namespace margelo::nitro::imagepicker {
+namespace margelo::nitro::multipleimagepicker {
 
   using namespace facebook;
 
   class JHybridMultipleImagePickerSpec: public jni::HybridClass<JHybridMultipleImagePickerSpec, JHybridObject>,
                                         public virtual HybridMultipleImagePickerSpec {
   public:
-    static auto constexpr kJavaDescriptor = "Lcom/margelo/nitro/imagepicker/HybridMultipleImagePickerSpec;";
+    static auto constexpr kJavaDescriptor = "Lcom/margelo/nitro/multipleimagepicker/HybridMultipleImagePickerSpec;";
     static jni::local_ref<jhybriddata> initHybrid(jni::alias_ref<jhybridobject> jThis);
     static void registerNatives();
 
@@ -53,4 +53,4 @@ namespace margelo::nitro::imagepicker {
     jni::global_ref<JHybridMultipleImagePickerSpec::javaobject> _javaPart;
   };
 
-} // namespace margelo::nitro::imagepicker
+} // namespace margelo::nitro::multipleimagepicker

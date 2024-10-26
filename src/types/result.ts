@@ -15,4 +15,5 @@ export interface Result {
   type?: ResultType
   duration?: number
   thumbnail?: string
+  crop?: boolean
 }

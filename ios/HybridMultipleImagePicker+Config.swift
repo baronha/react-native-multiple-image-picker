@@ -99,8 +99,6 @@ extension HybridMultipleImagePicker {
 
         config.allowCustomTransitionAnimation = true
 
-        config.appearanceStyle = .varied
-
         config.isSelectedOriginal = true
 
 //        config.isFetchDeatilsAsset = true

@@ -8,7 +8,7 @@
 /**
  * Represents the JS union `SelectMode`, backed by a C++ enum.
  */
-public typealias SelectMode = margelo.nitro.imagepicker.SelectMode
+public typealias SelectMode = margelo.nitro.multipleimagepicker.SelectMode
 
 public extension SelectMode {
   /**

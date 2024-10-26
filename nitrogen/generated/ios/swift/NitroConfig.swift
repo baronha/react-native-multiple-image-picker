@@ -10,15 +10,15 @@ import NitroModules
 /**
  * Represents an instance of `NitroConfig`, backed by a C++ struct.
  */
-public typealias NitroConfig = margelo.nitro.imagepicker.NitroConfig
+public typealias NitroConfig = margelo.nitro.multipleimagepicker.NitroConfig
 
 public extension NitroConfig {
-  private typealias bridge = margelo.nitro.imagepicker.bridge.swift
+  private typealias bridge = margelo.nitro.multipleimagepicker.bridge.swift
 
   /**
    * Create a new instance of `NitroConfig`.
    */
-  init(mediaType: MediaType, selectedAssets: [Result], selectBoxStyle: SelectBoxStyle, selectMode: SelectMode, numberOfColumn: Double?, isPreview: Bool?, primaryColor: Double?, allowedCamera: Bool?, allowSwipeToSelect: Bool?, spacing: Double?, isHiddenPreviewButton: Bool?, isHiddenOriginalButton: Bool?, isShowPreviewList: Bool?, allowHapticTouchPreview: Bool?, isShowAssetNumber: Bool?, allowedLimit: Bool?, maxPhoto: Double?, maxVideo: Double?, maxSelect: Double?, maxVideoDuration: Double?, minVideoDuration: Double?, maxFileSize: Double?, videoQuality: Double?, imageQuality: Double?, presentation: Presentation, text: Text?, language: Language, crop: CropConfig?) {
+  init(mediaType: MediaType, selectedAssets: [Result], selectBoxStyle: SelectBoxStyle, selectMode: SelectMode, numberOfColumn: Double?, isPreview: Bool?, primaryColor: Double?, allowedCamera: Bool?, allowSwipeToSelect: Bool?, spacing: Double?, isHiddenPreviewButton: Bool?, isHiddenOriginalButton: Bool?, isShowPreviewList: Bool?, allowHapticTouchPreview: Bool?, isShowAssetNumber: Bool?, allowedLimit: Bool?, maxPhoto: Double?, maxVideo: Double?, maxSelect: Double?, maxVideoDuration: Double?, minVideoDuration: Double?, maxFileSize: Double?, videoQuality: Double?, imageQuality: Double?, presentation: Presentation, crop: PickerCropConfig?, text: Text?, language: Language) {
     self.init(mediaType, { () -> bridge.std__vector_Result_ in
       var __vector = bridge.create_std__vector_Result_(selectedAssets.count)
       for __item in selectedAssets {
@@ -145,19 +145,19 @@ public extension NitroConfig {
       } else {
         return .init()
       }
-    }(), presentation, { () -> bridge.std__optional_Text_ in
+    }(), presentation, { () -> bridge.std__optional_PickerCropConfig_ in
+      if let __unwrappedValue = crop {
+        return bridge.create_std__optional_PickerCropConfig_(__unwrappedValue)
+      } else {
+        return .init()
+      }
+    }(), { () -> bridge.std__optional_Text_ in
       if let __unwrappedValue = text {
         return bridge.create_std__optional_Text_(__unwrappedValue)
       } else {
         return .init()
       }
-    }(), language, { () -> bridge.std__optional_CropConfig_ in
-      if let __unwrappedValue = crop {
-        return bridge.create_std__optional_CropConfig_(__unwrappedValue)
-      } else {
-        return .init()
-      }
-    }())
+    }(), language)
   }
 
   var mediaType: MediaType {
@@ -561,6 +561,29 @@ public extension NitroConfig {
     }
   }
   
+  var crop: PickerCropConfig? {
+    @inline(__always)
+    get {
+      return { () -> PickerCropConfig? in
+        if let __unwrapped = self.__crop.value {
+          return __unwrapped
+        } else {
+          return nil
+        }
+      }()
+    }
+    @inline(__always)
+    set {
+      self.__crop = { () -> bridge.std__optional_PickerCropConfig_ in
+        if let __unwrappedValue = newValue {
+          return bridge.create_std__optional_PickerCropConfig_(__unwrappedValue)
+        } else {
+          return .init()
+        }
+      }()
+    }
+  }
+  
   var text: Text? {
     @inline(__always)
     get {
@@ -592,29 +615,6 @@ public extension NitroConfig {
     @inline(__always)
     set {
       self.__language = newValue
-    }
-  }
-  
-  var crop: CropConfig? {
-    @inline(__always)
-    get {
-      return { () -> CropConfig? in
-        if let __unwrapped = self.__crop.value {
-          return __unwrapped
-        } else {
-          return nil
-        }
-      }()
-    }
-    @inline(__always)
-    set {
-      self.__crop = { () -> bridge.std__optional_CropConfig_ in
-        if let __unwrappedValue = newValue {
-          return bridge.create_std__optional_CropConfig_(__unwrappedValue)
-        } else {
-          return .init()
-        }
-      }()
     }
   }
 }

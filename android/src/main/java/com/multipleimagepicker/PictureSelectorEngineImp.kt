@@ -1,4 +1,4 @@
-package com.reactnativemultipleimagepicker
+package com.multipleimagepicker
 
 import android.util.Log
 import com.luck.picture.lib.basic.IBridgeLoaderFactory

@@ -10,15 +10,15 @@ import NitroModules
 /**
  * Represents an instance of `Result`, backed by a C++ struct.
  */
-public typealias Result = margelo.nitro.imagepicker.Result
+public typealias Result = margelo.nitro.multipleimagepicker.Result
 
 public extension Result {
-  private typealias bridge = margelo.nitro.imagepicker.bridge.swift
+  private typealias bridge = margelo.nitro.multipleimagepicker.bridge.swift
 
   /**
    * Create a new instance of `Result`.
    */
-  init(path: String, fileName: String, localIdentifier: String, width: Double, height: Double, mime: String, size: Double, bucketId: Double?, realPath: String?, parentFolderName: String?, creationDate: Double?, type: ResultType?, duration: Double?, thumbnail: String?) {
+  init(path: String, fileName: String, localIdentifier: String, width: Double, height: Double, mime: String, size: Double, bucketId: Double?, realPath: String?, parentFolderName: String?, creationDate: Double?, type: ResultType?, duration: Double?, thumbnail: String?, crop: Bool?) {
     self.init(std.string(path), std.string(fileName), std.string(localIdentifier), width, height, std.string(mime), size, { () -> bridge.std__optional_double_ in
       if let __unwrappedValue = bucketId {
         return bridge.create_std__optional_double_(__unwrappedValue)
@@ -58,6 +58,12 @@ public extension Result {
     }(), { () -> bridge.std__optional_std__string_ in
       if let __unwrappedValue = thumbnail {
         return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
+      } else {
+        return .init()
+      }
+    }(), { () -> bridge.std__optional_bool_ in
+      if let __unwrappedValue = crop {
+        return bridge.create_std__optional_bool_(__unwrappedValue)
       } else {
         return .init()
       }
@@ -271,6 +277,23 @@ public extension Result {
       self.__thumbnail = { () -> bridge.std__optional_std__string_ in
         if let __unwrappedValue = newValue {
           return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
+        } else {
+          return .init()
+        }
+      }()
+    }
+  }
+  
+  var crop: Bool? {
+    @inline(__always)
+    get {
+      return self.__crop.value
+    }
+    @inline(__always)
+    set {
+      self.__crop = { () -> bridge.std__optional_bool_ in
+        if let __unwrappedValue = newValue {
+          return bridge.create_std__optional_bool_(__unwrappedValue)
         } else {
           return .init()
         }

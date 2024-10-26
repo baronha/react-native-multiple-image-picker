@@ -10,7 +10,7 @@
 #include <fbjni/fbjni.h>
 #include "SelectMode.hpp"
 
-namespace margelo::nitro::imagepicker {
+namespace margelo::nitro::multipleimagepicker {
 
   using namespace facebook;
 
@@ -19,7 +19,7 @@ namespace margelo::nitro::imagepicker {
    */
   struct JSelectMode final: public jni::JavaClass<JSelectMode> {
   public:
-    static auto constexpr kJavaDescriptor = "Lcom/margelo/nitro/imagepicker/SelectMode;";
+    static auto constexpr kJavaDescriptor = "Lcom/margelo/nitro/multipleimagepicker/SelectMode;";
 
   public:
     /**
@@ -55,4 +55,4 @@ namespace margelo::nitro::imagepicker {
     }
   };
 
-} // namespace margelo::nitro::imagepicker
+} // namespace margelo::nitro::multipleimagepicker

@@ -7,5 +7,5 @@
 
 #include "HybridMultipleImagePickerSpecSwift.hpp"
 
-namespace margelo::nitro::imagepicker {
-} // namespace margelo::nitro::imagepicker
+namespace margelo::nitro::multipleimagepicker {
+} // namespace margelo::nitro::multipleimagepicker

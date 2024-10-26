@@ -19,13 +19,13 @@
 #endif
 
 // Forward declaration of `ResultType` to properly resolve imports.
-namespace margelo::nitro::imagepicker { enum class ResultType; }
+namespace margelo::nitro::multipleimagepicker { enum class ResultType; }
 
 #include <string>
 #include <optional>
 #include "ResultType.hpp"
 
-namespace margelo::nitro::imagepicker {
+namespace margelo::nitro::multipleimagepicker {
 
   /**
    * A struct which can be represented as a JavaScript object (Result).
@@ -46,16 +46,17 @@ namespace margelo::nitro::imagepicker {
     std::optional<ResultType> type     SWIFT_PRIVATE;
     std::optional<double> duration     SWIFT_PRIVATE;
     std::optional<std::string> thumbnail     SWIFT_PRIVATE;
+    std::optional<bool> crop     SWIFT_PRIVATE;
 
   public:
-    explicit Result(std::string path, std::string fileName, std::string localIdentifier, double width, double height, std::string mime, double size, std::optional<double> bucketId, std::optional<std::string> realPath, std::optional<std::string> parentFolderName, std::optional<double> creationDate, std::optional<ResultType> type, std::optional<double> duration, std::optional<std::string> thumbnail): path(path), fileName(fileName), localIdentifier(localIdentifier), width(width), height(height), mime(mime), size(size), bucketId(bucketId), realPath(realPath), parentFolderName(parentFolderName), creationDate(creationDate), type(type), duration(duration), thumbnail(thumbnail) {}
+    explicit Result(std::string path, std::string fileName, std::string localIdentifier, double width, double height, std::string mime, double size, std::optional<double> bucketId, std::optional<std::string> realPath, std::optional<std::string> parentFolderName, std::optional<double> creationDate, std::optional<ResultType> type, std::optional<double> duration, std::optional<std::string> thumbnail, std::optional<bool> crop): path(path), fileName(fileName), localIdentifier(localIdentifier), width(width), height(height), mime(mime), size(size), bucketId(bucketId), realPath(realPath), parentFolderName(parentFolderName), creationDate(creationDate), type(type), duration(duration), thumbnail(thumbnail), crop(crop) {}
   };
 
-} // namespace margelo::nitro::imagepicker
+} // namespace margelo::nitro::multipleimagepicker
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::imagepicker;
+  using namespace margelo::nitro::multipleimagepicker;
 
   // C++ Result <> JS Result (object)
   template <>
@@ -76,7 +77,8 @@ namespace margelo::nitro {
         JSIConverter<std::optional<double>>::fromJSI(runtime, obj.getProperty(runtime, "creationDate")),
         JSIConverter<std::optional<ResultType>>::fromJSI(runtime, obj.getProperty(runtime, "type")),
         JSIConverter<std::optional<double>>::fromJSI(runtime, obj.getProperty(runtime, "duration")),
-        JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "thumbnail"))
+        JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "thumbnail")),
+        JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, "crop"))
       );
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const Result& arg) {
@@ -95,6 +97,7 @@ namespace margelo::nitro {
       obj.setProperty(runtime, "type", JSIConverter<std::optional<ResultType>>::toJSI(runtime, arg.type));
       obj.setProperty(runtime, "duration", JSIConverter<std::optional<double>>::toJSI(runtime, arg.duration));
       obj.setProperty(runtime, "thumbnail", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.thumbnail));
+      obj.setProperty(runtime, "crop", JSIConverter<std::optional<bool>>::toJSI(runtime, arg.crop));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -116,6 +119,7 @@ namespace margelo::nitro {
       if (!JSIConverter<std::optional<ResultType>>::canConvert(runtime, obj.getProperty(runtime, "type"))) return false;
       if (!JSIConverter<std::optional<double>>::canConvert(runtime, obj.getProperty(runtime, "duration"))) return false;
       if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, "thumbnail"))) return false;
+      if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, "crop"))) return false;
       return true;
     }
   };

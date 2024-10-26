@@ -14,24 +14,24 @@
 #endif
 
 // Forward declarations of C++ defined types
-// Forward declaration of `CropConfig` to properly resolve imports.
-namespace margelo::nitro::imagepicker { struct CropConfig; }
 // Forward declaration of `HybridMultipleImagePickerSpec` to properly resolve imports.
-namespace margelo::nitro::imagepicker { class HybridMultipleImagePickerSpec; }
+namespace margelo::nitro::multipleimagepicker { class HybridMultipleImagePickerSpec; }
+// Forward declaration of `PickerCropConfig` to properly resolve imports.
+namespace margelo::nitro::multipleimagepicker { struct PickerCropConfig; }
 // Forward declaration of `ResultType` to properly resolve imports.
-namespace margelo::nitro::imagepicker { enum class ResultType; }
+namespace margelo::nitro::multipleimagepicker { enum class ResultType; }
 // Forward declaration of `Result` to properly resolve imports.
-namespace margelo::nitro::imagepicker { struct Result; }
+namespace margelo::nitro::multipleimagepicker { struct Result; }
 // Forward declaration of `Text` to properly resolve imports.
-namespace margelo::nitro::imagepicker { struct Text; }
+namespace margelo::nitro::multipleimagepicker { struct Text; }
 
 // Forward declarations of Swift defined types
 // Forward declaration of `HybridMultipleImagePickerSpecCxx` to properly resolve imports.
 namespace MultipleImagePicker { class HybridMultipleImagePickerSpecCxx; }
 
 // Include C++ defined types
-#include "CropConfig.hpp"
 #include "HybridMultipleImagePickerSpec.hpp"
+#include "PickerCropConfig.hpp"
 #include "Result.hpp"
 #include "ResultType.hpp"
 #include "Text.hpp"
@@ -45,7 +45,7 @@ namespace MultipleImagePicker { class HybridMultipleImagePickerSpecCxx; }
  * Contains specialized versions of C++ templated types so they can be accessed from Swift,
  * as well as helper functions to interact with those C++ types from Swift.
  */
-namespace margelo::nitro::imagepicker::bridge::swift {
+namespace margelo::nitro::multipleimagepicker::bridge::swift {
 
   // pragma MARK: std::optional<double>
   /**
@@ -74,6 +74,15 @@ namespace margelo::nitro::imagepicker::bridge::swift {
     return std::optional<ResultType>(value);
   }
   
+  // pragma MARK: std::optional<bool>
+  /**
+   * Specialized version of `std::optional<bool>`.
+   */
+  using std__optional_bool_ = std::optional<bool>;
+  inline std::optional<bool> create_std__optional_bool_(const bool& value) {
+    return std::optional<bool>(value);
+  }
+  
   // pragma MARK: std::vector<Result>
   /**
    * Specialized version of `std::vector<Result>`.
@@ -85,13 +94,13 @@ namespace margelo::nitro::imagepicker::bridge::swift {
     return vector;
   }
   
-  // pragma MARK: std::optional<bool>
+  // pragma MARK: std::optional<PickerCropConfig>
   /**
-   * Specialized version of `std::optional<bool>`.
+   * Specialized version of `std::optional<PickerCropConfig>`.
    */
-  using std__optional_bool_ = std::optional<bool>;
-  inline std::optional<bool> create_std__optional_bool_(const bool& value) {
-    return std::optional<bool>(value);
+  using std__optional_PickerCropConfig_ = std::optional<PickerCropConfig>;
+  inline std::optional<PickerCropConfig> create_std__optional_PickerCropConfig_(const PickerCropConfig& value) {
+    return std::optional<PickerCropConfig>(value);
   }
   
   // pragma MARK: std::optional<Text>
@@ -101,15 +110,6 @@ namespace margelo::nitro::imagepicker::bridge::swift {
   using std__optional_Text_ = std::optional<Text>;
   inline std::optional<Text> create_std__optional_Text_(const Text& value) {
     return std::optional<Text>(value);
-  }
-  
-  // pragma MARK: std::optional<CropConfig>
-  /**
-   * Specialized version of `std::optional<CropConfig>`.
-   */
-  using std__optional_CropConfig_ = std::optional<CropConfig>;
-  inline std::optional<CropConfig> create_std__optional_CropConfig_(const CropConfig& value) {
-    return std::optional<CropConfig>(value);
   }
   
   // pragma MARK: std::function<void(const std::vector<Result>& /* result */)>
@@ -168,12 +168,12 @@ namespace margelo::nitro::imagepicker::bridge::swift {
     return std::make_shared<Func_void_double_Wrapper>(value);
   }
   
-  // pragma MARK: std::shared_ptr<margelo::nitro::imagepicker::HybridMultipleImagePickerSpec>
+  // pragma MARK: std::shared_ptr<margelo::nitro::multipleimagepicker::HybridMultipleImagePickerSpec>
   /**
-   * Specialized version of `std::shared_ptr<margelo::nitro::imagepicker::HybridMultipleImagePickerSpec>`.
+   * Specialized version of `std::shared_ptr<margelo::nitro::multipleimagepicker::HybridMultipleImagePickerSpec>`.
    */
-  using std__shared_ptr_margelo__nitro__imagepicker__HybridMultipleImagePickerSpec_ = std::shared_ptr<margelo::nitro::imagepicker::HybridMultipleImagePickerSpec>;
-  std::shared_ptr<margelo::nitro::imagepicker::HybridMultipleImagePickerSpec> create_std__shared_ptr_margelo__nitro__imagepicker__HybridMultipleImagePickerSpec_(void* NONNULL swiftUnsafePointer);
-  void* NONNULL get_std__shared_ptr_margelo__nitro__imagepicker__HybridMultipleImagePickerSpec_(std__shared_ptr_margelo__nitro__imagepicker__HybridMultipleImagePickerSpec_ cppType);
+  using std__shared_ptr_margelo__nitro__multipleimagepicker__HybridMultipleImagePickerSpec_ = std::shared_ptr<margelo::nitro::multipleimagepicker::HybridMultipleImagePickerSpec>;
+  std::shared_ptr<margelo::nitro::multipleimagepicker::HybridMultipleImagePickerSpec> create_std__shared_ptr_margelo__nitro__multipleimagepicker__HybridMultipleImagePickerSpec_(void* NONNULL swiftUnsafePointer);
+  void* NONNULL get_std__shared_ptr_margelo__nitro__multipleimagepicker__HybridMultipleImagePickerSpec_(std__shared_ptr_margelo__nitro__multipleimagepicker__HybridMultipleImagePickerSpec_ cppType);
 
-} // namespace margelo::nitro::imagepicker::bridge::swift
+} // namespace margelo::nitro::multipleimagepicker::bridge::swift

@@ -8,35 +8,35 @@
 #pragma once
 
 // Forward declarations of C++ defined types
-// Forward declaration of `CropConfig` to properly resolve imports.
-namespace margelo::nitro::imagepicker { struct CropConfig; }
 // Forward declaration of `HybridMultipleImagePickerSpec` to properly resolve imports.
-namespace margelo::nitro::imagepicker { class HybridMultipleImagePickerSpec; }
+namespace margelo::nitro::multipleimagepicker { class HybridMultipleImagePickerSpec; }
 // Forward declaration of `Language` to properly resolve imports.
-namespace margelo::nitro::imagepicker { enum class Language; }
+namespace margelo::nitro::multipleimagepicker { enum class Language; }
 // Forward declaration of `MediaType` to properly resolve imports.
-namespace margelo::nitro::imagepicker { enum class MediaType; }
+namespace margelo::nitro::multipleimagepicker { enum class MediaType; }
 // Forward declaration of `NitroConfig` to properly resolve imports.
-namespace margelo::nitro::imagepicker { struct NitroConfig; }
+namespace margelo::nitro::multipleimagepicker { struct NitroConfig; }
+// Forward declaration of `PickerCropConfig` to properly resolve imports.
+namespace margelo::nitro::multipleimagepicker { struct PickerCropConfig; }
 // Forward declaration of `Presentation` to properly resolve imports.
-namespace margelo::nitro::imagepicker { enum class Presentation; }
+namespace margelo::nitro::multipleimagepicker { enum class Presentation; }
 // Forward declaration of `ResultType` to properly resolve imports.
-namespace margelo::nitro::imagepicker { enum class ResultType; }
+namespace margelo::nitro::multipleimagepicker { enum class ResultType; }
 // Forward declaration of `Result` to properly resolve imports.
-namespace margelo::nitro::imagepicker { struct Result; }
+namespace margelo::nitro::multipleimagepicker { struct Result; }
 // Forward declaration of `SelectBoxStyle` to properly resolve imports.
-namespace margelo::nitro::imagepicker { enum class SelectBoxStyle; }
+namespace margelo::nitro::multipleimagepicker { enum class SelectBoxStyle; }
 // Forward declaration of `SelectMode` to properly resolve imports.
-namespace margelo::nitro::imagepicker { enum class SelectMode; }
+namespace margelo::nitro::multipleimagepicker { enum class SelectMode; }
 // Forward declaration of `Text` to properly resolve imports.
-namespace margelo::nitro::imagepicker { struct Text; }
+namespace margelo::nitro::multipleimagepicker { struct Text; }
 
 // Include C++ defined types
-#include "CropConfig.hpp"
 #include "HybridMultipleImagePickerSpec.hpp"
 #include "Language.hpp"
 #include "MediaType.hpp"
 #include "NitroConfig.hpp"
+#include "PickerCropConfig.hpp"
 #include "Presentation.hpp"
 #include "Result.hpp"
 #include "ResultType.hpp"

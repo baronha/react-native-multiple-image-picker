@@ -7,7 +7,7 @@
 
 #include "HybridMultipleImagePickerSpec.hpp"
 
-namespace margelo::nitro::imagepicker {
+namespace margelo::nitro::multipleimagepicker {
 
   void HybridMultipleImagePickerSpec::loadHybridMethods() {
     // load base methods/properties
@@ -18,4 +18,4 @@ namespace margelo::nitro::imagepicker {
     });
   }
 
-} // namespace margelo::nitro::imagepicker
+} // namespace margelo::nitro::multipleimagepicker

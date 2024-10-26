@@ -16,24 +16,24 @@
 #include "JFunc_void_double.hpp"
 #include <NitroModules/JNISharedPtr.hpp>
 
-namespace margelo::nitro::imagepicker {
+namespace margelo::nitro::multipleimagepicker {
 
 int initialize(JavaVM* vm) {
   using namespace margelo::nitro;
-  using namespace margelo::nitro::imagepicker;
+  using namespace margelo::nitro::multipleimagepicker;
   using namespace facebook;
 
   return facebook::jni::initialize(vm, [] {
     // Register native JNI methods
-    margelo::nitro::imagepicker::JHybridMultipleImagePickerSpec::registerNatives();
-    margelo::nitro::imagepicker::JFunc_void_std__vector_Result_::registerNatives();
-    margelo::nitro::imagepicker::JFunc_void_double::registerNatives();
+    margelo::nitro::multipleimagepicker::JHybridMultipleImagePickerSpec::registerNatives();
+    margelo::nitro::multipleimagepicker::JFunc_void_std__vector_Result_::registerNatives();
+    margelo::nitro::multipleimagepicker::JFunc_void_double::registerNatives();
 
     // Register Nitro Hybrid Objects
     HybridObjectRegistry::registerHybridObjectConstructor(
       "MultipleImagePicker",
       []() -> std::shared_ptr<HybridObject> {
-        static auto javaClass = jni::findClassStatic("com/margelo/nitro/imagepicker/HybridMultipleImagePicker");
+        static auto javaClass = jni::findClassStatic("com/margelo/nitro/multipleimagepicker/MultipleImagePicker");
         static auto defaultConstructor = javaClass->getConstructor<JHybridMultipleImagePickerSpec::javaobject()>();
     
         auto instance = javaClass->newObject(defaultConstructor);
@@ -49,4 +49,4 @@ int initialize(JavaVM* vm) {
   });
 }
 
-} // namespace margelo::nitro::imagepicker
+} // namespace margelo::nitro::multipleimagepicker

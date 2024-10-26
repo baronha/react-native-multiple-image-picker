@@ -8,7 +8,7 @@
 #include <jni.h>
 #include <NitroModules/NitroDefines.hpp>
 
-namespace margelo::nitro::imagepicker {
+namespace margelo::nitro::multipleimagepicker {
 
   /**
    * Initializes the native (C++) part of MultipleImagePicker, and autolinks all Hybrid Objects.
@@ -16,10 +16,10 @@ namespace margelo::nitro::imagepicker {
    * Example:
    * ```cpp (cpp-adapter.cpp)
    * JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void*) {
-   *   return margelo::nitro::imagepicker::initialize(vm);
+   *   return margelo::nitro::multipleimagepicker::initialize(vm);
    * }
    * ```
    */
   int initialize(JavaVM* vm);
 
-} // namespace margelo::nitro::imagepicker
+} // namespace margelo::nitro::multipleimagepicker

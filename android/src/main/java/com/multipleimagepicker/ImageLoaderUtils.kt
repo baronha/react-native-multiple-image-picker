@@ -1,4 +1,4 @@
-package com.reactnativemultipleimagepicker
+package com.multipleimagepicker
 
 import android.app.Activity
 import android.content.Context

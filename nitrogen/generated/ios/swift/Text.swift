@@ -10,10 +10,10 @@ import NitroModules
 /**
  * Represents an instance of `Text`, backed by a C++ struct.
  */
-public typealias Text = margelo.nitro.imagepicker.Text
+public typealias Text = margelo.nitro.multipleimagepicker.Text
 
 public extension Text {
-  private typealias bridge = margelo.nitro.imagepicker.bridge.swift
+  private typealias bridge = margelo.nitro.multipleimagepicker.bridge.swift
 
   /**
    * Create a new instance of `Text`.

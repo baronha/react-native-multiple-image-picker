@@ -1,4 +1,4 @@
-package com.reactnativemultipleimagepicker
+package com.multipleimagepicker
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -10,11 +10,10 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.luck.picture.lib.engine.CropFileEngine
-import com.reactnativemultipleimagepicker.ImageLoaderUtils.assertValidRequest
+import com.multipleimagepicker.ImageLoaderUtils.assertValidRequest
 import com.yalantis.ucrop.UCrop
 import com.yalantis.ucrop.UCropImageEngine
 import java.io.File
-
 
 class CropEngine(cropOption: UCrop.Options) : CropFileEngine {
     private val options: UCrop.Options = cropOption
@@ -45,8 +44,7 @@ class CropEngine(cropOption: UCrop.Options) : CropFileEngine {
                 Glide.with(context).asBitmap().load(url).override(maxWidth, maxHeight)
                     .into(object : CustomTarget<Bitmap?>() {
                         override fun onResourceReady(
-                            resource: Bitmap,
-                            transition: Transition<in Bitmap?>?
+                            resource: Bitmap, transition: Transition<in Bitmap?>?
                         ) {
                             call.onCall(resource)
                         }

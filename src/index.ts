@@ -5,11 +5,9 @@ import { NitroModules } from 'react-native-nitro-modules'
 
 import { type MultipleImagePicker } from './specs/MultipleImagePicker.nitro'
 
-import { Dimensions, processColor } from 'react-native'
+import { processColor } from 'react-native'
 
 import { Result, Config, NitroConfig } from './types'
-
-const { width, height } = Dimensions.get('window')
 
 const Picker = NitroModules.createHybridObject<MultipleImagePicker>(
   'MultipleImagePicker'
@@ -38,7 +36,15 @@ export async function openPicker<T extends Config>(
   })
 }
 
+const DEFAULT_COUNT = 20
+
 const defaultOptions: Config = {
+  maxPhoto: DEFAULT_COUNT,
+  maxSelect: DEFAULT_COUNT,
+  maxVideo: DEFAULT_COUNT,
+
+  maxFileSize: 0,
+
   primaryColor: '#FB9300',
   allowedCamera: true,
   allowedLimit: true,
@@ -49,8 +55,6 @@ const defaultOptions: Config = {
   selectBoxStyle: 'number',
   selectMode: 'multiple',
   isShowAssetNumber: false,
-  maxPhoto: 20,
-  maxFileSize: 0,
   presentation: 'fullScreenModal',
   language: 'system',
 }

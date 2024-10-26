@@ -20,6 +20,8 @@ class HybridMultipleImagePicker: HybridMultipleImagePickerSpec {
 
     func openPicker(config: NitroConfig, resolved: @escaping (([Result]) -> Void), rejected: @escaping ((Double) -> Void)) throws {
         setConfig(config)
+
+        // get selected photo
         let seleted: [PhotoAsset] = config.selectedAssets.map { result in
             let asset = PhotoAsset(localIdentifier: result.localIdentifier)
 

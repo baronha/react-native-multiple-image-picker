@@ -8,7 +8,7 @@
 /**
  * Represents the JS union `SelectBoxStyle`, backed by a C++ enum.
  */
-public typealias SelectBoxStyle = margelo.nitro.imagepicker.SelectBoxStyle
+public typealias SelectBoxStyle = margelo.nitro.multipleimagepicker.SelectBoxStyle
 
 public extension SelectBoxStyle {
   /**

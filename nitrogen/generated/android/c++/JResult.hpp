@@ -15,7 +15,7 @@
 #include <optional>
 #include <string>
 
-namespace margelo::nitro::imagepicker {
+namespace margelo::nitro::multipleimagepicker {
 
   using namespace facebook;
 
@@ -24,7 +24,7 @@ namespace margelo::nitro::imagepicker {
    */
   struct JResult final: public jni::JavaClass<JResult> {
   public:
-    static auto constexpr kJavaDescriptor = "Lcom/margelo/nitro/imagepicker/Result;";
+    static auto constexpr kJavaDescriptor = "Lcom/margelo/nitro/multipleimagepicker/Result;";
 
   public:
     /**
@@ -61,6 +61,8 @@ namespace margelo::nitro::imagepicker {
       jni::local_ref<jni::JDouble> duration = this->getFieldValue(fieldDuration);
       static const auto fieldThumbnail = clazz->getField<jni::JString>("thumbnail");
       jni::local_ref<jni::JString> thumbnail = this->getFieldValue(fieldThumbnail);
+      static const auto fieldCrop = clazz->getField<jni::JBoolean>("crop");
+      jni::local_ref<jni::JBoolean> crop = this->getFieldValue(fieldCrop);
       return Result(
         path->toStdString(),
         fileName->toStdString(),
@@ -75,7 +77,8 @@ namespace margelo::nitro::imagepicker {
         creationDate != nullptr ? std::make_optional(creationDate->value()) : std::nullopt,
         type != nullptr ? std::make_optional(type->toCpp()) : std::nullopt,
         duration != nullptr ? std::make_optional(duration->value()) : std::nullopt,
-        thumbnail != nullptr ? std::make_optional(thumbnail->toStdString()) : std::nullopt
+        thumbnail != nullptr ? std::make_optional(thumbnail->toStdString()) : std::nullopt,
+        crop != nullptr ? std::make_optional(crop->value()) : std::nullopt
       );
     }
 
@@ -99,9 +102,10 @@ namespace margelo::nitro::imagepicker {
         value.creationDate.has_value() ? jni::JDouble::valueOf(value.creationDate.value()) : nullptr,
         value.type.has_value() ? JResultType::fromCpp(value.type.value()) : nullptr,
         value.duration.has_value() ? jni::JDouble::valueOf(value.duration.value()) : nullptr,
-        value.thumbnail.has_value() ? jni::make_jstring(value.thumbnail.value()) : nullptr
+        value.thumbnail.has_value() ? jni::make_jstring(value.thumbnail.value()) : nullptr,
+        value.crop.has_value() ? jni::JBoolean::valueOf(value.crop.value()) : nullptr
       );
     }
   };
 
-} // namespace margelo::nitro::imagepicker
+} // namespace margelo::nitro::multipleimagepicker

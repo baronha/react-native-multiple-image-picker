@@ -43,11 +43,11 @@ public final class HybridMultipleImagePickerSpecCxxUnsafe {
  */
 public class HybridMultipleImagePickerSpecCxx {
   /**
-   * The Swift <> C++ bridge's namespace (`margelo::nitro::imagepicker::bridge::swift`)
+   * The Swift <> C++ bridge's namespace (`margelo::nitro::multipleimagepicker::bridge::swift`)
    * from `MultipleImagePicker-Swift-Cxx-Bridge.hpp`.
    * This contains specialized C++ templates, and C++ helper functions that can be accessed from Swift.
    */
-  public typealias bridge = margelo.nitro.imagepicker.bridge.swift
+  public typealias bridge = margelo.nitro.multipleimagepicker.bridge.swift
 
   /**
    * Holds an instance of the `HybridMultipleImagePickerSpec` Swift protocol.
