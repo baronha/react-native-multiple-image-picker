@@ -17,17 +17,9 @@ import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.entity.LocalMedia.generateLocalMedia
 import com.luck.picture.lib.interfaces.OnResultCallbackListener
 import com.luck.picture.lib.style.*
-import com.margelo.nitro.inappbrowser.R
-import com.margelo.nitro.multipleimagepicker.MediaType
-import com.margelo.nitro.multipleimagepicker.NitroConfig
-import com.margelo.nitro.multipleimagepicker.Result
-import com.margelo.nitro.multipleimagepicker.ResultType
-import com.margelo.nitro.multipleimagepicker.SelectMode
 import com.yalantis.ucrop.UCrop.Options
 import java.io.*
 import java.util.*
-import com.facebook.react.bridge.Dynamic
-import com.margelo.nitro.multipleimagepicker.SelectBoxStyle
 import com.facebook.react.bridge.ColorPropConverter
 
 
