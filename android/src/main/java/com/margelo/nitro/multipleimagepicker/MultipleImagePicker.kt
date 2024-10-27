@@ -1,4 +1,4 @@
-package com.multipleimagepicker
+package com.margelo.nitro.multipleimagepicker
 
 import com.margelo.nitro.NitroModules
 import com.margelo.nitro.multipleimagepicker.HybridMultipleImagePickerSpec

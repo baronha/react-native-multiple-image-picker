@@ -1,4 +1,5 @@
-package com.multipleimagepicker
+package com.margelo.nitro.multipleimagepicker
+
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -10,7 +11,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.luck.picture.lib.engine.CropFileEngine
-import com.multipleimagepicker.ImageLoaderUtils.assertValidRequest
+import com.margelo.nitro.multipleimagepicker.ImageLoaderUtils.assertValidRequest
 import com.yalantis.ucrop.UCrop
 import com.yalantis.ucrop.UCropImageEngine
 import java.io.File

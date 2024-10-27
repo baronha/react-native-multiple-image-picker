@@ -1,4 +1,4 @@
-package com.multipleimagepicker
+package com.margelo.nitro.multipleimagepicker
 
 import android.app.Activity
 import android.content.Context

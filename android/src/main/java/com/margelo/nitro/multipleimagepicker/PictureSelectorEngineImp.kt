@@ -1,4 +1,4 @@
-package com.multipleimagepicker
+package com.margelo.nitro.multipleimagepicker
 
 import android.util.Log
 import com.luck.picture.lib.basic.IBridgeLoaderFactory

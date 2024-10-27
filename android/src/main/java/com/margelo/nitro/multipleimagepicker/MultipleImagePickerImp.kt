@@ -1,4 +1,4 @@
-package com.multipleimagepicker
+package com.margelo.nitro.multipleimagepicker
 
 import android.annotation.SuppressLint
 import android.content.Context
