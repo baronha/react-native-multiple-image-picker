@@ -1,7 +1,7 @@
 {
   "cxxNamespace": ["multipleimagepicker"],
   "ios": {
-    "iosModulename": "MultipleImagePicker"
+    "iosModuleName": "MultipleImagePicker"
   },
   "android": {
     "androidNamespace": ["multipleimagepicker"],

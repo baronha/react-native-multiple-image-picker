@@ -75,6 +75,8 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
             cropOption = null
         }
 
+//        LocalMedia.generateLocalMedia(appContext, "")
+
         PictureSelector.create(activity)
             .openGallery(chooseMode)
             .setImageEngine(imageEngine)
@@ -88,6 +90,8 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
             .setRecordVideoMaxSecond(options.maxVideoDuration?.toInt() ?: 0)
             .setMaxVideoSelectNum(if (maxVideo != 20) maxVideo else maxSelect)
             .isMaxSelectEnabledMask(true)
+
+
 //            .setSelectedData([])
             .setSelectorUIStyle(style)
             .isPreviewImage(isPreview)

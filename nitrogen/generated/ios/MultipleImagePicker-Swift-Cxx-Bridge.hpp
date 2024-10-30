@@ -7,12 +7,6 @@
 
 #pragma once
 
-#if __has_include(<NitroModules/NitroDefines.hpp>)
-#include <NitroModules/NitroDefines.hpp>
-#else
-#error NitroModules cannot be found! Are you sure you installed NitroModules properly?
-#endif
-
 // Forward declarations of C++ defined types
 // Forward declaration of `HybridMultipleImagePickerSpec` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { class HybridMultipleImagePickerSpec; }
@@ -63,15 +57,6 @@ namespace margelo::nitro::multipleimagepicker::bridge::swift {
   using std__optional_std__string_ = std::optional<std::string>;
   inline std::optional<std::string> create_std__optional_std__string_(const std::string& value) {
     return std::optional<std::string>(value);
-  }
-  
-  // pragma MARK: std::optional<ResultType>
-  /**
-   * Specialized version of `std::optional<ResultType>`.
-   */
-  using std__optional_ResultType_ = std::optional<ResultType>;
-  inline std::optional<ResultType> create_std__optional_ResultType_(const ResultType& value) {
-    return std::optional<ResultType>(value);
   }
   
   // pragma MARK: std::optional<bool>
@@ -130,7 +115,7 @@ namespace margelo::nitro::multipleimagepicker::bridge::swift {
   private:
     std::function<void(const std::vector<Result>& /* result */)> _function;
   };
-  inline Func_void_std__vector_Result_ create_Func_void_std__vector_Result_(void* NONNULL closureHolder, void(* NONNULL call)(void* NONNULL /* closureHolder */, std::vector<Result>), void(* NONNULL destroy)(void* NONNULL)) {
+  inline Func_void_std__vector_Result_ create_Func_void_std__vector_Result_(void* _Nonnull closureHolder, void(* _Nonnull call)(void* _Nonnull /* closureHolder */, std::vector<Result>), void(* _Nonnull destroy)(void* _Nonnull)) {
     std::shared_ptr<void> sharedClosureHolder(closureHolder, destroy);
     return Func_void_std__vector_Result_([sharedClosureHolder, call](const std::vector<Result>& result) -> void {
       call(sharedClosureHolder.get(), result);
@@ -158,7 +143,7 @@ namespace margelo::nitro::multipleimagepicker::bridge::swift {
   private:
     std::function<void(double /* reject */)> _function;
   };
-  inline Func_void_double create_Func_void_double(void* NONNULL closureHolder, void(* NONNULL call)(void* NONNULL /* closureHolder */, double), void(* NONNULL destroy)(void* NONNULL)) {
+  inline Func_void_double create_Func_void_double(void* _Nonnull closureHolder, void(* _Nonnull call)(void* _Nonnull /* closureHolder */, double), void(* _Nonnull destroy)(void* _Nonnull)) {
     std::shared_ptr<void> sharedClosureHolder(closureHolder, destroy);
     return Func_void_double([sharedClosureHolder, call](double reject) -> void {
       call(sharedClosureHolder.get(), reject);
@@ -173,7 +158,7 @@ namespace margelo::nitro::multipleimagepicker::bridge::swift {
    * Specialized version of `std::shared_ptr<margelo::nitro::multipleimagepicker::HybridMultipleImagePickerSpec>`.
    */
   using std__shared_ptr_margelo__nitro__multipleimagepicker__HybridMultipleImagePickerSpec_ = std::shared_ptr<margelo::nitro::multipleimagepicker::HybridMultipleImagePickerSpec>;
-  std::shared_ptr<margelo::nitro::multipleimagepicker::HybridMultipleImagePickerSpec> create_std__shared_ptr_margelo__nitro__multipleimagepicker__HybridMultipleImagePickerSpec_(void* NONNULL swiftUnsafePointer);
-  void* NONNULL get_std__shared_ptr_margelo__nitro__multipleimagepicker__HybridMultipleImagePickerSpec_(std__shared_ptr_margelo__nitro__multipleimagepicker__HybridMultipleImagePickerSpec_ cppType);
+  std::shared_ptr<margelo::nitro::multipleimagepicker::HybridMultipleImagePickerSpec> create_std__shared_ptr_margelo__nitro__multipleimagepicker__HybridMultipleImagePickerSpec_(void* _Nonnull swiftUnsafePointer);
+  void* _Nonnull get_std__shared_ptr_margelo__nitro__multipleimagepicker__HybridMultipleImagePickerSpec_(std__shared_ptr_margelo__nitro__multipleimagepicker__HybridMultipleImagePickerSpec_ cppType);
 
 } // namespace margelo::nitro::multipleimagepicker::bridge::swift

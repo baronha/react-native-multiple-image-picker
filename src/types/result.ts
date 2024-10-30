@@ -12,7 +12,7 @@ export interface Result {
   realPath?: string
   parentFolderName?: string
   creationDate?: number
-  type?: ResultType
+  type: ResultType
   duration?: number
   thumbnail?: string
   crop?: boolean

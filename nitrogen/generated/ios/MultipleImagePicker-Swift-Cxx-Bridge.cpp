@@ -15,11 +15,11 @@
 namespace margelo::nitro::multipleimagepicker::bridge::swift {
 
   // pragma MARK: std::shared_ptr<margelo::nitro::multipleimagepicker::HybridMultipleImagePickerSpec>
-  std::shared_ptr<margelo::nitro::multipleimagepicker::HybridMultipleImagePickerSpec> create_std__shared_ptr_margelo__nitro__multipleimagepicker__HybridMultipleImagePickerSpec_(void* NONNULL swiftUnsafePointer) {
+  std::shared_ptr<margelo::nitro::multipleimagepicker::HybridMultipleImagePickerSpec> create_std__shared_ptr_margelo__nitro__multipleimagepicker__HybridMultipleImagePickerSpec_(void* _Nonnull swiftUnsafePointer) {
     MultipleImagePicker::HybridMultipleImagePickerSpecCxx swiftPart = MultipleImagePicker::HybridMultipleImagePickerSpecCxxUnsafe::fromUnsafe(swiftUnsafePointer);
     return HybridContext::getOrCreate<margelo::nitro::multipleimagepicker::HybridMultipleImagePickerSpecSwift>(swiftPart);
   }
-  void* NONNULL get_std__shared_ptr_margelo__nitro__multipleimagepicker__HybridMultipleImagePickerSpec_(std__shared_ptr_margelo__nitro__multipleimagepicker__HybridMultipleImagePickerSpec_ cppType) {
+  void* _Nonnull get_std__shared_ptr_margelo__nitro__multipleimagepicker__HybridMultipleImagePickerSpec_(std__shared_ptr_margelo__nitro__multipleimagepicker__HybridMultipleImagePickerSpec_ cppType) {
     std::shared_ptr<margelo::nitro::multipleimagepicker::HybridMultipleImagePickerSpecSwift> swiftWrapper = std::dynamic_pointer_cast<margelo::nitro::multipleimagepicker::HybridMultipleImagePickerSpecSwift>(cppType);
   #ifdef NITRO_DEBUG
     if (swiftWrapper == nullptr) [[unlikely]] {
