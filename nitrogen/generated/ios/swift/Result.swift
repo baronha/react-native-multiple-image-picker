@@ -18,7 +18,7 @@ public extension Result {
   /**
    * Create a new instance of `Result`.
    */
-  init(path: String, fileName: String, localIdentifier: String, width: Double, height: Double, mime: String, size: Double, bucketId: Double?, realPath: String?, parentFolderName: String?, creationDate: Double?, type: ResultType, duration: Double?, thumbnail: String?, crop: Bool?) {
+  init(path: String, fileName: String, localIdentifier: String, width: Double, height: Double, mime: String, size: Double, bucketId: Double?, realPath: String?, parentFolderName: String?, creationDate: Double?, type: ResultType?, duration: Double?, thumbnail: String?, crop: Bool?) {
     self.init(std.string(path), std.string(fileName), std.string(localIdentifier), width, height, std.string(mime), size, { () -> bridge.std__optional_double_ in
       if let __unwrappedValue = bucketId {
         return bridge.create_std__optional_double_(__unwrappedValue)
@@ -43,7 +43,13 @@ public extension Result {
       } else {
         return .init()
       }
-    }(), type, { () -> bridge.std__optional_double_ in
+    }(), { () -> bridge.std__optional_ResultType_ in
+      if let __unwrappedValue = type {
+        return bridge.create_std__optional_ResultType_(__unwrappedValue)
+      } else {
+        return .init()
+      }
+    }(), { () -> bridge.std__optional_double_ in
       if let __unwrappedValue = duration {
         return bridge.create_std__optional_double_(__unwrappedValue)
       } else {
@@ -221,14 +227,20 @@ public extension Result {
     }
   }
   
-  var type: ResultType {
+  var type: ResultType? {
     @inline(__always)
     get {
-      return self.__type
+      return self.__type.value
     }
     @inline(__always)
     set {
-      self.__type = newValue
+      self.__type = { () -> bridge.std__optional_ResultType_ in
+        if let __unwrappedValue = newValue {
+          return bridge.create_std__optional_ResultType_(__unwrappedValue)
+        } else {
+          return .init()
+        }
+      }()
     }
   }
   

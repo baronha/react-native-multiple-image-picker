@@ -57,4 +57,5 @@ const defaultOptions: Config = {
   isShowAssetNumber: false,
   presentation: 'fullScreenModal',
   language: 'system',
+  isHiddenOriginalButton: false,
 }

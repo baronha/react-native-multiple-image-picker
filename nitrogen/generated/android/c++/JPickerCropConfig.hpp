@@ -33,7 +33,7 @@ namespace margelo::nitro::multipleimagepicker {
       static const auto fieldCircle = clazz->getField<jni::JBoolean>("circle");
       jni::local_ref<jni::JBoolean> circle = this->getFieldValue(fieldCircle);
       return PickerCropConfig(
-        circle != nullptr ? std::make_optional(circle->value()) : std::nullopt
+        circle != nullptr ? std::make_optional(static_cast<bool>(circle->value())) : std::nullopt
       );
     }
 

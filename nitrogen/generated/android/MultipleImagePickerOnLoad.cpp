@@ -15,6 +15,7 @@
 #include "JFunc_void_std__vector_Result_.hpp"
 #include "JFunc_void_double.hpp"
 #include <NitroModules/JNISharedPtr.hpp>
+#include <NitroModules/DefaultConstructableObject.hpp>
 
 namespace margelo::nitro::multipleimagepicker {
 
@@ -33,15 +34,8 @@ int initialize(JavaVM* vm) {
     HybridObjectRegistry::registerHybridObjectConstructor(
       "MultipleImagePicker",
       []() -> std::shared_ptr<HybridObject> {
-        static auto javaClass = jni::findClassStatic("com/margelo/nitro/multipleimagepicker/MultipleImagePicker");
-        static auto defaultConstructor = javaClass->getConstructor<JHybridMultipleImagePickerSpec::javaobject()>();
-    
-        auto instance = javaClass->newObject(defaultConstructor);
-    #ifdef NITRO_DEBUG
-        if (instance == nullptr) [[unlikely]] {
-          throw std::runtime_error("Failed to create an instance of \"JHybridMultipleImagePickerSpec\" - the constructor returned null!");
-        }
-    #endif
+        static DefaultConstructableObject<JHybridMultipleImagePickerSpec::javaobject> object("com/margelo/nitro/multipleimagepicker/MultipleImagePicker");
+        auto instance = object.create();
         auto globalRef = jni::make_global(instance);
         return JNISharedPtr::make_shared_from_jni<JHybridMultipleImagePickerSpec>(globalRef);
       }

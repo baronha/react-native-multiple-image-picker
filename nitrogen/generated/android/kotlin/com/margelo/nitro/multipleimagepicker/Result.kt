@@ -9,6 +9,7 @@ package com.margelo.nitro.multipleimagepicker
 
 import androidx.annotation.Keep
 import com.facebook.proguard.annotations.DoNotStrip
+import com.margelo.nitro.core.*
 
 /**
  * Represents the JavaScript object/struct "Result".
@@ -27,7 +28,7 @@ data class Result(
   val realPath: String?,
   val parentFolderName: String?,
   val creationDate: Double?,
-  val type: ResultType,
+  val type: ResultType?,
   val duration: Double?,
   val thumbnail: String?,
   val crop: Boolean?

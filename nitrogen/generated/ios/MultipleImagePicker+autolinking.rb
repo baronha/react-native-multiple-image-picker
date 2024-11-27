@@ -20,7 +20,7 @@
 # ```
 
 def add_nitrogen_files(spec)
-  Pod::UI.puts "[NitroModules] Adding MultipleImagePicker specs..."
+  Pod::UI.puts "[NitroModules] 🔥 MultipleImagePicker is boosted by nitro!"
 
   spec.dependency "NitroModules"
 

@@ -59,6 +59,15 @@ namespace margelo::nitro::multipleimagepicker::bridge::swift {
     return std::optional<std::string>(value);
   }
   
+  // pragma MARK: std::optional<ResultType>
+  /**
+   * Specialized version of `std::optional<ResultType>`.
+   */
+  using std__optional_ResultType_ = std::optional<ResultType>;
+  inline std::optional<ResultType> create_std__optional_ResultType_(const ResultType& value) {
+    return std::optional<ResultType>(value);
+  }
+  
   // pragma MARK: std::optional<bool>
   /**
    * Specialized version of `std::optional<bool>`.
