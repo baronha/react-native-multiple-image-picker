@@ -17,5 +17,9 @@ import com.facebook.proguard.annotations.DoNotStrip
 @Keep
 enum class Presentation {
   FULLSCREENMODAL,
-  FORMSHEET
+  FORMSHEET;
+
+  @DoNotStrip
+  @Keep
+  private val _ordinal = ordinal
 }

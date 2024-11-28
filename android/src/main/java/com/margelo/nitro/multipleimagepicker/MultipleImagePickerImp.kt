@@ -88,7 +88,9 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
 
         val isCrop = config.crop != null
 
-        PictureSelector.create(activity).openGallery(chooseMode).setImageEngine(imageEngine)
+        PictureSelector.create(activity)
+            .openGallery(chooseMode)
+            .setImageEngine(imageEngine)
             .setSelectorUIStyle(style).apply {
                 if (isCrop) {
                     setCropOption()
@@ -102,41 +104,49 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
                 maxFileSize?.let {
                     setFilterMaxFileSize(it)
                 }
-            }.setMaxSelectNum(maxSelect).setImageSpanCount(config.numberOfColumn?.toInt() ?: 3)
-            .setSkipCropMimeType(*getNotSupportCrop()).isDirectReturnSingle(true)
-            .isSelectZoomAnim(true).isPageStrategy(true, 50).isWithSelectVideoImage(true)
+            }.setMaxSelectNum(maxSelect)
+            .setImageSpanCount(config.numberOfColumn?.toInt() ?: 3)
+            .setSkipCropMimeType(*getNotSupportCrop())
+            .isDirectReturnSingle(true)
+            .isSelectZoomAnim(true).isPageStrategy(true, 50)
+            .isWithSelectVideoImage(true)
             .setMaxVideoSelectNum(if (maxVideo != 20) maxVideo else maxSelect)
-            .isMaxSelectEnabledMask(true).isAutoVideoPlay(true)
-            .isFastSlidingSelect(allowSwipeToSelect).isPageSyncAlbumCount(true)
+            .isMaxSelectEnabledMask(true)
+            .isAutoVideoPlay(true)
+            .isFastSlidingSelect(allowSwipeToSelect)
+            .isPageSyncAlbumCount(true)
 //            .setSelectedData([])
-            .isPreviewImage(isPreview).isPreviewVideo(isPreview)
-            .isDisplayCamera(config.allowedCamera ?: true).isDisplayTimeAxis(true)
-            .setSelectionMode(selectMode).isOriginalControl(config.isHiddenOriginalButton == false)
+            .isPreviewImage(isPreview)
+            .isPreviewVideo(isPreview)
+            .isDisplayCamera(config.allowedCamera ?: true)
+            .isDisplayTimeAxis(true)
+            .setSelectionMode(selectMode)
+            .isOriginalControl(config.isHiddenOriginalButton == false)
             .isPreviewFullScreenMode(true)
             .forResult(object : OnResultCallbackListener<LocalMedia?> {
                 override fun onResult(localMedia: ArrayList<LocalMedia?>?) {
-
-                    println("localMedia ne: $localMedia")
                     var data: Array<Result> = arrayOf()
 
                     if (localMedia?.size == 0) {
                         resolved(arrayOf())
-
                         return
                     }
                     if (localMedia?.size == selectedAssets.size && (localMedia.last()?.id.toString() == (selectedAssets[selectedAssets.size - 1].localIdentifier))) {
                         return
                     }
-
-                    localMedia.let { list ->
-                        list?.forEach { item ->
-                            if (item != null) {
-                                val media: Result = getResult(item)
-                                data.plus(media)
-                            }
+                    localMedia?.forEach { item ->
+                        if (item != null) {
+                            val media: Result = getResult(item)
+                            data += media  // Add the media to the data array
+                            println("Added media: $media")
+                            println("Current data size: ${data.size}")
                         }
-                        resolved(data)
                     }
+
+                    println("data: ${data.size}")
+
+                    resolved(data)
+
                 }
 
                 override fun onCancel() {
@@ -158,7 +168,7 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
         cropOption.setMaxScaleMultiplier(100f)
         cropOption.setToolbarWidgetColor(Color.BLACK)
         cropOption.setStatusBarColor(mainStyle.statusBarColor)
-        cropOption.isDarkStatusBarBlack(mainStyle.isDarkStatusBarBlack)
+        cropOption.isDarkStatusBarBlack(false)
         cropOption.isDragCropImages(true)
         cropOption.setFreeStyleCropEnabled(true)
         cropOption.setSkipCropMimeType(*getNotSupportCrop())
@@ -180,7 +190,10 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
         val selectType = if (isNumber) R.drawable.picture_selector else R.drawable.checkbox_selector
         val isDark = config.theme == Theme.DARK
         val foreground = if (isDark) Color.WHITE else Color.BLACK
-        val background = if (isDark) ContextCompat.getColor(appContext, com.luck.picture.lib.R.color.ps_color_33) else Color.WHITE
+        val background = if (isDark) ContextCompat.getColor(
+            appContext,
+            com.luck.picture.lib.R.color.ps_color_33
+        ) else Color.WHITE
 
         val titleBar = TitleBarStyle()
         val bottomBar = BottomNavBarStyle()
@@ -213,7 +226,8 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
         mainStyle.statusBarColor = background
         mainStyle.mainListBackgroundColor = background
         mainStyle.adapterPreviewGalleryItemSize = DensityUtil.dip2px(appContext, 52f);
-
+        mainStyle.adapterPreviewGalleryBackgroundResource = R.drawable.preview_gallery_bg
+        mainStyle.adapterPreviewGalleryFrameResource = R.drawable.preview_gallery_item
 
         bottomBar.isCompleteCountTips = false
         bottomBar.bottomOriginalTextSize = Constant.TOOLBAR_TEXT_SIZE

@@ -17,5 +17,9 @@ import com.facebook.proguard.annotations.DoNotStrip
 @Keep
 enum class ResultType {
   VIDEO,
-  IMAGE
+  IMAGE;
+
+  @DoNotStrip
+  @Keep
+  private val _ordinal = ordinal
 }

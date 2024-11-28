@@ -17,5 +17,9 @@ import com.facebook.proguard.annotations.DoNotStrip
 @Keep
 enum class Theme {
   LIGHT,
-  DARK
+  DARK;
+
+  @DoNotStrip
+  @Keep
+  private val _ordinal = ordinal
 }

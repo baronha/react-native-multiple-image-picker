@@ -28,5 +28,9 @@ enum class Language {
   RUSSIAN,
   GERMAN,
   FRENCH,
-  ARABIC
+  ARABIC;
+
+  @DoNotStrip
+  @Keep
+  private val _ordinal = ordinal
 }

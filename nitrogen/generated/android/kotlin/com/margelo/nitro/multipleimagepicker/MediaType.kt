@@ -18,5 +18,9 @@ import com.facebook.proguard.annotations.DoNotStrip
 enum class MediaType {
   VIDEO,
   IMAGE,
-  ALL
+  ALL;
+
+  @DoNotStrip
+  @Keep
+  private val _ordinal = ordinal
 }
