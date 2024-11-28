@@ -27,6 +27,8 @@ namespace margelo::nitro::multipleimagepicker { struct PickerCropConfig; }
 namespace margelo::nitro::multipleimagepicker { struct Text; }
 // Forward declaration of `Language` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { enum class Language; }
+// Forward declaration of `Theme` to properly resolve imports.
+namespace margelo::nitro::multipleimagepicker { enum class Theme; }
 
 #include "NitroConfig.hpp"
 #include "JNitroConfig.hpp"
@@ -51,6 +53,8 @@ namespace margelo::nitro::multipleimagepicker { enum class Language; }
 #include "JText.hpp"
 #include "Language.hpp"
 #include "JLanguage.hpp"
+#include "Theme.hpp"
+#include "JTheme.hpp"
 #include <functional>
 #include "JFunc_void_std__vector_Result_.hpp"
 #include "JFunc_void_double.hpp"

@@ -19,6 +19,7 @@
 #include "JSelectBoxStyle.hpp"
 #include "JSelectMode.hpp"
 #include "JText.hpp"
+#include "JTheme.hpp"
 #include "Language.hpp"
 #include "MediaType.hpp"
 #include "PickerCropConfig.hpp"
@@ -28,6 +29,7 @@
 #include "SelectBoxStyle.hpp"
 #include "SelectMode.hpp"
 #include "Text.hpp"
+#include "Theme.hpp"
 #include <optional>
 #include <string>
 #include <vector>
@@ -106,6 +108,8 @@ namespace margelo::nitro::multipleimagepicker {
       jni::local_ref<JText> text = this->getFieldValue(fieldText);
       static const auto fieldLanguage = clazz->getField<JLanguage>("language");
       jni::local_ref<JLanguage> language = this->getFieldValue(fieldLanguage);
+      static const auto fieldTheme = clazz->getField<JTheme>("theme");
+      jni::local_ref<JTheme> theme = this->getFieldValue(fieldTheme);
       return NitroConfig(
         mediaType->toCpp(),
         [&]() {
@@ -143,7 +147,8 @@ namespace margelo::nitro::multipleimagepicker {
         presentation->toCpp(),
         crop != nullptr ? std::make_optional(crop->toCpp()) : std::nullopt,
         text != nullptr ? std::make_optional(text->toCpp()) : std::nullopt,
-        language->toCpp()
+        language->toCpp(),
+        theme != nullptr ? std::make_optional(theme->toCpp()) : std::nullopt
       );
     }
 
@@ -189,7 +194,8 @@ namespace margelo::nitro::multipleimagepicker {
         JPresentation::fromCpp(value.presentation),
         value.crop.has_value() ? JPickerCropConfig::fromCpp(value.crop.value()) : nullptr,
         value.text.has_value() ? JText::fromCpp(value.text.value()) : nullptr,
-        JLanguage::fromCpp(value.language)
+        JLanguage::fromCpp(value.language),
+        value.theme.has_value() ? JTheme::fromCpp(value.theme.value()) : nullptr
       );
     }
   };

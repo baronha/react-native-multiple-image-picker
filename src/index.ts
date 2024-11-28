@@ -5,7 +5,7 @@ import { NitroModules } from 'react-native-nitro-modules'
 
 import { type MultipleImagePicker } from './specs/MultipleImagePicker.nitro'
 
-import { processColor } from 'react-native'
+import { processColor, Appearance } from 'react-native'
 
 import { Result, Config, NitroConfig } from './types'
 
@@ -23,6 +23,11 @@ export async function openPicker<T extends Config>(
   return new Promise((resolved, rejected) => {
     const config = { ...defaultOptions, ...conf } as NitroConfig
     config.primaryColor = processColor(config.primaryColor) as any
+
+    if ((config as Config)?.theme === 'system') {
+      const theme = Appearance.getColorScheme() ?? 'light'
+      config.theme = theme
+    }
 
     return Picker.openPicker(
       config,
@@ -57,5 +62,6 @@ const defaultOptions: Config = {
   isShowAssetNumber: false,
   presentation: 'fullScreenModal',
   language: 'system',
+  theme: 'system',
   isHiddenOriginalButton: false,
 }

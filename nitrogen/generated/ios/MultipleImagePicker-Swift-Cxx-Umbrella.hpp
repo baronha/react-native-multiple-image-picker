@@ -30,6 +30,8 @@ namespace margelo::nitro::multipleimagepicker { enum class SelectBoxStyle; }
 namespace margelo::nitro::multipleimagepicker { enum class SelectMode; }
 // Forward declaration of `Text` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { struct Text; }
+// Forward declaration of `Theme` to properly resolve imports.
+namespace margelo::nitro::multipleimagepicker { enum class Theme; }
 
 // Include C++ defined types
 #include "HybridMultipleImagePickerSpec.hpp"
@@ -43,6 +45,7 @@ namespace margelo::nitro::multipleimagepicker { struct Text; }
 #include "SelectBoxStyle.hpp"
 #include "SelectMode.hpp"
 #include "Text.hpp"
+#include "Theme.hpp"
 #include <functional>
 #include <memory>
 #include <optional>

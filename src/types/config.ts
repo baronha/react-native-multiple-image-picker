@@ -7,6 +7,8 @@ export type SelectMode = 'single' | 'multiple'
 
 export type MediaType = 'video' | 'image' | 'all'
 
+export type Theme = 'light' | 'dark'
+
 export type Presentation = 'fullScreenModal' | 'formSheet'
 
 export type Language =
@@ -90,6 +92,8 @@ export interface NitroConfig {
   text?: Text
 
   language: Language
+
+  theme?: Theme
 }
 
 export interface Config
@@ -102,6 +106,7 @@ export interface Config
     | 'primaryColor'
     | 'presentation'
     | 'language'
+    | 'theme'
   > {
   mediaType?: MediaType
   selectedAssets?: Result[]
@@ -110,4 +115,5 @@ export interface Config
   primaryColor?: ColorValue
   presentation?: Presentation
   language?: Language
+  theme?: Theme | 'system'
 }

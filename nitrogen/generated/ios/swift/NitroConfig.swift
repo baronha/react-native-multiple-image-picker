@@ -18,7 +18,7 @@ public extension NitroConfig {
   /**
    * Create a new instance of `NitroConfig`.
    */
-  init(mediaType: MediaType, selectedAssets: [Result], selectBoxStyle: SelectBoxStyle, selectMode: SelectMode, numberOfColumn: Double?, isPreview: Bool?, primaryColor: Double?, allowedCamera: Bool?, allowSwipeToSelect: Bool?, spacing: Double?, isHiddenPreviewButton: Bool?, isHiddenOriginalButton: Bool?, isShowPreviewList: Bool?, allowHapticTouchPreview: Bool?, isShowAssetNumber: Bool?, allowedLimit: Bool?, maxPhoto: Double?, maxVideo: Double?, maxSelect: Double?, maxVideoDuration: Double?, minVideoDuration: Double?, maxFileSize: Double?, videoQuality: Double?, imageQuality: Double?, presentation: Presentation, crop: PickerCropConfig?, text: Text?, language: Language) {
+  init(mediaType: MediaType, selectedAssets: [Result], selectBoxStyle: SelectBoxStyle, selectMode: SelectMode, numberOfColumn: Double?, isPreview: Bool?, primaryColor: Double?, allowedCamera: Bool?, allowSwipeToSelect: Bool?, spacing: Double?, isHiddenPreviewButton: Bool?, isHiddenOriginalButton: Bool?, isShowPreviewList: Bool?, allowHapticTouchPreview: Bool?, isShowAssetNumber: Bool?, allowedLimit: Bool?, maxPhoto: Double?, maxVideo: Double?, maxSelect: Double?, maxVideoDuration: Double?, minVideoDuration: Double?, maxFileSize: Double?, videoQuality: Double?, imageQuality: Double?, presentation: Presentation, crop: PickerCropConfig?, text: Text?, language: Language, theme: Theme?) {
     self.init(mediaType, { () -> bridge.std__vector_Result_ in
       var __vector = bridge.create_std__vector_Result_(selectedAssets.count)
       for __item in selectedAssets {
@@ -157,7 +157,13 @@ public extension NitroConfig {
       } else {
         return .init()
       }
-    }(), language)
+    }(), language, { () -> bridge.std__optional_Theme_ in
+      if let __unwrappedValue = theme {
+        return bridge.create_std__optional_Theme_(__unwrappedValue)
+      } else {
+        return .init()
+      }
+    }())
   }
 
   var mediaType: MediaType {
@@ -615,6 +621,23 @@ public extension NitroConfig {
     @inline(__always)
     set {
       self.__language = newValue
+    }
+  }
+  
+  var theme: Theme? {
+    @inline(__always)
+    get {
+      return self.__theme.value
+    }
+    @inline(__always)
+    set {
+      self.__theme = { () -> bridge.std__optional_Theme_ in
+        if let __unwrappedValue = newValue {
+          return bridge.create_std__optional_Theme_(__unwrappedValue)
+        } else {
+          return .init()
+        }
+      }()
     }
   }
 }

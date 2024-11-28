@@ -1,12 +1,10 @@
 package com.margelo.nitro.multipleimagepicker
 
-import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.media.MediaMetadataRetriever
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.DrawableCompat
 import com.facebook.react.bridge.ColorPropConverter
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
@@ -17,9 +15,6 @@ import com.facebook.react.bridge.ReadableNativeMap
 import com.facebook.react.bridge.ReadableType
 import com.luck.picture.lib.app.IApp
 import com.luck.picture.lib.app.PictureAppMaster
-import com.luck.picture.lib.basic.IBridgePictureBehavior
-import com.luck.picture.lib.basic.PictureCommonFragment.SelectorResult
-import com.luck.picture.lib.basic.PictureSelectionSystemModel
 import com.luck.picture.lib.basic.PictureSelector
 import com.luck.picture.lib.config.PictureMimeType
 import com.luck.picture.lib.config.SelectMimeType
@@ -34,12 +29,12 @@ import com.luck.picture.lib.style.PictureSelectorStyle
 import com.luck.picture.lib.style.PictureWindowAnimationStyle
 import com.luck.picture.lib.style.SelectMainStyle
 import com.luck.picture.lib.style.TitleBarStyle
+import com.luck.picture.lib.utils.DensityUtil
 import com.yalantis.ucrop.UCrop.Options
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.util.UUID
-
 
 class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
     ReactContextBaseJavaModule(reactContext), IApp {
@@ -87,19 +82,18 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
         val maxDuration = config.maxVideoDuration?.toInt()
         val allowSwipeToSelect = config.allowSwipeToSelect ?: false
 
-        val selectMode =
-            if (config.selectMode == SelectMode.MULTIPLE) SelectModeConfig.MULTIPLE else SelectModeConfig.SINGLE
+        val isMultiple = config.selectMode == SelectMode.MULTIPLE
+        val selectMode = if (isMultiple) SelectModeConfig.MULTIPLE else SelectModeConfig.SINGLE
 
 
         val isCrop = config.crop != null
 
-        PictureSelector.create(activity)
-            .openGallery(chooseMode)
-            .setImageEngine(imageEngine)
-            .setSelectorUIStyle(style)
-            .apply {
+        PictureSelector.create(activity).openGallery(chooseMode).setImageEngine(imageEngine)
+            .setSelectorUIStyle(style).apply {
                 if (isCrop) {
-                    setCropEngine(setCropEngine())
+                    setCropOption()
+                    // Disabled force crop engine for multiple
+                    if (!isMultiple) setCropEngine(CropEngine(cropOption))
                     setEditMediaInterceptListener(setEditMediaEvent())
                 }
                 maxDuration?.let {
@@ -108,25 +102,16 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
                 maxFileSize?.let {
                     setFilterMaxFileSize(it)
                 }
-            }
-            .setMaxSelectNum(maxSelect)
-            .setImageSpanCount(config.numberOfColumn?.toInt() ?: 3)
-            .setSkipCropMimeType(*getNotSupportCrop())
-            .isDirectReturnSingle(true)
-            .isSelectZoomAnim(true)
-            .isPageStrategy(true, 50)
-            .isWithSelectVideoImage(true)
+            }.setMaxSelectNum(maxSelect).setImageSpanCount(config.numberOfColumn?.toInt() ?: 3)
+            .setSkipCropMimeType(*getNotSupportCrop()).isDirectReturnSingle(true)
+            .isSelectZoomAnim(true).isPageStrategy(true, 50).isWithSelectVideoImage(true)
             .setMaxVideoSelectNum(if (maxVideo != 20) maxVideo else maxSelect)
-            .isMaxSelectEnabledMask(true)
-            .isAutoVideoPlay(true)
-            .isFastSlidingSelect(allowSwipeToSelect)
+            .isMaxSelectEnabledMask(true).isAutoVideoPlay(true)
+            .isFastSlidingSelect(allowSwipeToSelect).isPageSyncAlbumCount(true)
 //            .setSelectedData([])
-            .isPreviewImage(isPreview)
-            .isPreviewVideo(isPreview)
-            .isDisplayCamera(config.allowedCamera ?: true)
-            .isDisplayTimeAxis(true)
-            .setSelectionMode(selectMode)
-            .isOriginalControl(config.isHiddenOriginalButton == false)
+            .isPreviewImage(isPreview).isPreviewVideo(isPreview)
+            .isDisplayCamera(config.allowedCamera ?: true).isDisplayTimeAxis(true)
+            .setSelectionMode(selectMode).isOriginalControl(config.isHiddenOriginalButton == false)
             .isPreviewFullScreenMode(true)
             .forResult(object : OnResultCallbackListener<LocalMedia?> {
                 override fun onResult(localMedia: ArrayList<LocalMedia?>?) {
@@ -161,7 +146,7 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
 
     }
 
-    private fun setCropEngine(): CropEngine {
+    private fun setCropOption() {
         val mainStyle: SelectMainStyle = style.selectMainStyle
 
         cropOption.setShowCropFrame(true)
@@ -177,10 +162,8 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
         cropOption.isDragCropImages(true)
         cropOption.setFreeStyleCropEnabled(true)
         cropOption.setSkipCropMimeType(*getNotSupportCrop())
-
-
-        return CropEngine(cropOption)
     }
+
 
     private fun getNotSupportCrop(): Array<String> {
         return arrayOf(PictureMimeType.ofGIF(), PictureMimeType.ofWEBP())
@@ -191,61 +174,69 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
         return MediaEditInterceptListener(getSandboxPath(appContext), cropOption)
     }
 
-
     private fun setStyle() {
         val primaryColor = ColorPropConverter.getColor(config.primaryColor, null)
         val isNumber = config.selectBoxStyle == SelectBoxStyle.NUMBER
+        val selectType = if (isNumber) R.drawable.picture_selector else R.drawable.checkbox_selector
+        val isDark = config.theme == Theme.DARK
+        val foreground = if (isDark) Color.WHITE else Color.BLACK
+        val background = if (isDark) ContextCompat.getColor(appContext, com.luck.picture.lib.R.color.ps_color_33) else Color.WHITE
+
+        val titleBar = TitleBarStyle()
+        val bottomBar = BottomNavBarStyle()
+        val mainStyle = SelectMainStyle()
+        val iconBack =
+            if (isDark) com.luck.picture.lib.R.drawable.ps_ic_back else com.luck.picture.lib.R.drawable.ps_ic_black_back
 
         cropOption.setLogoColor(primaryColor)
 
-        // ANIMATION SLIDE FROM BOTTOM
-        val animationStyle = PictureWindowAnimationStyle()
-        animationStyle.setActivityEnterAnimation(com.luck.picture.lib.R.anim.ps_anim_up_in)
-        animationStyle.setActivityExitAnimation(com.luck.picture.lib.R.anim.ps_anim_down_out)
-
         // TITLE BAR
-        val titleBar = TitleBarStyle()
-        titleBar.titleBackgroundColor = ContextCompat.getColor(appContext, R.color.app_color_white)
+        titleBar.titleBackgroundColor = background
         titleBar.isAlbumTitleRelativeLeft = true
         titleBar.titleAlbumBackgroundResource = com.luck.picture.lib.R.drawable.ps_album_bg
         titleBar.titleDrawableRightResource = com.luck.picture.lib.R.drawable.ps_ic_grey_arrow
-        titleBar.previewTitleLeftBackResource = com.luck.picture.lib.R.drawable.ps_ic_black_back
-        titleBar.titleLeftBackResource = com.luck.picture.lib.R.drawable.ps_ic_black_back
-        titleBar.isHideCancelButton = false
+        titleBar.previewTitleLeftBackResource = iconBack
+        titleBar.titleLeftBackResource = iconBack
+        titleBar.isHideCancelButton = true
 
         // BOTTOM BAR
-        val bottomBar = BottomNavBarStyle()
+        bottomBar.bottomPreviewNormalTextColor = foreground
+        bottomBar.bottomPreviewSelectTextColor = foreground
+        bottomBar.bottomNarBarBackgroundColor = background
+        bottomBar.bottomEditorTextColor = foreground
+        bottomBar.bottomOriginalTextColor = foreground
+        bottomBar.bottomPreviewNarBarBackgroundColor = background
 
-        bottomBar.bottomPreviewNormalTextColor = primaryColor
-        bottomBar.bottomPreviewSelectTextColor = primaryColor
+        mainStyle.mainListBackgroundColor = foreground
+        mainStyle.selectNormalTextColor = foreground
+        mainStyle.isDarkStatusBarBlack = !isDark
+        mainStyle.statusBarColor = background
+        mainStyle.mainListBackgroundColor = background
+        mainStyle.adapterPreviewGalleryItemSize = DensityUtil.dip2px(appContext, 52f);
 
-        bottomBar.bottomNarBarBackgroundColor =
-            ContextCompat.getColor(appContext, com.luck.picture.lib.R.color.ps_color_white)
-        bottomBar.bottomSelectNumResources = R.drawable.picture_selector
-        bottomBar.bottomEditorTextColor =
-            ContextCompat.getColor(appContext, com.luck.picture.lib.R.color.ps_color_53575e)
-        bottomBar.bottomOriginalTextColor = primaryColor
-//        bottomBar.bottomOriginalDrawableLeft = .drawable.
 
         bottomBar.isCompleteCountTips = false
-        bottomBar.bottomOriginalTextSize = 12
-        bottomBar.bottomSelectNumTextSize = 12
-        bottomBar.bottomPreviewNormalTextSize = 12
-
-//        bottomBar.bottomSelectNumTextColor = primaryColor
-
-//        bottomBar.bottomEditorTextColor = ContextCompat.getColor(
-//            appContext, primaryColor
-//        )
-//        bottomBar.bottomOriginalTextColor = ContextCompat.getColor(
-//            appContext,
-//            primaryColor
-//        )
-
+        bottomBar.bottomOriginalTextSize = Constant.TOOLBAR_TEXT_SIZE
+        bottomBar.bottomSelectNumTextSize = Constant.TOOLBAR_TEXT_SIZE
+        bottomBar.bottomPreviewNormalTextSize = Constant.TOOLBAR_TEXT_SIZE
+        bottomBar.bottomEditorTextSize = Constant.TOOLBAR_TEXT_SIZE
 
         // MAIN STYLE
-        val mainStyle = SelectMainStyle()
+        mainStyle.isCompleteSelectRelativeTop = false
+        mainStyle.isPreviewDisplaySelectGallery = true
+        mainStyle.adapterPreviewGalleryBackgroundResource =
+            com.luck.picture.lib.R.drawable.ps_preview_gallery_bg
+        mainStyle.isAdapterItemIncludeEdge = true
+        mainStyle.isPreviewSelectRelativeBottom = false
+//        mainStyle.previewSelectTextSize = Constant.TOOLBAR_TEXT_SIZE
+        mainStyle.selectTextColor = primaryColor
+//        mainStyle.selectTextSize = Constant.TOOLBAR_TEXT_SIZE
+        mainStyle.selectBackground = selectType
+        mainStyle.isSelectNumberStyle = isNumber
+        mainStyle.previewSelectBackground = selectType
+        mainStyle.isPreviewSelectNumberStyle = isNumber
 
+        // custom finish text
         config.text.let { text ->
             text?.finish.let {
                 mainStyle.selectText = it
@@ -254,42 +245,16 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
             }
         }
 
-        mainStyle.isSelectNumberStyle = isNumber
-        mainStyle.isPreviewSelectNumberStyle = false
-        mainStyle.selectBackground =
-            if (isNumber) R.drawable.picture_selector else R.drawable.checkbox_selector
-        mainStyle.mainListBackgroundColor =
-            ContextCompat.getColor(appContext, com.luck.picture.lib.R.color.ps_color_white)
-        mainStyle.previewSelectBackground = R.drawable.picture_selector
-        mainStyle.isCompleteSelectRelativeTop = false
-        mainStyle.selectNormalTextColor =
-            ContextCompat.getColor(appContext, com.luck.picture.lib.R.color.ps_color_9b)
-
-        mainStyle.statusBarColor = ContextCompat.getColor(
-            appContext, R.color.app_color_white
-        )
-        mainStyle.isDarkStatusBarBlack = true
-        mainStyle.isPreviewDisplaySelectGallery = true
-        mainStyle.adapterPreviewGalleryBackgroundResource =
-            com.luck.picture.lib.R.drawable.ps_preview_gallery_bg
-
-        mainStyle.isAdapterItemIncludeEdge = true
-        mainStyle.isPreviewSelectRelativeBottom = false
-        mainStyle.previewSelectTextSize = 12
-
-
-        val buttonDrawable =
-            ContextCompat.getDrawable(appContext, R.drawable.complete_button)?.mutate()
-        DrawableCompat.setTint(buttonDrawable!!, primaryColor)
-
-        mainStyle.selectBackgroundResources = R.drawable.complete_button
-        mainStyle.selectTextColor = primaryColor
-        mainStyle.selectTextSize = 12
-
         // SET STYLE
         style.titleBarStyle = titleBar
         style.bottomBarStyle = bottomBar
         style.selectMainStyle = mainStyle
+
+        // ANIMATION SLIDE FROM BOTTOM
+        val animationStyle = PictureWindowAnimationStyle()
+        animationStyle.setActivityEnterAnimation(com.luck.picture.lib.R.anim.ps_anim_up_in)
+        animationStyle.setActivityExitAnimation(com.luck.picture.lib.R.anim.ps_anim_down_out)
+
         style.windowAnimationStyle = animationStyle
     }
 
@@ -396,10 +361,4 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
     override fun getPictureSelectorEngine(): PictureSelectorEngine {
         return PictureSelectorEngineImp()
     }
-
 }
-
-
-
-
-
