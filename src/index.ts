@@ -23,6 +23,7 @@ export async function openPicker<T extends Config>(
   return new Promise((resolved, rejected) => {
     const config = { ...defaultOptions, ...conf } as NitroConfig
     config.primaryColor = processColor(config.primaryColor) as any
+    config.backgroundDark = processColor(config.backgroundDark) as any
 
     if ((config as Config)?.theme === 'system') {
       const theme = Appearance.getColorScheme() ?? 'light'
@@ -51,6 +52,7 @@ const defaultOptions: Config = {
   maxFileSize: 0,
 
   primaryColor: '#FB9300',
+  backgroundDark: '#333333',
   allowedCamera: true,
   allowedLimit: true,
   numberOfColumn: 3,

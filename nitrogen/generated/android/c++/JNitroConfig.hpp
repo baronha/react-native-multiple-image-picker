@@ -10,6 +10,8 @@
 #include <fbjni/fbjni.h>
 #include "NitroConfig.hpp"
 
+#include "Crop.hpp"
+#include "JCrop.hpp"
 #include "JLanguage.hpp"
 #include "JMediaType.hpp"
 #include "JPickerCropConfig.hpp"
@@ -100,6 +102,8 @@ namespace margelo::nitro::multipleimagepicker {
       jni::local_ref<jni::JDouble> videoQuality = this->getFieldValue(fieldVideoQuality);
       static const auto fieldImageQuality = clazz->getField<jni::JDouble>("imageQuality");
       jni::local_ref<jni::JDouble> imageQuality = this->getFieldValue(fieldImageQuality);
+      static const auto fieldBackgroundDark = clazz->getField<jni::JDouble>("backgroundDark");
+      jni::local_ref<jni::JDouble> backgroundDark = this->getFieldValue(fieldBackgroundDark);
       static const auto fieldPresentation = clazz->getField<JPresentation>("presentation");
       jni::local_ref<JPresentation> presentation = this->getFieldValue(fieldPresentation);
       static const auto fieldCrop = clazz->getField<JPickerCropConfig>("crop");
@@ -144,6 +148,7 @@ namespace margelo::nitro::multipleimagepicker {
         maxFileSize != nullptr ? std::make_optional(maxFileSize->value()) : std::nullopt,
         videoQuality != nullptr ? std::make_optional(videoQuality->value()) : std::nullopt,
         imageQuality != nullptr ? std::make_optional(imageQuality->value()) : std::nullopt,
+        backgroundDark != nullptr ? std::make_optional(backgroundDark->value()) : std::nullopt,
         presentation->toCpp(),
         crop != nullptr ? std::make_optional(crop->toCpp()) : std::nullopt,
         text != nullptr ? std::make_optional(text->toCpp()) : std::nullopt,
@@ -191,6 +196,7 @@ namespace margelo::nitro::multipleimagepicker {
         value.maxFileSize.has_value() ? jni::JDouble::valueOf(value.maxFileSize.value()) : nullptr,
         value.videoQuality.has_value() ? jni::JDouble::valueOf(value.videoQuality.value()) : nullptr,
         value.imageQuality.has_value() ? jni::JDouble::valueOf(value.imageQuality.value()) : nullptr,
+        value.backgroundDark.has_value() ? jni::JDouble::valueOf(value.backgroundDark.value()) : nullptr,
         JPresentation::fromCpp(value.presentation),
         value.crop.has_value() ? JPickerCropConfig::fromCpp(value.crop.value()) : nullptr,
         value.text.has_value() ? JText::fromCpp(value.text.value()) : nullptr,

@@ -20,6 +20,8 @@ namespace margelo::nitro::multipleimagepicker { enum class MediaType; }
 namespace margelo::nitro::multipleimagepicker { struct Result; }
 // Forward declaration of `ResultType` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { enum class ResultType; }
+// Forward declaration of `Crop` to properly resolve imports.
+namespace margelo::nitro::multipleimagepicker { struct Crop; }
 // Forward declaration of `SelectBoxStyle` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { enum class SelectBoxStyle; }
 // Forward declaration of `SelectMode` to properly resolve imports.
@@ -42,6 +44,7 @@ namespace margelo::nitro::multipleimagepicker { enum class Theme; }
 #include <string>
 #include <optional>
 #include "ResultType.hpp"
+#include "Crop.hpp"
 #include "SelectBoxStyle.hpp"
 #include "SelectMode.hpp"
 #include "Presentation.hpp"

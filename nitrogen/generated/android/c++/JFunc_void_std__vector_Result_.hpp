@@ -18,6 +18,8 @@
 #include <optional>
 #include "ResultType.hpp"
 #include "JResultType.hpp"
+#include "Crop.hpp"
+#include "JCrop.hpp"
 
 namespace margelo::nitro::multipleimagepicker {
 

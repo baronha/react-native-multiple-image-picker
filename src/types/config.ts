@@ -85,6 +85,8 @@ export interface NitroConfig {
 
   imageQuality?: number
 
+  backgroundDark?: number
+
   presentation: Presentation
 
   crop?: PickerCropConfig
@@ -107,6 +109,7 @@ export interface Config
     | 'presentation'
     | 'language'
     | 'theme'
+    | 'backgroundDark'
   > {
   mediaType?: MediaType
   selectedAssets?: Result[]
@@ -116,4 +119,5 @@ export interface Config
   presentation?: Presentation
   language?: Language
   theme?: Theme | 'system'
+  backgroundDark?: ColorValue
 }

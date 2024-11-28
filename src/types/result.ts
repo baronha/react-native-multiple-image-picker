@@ -1,4 +1,11 @@
 type ResultType = 'image' | 'video'
+export interface Crop {
+  width: number
+  height: number
+  offsetX: number
+  offsetY: number
+  aspectRatio: number
+}
 
 export interface Result {
   path: string
@@ -10,10 +17,11 @@ export interface Result {
   size: number
   bucketId?: number
   realPath?: string
+  originalPath: string // without crop
   parentFolderName?: string
   creationDate?: number
   type?: ResultType
   duration?: number
   thumbnail?: string
-  crop?: boolean
+  crop?: Crop
 }

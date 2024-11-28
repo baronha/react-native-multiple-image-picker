@@ -9,10 +9,6 @@ import com.facebook.react.bridge.ColorPropConverter
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
-import com.facebook.react.bridge.ReadableMap
-import com.facebook.react.bridge.ReadableNativeArray
-import com.facebook.react.bridge.ReadableNativeMap
-import com.facebook.react.bridge.ReadableType
 import com.luck.picture.lib.app.IApp
 import com.luck.picture.lib.app.PictureAppMaster
 import com.luck.picture.lib.basic.PictureSelector
@@ -50,6 +46,7 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
     private var style = PictureSelectorStyle()
     private lateinit var config: NitroConfig
     private var cropOption = Options()
+    private var dataList = mutableListOf<LocalMedia>()
 
 
     @ReactMethod
@@ -66,6 +63,7 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
         config = options
 
         setStyle() // set style for UI
+        handleSelectedAssets(config)
 
         val chooseMode = when (config.mediaType) {
             MediaType.VIDEO -> SelectMimeType.ofVideo()
@@ -88,15 +86,13 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
 
         val isCrop = config.crop != null
 
-        PictureSelector.create(activity)
-            .openGallery(chooseMode)
-            .setImageEngine(imageEngine)
+        PictureSelector.create(activity).openGallery(chooseMode).setImageEngine(imageEngine)
             .setSelectorUIStyle(style).apply {
                 if (isCrop) {
                     setCropOption()
                     // Disabled force crop engine for multiple
                     if (!isMultiple) setCropEngine(CropEngine(cropOption))
-                    setEditMediaInterceptListener(setEditMediaEvent())
+                    else setEditMediaInterceptListener(setEditMediaEvent())
                 }
                 maxDuration?.let {
                     setFilterVideoMaxSecond(it)
@@ -104,18 +100,14 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
                 maxFileSize?.let {
                     setFilterMaxFileSize(it)
                 }
-            }.setMaxSelectNum(maxSelect)
-            .setImageSpanCount(config.numberOfColumn?.toInt() ?: 3)
-            .setSkipCropMimeType(*getNotSupportCrop())
-            .isDirectReturnSingle(true)
-            .isSelectZoomAnim(true).isPageStrategy(true, 50)
+            }.setMaxSelectNum(maxSelect).setImageSpanCount(config.numberOfColumn?.toInt() ?: 3)
+//            .setSkipCropMimeType(*getNotSupportCrop())
+            .isDirectReturnSingle(true).isSelectZoomAnim(true).isPageStrategy(true, 50)
             .isWithSelectVideoImage(true)
             .setMaxVideoSelectNum(if (maxVideo != 20) maxVideo else maxSelect)
-            .isMaxSelectEnabledMask(true)
-            .isAutoVideoPlay(true)
-            .isFastSlidingSelect(allowSwipeToSelect)
-            .isPageSyncAlbumCount(true)
-//            .setSelectedData([])
+            .isMaxSelectEnabledMask(true).isAutoVideoPlay(true)
+            .isFastSlidingSelect(allowSwipeToSelect).isPageSyncAlbumCount(true)
+            .setSelectedData(dataList)
             .isPreviewImage(isPreview)
             .isPreviewVideo(isPreview)
             .isDisplayCamera(config.allowedCamera ?: true)
@@ -127,26 +119,29 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
                 override fun onResult(localMedia: ArrayList<LocalMedia?>?) {
                     var data: Array<Result> = arrayOf()
 
-                    if (localMedia?.size == 0) {
+                    if (localMedia?.size == 0 || localMedia == null) {
                         resolved(arrayOf())
                         return
                     }
-                    if (localMedia?.size == selectedAssets.size && (localMedia.last()?.id.toString() == (selectedAssets[selectedAssets.size - 1].localIdentifier))) {
-                        return
-                    }
-                    localMedia?.forEach { item ->
+
+                    dataList = localMedia.filterNotNull().toMutableList()
+
+                    localMedia.forEach { item ->
                         if (item != null) {
-                            val media: Result = getResult(item)
+                            val existingMedia = dataList.find { it.id == item.id }
+
+                            val media: Result =
+                                if (existingMedia != null && existingMedia.isCut == item.isCut) {
+                                    getResult(existingMedia)
+                                } else {
+                                    getResult(item)
+                                }
                             data += media  // Add the media to the data array
-                            println("Added media: $media")
-                            println("Current data size: ${data.size}")
+
                         }
                     }
 
-                    println("data: ${data.size}")
-
                     resolved(data)
-
                 }
 
                 override fun onCancel() {
@@ -167,8 +162,8 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
         cropOption.isForbidSkipMultipleCrop(true)
         cropOption.setMaxScaleMultiplier(100f)
         cropOption.setToolbarWidgetColor(Color.BLACK)
-        cropOption.setStatusBarColor(mainStyle.statusBarColor)
-        cropOption.isDarkStatusBarBlack(false)
+        cropOption.setStatusBarColor(Color.WHITE)
+        cropOption.isDarkStatusBarBlack(true)
         cropOption.isDragCropImages(true)
         cropOption.setFreeStyleCropEnabled(true)
         cropOption.setSkipCropMimeType(*getNotSupportCrop())
@@ -185,15 +180,23 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
     }
 
     private fun setStyle() {
-        val primaryColor = ColorPropConverter.getColor(config.primaryColor, null)
-        val isNumber = config.selectBoxStyle == SelectBoxStyle.NUMBER
-        val selectType = if (isNumber) R.drawable.picture_selector else R.drawable.checkbox_selector
+        val primaryColor = ColorPropConverter.getColor(config.primaryColor, appContext)
+
+
+        val isNumber =
+            config.selectMode == SelectMode.MULTIPLE && config.selectBoxStyle == SelectBoxStyle.NUMBER
+        val selectType =
+            if (isNumber) R.drawable.picture_selector else R.drawable.checkbox_selector
         val isDark = config.theme == Theme.DARK
+
+        val backgroundDark =
+            ColorPropConverter.getColor(config.backgroundDark, appContext)
+                ?: ContextCompat.getColor(
+                    appContext, com.luck.picture.lib.R.color.ps_color_33
+                )
+
         val foreground = if (isDark) Color.WHITE else Color.BLACK
-        val background = if (isDark) ContextCompat.getColor(
-            appContext,
-            com.luck.picture.lib.R.color.ps_color_33
-        ) else Color.WHITE
+        val background = if (isDark) backgroundDark else Color.WHITE
 
         val titleBar = TitleBarStyle()
         val bottomBar = BottomNavBarStyle()
@@ -207,7 +210,8 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
         titleBar.titleBackgroundColor = background
         titleBar.isAlbumTitleRelativeLeft = true
         titleBar.titleAlbumBackgroundResource = com.luck.picture.lib.R.drawable.ps_album_bg
-        titleBar.titleDrawableRightResource = com.luck.picture.lib.R.drawable.ps_ic_grey_arrow
+        titleBar.titleDrawableRightResource =
+            com.luck.picture.lib.R.drawable.ps_ic_grey_arrow
         titleBar.previewTitleLeftBackResource = iconBack
         titleBar.titleLeftBackResource = iconBack
         titleBar.isHideCancelButton = true
@@ -232,8 +236,8 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
         bottomBar.isCompleteCountTips = false
         bottomBar.bottomOriginalTextSize = Constant.TOOLBAR_TEXT_SIZE
         bottomBar.bottomSelectNumTextSize = Constant.TOOLBAR_TEXT_SIZE
-        bottomBar.bottomPreviewNormalTextSize = Constant.TOOLBAR_TEXT_SIZE
-        bottomBar.bottomEditorTextSize = Constant.TOOLBAR_TEXT_SIZE
+//        bottomBar.bottomPreviewNormalTextSize = Constant.TOOLBAR_TEXT_SIZE
+//        bottomBar.bottomEditorTextSize = Constant.TOOLBAR_TEXT_SIZE
 
         // MAIN STYLE
         mainStyle.isCompleteSelectRelativeTop = false
@@ -272,34 +276,16 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
         style.windowAnimationStyle = animationStyle
     }
 
-    private fun handleSelectedAssets(options: ReadableMap?) {
-        if (options?.hasKey("selectedAssets")!!) {
-            val assetsType = options.getType("selectedAssets")
-            if (assetsType == ReadableType.Array) {
-                val assets: ReadableNativeArray =
-                    options.getArray("selectedAssets") as ReadableNativeArray
-                if (assets.size() > 0) {
-                    val list = mutableListOf<LocalMedia>()
-                    for (i in 0 until assets.size()) {
-                        val asset: ReadableNativeMap = assets.getMap(i)
-                        val localMedia: LocalMedia = handleSelectedAssetItem(asset)
-                        list.add(localMedia)
-                    }
-//                    selectedAssets = list
-                    return
-                }
+    private fun handleSelectedAssets(config: NitroConfig) {
+        val assets = config.selectedAssets
+        if (assets.isNotEmpty()) {
+            val assetIds = assets.map { it.localIdentifier }.toSet()
 
-//                selectedAssets = emptyList()
-            }
-            if (assetsType == ReadableType.Map) {
-                println("type Map")
-            }
+            dataList = dataList.filter { media ->
+                assetIds.contains(media.id.toString())
+            }.toMutableList()
         }
-    }
 
-    private fun handleSelectedAssetItem(asset: ReadableNativeMap): LocalMedia {
-        val path: String? = asset.getString("path")
-        return generateLocalMedia(appContext, path)
     }
 
     private fun getResult(item: LocalMedia): Result {
@@ -308,13 +294,23 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
             if (item.mimeType.startsWith("video/")) ResultType.VIDEO else ResultType.IMAGE
 
         var path = item.path
+
         var width: Double = item.width.toDouble()
         var height: Double = item.height.toDouble()
+        var crop: Crop? = null
 
         if (item.isCut) {
             path = "file://${item.cutPath}"
             width = item.cropImageWidth.toDouble()
             height = item.cropImageHeight.toDouble()
+
+            crop = Crop(
+                width = item.cropImageWidth.toDouble(),
+                height = item.cropImageWidth.toDouble(),
+                offsetX = item.cropOffsetX.toDouble(),
+                offsetY = item.cropOffsetY.toDouble(),
+                aspectRatio = item.cropResultAspectRatio.toDouble()
+            )
         }
 
 
@@ -328,12 +324,13 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
             size = item.size.toDouble(),
             bucketId = item.bucketId.toDouble(),
             realPath = item.realPath,
+            originalPath = item.path,
             parentFolderName = item.parentFolderName,
             creationDate = item.dateAddedTime.toDouble(),
             type,
             duration = item.duration.toDouble(),
             thumbnail = item.videoThumbnailPath,
-            crop = item.isCut
+            crop,
         )
 
         return media
@@ -342,7 +339,8 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
     private fun createThumbnail(filePath: String): String {
         val retriever = MediaMetadataRetriever()
         retriever.setDataSource(filePath)
-        val image = retriever.getFrameAtTime(1000000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
+        val image =
+            retriever.getFrameAtTime(1000000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
 
         val fullPath: String =
             reactApplicationContext.applicationContext.cacheDir.absolutePath.toString() + "/thumbnails"

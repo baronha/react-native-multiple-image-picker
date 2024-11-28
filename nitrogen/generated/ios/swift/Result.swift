@@ -18,7 +18,7 @@ public extension Result {
   /**
    * Create a new instance of `Result`.
    */
-  init(path: String, fileName: String, localIdentifier: String, width: Double, height: Double, mime: String, size: Double, bucketId: Double?, realPath: String?, parentFolderName: String?, creationDate: Double?, type: ResultType?, duration: Double?, thumbnail: String?, crop: Bool?) {
+  init(path: String, fileName: String, localIdentifier: String, width: Double, height: Double, mime: String, size: Double, bucketId: Double?, realPath: String?, originalPath: String, parentFolderName: String?, creationDate: Double?, type: ResultType?, duration: Double?, thumbnail: String?, crop: Crop?) {
     self.init(std.string(path), std.string(fileName), std.string(localIdentifier), width, height, std.string(mime), size, { () -> bridge.std__optional_double_ in
       if let __unwrappedValue = bucketId {
         return bridge.create_std__optional_double_(__unwrappedValue)
@@ -31,7 +31,7 @@ public extension Result {
       } else {
         return .init()
       }
-    }(), { () -> bridge.std__optional_std__string_ in
+    }(), std.string(originalPath), { () -> bridge.std__optional_std__string_ in
       if let __unwrappedValue = parentFolderName {
         return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
       } else {
@@ -61,9 +61,9 @@ public extension Result {
       } else {
         return .init()
       }
-    }(), { () -> bridge.std__optional_bool_ in
+    }(), { () -> bridge.std__optional_Crop_ in
       if let __unwrappedValue = crop {
-        return bridge.create_std__optional_bool_(__unwrappedValue)
+        return bridge.create_std__optional_Crop_(__unwrappedValue)
       } else {
         return .init()
       }
@@ -187,6 +187,17 @@ public extension Result {
     }
   }
   
+  var originalPath: String {
+    @inline(__always)
+    get {
+      return String(self.__originalPath)
+    }
+    @inline(__always)
+    set {
+      self.__originalPath = std.string(newValue)
+    }
+  }
+  
   var parentFolderName: String? {
     @inline(__always)
     get {
@@ -284,16 +295,22 @@ public extension Result {
     }
   }
   
-  var crop: Bool? {
+  var crop: Crop? {
     @inline(__always)
     get {
-      return self.__crop.value
+      return { () -> Crop? in
+        if let __unwrapped = self.__crop.value {
+          return __unwrapped
+        } else {
+          return nil
+        }
+      }()
     }
     @inline(__always)
     set {
-      self.__crop = { () -> bridge.std__optional_bool_ in
+      self.__crop = { () -> bridge.std__optional_Crop_ in
         if let __unwrappedValue = newValue {
-          return bridge.create_std__optional_bool_(__unwrappedValue)
+          return bridge.create_std__optional_Crop_(__unwrappedValue)
         } else {
           return .init()
         }
