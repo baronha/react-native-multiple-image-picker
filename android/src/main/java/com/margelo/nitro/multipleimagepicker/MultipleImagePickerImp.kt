@@ -268,13 +268,10 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
 
     private fun handleSelectedAssets(config: NitroConfig) {
         val assets = config.selectedAssets
-        if (assets.isNotEmpty()) {
-            val assetIds = assets.map { it.localIdentifier }.toSet()
-            dataList = dataList.filter { media ->
-                assetIds.contains(media.id.toString())
-            }.toMutableList()
-        }
-
+        val assetIds = assets.map { it.localIdentifier }.toSet()
+        dataList = dataList.filter { media ->
+            assetIds.contains(media.id.toString())
+        }.toMutableList()
     }
 
     private fun getResult(item: LocalMedia): Result {
