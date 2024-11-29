@@ -128,16 +128,8 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
 
                     localMedia.forEach { item ->
                         if (item != null) {
-                            val existingMedia = dataList.find { it.id == item.id }
-
-                            val media: Result =
-                                if (existingMedia != null && existingMedia.isCut == item.isCut) {
-                                    getResult(existingMedia)
-                                } else {
-                                    getResult(item)
-                                }
+                            val media = getResult(item)
                             data += media  // Add the media to the data array
-
                         }
                     }
 
@@ -181,8 +173,6 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
 
     private fun setStyle() {
         val primaryColor = ColorPropConverter.getColor(config.primaryColor, appContext)
-
-
         val isNumber =
             config.selectMode == SelectMode.MULTIPLE && config.selectBoxStyle == SelectBoxStyle.NUMBER
         val selectType =
@@ -280,7 +270,6 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
         val assets = config.selectedAssets
         if (assets.isNotEmpty()) {
             val assetIds = assets.map { it.localIdentifier }.toSet()
-
             dataList = dataList.filter { media ->
                 assetIds.contains(media.id.toString())
             }.toMutableList()
@@ -297,20 +286,11 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
 
         var width: Double = item.width.toDouble()
         var height: Double = item.height.toDouble()
-        var crop: Crop? = null
 
         if (item.isCut) {
             path = "file://${item.cutPath}"
             width = item.cropImageWidth.toDouble()
             height = item.cropImageHeight.toDouble()
-
-            crop = Crop(
-                width = item.cropImageWidth.toDouble(),
-                height = item.cropImageWidth.toDouble(),
-                offsetX = item.cropOffsetX.toDouble(),
-                offsetY = item.cropOffsetY.toDouble(),
-                aspectRatio = item.cropResultAspectRatio.toDouble()
-            )
         }
 
 
@@ -330,40 +310,10 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
             type,
             duration = item.duration.toDouble(),
             thumbnail = item.videoThumbnailPath,
-            crop,
+            crop = item.isCut
         )
 
         return media
-    }
-
-    private fun createThumbnail(filePath: String): String {
-        val retriever = MediaMetadataRetriever()
-        retriever.setDataSource(filePath)
-        val image =
-            retriever.getFrameAtTime(1000000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
-
-        val fullPath: String =
-            reactApplicationContext.applicationContext.cacheDir.absolutePath.toString() + "/thumbnails"
-        try {
-            val fileName = "thumb-" + UUID.randomUUID().toString() + ".jpeg"
-            val file = File(fullPath, fileName)
-            file.parentFile?.mkdirs()
-            file.createNewFile()
-            try {
-                val fos = FileOutputStream(file)
-                image?.compress(Bitmap.CompressFormat.JPEG, 80, fos)
-                fos.flush()
-                fos.close()
-
-            } catch (e: FileNotFoundException) {
-                e.printStackTrace()
-            }
-
-            return "file://$fullPath/$fileName"
-        } catch (e: Exception) {
-            println("Error: " + e.message)
-            return ""
-        }
     }
 
     override fun getAppContext(): Context {

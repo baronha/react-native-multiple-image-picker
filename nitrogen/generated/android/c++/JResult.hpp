@@ -10,8 +10,6 @@
 #include <fbjni/fbjni.h>
 #include "Result.hpp"
 
-#include "Crop.hpp"
-#include "JCrop.hpp"
 #include "JResultType.hpp"
 #include "ResultType.hpp"
 #include <optional>
@@ -65,8 +63,8 @@ namespace margelo::nitro::multipleimagepicker {
       jni::local_ref<jni::JDouble> duration = this->getFieldValue(fieldDuration);
       static const auto fieldThumbnail = clazz->getField<jni::JString>("thumbnail");
       jni::local_ref<jni::JString> thumbnail = this->getFieldValue(fieldThumbnail);
-      static const auto fieldCrop = clazz->getField<JCrop>("crop");
-      jni::local_ref<JCrop> crop = this->getFieldValue(fieldCrop);
+      static const auto fieldCrop = clazz->getField<jni::JBoolean>("crop");
+      jni::local_ref<jni::JBoolean> crop = this->getFieldValue(fieldCrop);
       return Result(
         path->toStdString(),
         fileName->toStdString(),
@@ -83,7 +81,7 @@ namespace margelo::nitro::multipleimagepicker {
         type != nullptr ? std::make_optional(type->toCpp()) : std::nullopt,
         duration != nullptr ? std::make_optional(duration->value()) : std::nullopt,
         thumbnail != nullptr ? std::make_optional(thumbnail->toStdString()) : std::nullopt,
-        crop != nullptr ? std::make_optional(crop->toCpp()) : std::nullopt
+        crop != nullptr ? std::make_optional(static_cast<bool>(crop->value())) : std::nullopt
       );
     }
 
@@ -109,7 +107,7 @@ namespace margelo::nitro::multipleimagepicker {
         value.type.has_value() ? JResultType::fromCpp(value.type.value()) : nullptr,
         value.duration.has_value() ? jni::JDouble::valueOf(value.duration.value()) : nullptr,
         value.thumbnail.has_value() ? jni::make_jstring(value.thumbnail.value()) : nullptr,
-        value.crop.has_value() ? JCrop::fromCpp(value.crop.value()) : nullptr
+        value.crop.has_value() ? jni::JBoolean::valueOf(value.crop.value()) : nullptr
       );
     }
   };

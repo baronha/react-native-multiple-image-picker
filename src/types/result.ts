@@ -1,11 +1,4 @@
 type ResultType = 'image' | 'video'
-export interface Crop {
-  width: number
-  height: number
-  offsetX: number
-  offsetY: number
-  aspectRatio: number
-}
 
 export interface Result {
   path: string
@@ -23,5 +16,5 @@ export interface Result {
   type?: ResultType
   duration?: number
   thumbnail?: string
-  crop?: Crop
+  crop?: boolean
 }

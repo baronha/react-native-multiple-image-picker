@@ -32,5 +32,5 @@ data class Result(
   val type: ResultType?,
   val duration: Double?,
   val thumbnail: String?,
-  val crop: Crop?
+  val crop: Boolean?
 )

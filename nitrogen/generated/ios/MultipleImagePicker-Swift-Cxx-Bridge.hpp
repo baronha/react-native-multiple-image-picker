@@ -8,8 +8,6 @@
 #pragma once
 
 // Forward declarations of C++ defined types
-// Forward declaration of `Crop` to properly resolve imports.
-namespace margelo::nitro::multipleimagepicker { struct Crop; }
 // Forward declaration of `HybridMultipleImagePickerSpec` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { class HybridMultipleImagePickerSpec; }
 // Forward declaration of `PickerCropConfig` to properly resolve imports.
@@ -28,7 +26,6 @@ namespace margelo::nitro::multipleimagepicker { enum class Theme; }
 namespace MultipleImagePicker { class HybridMultipleImagePickerSpecCxx; }
 
 // Include C++ defined types
-#include "Crop.hpp"
 #include "HybridMultipleImagePickerSpec.hpp"
 #include "PickerCropConfig.hpp"
 #include "Result.hpp"
@@ -74,13 +71,13 @@ namespace margelo::nitro::multipleimagepicker::bridge::swift {
     return std::optional<ResultType>(value);
   }
   
-  // pragma MARK: std::optional<Crop>
+  // pragma MARK: std::optional<bool>
   /**
-   * Specialized version of `std::optional<Crop>`.
+   * Specialized version of `std::optional<bool>`.
    */
-  using std__optional_Crop_ = std::optional<Crop>;
-  inline std::optional<Crop> create_std__optional_Crop_(const Crop& value) {
-    return std::optional<Crop>(value);
+  using std__optional_bool_ = std::optional<bool>;
+  inline std::optional<bool> create_std__optional_bool_(const bool& value) {
+    return std::optional<bool>(value);
   }
   
   // pragma MARK: std::vector<Result>
@@ -92,15 +89,6 @@ namespace margelo::nitro::multipleimagepicker::bridge::swift {
     std::vector<Result> vector;
     vector.reserve(size);
     return vector;
-  }
-  
-  // pragma MARK: std::optional<bool>
-  /**
-   * Specialized version of `std::optional<bool>`.
-   */
-  using std__optional_bool_ = std::optional<bool>;
-  inline std::optional<bool> create_std__optional_bool_(const bool& value) {
-    return std::optional<bool>(value);
   }
   
   // pragma MARK: std::optional<PickerCropConfig>
