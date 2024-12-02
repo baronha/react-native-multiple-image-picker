@@ -4557,13 +4557,13 @@ neo-async@^2.5.0:
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
 
-nitro-codegen@0.18.0:
-  version "0.18.0"
-  resolved "https://registry.yarnpkg.com/nitro-codegen/-/nitro-codegen-0.18.0.tgz#3928378613b23959a24c8b4e76cb58d730b037a7"
-  integrity sha512-ltYEo7BRD32GVim0Ta/UIygxe5pGM4fXSqHUpHoJMni4CW77rwJB5ZjbgtL5r3qibC6aUM0ATRKtYwyvaCG0lw==
+nitro-codegen@0.18.1:
+  version "0.18.1"
+  resolved "https://registry.yarnpkg.com/nitro-codegen/-/nitro-codegen-0.18.1.tgz#5f04829fda54028b5832f35abc432e577530b7c1"
+  integrity sha512-gDOHIIFFY89Ibo/Q8Dlzx4Rk9fCaGnby4Er5Dh1xV4J5hMqTfqo2VjG+RxScdUTYy/SKOc0UsB2faQybs5+GDw==
   dependencies:
     chalk "^5.3.0"
-    react-native-nitro-modules "^0.18.0"
+    react-native-nitro-modules "^0.18.1"
     ts-morph "^24.0.0"
     yargs "^17.7.2"
     zod "^3.23.8"
@@ -5074,10 +5074,10 @@ react-native-builder-bob@^0.30.0:
     which "^2.0.2"
     yargs "^17.5.1"
 
-react-native-nitro-modules@0.18.0, react-native-nitro-modules@^0.18.0:
-  version "0.18.0"
-  resolved "https://registry.yarnpkg.com/react-native-nitro-modules/-/react-native-nitro-modules-0.18.0.tgz#62f30088f370cd922e122e2dd64ca8fbca94e241"
-  integrity sha512-jhZdI1TduCb/1bXlV6rJLPQ1+bvoMQDkF+fRnxnD8az7grjqLj9WIdLEveIgtSArZkzK8WVknddyK7KthQXrbw==
+react-native-nitro-modules@0.18.1, react-native-nitro-modules@^0.18.1:
+  version "0.18.1"
+  resolved "https://registry.yarnpkg.com/react-native-nitro-modules/-/react-native-nitro-modules-0.18.1.tgz#2d0f695b5a5a6f1be87da158868c3ea984be5989"
+  integrity sha512-F1PA92N8Qv/0I3gKnUFU/eP2C16TSSWwuWuUJnVXX4pCrZztP6BHSvRAZj9WpwxytoKICjwgeVk8K//kvZDZAg==
 
 react-native@^0.75.2:
   version "0.75.4"

@@ -84,6 +84,7 @@ class HybridMultipleImagePicker: HybridMultipleImagePickerSpec {
                         group.enter()
 
                         let urlResult = try await response.urlResult(compression)
+
                         let resultData = self.getResult(response, urlResult.url)
 
                         data.append(resultData)

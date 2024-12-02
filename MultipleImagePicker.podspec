@@ -26,6 +26,7 @@ Pod::Spec.new do |s|
   s.dependency "HXPhotoPicker/Editor/Lite", "4.2.3"
 
   s.pod_target_xcconfig = {
+    # C++ compiler flags, mainly for folly.
     "GCC_PREPROCESSOR_DEFINITIONS" => "$(inherited) FOLLY_NO_CONFIG FOLLY_CFG_NO_COROUTINES"
   }
 
@@ -33,6 +34,9 @@ Pod::Spec.new do |s|
 
 
   add_nitrogen_files(s)
+
+  s.dependency 'React-jsi'
+  s.dependency 'React-callinvoker'
 
   install_modules_dependencies(s)
 end
