@@ -16,27 +16,30 @@ class HybridMultipleImagePicker: HybridMultipleImagePickerSpec {
         return getSizeOf(self)
     }
 
+    var selectedAssets: [PhotoAsset] = .init()
+
     var config = PickerConfiguration.default
 
     func openPicker(config: NitroConfig, resolved: @escaping (([Result]) -> Void), rejected: @escaping ((Double) -> Void)) throws {
         setConfig(config)
 
         // get selected photo
-        let seleted: [PhotoAsset] = config.selectedAssets.map { result in
-            let asset = PhotoAsset(localIdentifier: result.localIdentifier)
-
-            return asset
+        selectedAssets = selectedAssets.filter { asset in
+            config.selectedAssets.contains {
+                $0.localIdentifier == asset.phAsset?.localIdentifier
+            }
         }
 
         DispatchQueue.main.async {
             Photo.picker(
                 self.config,
-                selectedAssets: seleted
+                selectedAssets: self.selectedAssets
             ) { pickerResult, controller in
 
                 controller.autoDismiss = false
 
                 let imageQuality = config.imageQuality ?? 1.0
+
                 let videoQuality: Int = {
                     if let quality = config.videoQuality {
                         return Int(quality * 10)
@@ -79,21 +82,18 @@ class HybridMultipleImagePicker: HybridMultipleImagePickerSpec {
 
                 var data: [Result] = []
 
-                pickerResult.photoAssets.forEach { response in
-                    Task {
+                self.selectedAssets = pickerResult.photoAssets
+
+                Task {
+                    for response in pickerResult.photoAssets {
                         group.enter()
-
                         let urlResult = try await response.urlResult(compression)
-
                         let resultData = self.getResult(response, urlResult.url)
 
                         data.append(resultData)
-
                         group.leave()
                     }
-                }
 
-                group.notify(queue: .main) {
                     DispatchQueue.main.async {
                         alert.dismiss(animated: true) {
                             controller.dismiss(true)
@@ -128,6 +128,6 @@ extension UIAlertController {
 
         loadingIndicator.startAnimating()
 
-        self.view.addSubview(loadingIndicator)
+        view.addSubview(loadingIndicator)
     }
 }

@@ -29,7 +29,7 @@ data class Result(
   val originalPath: String,
   val parentFolderName: String?,
   val creationDate: Double?,
-  val type: ResultType?,
+  val type: ResultType,
   val duration: Double?,
   val thumbnail: String?,
   val crop: Boolean?

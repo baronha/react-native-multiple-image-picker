@@ -13,7 +13,7 @@ export interface Result {
   originalPath: string // without crop
   parentFolderName?: string
   creationDate?: number
-  type?: ResultType
+  type: ResultType
   duration?: number
   thumbnail?: string
   crop?: boolean

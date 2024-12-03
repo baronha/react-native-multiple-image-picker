@@ -22,7 +22,7 @@ extension HybridMultipleImagePicker {
             return ""
         }()
 
-//        let type: ResultType? = .init(fromString: asset.mediaType == .video ? "video" : "image") ?? nil
+        let type: ResultType = .init(fromString: asset.mediaType == .video ? "video" : "image")!
         let thumbnail = asset.phAsset?.getVideoThumbnail(from: url.absoluteString, in: 1)
 
         return Result(path: url.absoluteString,
@@ -37,7 +37,7 @@ extension HybridMultipleImagePicker {
                       originalPath: url.absoluteString,
                       parentFolderName: nil,
                       creationDate: creationDate > 0 ? Double(creationDate) : nil,
-//                      type: type,
+                      type: type,
                       duration: asset.videoDuration,
                       thumbnail: thumbnail,
                       crop: false)

@@ -78,7 +78,7 @@ namespace margelo::nitro::multipleimagepicker {
         originalPath->toStdString(),
         parentFolderName != nullptr ? std::make_optional(parentFolderName->toStdString()) : std::nullopt,
         creationDate != nullptr ? std::make_optional(creationDate->value()) : std::nullopt,
-        type != nullptr ? std::make_optional(type->toCpp()) : std::nullopt,
+        type->toCpp(),
         duration != nullptr ? std::make_optional(duration->value()) : std::nullopt,
         thumbnail != nullptr ? std::make_optional(thumbnail->toStdString()) : std::nullopt,
         crop != nullptr ? std::make_optional(static_cast<bool>(crop->value())) : std::nullopt
@@ -104,7 +104,7 @@ namespace margelo::nitro::multipleimagepicker {
         jni::make_jstring(value.originalPath),
         value.parentFolderName.has_value() ? jni::make_jstring(value.parentFolderName.value()) : nullptr,
         value.creationDate.has_value() ? jni::JDouble::valueOf(value.creationDate.value()) : nullptr,
-        value.type.has_value() ? JResultType::fromCpp(value.type.value()) : nullptr,
+        JResultType::fromCpp(value.type),
         value.duration.has_value() ? jni::JDouble::valueOf(value.duration.value()) : nullptr,
         value.thumbnail.has_value() ? jni::make_jstring(value.thumbnail.value()) : nullptr,
         value.crop.has_value() ? jni::JBoolean::valueOf(value.crop.value()) : nullptr
