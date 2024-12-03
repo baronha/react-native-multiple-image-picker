@@ -44,7 +44,7 @@ export async function openPicker<T extends Config>(
 
 const DEFAULT_COUNT = 20
 
-const defaultOptions: Config = {
+export const defaultOptions: Config = {
   maxPhoto: DEFAULT_COUNT,
   maxSelect: DEFAULT_COUNT,
   maxVideo: DEFAULT_COUNT,
@@ -52,7 +52,7 @@ const defaultOptions: Config = {
   maxFileSize: 0,
 
   primaryColor: '#FB9300',
-  backgroundDark: '#333333',
+  backgroundDark: '#2f2f2f',
   allowedCamera: true,
   allowedLimit: true,
   numberOfColumn: 3,

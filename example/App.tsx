@@ -16,7 +16,13 @@ import { SafeAreaView } from 'react-native'
 
 import { StyleSheet } from 'react-native'
 import ImageGrid from '@baronha/react-native-image-grid'
-import { openPicker, Result } from '@baronha/react-native-multiple-image-picker'
+import {
+  openPicker,
+  Result,
+  defaultOptions,
+  Config,
+} from '@baronha/react-native-multiple-image-picker'
+import { useImmer } from 'use-immer'
 
 LogBox.ignoreAllLogs()
 
@@ -40,6 +46,7 @@ const { width } = Dimensions.get('window')
 
 export default function App() {
   const [images, setImages] = useState<Result[]>([])
+  const [options, setOptions] = useImmer<Config>(defaultOptions)
 
   const onPressImage = (item: Result, index: number) => {
     console.log(item, index)
@@ -48,12 +55,9 @@ export default function App() {
   const onPicker = async () => {
     try {
       const response = await openPicker({
-        selectBoxStyle: 'number',
+        ...options,
         selectedAssets: Array.isArray(images) ? images : [images],
-        text: {},
-        crop: {
-          circle: true,
-        },
+        theme: 'light',
       })
 
       console.log('response: ', response)
@@ -95,7 +99,7 @@ export default function App() {
         </View>
       </ScrollView>
       <View style={style.header}>
-        <StatusBar barStyle={'light-content'} backgroundColor={'#000'} />
+        {/* <StatusBar barStyle={'light-content'} backgroundColor={'#000'} /> */}
         <SafeAreaView />
         <Text style={style.title}>PICKER</Text>
       </View>

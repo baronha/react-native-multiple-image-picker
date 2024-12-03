@@ -18,7 +18,7 @@ class HybridMultipleImagePicker: HybridMultipleImagePickerSpec {
 
     var selectedAssets: [PhotoAsset] = .init()
 
-    var config = PickerConfiguration.default
+    var config: PickerConfiguration = .init()
 
     func openPicker(config: NitroConfig, resolved: @escaping (([Result]) -> Void), rejected: @escaping ((Double) -> Void)) throws {
         setConfig(config)
@@ -60,8 +60,7 @@ class HybridMultipleImagePicker: HybridMultipleImagePickerSpec {
                             photoAsset.editedResult = .some(result)
 
                             Task {
-                                let urlResult = try await photoAsset.urlResult(compression)
-                                let resultData = self.getResult(photoAsset, urlResult.url)
+                                let resultData = try await self.getResult(photoAsset, compression)
 
                                 DispatchQueue.main.async {
                                     resolved([resultData])
@@ -88,8 +87,8 @@ class HybridMultipleImagePicker: HybridMultipleImagePickerSpec {
                 Task {
                     for response in pickerResult.photoAssets {
                         group.enter()
-                        let urlResult = try await response.urlResult(compression)
-                        let resultData = self.getResult(response, urlResult.url)
+
+                        let resultData = try await self.getResult(response, compression)
 
                         data.append(resultData)
                         group.leave()

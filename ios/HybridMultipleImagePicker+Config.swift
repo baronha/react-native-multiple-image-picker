@@ -13,6 +13,8 @@ import UIKit
 
 extension HybridMultipleImagePicker {
     func setConfig(_ options: NitroConfig) {
+        config = PickerConfiguration.default
+
         var photoList = config.photoList
         var previewView = config.previewView
 
@@ -69,9 +71,6 @@ extension HybridMultipleImagePicker {
 
         previewView.disableFinishButtonWhenNotSelected = false
 
-        config.photoList = photoList
-        config.previewView = previewView
-
         if let selectMode = PickerSelectMode(rawValue: Int(options.selectMode.rawValue)) {
             config.selectMode = selectMode
         }
@@ -97,19 +96,17 @@ extension HybridMultipleImagePicker {
 
         config.allowCustomTransitionAnimation = true
 
-        config.isSelectedOriginal = true
+        config.isSelectedOriginal = false
 
 //        config.isFetchDeatilsAsset = true
 
-        config.navigationTitleColor = .systemBackground
-
         let isPreview = options.isPreview ?? true
 
-        config.previewView.bottomView.isShowPreviewList = isPreview
-        config.photoList.bottomView.isHiddenPreviewButton = !isPreview
-        config.photoList.allowHapticTouchPreview = !isPreview
-        config.photoList.bottomView.previewListTickColor = .clear
-        config.photoList.bottomView.isShowSelectedView = isPreview
+        previewView.bottomView.isShowPreviewList = isPreview
+        photoList.bottomView.isHiddenPreviewButton = !isPreview
+        photoList.allowHapticTouchPreview = !isPreview
+        photoList.bottomView.previewListTickColor = .clear
+        photoList.bottomView.isShowSelectedView = isPreview
 
         if isPreview {
             config.videoSelectionTapAction = .preview
@@ -142,12 +139,16 @@ extension HybridMultipleImagePicker {
             config.editor = editor
 
         } else {
-            config.previewView.bottomView.isHiddenEditButton = true
+            previewView.bottomView.isHiddenEditButton = true
         }
 
-        config.photoList.finishSelectionAfterTakingPhoto = true
+        photoList.finishSelectionAfterTakingPhoto = true
+
+        config.photoList = photoList
+        config.previewView = previewView
 
         setLanguage(options)
+        setTheme(options)
 
         switch Int(options.presentation.rawValue) {
         case 1:
@@ -155,13 +156,58 @@ extension HybridMultipleImagePicker {
         default:
             config.modalPresentationStyle = .fullScreen
         }
+    }
+
+    private func setTheme(_ options: NitroConfig) {
+        let isDark = options.theme == Theme.dark
+
+        // custom background dark
+        if let background = options.backgroundDark, let backgroundDark = getReactColor(Int(background)), isDark {
+            config.photoList.backgroundDarkColor = backgroundDark
+            config.photoList.backgroundColor = backgroundDark
+        }
+
+        config.navigationTitleColor = .white
+        config.photoList.titleView.arrow.arrowColor = .white
+        config.photoList.cell.customSelectableCellClass = nil
+
+        // LIGHT THEME
+        if isDark {
+//            config.appearanceStyle = .dark
+//            config.photoList.titleView.backgroundColor = UIColor.white.withAlphaComponent(0.5)
+        } else {
+            let background = UIColor.white
+            let barStyle = UIBarStyle.default
+
+            config.statusBarStyle = .darkContent
+            config.appearanceStyle = .normal
+            config.photoList.bottomView.barStyle = barStyle
+            config.navigationBarStyle = barStyle
+            config.previewView.bottomView.barStyle = barStyle
+            config.previewView.backgroundColor = background
+            config.previewView.bottomView.backgroundColor = background
+
+            config.photoList.cancelImageName = "close.png"
+
+            config.photoList.backgroundColor = .white
+            config.photoList.emptyView.titleColor = .black
+            config.photoList.emptyView.subTitleColor = .darkGray
+            config.photoList.titleView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+
+            config.albumList.backgroundColor = .white
+            config.albumList.cellBackgroundColor = .white
+            config.albumList.albumNameColor = .black
+            config.albumList.photoCountColor = .black
+            config.albumList.cellSelectedColor = "#e1e1e1".hx.color
+            config.albumList.separatorLineColor = "#e1e1e1".hx.color
+        }
 
         if let primaryColor = options.primaryColor, let color = getReactColor(Int(primaryColor)) {
             config.setThemeColor(color)
         }
     }
 
-    func setLanguage(_ options: NitroConfig) {
+    private func setLanguage(_ options: NitroConfig) {
         if let text = options.text {
             if let finish = text.finish {
                 config.textManager.picker.photoList.bottomView.finishTitle = .custom(finish)
