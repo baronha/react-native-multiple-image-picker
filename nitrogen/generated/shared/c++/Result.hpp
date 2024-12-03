@@ -41,7 +41,6 @@ namespace margelo::nitro::multipleimagepicker {
     double size     SWIFT_PRIVATE;
     std::optional<double> bucketId     SWIFT_PRIVATE;
     std::optional<std::string> realPath     SWIFT_PRIVATE;
-    std::string originalPath     SWIFT_PRIVATE;
     std::optional<std::string> parentFolderName     SWIFT_PRIVATE;
     std::optional<double> creationDate     SWIFT_PRIVATE;
     ResultType type     SWIFT_PRIVATE;
@@ -50,7 +49,7 @@ namespace margelo::nitro::multipleimagepicker {
     std::optional<bool> crop     SWIFT_PRIVATE;
 
   public:
-    explicit Result(std::string path, std::string fileName, std::string localIdentifier, double width, double height, std::string mime, double size, std::optional<double> bucketId, std::optional<std::string> realPath, std::string originalPath, std::optional<std::string> parentFolderName, std::optional<double> creationDate, ResultType type, std::optional<double> duration, std::optional<std::string> thumbnail, std::optional<bool> crop): path(path), fileName(fileName), localIdentifier(localIdentifier), width(width), height(height), mime(mime), size(size), bucketId(bucketId), realPath(realPath), originalPath(originalPath), parentFolderName(parentFolderName), creationDate(creationDate), type(type), duration(duration), thumbnail(thumbnail), crop(crop) {}
+    explicit Result(std::string path, std::string fileName, std::string localIdentifier, double width, double height, std::string mime, double size, std::optional<double> bucketId, std::optional<std::string> realPath, std::optional<std::string> parentFolderName, std::optional<double> creationDate, ResultType type, std::optional<double> duration, std::optional<std::string> thumbnail, std::optional<bool> crop): path(path), fileName(fileName), localIdentifier(localIdentifier), width(width), height(height), mime(mime), size(size), bucketId(bucketId), realPath(realPath), parentFolderName(parentFolderName), creationDate(creationDate), type(type), duration(duration), thumbnail(thumbnail), crop(crop) {}
   };
 
 } // namespace margelo::nitro::multipleimagepicker
@@ -74,7 +73,6 @@ namespace margelo::nitro {
         JSIConverter<double>::fromJSI(runtime, obj.getProperty(runtime, "size")),
         JSIConverter<std::optional<double>>::fromJSI(runtime, obj.getProperty(runtime, "bucketId")),
         JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "realPath")),
-        JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "originalPath")),
         JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "parentFolderName")),
         JSIConverter<std::optional<double>>::fromJSI(runtime, obj.getProperty(runtime, "creationDate")),
         JSIConverter<ResultType>::fromJSI(runtime, obj.getProperty(runtime, "type")),
@@ -94,7 +92,6 @@ namespace margelo::nitro {
       obj.setProperty(runtime, "size", JSIConverter<double>::toJSI(runtime, arg.size));
       obj.setProperty(runtime, "bucketId", JSIConverter<std::optional<double>>::toJSI(runtime, arg.bucketId));
       obj.setProperty(runtime, "realPath", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.realPath));
-      obj.setProperty(runtime, "originalPath", JSIConverter<std::string>::toJSI(runtime, arg.originalPath));
       obj.setProperty(runtime, "parentFolderName", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.parentFolderName));
       obj.setProperty(runtime, "creationDate", JSIConverter<std::optional<double>>::toJSI(runtime, arg.creationDate));
       obj.setProperty(runtime, "type", JSIConverter<ResultType>::toJSI(runtime, arg.type));
@@ -117,7 +114,6 @@ namespace margelo::nitro {
       if (!JSIConverter<double>::canConvert(runtime, obj.getProperty(runtime, "size"))) return false;
       if (!JSIConverter<std::optional<double>>::canConvert(runtime, obj.getProperty(runtime, "bucketId"))) return false;
       if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, "realPath"))) return false;
-      if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "originalPath"))) return false;
       if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, "parentFolderName"))) return false;
       if (!JSIConverter<std::optional<double>>::canConvert(runtime, obj.getProperty(runtime, "creationDate"))) return false;
       if (!JSIConverter<ResultType>::canConvert(runtime, obj.getProperty(runtime, "type"))) return false;

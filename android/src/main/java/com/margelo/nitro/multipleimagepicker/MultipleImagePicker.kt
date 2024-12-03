@@ -12,7 +12,6 @@ class MultipleImagePicker: HybridMultipleImagePickerSpec() {
 
     private val pickerModule = MultipleImagePickerImp(NitroModules.applicationContext)
 
-
     override fun openPicker(
         config: NitroConfig,
         resolved: (result: Array<Result>) -> Unit,

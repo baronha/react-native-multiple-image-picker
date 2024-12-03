@@ -34,7 +34,6 @@ extension HybridMultipleImagePicker {
                       size: Double(asset.fileSize),
                       bucketId: nil,
                       realPath: nil,
-                      originalPath: url.absoluteString,
                       parentFolderName: nil,
                       creationDate: creationDate > 0 ? Double(creationDate) : nil,
                       type: type,

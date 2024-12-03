@@ -301,7 +301,6 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
             size = item.size.toDouble(),
             bucketId = item.bucketId.toDouble(),
             realPath = item.realPath,
-            originalPath = item.path,
             parentFolderName = item.parentFolderName,
             creationDate = item.dateAddedTime.toDouble(),
             type,

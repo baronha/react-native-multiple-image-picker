@@ -10,7 +10,6 @@ export interface Result {
   size: number
   bucketId?: number
   realPath?: string
-  originalPath: string // without crop
   parentFolderName?: string
   creationDate?: number
   type: ResultType

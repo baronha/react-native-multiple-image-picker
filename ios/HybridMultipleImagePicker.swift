@@ -38,6 +38,7 @@ class HybridMultipleImagePicker: HybridMultipleImagePickerSpec {
 
                 controller.autoDismiss = false
 
+                //
                 let imageQuality = config.imageQuality ?? 1.0
 
                 let videoQuality: Int = {
@@ -103,11 +104,7 @@ class HybridMultipleImagePicker: HybridMultipleImagePickerSpec {
                 }
 
             } cancel: { cancel in
-
                 cancel.autoDismiss = true
-
-                // Cancelled callback
-                // photoPickerController Corresponding photo selection controller
             }
         }
     }

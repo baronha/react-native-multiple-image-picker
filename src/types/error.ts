@@ -1,3 +1,3 @@
-// export enum MultipleImagePickerError {
-//   CANCELLED,
-// }
+export enum MultipleImagePickerError {
+  CANCELLED = 0,
+}

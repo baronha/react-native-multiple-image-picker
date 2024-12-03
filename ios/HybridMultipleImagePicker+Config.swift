@@ -16,8 +16,6 @@ extension HybridMultipleImagePicker {
         var photoList = config.photoList
         var previewView = config.previewView
 
-        // photo list
-
         if let spacing = options.spacing { photoList.spacing = spacing }
         if let rowNumber = options.numberOfColumn { photoList.rowNumber = Int(rowNumber) }
 

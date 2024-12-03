@@ -51,8 +51,6 @@ namespace margelo::nitro::multipleimagepicker {
       jni::local_ref<jni::JDouble> bucketId = this->getFieldValue(fieldBucketId);
       static const auto fieldRealPath = clazz->getField<jni::JString>("realPath");
       jni::local_ref<jni::JString> realPath = this->getFieldValue(fieldRealPath);
-      static const auto fieldOriginalPath = clazz->getField<jni::JString>("originalPath");
-      jni::local_ref<jni::JString> originalPath = this->getFieldValue(fieldOriginalPath);
       static const auto fieldParentFolderName = clazz->getField<jni::JString>("parentFolderName");
       jni::local_ref<jni::JString> parentFolderName = this->getFieldValue(fieldParentFolderName);
       static const auto fieldCreationDate = clazz->getField<jni::JDouble>("creationDate");
@@ -75,7 +73,6 @@ namespace margelo::nitro::multipleimagepicker {
         size,
         bucketId != nullptr ? std::make_optional(bucketId->value()) : std::nullopt,
         realPath != nullptr ? std::make_optional(realPath->toStdString()) : std::nullopt,
-        originalPath->toStdString(),
         parentFolderName != nullptr ? std::make_optional(parentFolderName->toStdString()) : std::nullopt,
         creationDate != nullptr ? std::make_optional(creationDate->value()) : std::nullopt,
         type->toCpp(),
@@ -101,7 +98,6 @@ namespace margelo::nitro::multipleimagepicker {
         value.size,
         value.bucketId.has_value() ? jni::JDouble::valueOf(value.bucketId.value()) : nullptr,
         value.realPath.has_value() ? jni::make_jstring(value.realPath.value()) : nullptr,
-        jni::make_jstring(value.originalPath),
         value.parentFolderName.has_value() ? jni::make_jstring(value.parentFolderName.value()) : nullptr,
         value.creationDate.has_value() ? jni::JDouble::valueOf(value.creationDate.value()) : nullptr,
         JResultType::fromCpp(value.type),
