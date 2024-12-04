@@ -167,10 +167,6 @@ extension HybridMultipleImagePicker {
             config.photoList.backgroundColor = backgroundDark
         }
 
-        config.navigationTitleColor = .white
-        config.photoList.titleView.arrow.arrowColor = .white
-        config.photoList.cell.customSelectableCellClass = nil
-
         // LIGHT THEME
         if isDark {
 //            config.appearanceStyle = .dark
@@ -187,7 +183,7 @@ extension HybridMultipleImagePicker {
             config.previewView.backgroundColor = background
             config.previewView.bottomView.backgroundColor = background
 
-            config.photoList.cancelImageName = "close.png"
+            config.photoList.leftNavigationItems = [PhotoCancelItem.self]
 
             config.photoList.backgroundColor = .white
             config.photoList.emptyView.titleColor = .black
@@ -205,6 +201,10 @@ extension HybridMultipleImagePicker {
         if let primaryColor = options.primaryColor, let color = getReactColor(Int(primaryColor)) {
             config.setThemeColor(color)
         }
+
+        config.navigationTitleColor = .white
+        config.photoList.titleView.arrow.arrowColor = .white
+        config.photoList.cell.customSelectableCellClass = nil
     }
 
     private func setLanguage(_ options: NitroConfig) {

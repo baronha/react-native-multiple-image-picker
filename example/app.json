@@ -33,7 +33,9 @@
       [
         "expo-build-properties",
         {
-          "ios": {},
+          "ios": {
+            "deploymentTarget": "14.0"
+          },
           "android": {
             "compileSdkVersion": 34,
             "targetSdkVersion": 34,
@@ -41,10 +43,6 @@
           }
         }
       ]
-    ],
-
-    "web": {
-      "favicon": "./assets/favicon.png"
-    }
+    ]
   }
 }

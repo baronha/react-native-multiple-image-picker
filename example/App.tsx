@@ -6,13 +6,12 @@ import {
   Text,
   UIManager,
   LogBox,
+  SafeAreaView,
 } from 'react-native'
 import { TouchableOpacity } from 'react-native'
 import { ScrollView } from 'react-native'
 import { View } from 'react-native'
 import { Dimensions } from 'react-native'
-import { StatusBar } from 'react-native'
-import { SafeAreaView } from 'react-native'
 
 import { StyleSheet } from 'react-native'
 import ImageGrid from '@baronha/react-native-image-grid'
@@ -31,7 +30,7 @@ UIManager.setLayoutAnimationEnabledExperimental &&
 
 const layoutEffect = () => {
   LayoutAnimation.configureNext({
-    duration: 300,
+    duration: 350,
     create: {
       type: LayoutAnimation.Types.easeInEaseOut,
       property: LayoutAnimation.Properties.opacity,
@@ -60,8 +59,6 @@ export default function App() {
         theme: 'light',
       })
 
-      console.log('response: ', response)
-
       setImages(Array.isArray(response) ? response : [response])
       layoutEffect()
     } catch (e) {
@@ -72,12 +69,12 @@ export default function App() {
   const onRemovePhoto = (_: Result, index: number) => {
     const data = [...images].filter((_, idx) => idx !== index)
     setImages(data)
-    layoutEffect()
   }
 
   return (
     <View style={style.container}>
-      <ScrollView contentContainerStyle={{ paddingTop: 132 }}>
+      <SafeAreaView />
+      <ScrollView>
         <View style={{ alignItems: 'center' }}>
           <ImageGrid
             dataImage={images}
@@ -98,11 +95,6 @@ export default function App() {
           </TouchableOpacity>
         </View>
       </ScrollView>
-      <View style={style.header}>
-        {/* <StatusBar barStyle={'light-content'} backgroundColor={'#000'} /> */}
-        <SafeAreaView />
-        <Text style={style.title}>PICKER</Text>
-      </View>
     </View>
   )
 }

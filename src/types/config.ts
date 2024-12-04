@@ -87,6 +87,7 @@ export interface NitroConfig {
 
   backgroundDark?: number
 
+
   presentation: Presentation
 
   crop?: PickerCropConfig

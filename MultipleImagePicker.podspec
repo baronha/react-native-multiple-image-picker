@@ -15,12 +15,17 @@ Pod::Spec.new do |s|
 
   s.source_files = [
     # Implementation (Swift)
-    "ios/**/*.{swift,bundle}",
+    "ios/**/*.{swift}",
     # Autolinking/Registration (Objective-C++)
     "ios/**/*.{m,mm}",
     # Implementation (C++ objects)
     "cpp/**/*.{hpp,cpp}",
   ]
+
+  s.resource_bundles = {
+    "MultipleImagePicker" => ["ios/Assets.xcassets"]
+  }
+
 
   s.dependency "HXPhotoPicker/Picker/Lite", "4.2.3"
   s.dependency "HXPhotoPicker/Editor/Lite", "4.2.3"
