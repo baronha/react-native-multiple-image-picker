@@ -88,6 +88,10 @@ extension HybridMultipleImagePicker {
             config.maximumSelectedVideoDuration = Int(maxVideoDuration)
         }
 
+        if let maxSelect = options.maxSelect {
+            config.maximumSelectedCount = Int(maxSelect)
+        }
+
         config.allowSyncICloudWhenSelectPhoto = true
 
         config.allowCustomTransitionAnimation = true

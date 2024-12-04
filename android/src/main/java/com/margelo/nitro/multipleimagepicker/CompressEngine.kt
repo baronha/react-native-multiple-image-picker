@@ -11,7 +11,8 @@ import top.zibin.luban.Luban
 import top.zibin.luban.OnNewCompressListener
 import java.io.File
 
-class ImageFileCompressEngine : CompressFileEngine {
+//TODO:
+class CompressEngine : CompressFileEngine {
     override fun onStartCompress(
         context: Context,
         source: ArrayList<Uri>,

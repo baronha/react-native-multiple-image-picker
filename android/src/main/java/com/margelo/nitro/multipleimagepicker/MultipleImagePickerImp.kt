@@ -1,9 +1,7 @@
 package com.margelo.nitro.multipleimagepicker
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.Color
-import android.media.MediaMetadataRetriever
 import androidx.core.content.ContextCompat
 import com.facebook.react.bridge.ColorPropConverter
 import com.facebook.react.bridge.ReactApplicationContext
@@ -17,7 +15,6 @@ import com.luck.picture.lib.config.SelectMimeType
 import com.luck.picture.lib.config.SelectModeConfig
 import com.luck.picture.lib.engine.PictureSelectorEngine
 import com.luck.picture.lib.entity.LocalMedia
-import com.luck.picture.lib.entity.LocalMedia.generateLocalMedia
 import com.luck.picture.lib.interfaces.OnMediaEditInterceptListener
 import com.luck.picture.lib.interfaces.OnResultCallbackListener
 import com.luck.picture.lib.language.LanguageConfig
@@ -28,10 +25,6 @@ import com.luck.picture.lib.style.SelectMainStyle
 import com.luck.picture.lib.style.TitleBarStyle
 import com.luck.picture.lib.utils.DensityUtil
 import com.yalantis.ucrop.UCrop.Options
-import java.io.File
-import java.io.FileNotFoundException
-import java.io.FileOutputStream
-import java.util.UUID
 
 class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
     ReactContextBaseJavaModule(reactContext), IApp {
@@ -79,6 +72,8 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
         val maxFileSize = config.maxFileSize?.toLong()
         val maxDuration = config.maxVideoDuration?.toInt()
         val allowSwipeToSelect = config.allowSwipeToSelect ?: false
+        val imageQuality = config.imageQuality
+        val videoQuality = config.videoQuality
 
         val isMultiple = config.selectMode == SelectMode.MULTIPLE
         val selectMode = if (isMultiple) SelectModeConfig.MULTIPLE else SelectModeConfig.SINGLE
@@ -86,7 +81,10 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
 
         val isCrop = config.crop != null
 
-        PictureSelector.create(activity).openGallery(chooseMode).setImageEngine(imageEngine)
+        PictureSelector.create(activity)
+            .openGallery(chooseMode)
+            .setImageEngine(imageEngine)
+            .setSelectedData(dataList)
             .setSelectorUIStyle(style).apply {
                 if (isCrop) {
                     setCropOption()
@@ -100,13 +98,31 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
                 maxFileSize?.let {
                     setFilterMaxFileSize(it)
                 }
-            }.setImageSpanCount(config.numberOfColumn?.toInt() ?: 3).setMaxSelectNum(maxSelect)
-            .isDirectReturnSingle(true).isSelectZoomAnim(true).isPageStrategy(true, 50)
+
+                //TODO: set compress export
+//                if (imageQuality != null && imageQuality != 1.0) {
+//                    setCompressEngine(CompressEngine())
+//                }
+
+                if (videoQuality != null && videoQuality != 1.0) {
+                    setVideoQuality(if (videoQuality > 0.5) 1 else 0)
+                }
+            }
+            .setImageSpanCount(config.numberOfColumn?.toInt() ?: 3)
+            .setMaxSelectNum(maxSelect)
+            .isDirectReturnSingle(true)
+            .isSelectZoomAnim(true)
+            .isPageStrategy(true, 50)
             .isWithSelectVideoImage(true)
             .setMaxVideoSelectNum(if (maxVideo != 20) maxVideo else maxSelect)
-            .isMaxSelectEnabledMask(true).isAutoVideoPlay(true)
-            .isFastSlidingSelect(allowSwipeToSelect).isPageSyncAlbumCount(true)
-            .setSelectedData(dataList).isPreviewImage(isPreview).isPreviewVideo(isPreview)
+            .isMaxSelectEnabledMask(true)
+            .isAutoVideoPlay(true)
+            .isFastSlidingSelect(allowSwipeToSelect)
+            .isPageSyncAlbumCount(true)
+            // isPreview
+            .isPreviewImage(isPreview)
+            .isPreviewVideo(isPreview)
+            //
             .isDisplayCamera(config.allowedCamera ?: true)
             .isDisplayTimeAxis(true)
             .setSelectionMode(selectMode)
@@ -120,8 +136,10 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
                         resolved(arrayOf())
                         return
                     }
+
                     // set dataList
                     dataList = localMedia.filterNotNull().toMutableList()
+
                     localMedia.forEach { item ->
                         if (item != null) {
                             val media = getResult(item)
@@ -227,7 +245,8 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
         mainStyle.statusBarColor = background
         mainStyle.mainListBackgroundColor = background
         mainStyle.adapterPreviewGalleryItemSize = DensityUtil.dip2px(appContext, 52f);
-        mainStyle.adapterPreviewGalleryBackgroundResource = R.drawable.preview_gallery_bg
+        mainStyle.adapterPreviewGalleryBackgroundResource =
+            if (isDark) com.luck.picture.lib.R.drawable.ps_preview_gallery_bg else R.drawable.preview_gallery_white_bg
         mainStyle.adapterPreviewGalleryFrameResource = R.drawable.preview_gallery_item
         mainStyle.previewBackgroundColor = background
 
@@ -240,8 +259,6 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
         // MAIN STYLE
         mainStyle.isCompleteSelectRelativeTop = false
         mainStyle.isPreviewDisplaySelectGallery = true
-        mainStyle.adapterPreviewGalleryBackgroundResource =
-            com.luck.picture.lib.R.drawable.ps_preview_gallery_bg
         mainStyle.isAdapterItemIncludeEdge = true
         mainStyle.isPreviewSelectRelativeBottom = false
 //        mainStyle.previewSelectTextSize = Constant.TOOLBAR_TEXT_SIZE
@@ -309,7 +326,6 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
             width = item.cropImageWidth.toDouble()
             height = item.cropImageHeight.toDouble()
         }
-
 
         val media = Result(
             path,

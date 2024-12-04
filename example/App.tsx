@@ -57,10 +57,10 @@ export default function App() {
       const response = await openPicker({
         ...options,
         selectedAssets: Array.isArray(images) ? images : [images],
-        theme: 'dark',
+        theme: 'light',
         language: 'vi',
-        imageQuality: 0.4,
-        videoQuality: 0.2,
+        imageQuality: 0.1,
+        videoQuality: 0.1,
         crop: {
           //
         },
@@ -71,6 +71,8 @@ export default function App() {
         //   edit: 'Edit ne',
         // },
       })
+
+      console.log('response: ', response)
 
       setImages(Array.isArray(response) ? response : [response])
       layoutEffect()

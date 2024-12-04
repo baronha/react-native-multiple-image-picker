@@ -30,6 +30,10 @@ export async function openPicker<T extends Config>(
       config.theme = theme
     }
 
+    if (config?.language && !LANGUAGES.includes(config.language)) {
+      config.language = 'system'
+    }
+
     return Picker.openPicker(
       config,
       (result: Result[]) => {
@@ -47,9 +51,6 @@ const DEFAULT_COUNT = 20
 export const defaultOptions: Config = {
   maxSelect: DEFAULT_COUNT,
   maxVideo: DEFAULT_COUNT,
-
-  maxFileSize: 0,
-
   primaryColor: '#FB9300',
   backgroundDark: '#2f2f2f',
   allowedCamera: true,
@@ -66,3 +67,19 @@ export const defaultOptions: Config = {
   theme: 'system',
   isHiddenOriginalButton: false,
 }
+
+const LANGUAGES = [
+  'system',
+  'zh-Hans',
+  'zh-Hant',
+  'ja',
+  'ko',
+  'en',
+  'th',
+  'id',
+  'vi',
+  'ru',
+  'de',
+  'fr',
+  'ar',
+] as const
