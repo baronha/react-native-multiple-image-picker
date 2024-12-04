@@ -37,10 +37,13 @@ namespace margelo::nitro::multipleimagepicker {
       jni::local_ref<jni::JString> original = this->getFieldValue(fieldOriginal);
       static const auto fieldPreview = clazz->getField<jni::JString>("preview");
       jni::local_ref<jni::JString> preview = this->getFieldValue(fieldPreview);
+      static const auto fieldEdit = clazz->getField<jni::JString>("edit");
+      jni::local_ref<jni::JString> edit = this->getFieldValue(fieldEdit);
       return Text(
         finish != nullptr ? std::make_optional(finish->toStdString()) : std::nullopt,
         original != nullptr ? std::make_optional(original->toStdString()) : std::nullopt,
-        preview != nullptr ? std::make_optional(preview->toStdString()) : std::nullopt
+        preview != nullptr ? std::make_optional(preview->toStdString()) : std::nullopt,
+        edit != nullptr ? std::make_optional(edit->toStdString()) : std::nullopt
       );
     }
 
@@ -53,7 +56,8 @@ namespace margelo::nitro::multipleimagepicker {
       return newInstance(
         value.finish.has_value() ? jni::make_jstring(value.finish.value()) : nullptr,
         value.original.has_value() ? jni::make_jstring(value.original.value()) : nullptr,
-        value.preview.has_value() ? jni::make_jstring(value.preview.value()) : nullptr
+        value.preview.has_value() ? jni::make_jstring(value.preview.value()) : nullptr,
+        value.edit.has_value() ? jni::make_jstring(value.edit.value()) : nullptr
       );
     }
   };

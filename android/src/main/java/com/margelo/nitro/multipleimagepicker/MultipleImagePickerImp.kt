@@ -20,6 +20,7 @@ import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.entity.LocalMedia.generateLocalMedia
 import com.luck.picture.lib.interfaces.OnMediaEditInterceptListener
 import com.luck.picture.lib.interfaces.OnResultCallbackListener
+import com.luck.picture.lib.language.LanguageConfig
 import com.luck.picture.lib.style.BottomNavBarStyle
 import com.luck.picture.lib.style.PictureSelectorStyle
 import com.luck.picture.lib.style.PictureWindowAnimationStyle
@@ -54,7 +55,7 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
         options: NitroConfig,
         resolved: (result: Array<Result>) -> Unit,
         rejected: (reject: Double) -> Unit
-    ): Unit {
+    ) {
         PictureAppMaster.getInstance().app = this
         val activity = currentActivity
         val imageEngine = GlideEngine.createGlideEngine()
@@ -71,10 +72,9 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
             else -> SelectMimeType.ofAll()
         }
 
-        val selectedAssets = config.selectedAssets
+
         val maxSelect = config.maxSelect?.toInt() ?: 20
         val maxVideo = config.maxVideo?.toInt() ?: 20
-        val maxPhoto = config.maxPhoto?.toInt() ?: 20
         val isPreview = config.isPreview ?: true
         val maxFileSize = config.maxFileSize?.toLong()
         val maxDuration = config.maxVideoDuration?.toInt()
@@ -100,51 +100,62 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
                 maxFileSize?.let {
                     setFilterMaxFileSize(it)
                 }
-            }.setMaxSelectNum(maxSelect).setImageSpanCount(config.numberOfColumn?.toInt() ?: 3)
-//            .setSkipCropMimeType(*getNotSupportCrop())
+            }.setImageSpanCount(config.numberOfColumn?.toInt() ?: 3).setMaxSelectNum(maxSelect)
             .isDirectReturnSingle(true).isSelectZoomAnim(true).isPageStrategy(true, 50)
             .isWithSelectVideoImage(true)
             .setMaxVideoSelectNum(if (maxVideo != 20) maxVideo else maxSelect)
             .isMaxSelectEnabledMask(true).isAutoVideoPlay(true)
             .isFastSlidingSelect(allowSwipeToSelect).isPageSyncAlbumCount(true)
-            .setSelectedData(dataList)
-            .isPreviewImage(isPreview)
-            .isPreviewVideo(isPreview)
+            .setSelectedData(dataList).isPreviewImage(isPreview).isPreviewVideo(isPreview)
             .isDisplayCamera(config.allowedCamera ?: true)
             .isDisplayTimeAxis(true)
             .setSelectionMode(selectMode)
             .isOriginalControl(config.isHiddenOriginalButton == false)
+            .setLanguage(getLanguage())
             .isPreviewFullScreenMode(true)
             .forResult(object : OnResultCallbackListener<LocalMedia?> {
                 override fun onResult(localMedia: ArrayList<LocalMedia?>?) {
                     var data: Array<Result> = arrayOf()
-
                     if (localMedia?.size == 0 || localMedia == null) {
                         resolved(arrayOf())
                         return
                     }
-
+                    // set dataList
                     dataList = localMedia.filterNotNull().toMutableList()
-
                     localMedia.forEach { item ->
                         if (item != null) {
                             val media = getResult(item)
                             data += media  // Add the media to the data array
                         }
                     }
-
                     resolved(data)
                 }
 
                 override fun onCancel() {
-                    rejected(1.0)
+                    //
                 }
             })
+    }
 
+    private fun getLanguage(): Int {
+        return when (config.language) {
+            Language.VIETNAMESE -> LanguageConfig.VIETNAM  // -> 🇻🇳 My country. Yeahhh
+            Language.ENGLISH -> LanguageConfig.ENGLISH
+            Language.SYSTEM -> LanguageConfig.SYSTEM_LANGUAGE
+            Language.SIMPLIFIEDCHINESE -> LanguageConfig.CHINESE
+            Language.TRADITIONALCHINESE -> LanguageConfig.TRADITIONAL_CHINESE
+            Language.GERMAN -> LanguageConfig.GERMANY
+            Language.KOREAN -> LanguageConfig.KOREA
+            Language.FRENCH -> LanguageConfig.FRANCE
+            Language.JAPANESE -> LanguageConfig.JAPAN
+            Language.ARABIC -> LanguageConfig.AR
+            Language.RUSSIAN -> LanguageConfig.RU
+            else -> LanguageConfig.UNKNOWN_LANGUAGE
+        }
     }
 
     private fun setCropOption() {
-        val mainStyle: SelectMainStyle = style.selectMainStyle
+//        val mainStyle: SelectMainStyle = style.selectMainStyle
 
         cropOption.setShowCropFrame(true)
         cropOption.setShowCropGrid(true)
@@ -175,15 +186,13 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
         val primaryColor = ColorPropConverter.getColor(config.primaryColor, appContext)
         val isNumber =
             config.selectMode == SelectMode.MULTIPLE && config.selectBoxStyle == SelectBoxStyle.NUMBER
-        val selectType =
-            if (isNumber) R.drawable.picture_selector else R.drawable.checkbox_selector
+        val selectType = if (isNumber) R.drawable.picture_selector else R.drawable.checkbox_selector
         val isDark = config.theme == Theme.DARK
 
-        val backgroundDark =
-            ColorPropConverter.getColor(config.backgroundDark, appContext)
-                ?: ContextCompat.getColor(
-                    appContext, com.luck.picture.lib.R.color.ps_color_33
-                )
+        val backgroundDark = ColorPropConverter.getColor(config.backgroundDark, appContext)
+            ?: ContextCompat.getColor(
+                appContext, com.luck.picture.lib.R.color.ps_color_33
+            )
 
         val foreground = if (isDark) Color.WHITE else Color.BLACK
         val background = if (isDark) backgroundDark else Color.WHITE
@@ -200,8 +209,7 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
         titleBar.titleBackgroundColor = background
         titleBar.isAlbumTitleRelativeLeft = true
         titleBar.titleAlbumBackgroundResource = com.luck.picture.lib.R.drawable.ps_album_bg
-        titleBar.titleDrawableRightResource =
-            com.luck.picture.lib.R.drawable.ps_ic_grey_arrow
+        titleBar.titleDrawableRightResource = com.luck.picture.lib.R.drawable.ps_ic_grey_arrow
         titleBar.previewTitleLeftBackResource = iconBack
         titleBar.titleLeftBackResource = iconBack
         titleBar.isHideCancelButton = true
@@ -222,6 +230,7 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
         mainStyle.adapterPreviewGalleryItemSize = DensityUtil.dip2px(appContext, 52f);
         mainStyle.adapterPreviewGalleryBackgroundResource = R.drawable.preview_gallery_bg
         mainStyle.adapterPreviewGalleryFrameResource = R.drawable.preview_gallery_item
+        mainStyle.previewBackgroundColor = background
 
         bottomBar.isCompleteCountTips = false
         bottomBar.bottomOriginalTextSize = Constant.TOOLBAR_TEXT_SIZE
@@ -244,12 +253,24 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
         mainStyle.previewSelectBackground = selectType
         mainStyle.isPreviewSelectNumberStyle = isNumber
 
-        // custom finish text
+        // custom toolbar text
         config.text.let { text ->
             text?.finish.let {
                 mainStyle.selectText = it
                 mainStyle.selectNormalText = it
                 mainStyle.selectText = it
+            }
+
+            text?.preview.let {
+                mainStyle.previewSelectText = it
+            }
+
+            text?.original.let {
+                bottomBar.bottomOriginalText = it
+            }
+
+            text?.edit.let {
+                bottomBar.bottomEditorText = it
             }
         }
 

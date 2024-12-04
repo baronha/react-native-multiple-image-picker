@@ -80,9 +80,9 @@ extension HybridMultipleImagePicker {
             config.maximumSelectedVideoFileSize = Int(maxFileSize)
         }
 
-        if let maxPhoto = options.maxPhoto {
-            config.maximumSelectedPhotoCount = Int(maxPhoto)
-        }
+//        if let maxPhoto = options.maxPhoto {
+//            config.maximumSelectedPhotoCount = Int(maxPhoto)
+//        }
 
         if let maxVideo = options.maxVideo {
             config.maximumSelectedVideoCount = Int(maxVideo)
@@ -222,6 +222,10 @@ extension HybridMultipleImagePicker {
 
             if let preview = text.preview {
                 config.textManager.picker.photoList.bottomView.previewTitle = .custom(preview)
+            }
+
+            if let edit = text.edit {
+                config.textManager.picker.preview.bottomView.editTitle = .custom(edit)
             }
         }
 

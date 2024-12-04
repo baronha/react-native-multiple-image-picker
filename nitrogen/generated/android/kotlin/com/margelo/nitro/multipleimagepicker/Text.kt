@@ -19,5 +19,6 @@ import com.margelo.nitro.core.*
 data class Text(
   val finish: String?,
   val original: String?,
-  val preview: String?
+  val preview: String?,
+  val edit: String?
 )

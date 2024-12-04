@@ -34,6 +34,7 @@ export interface Text {
   finish?: string
   original?: string
   preview?: string
+  edit?: string
 }
 
 export interface NitroConfig {

@@ -22,6 +22,7 @@ import {
   Config,
 } from '@baronha/react-native-multiple-image-picker'
 import { useImmer } from 'use-immer'
+import { StatusBar } from 'expo-status-bar'
 
 LogBox.ignoreAllLogs()
 
@@ -57,6 +58,18 @@ export default function App() {
         ...options,
         selectedAssets: Array.isArray(images) ? images : [images],
         theme: 'light',
+        language: 'simplifiedChinese',
+        imageQuality: 0.4,
+        videoQuality: 0.2,
+        crop: {
+          //
+        },
+        text: {
+          finish: 'Hoan thanh ne',
+          original: '原图',
+          preview: '预览',
+          edit: 'Edit ne',
+        },
       })
 
       setImages(Array.isArray(response) ? response : [response])
@@ -74,6 +87,14 @@ export default function App() {
   return (
     <View style={style.container}>
       <SafeAreaView />
+      {Platform.OS === 'android' && (
+        <StatusBar
+          translucent={false}
+          networkActivityIndicatorVisible
+          backgroundColor={'#000'}
+        />
+      )}
+
       <ScrollView>
         <View style={{ alignItems: 'center' }}>
           <ImageGrid
@@ -90,6 +111,7 @@ export default function App() {
             showDelete
             onDeleteImage={onRemovePhoto}
           />
+
           <TouchableOpacity style={style.buttonOpen} onPress={onPicker}>
             <Text style={style.textOpen}>Open Picker</Text>
           </TouchableOpacity>
