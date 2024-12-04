@@ -17,18 +17,18 @@ import com.facebook.proguard.annotations.DoNotStrip
 @Keep
 enum class Language {
   SYSTEM,
-  SIMPLIFIEDCHINESE,
-  TRADITIONALCHINESE,
-  JAPANESE,
-  KOREAN,
-  ENGLISH,
-  THAI,
-  INDONESIA,
-  VIETNAMESE,
-  RUSSIAN,
-  GERMAN,
-  FRENCH,
-  ARABIC;
+  ZH_HANS,
+  ZH_HANT,
+  JA,
+  KO,
+  EN,
+  TH,
+  ID,
+  VI,
+  RU,
+  DE,
+  FR,
+  AR;
 
   @DoNotStrip
   @Keep

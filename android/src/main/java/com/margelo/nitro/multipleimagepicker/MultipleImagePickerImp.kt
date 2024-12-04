@@ -139,18 +139,17 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
 
     private fun getLanguage(): Int {
         return when (config.language) {
-            Language.VIETNAMESE -> LanguageConfig.VIETNAM  // -> 🇻🇳 My country. Yeahhh
-            Language.ENGLISH -> LanguageConfig.ENGLISH
-            Language.SYSTEM -> LanguageConfig.SYSTEM_LANGUAGE
-            Language.SIMPLIFIEDCHINESE -> LanguageConfig.CHINESE
-            Language.TRADITIONALCHINESE -> LanguageConfig.TRADITIONAL_CHINESE
-            Language.GERMAN -> LanguageConfig.GERMANY
-            Language.KOREAN -> LanguageConfig.KOREA
-            Language.FRENCH -> LanguageConfig.FRANCE
-            Language.JAPANESE -> LanguageConfig.JAPAN
-            Language.ARABIC -> LanguageConfig.AR
-            Language.RUSSIAN -> LanguageConfig.RU
-            else -> LanguageConfig.UNKNOWN_LANGUAGE
+            Language.VI -> LanguageConfig.VIETNAM  // -> 🇻🇳 My country. Yeahhh
+            Language.EN -> LanguageConfig.ENGLISH
+            Language.ZH_HANS -> LanguageConfig.CHINESE
+            Language.ZH_HANT -> LanguageConfig.TRADITIONAL_CHINESE
+            Language.DE -> LanguageConfig.GERMANY
+            Language.KO -> LanguageConfig.KOREA
+            Language.FR -> LanguageConfig.FRANCE
+            Language.JA -> LanguageConfig.JAPAN
+            Language.AR -> LanguageConfig.AR
+            Language.RU -> LanguageConfig.RU
+            else -> LanguageConfig.SYSTEM_LANGUAGE
         }
     }
 

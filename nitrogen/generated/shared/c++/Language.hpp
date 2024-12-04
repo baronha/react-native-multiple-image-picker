@@ -30,18 +30,18 @@ namespace margelo::nitro::multipleimagepicker {
    */
   enum class Language {
     SYSTEM      SWIFT_NAME(system) = 0,
-    SIMPLIFIEDCHINESE      SWIFT_NAME(simplifiedchinese) = 1,
-    TRADITIONALCHINESE      SWIFT_NAME(traditionalchinese) = 2,
-    JAPANESE      SWIFT_NAME(japanese) = 3,
-    KOREAN      SWIFT_NAME(korean) = 4,
-    ENGLISH      SWIFT_NAME(english) = 5,
-    THAI      SWIFT_NAME(thai) = 6,
-    INDONESIA      SWIFT_NAME(indonesia) = 7,
-    VIETNAMESE      SWIFT_NAME(vietnamese) = 8,
-    RUSSIAN      SWIFT_NAME(russian) = 9,
-    GERMAN      SWIFT_NAME(german) = 10,
-    FRENCH      SWIFT_NAME(french) = 11,
-    ARABIC      SWIFT_NAME(arabic) = 12,
+    ZH_HANS      SWIFT_NAME(zhHans) = 1,
+    ZH_HANT      SWIFT_NAME(zhHant) = 2,
+    JA      SWIFT_NAME(ja) = 3,
+    KO      SWIFT_NAME(ko) = 4,
+    EN      SWIFT_NAME(en) = 5,
+    TH      SWIFT_NAME(th) = 6,
+    ID      SWIFT_NAME(id) = 7,
+    VI      SWIFT_NAME(vi) = 8,
+    RU      SWIFT_NAME(ru) = 9,
+    DE      SWIFT_NAME(de) = 10,
+    FR      SWIFT_NAME(fr) = 11,
+    AR      SWIFT_NAME(ar) = 12,
   } CLOSED_ENUM;
 
 } // namespace margelo::nitro::multipleimagepicker
@@ -57,18 +57,18 @@ namespace margelo::nitro {
       std::string unionValue = JSIConverter<std::string>::fromJSI(runtime, arg);
       switch (hashString(unionValue.c_str(), unionValue.size())) {
         case hashString("system"): return Language::SYSTEM;
-        case hashString("simplifiedChinese"): return Language::SIMPLIFIEDCHINESE;
-        case hashString("traditionalChinese"): return Language::TRADITIONALCHINESE;
-        case hashString("japanese"): return Language::JAPANESE;
-        case hashString("korean"): return Language::KOREAN;
-        case hashString("english"): return Language::ENGLISH;
-        case hashString("thai"): return Language::THAI;
-        case hashString("indonesia"): return Language::INDONESIA;
-        case hashString("vietnamese"): return Language::VIETNAMESE;
-        case hashString("russian"): return Language::RUSSIAN;
-        case hashString("german"): return Language::GERMAN;
-        case hashString("french"): return Language::FRENCH;
-        case hashString("arabic"): return Language::ARABIC;
+        case hashString("zh-Hans"): return Language::ZH_HANS;
+        case hashString("zh-Hant"): return Language::ZH_HANT;
+        case hashString("ja"): return Language::JA;
+        case hashString("ko"): return Language::KO;
+        case hashString("en"): return Language::EN;
+        case hashString("th"): return Language::TH;
+        case hashString("id"): return Language::ID;
+        case hashString("vi"): return Language::VI;
+        case hashString("ru"): return Language::RU;
+        case hashString("de"): return Language::DE;
+        case hashString("fr"): return Language::FR;
+        case hashString("ar"): return Language::AR;
         default: [[unlikely]]
           throw std::invalid_argument("Cannot convert \"" + unionValue + "\" to enum Language - invalid value!");
       }
@@ -76,18 +76,18 @@ namespace margelo::nitro {
     static inline jsi::Value toJSI(jsi::Runtime& runtime, Language arg) {
       switch (arg) {
         case Language::SYSTEM: return JSIConverter<std::string>::toJSI(runtime, "system");
-        case Language::SIMPLIFIEDCHINESE: return JSIConverter<std::string>::toJSI(runtime, "simplifiedChinese");
-        case Language::TRADITIONALCHINESE: return JSIConverter<std::string>::toJSI(runtime, "traditionalChinese");
-        case Language::JAPANESE: return JSIConverter<std::string>::toJSI(runtime, "japanese");
-        case Language::KOREAN: return JSIConverter<std::string>::toJSI(runtime, "korean");
-        case Language::ENGLISH: return JSIConverter<std::string>::toJSI(runtime, "english");
-        case Language::THAI: return JSIConverter<std::string>::toJSI(runtime, "thai");
-        case Language::INDONESIA: return JSIConverter<std::string>::toJSI(runtime, "indonesia");
-        case Language::VIETNAMESE: return JSIConverter<std::string>::toJSI(runtime, "vietnamese");
-        case Language::RUSSIAN: return JSIConverter<std::string>::toJSI(runtime, "russian");
-        case Language::GERMAN: return JSIConverter<std::string>::toJSI(runtime, "german");
-        case Language::FRENCH: return JSIConverter<std::string>::toJSI(runtime, "french");
-        case Language::ARABIC: return JSIConverter<std::string>::toJSI(runtime, "arabic");
+        case Language::ZH_HANS: return JSIConverter<std::string>::toJSI(runtime, "zh-Hans");
+        case Language::ZH_HANT: return JSIConverter<std::string>::toJSI(runtime, "zh-Hant");
+        case Language::JA: return JSIConverter<std::string>::toJSI(runtime, "ja");
+        case Language::KO: return JSIConverter<std::string>::toJSI(runtime, "ko");
+        case Language::EN: return JSIConverter<std::string>::toJSI(runtime, "en");
+        case Language::TH: return JSIConverter<std::string>::toJSI(runtime, "th");
+        case Language::ID: return JSIConverter<std::string>::toJSI(runtime, "id");
+        case Language::VI: return JSIConverter<std::string>::toJSI(runtime, "vi");
+        case Language::RU: return JSIConverter<std::string>::toJSI(runtime, "ru");
+        case Language::DE: return JSIConverter<std::string>::toJSI(runtime, "de");
+        case Language::FR: return JSIConverter<std::string>::toJSI(runtime, "fr");
+        case Language::AR: return JSIConverter<std::string>::toJSI(runtime, "ar");
         default: [[unlikely]]
           throw std::invalid_argument("Cannot convert Language to JS - invalid value: "
                                     + std::to_string(static_cast<int>(arg)) + "!");
@@ -100,18 +100,18 @@ namespace margelo::nitro {
       std::string unionValue = JSIConverter<std::string>::fromJSI(runtime, value);
       switch (hashString(unionValue.c_str(), unionValue.size())) {
         case hashString("system"):
-        case hashString("simplifiedChinese"):
-        case hashString("traditionalChinese"):
-        case hashString("japanese"):
-        case hashString("korean"):
-        case hashString("english"):
-        case hashString("thai"):
-        case hashString("indonesia"):
-        case hashString("vietnamese"):
-        case hashString("russian"):
-        case hashString("german"):
-        case hashString("french"):
-        case hashString("arabic"):
+        case hashString("zh-Hans"):
+        case hashString("zh-Hant"):
+        case hashString("ja"):
+        case hashString("ko"):
+        case hashString("en"):
+        case hashString("th"):
+        case hashString("id"):
+        case hashString("vi"):
+        case hashString("ru"):
+        case hashString("de"):
+        case hashString("fr"):
+        case hashString("ar"):
           return true;
         default:
           return false;

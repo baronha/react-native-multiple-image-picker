@@ -57,19 +57,19 @@ export default function App() {
       const response = await openPicker({
         ...options,
         selectedAssets: Array.isArray(images) ? images : [images],
-        theme: 'light',
-        language: 'simplifiedChinese',
+        theme: 'dark',
+        language: 'vietnamese',
         imageQuality: 0.4,
         videoQuality: 0.2,
         crop: {
           //
         },
-        text: {
-          finish: 'Hoan thanh ne',
-          original: '原图',
-          preview: '预览',
-          edit: 'Edit ne',
-        },
+        // text: {
+        //   finish: 'Hoan thanh ne',
+        //   original: '原图',
+        //   preview: '预览',
+        //   edit: 'Edit ne',
+        // },
       })
 
       setImages(Array.isArray(response) ? response : [response])

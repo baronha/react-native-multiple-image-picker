@@ -19,30 +19,30 @@ public extension Language {
     switch string {
       case "system":
         self = .system
-      case "simplifiedChinese":
-        self = .simplifiedchinese
-      case "traditionalChinese":
-        self = .traditionalchinese
-      case "japanese":
-        self = .japanese
-      case "korean":
-        self = .korean
-      case "english":
-        self = .english
-      case "thai":
-        self = .thai
-      case "indonesia":
-        self = .indonesia
-      case "vietnamese":
-        self = .vietnamese
-      case "russian":
-        self = .russian
-      case "german":
-        self = .german
-      case "french":
-        self = .french
-      case "arabic":
-        self = .arabic
+      case "zh-Hans":
+        self = .zhHans
+      case "zh-Hant":
+        self = .zhHant
+      case "ja":
+        self = .ja
+      case "ko":
+        self = .ko
+      case "en":
+        self = .en
+      case "th":
+        self = .th
+      case "id":
+        self = .id
+      case "vi":
+        self = .vi
+      case "ru":
+        self = .ru
+      case "de":
+        self = .de
+      case "fr":
+        self = .fr
+      case "ar":
+        self = .ar
       default:
         return nil
     }
@@ -55,30 +55,30 @@ public extension Language {
     switch self {
       case .system:
         return "system"
-      case .simplifiedchinese:
-        return "simplifiedChinese"
-      case .traditionalchinese:
-        return "traditionalChinese"
-      case .japanese:
-        return "japanese"
-      case .korean:
-        return "korean"
-      case .english:
-        return "english"
-      case .thai:
-        return "thai"
-      case .indonesia:
-        return "indonesia"
-      case .vietnamese:
-        return "vietnamese"
-      case .russian:
-        return "russian"
-      case .german:
-        return "german"
-      case .french:
-        return "french"
-      case .arabic:
-        return "arabic"
+      case .zhHans:
+        return "zh-Hans"
+      case .zhHant:
+        return "zh-Hant"
+      case .ja:
+        return "ja"
+      case .ko:
+        return "ko"
+      case .en:
+        return "en"
+      case .th:
+        return "th"
+      case .id:
+        return "id"
+      case .vi:
+        return "vi"
+      case .ru:
+        return "ru"
+      case .de:
+        return "de"
+      case .fr:
+        return "fr"
+      case .ar:
+        return "ar"
     }
   }
 }

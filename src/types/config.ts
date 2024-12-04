@@ -12,19 +12,19 @@ export type Theme = 'light' | 'dark'
 export type Presentation = 'fullScreenModal' | 'formSheet'
 
 export type Language =
-  | 'system'
-  | 'simplifiedChinese'
-  | 'traditionalChinese'
-  | 'japanese'
-  | 'korean'
-  | 'english'
-  | 'thai'
-  | 'indonesia'
-  | 'vietnamese'
-  | 'russian'
-  | 'german'
-  | 'french'
-  | 'arabic'
+  | 'system' // Use system language 🌐
+  | 'zh-Hans' // Simplified Chinese 🇨🇳
+  | 'zh-Hant' // Traditional Chinese 🇹🇼
+  | 'ja' // Japanese 🇯🇵
+  | 'ko' // Korean 🇰🇷
+  | 'en' // English 🇺🇸
+  | 'th' // Thai 🇹🇭 (iOS only)
+  | 'id' // Indonesian 🇮🇩 (iOS only)
+  | 'vi' // Vietnamese 🇻🇳
+  | 'ru' // Russian 🇷🇺
+  | 'de' // German 🇩🇪
+  | 'fr' // French 🇫🇷
+  | 'ar' // Arabic 🇸🇦
 
 export type PickerCropConfig = {
   circle?: boolean
@@ -87,7 +87,6 @@ export interface NitroConfig {
   imageQuality?: number
 
   backgroundDark?: number
-
 
   presentation: Presentation
 

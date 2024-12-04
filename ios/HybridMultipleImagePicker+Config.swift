@@ -230,29 +230,30 @@ extension HybridMultipleImagePicker {
         }
 
         switch options.language {
-        case .simplifiedchinese:
+        case .vi:
+            config.languageType = .vietnamese // -> 🇻🇳 My country. Yeahhh
+        case .zhHans:
             config.languageType = .simplifiedChinese
-        case .traditionalchinese:
+        case .zhHant:
             config.languageType = .traditionalChinese
-        case .japanese:
+        case .ja:
             config.languageType = .japanese
-        case .korean:
+        case .ko:
             config.languageType = .korean
-        case .english:
+        case .en:
             config.languageType = .english
-        case .thai:
+        case .th:
             config.languageType = .thai
-        case .indonesia:
+        case .id:
             config.languageType = .indonesia
-        case .vietnamese:
-            config.languageType = .vietnamese
-        case .russian:
+
+        case .ru:
             config.languageType = .russian
-        case .german:
+        case .de:
             config.languageType = .german
-        case .french:
+        case .fr:
             config.languageType = .french
-        case .arabic:
+        case .ar:
             config.languageType = .arabic
 
         default:
