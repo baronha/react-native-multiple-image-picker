@@ -58,7 +58,7 @@ export default function App() {
         ...options,
         selectedAssets: Array.isArray(images) ? images : [images],
         theme: 'dark',
-        language: 'vietnamese',
+        language: 'vi',
         imageQuality: 0.4,
         videoQuality: 0.2,
         crop: {
