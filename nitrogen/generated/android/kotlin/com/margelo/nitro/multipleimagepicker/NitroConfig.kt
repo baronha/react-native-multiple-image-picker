@@ -33,7 +33,6 @@ data class NitroConfig(
   val allowHapticTouchPreview: Boolean?,
   val isShowAssetNumber: Boolean?,
   val allowedLimit: Boolean?,
-  val maxPhoto: Double?,
   val maxVideo: Double?,
   val maxSelect: Double?,
   val maxVideoDuration: Double?,

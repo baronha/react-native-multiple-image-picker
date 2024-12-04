@@ -70,8 +70,6 @@ export interface NitroConfig {
 
   allowedLimit?: boolean
 
-  maxPhoto?: number
-
   maxVideo?: number
 
   maxSelect?: number

@@ -84,8 +84,6 @@ namespace margelo::nitro::multipleimagepicker {
       jni::local_ref<jni::JBoolean> isShowAssetNumber = this->getFieldValue(fieldIsShowAssetNumber);
       static const auto fieldAllowedLimit = clazz->getField<jni::JBoolean>("allowedLimit");
       jni::local_ref<jni::JBoolean> allowedLimit = this->getFieldValue(fieldAllowedLimit);
-      static const auto fieldMaxPhoto = clazz->getField<jni::JDouble>("maxPhoto");
-      jni::local_ref<jni::JDouble> maxPhoto = this->getFieldValue(fieldMaxPhoto);
       static const auto fieldMaxVideo = clazz->getField<jni::JDouble>("maxVideo");
       jni::local_ref<jni::JDouble> maxVideo = this->getFieldValue(fieldMaxVideo);
       static const auto fieldMaxSelect = clazz->getField<jni::JDouble>("maxSelect");
@@ -138,7 +136,6 @@ namespace margelo::nitro::multipleimagepicker {
         allowHapticTouchPreview != nullptr ? std::make_optional(static_cast<bool>(allowHapticTouchPreview->value())) : std::nullopt,
         isShowAssetNumber != nullptr ? std::make_optional(static_cast<bool>(isShowAssetNumber->value())) : std::nullopt,
         allowedLimit != nullptr ? std::make_optional(static_cast<bool>(allowedLimit->value())) : std::nullopt,
-        maxPhoto != nullptr ? std::make_optional(maxPhoto->value()) : std::nullopt,
         maxVideo != nullptr ? std::make_optional(maxVideo->value()) : std::nullopt,
         maxSelect != nullptr ? std::make_optional(maxSelect->value()) : std::nullopt,
         maxVideoDuration != nullptr ? std::make_optional(maxVideoDuration->value()) : std::nullopt,
@@ -186,7 +183,6 @@ namespace margelo::nitro::multipleimagepicker {
         value.allowHapticTouchPreview.has_value() ? jni::JBoolean::valueOf(value.allowHapticTouchPreview.value()) : nullptr,
         value.isShowAssetNumber.has_value() ? jni::JBoolean::valueOf(value.isShowAssetNumber.value()) : nullptr,
         value.allowedLimit.has_value() ? jni::JBoolean::valueOf(value.allowedLimit.value()) : nullptr,
-        value.maxPhoto.has_value() ? jni::JDouble::valueOf(value.maxPhoto.value()) : nullptr,
         value.maxVideo.has_value() ? jni::JDouble::valueOf(value.maxVideo.value()) : nullptr,
         value.maxSelect.has_value() ? jni::JDouble::valueOf(value.maxSelect.value()) : nullptr,
         value.maxVideoDuration.has_value() ? jni::JDouble::valueOf(value.maxVideoDuration.value()) : nullptr,

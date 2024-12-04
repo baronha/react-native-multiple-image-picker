@@ -80,10 +80,6 @@ extension HybridMultipleImagePicker {
             config.maximumSelectedVideoFileSize = Int(maxFileSize)
         }
 
-//        if let maxPhoto = options.maxPhoto {
-//            config.maximumSelectedPhotoCount = Int(maxPhoto)
-//        }
-
         if let maxVideo = options.maxVideo {
             config.maximumSelectedVideoCount = Int(maxVideo)
         }

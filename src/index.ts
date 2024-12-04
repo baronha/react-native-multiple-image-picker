@@ -45,7 +45,6 @@ export async function openPicker<T extends Config>(
 const DEFAULT_COUNT = 20
 
 export const defaultOptions: Config = {
-  maxPhoto: DEFAULT_COUNT,
   maxSelect: DEFAULT_COUNT,
   maxVideo: DEFAULT_COUNT,
 
