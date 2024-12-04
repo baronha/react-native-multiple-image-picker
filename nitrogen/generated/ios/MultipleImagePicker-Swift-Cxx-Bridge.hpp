@@ -12,6 +12,8 @@
 namespace margelo::nitro::multipleimagepicker { class HybridMultipleImagePickerSpec; }
 // Forward declaration of `PickerCropConfig` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { struct PickerCropConfig; }
+// Forward declaration of `Presentation` to properly resolve imports.
+namespace margelo::nitro::multipleimagepicker { enum class Presentation; }
 // Forward declaration of `ResultType` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { enum class ResultType; }
 // Forward declaration of `Result` to properly resolve imports.
@@ -28,6 +30,7 @@ namespace MultipleImagePicker { class HybridMultipleImagePickerSpecCxx; }
 // Include C++ defined types
 #include "HybridMultipleImagePickerSpec.hpp"
 #include "PickerCropConfig.hpp"
+#include "Presentation.hpp"
 #include "Result.hpp"
 #include "ResultType.hpp"
 #include "Text.hpp"
@@ -107,6 +110,15 @@ namespace margelo::nitro::multipleimagepicker::bridge::swift {
   using std__optional_Theme_ = std::optional<Theme>;
   inline std::optional<Theme> create_std__optional_Theme_(const Theme& value) {
     return std::optional<Theme>(value);
+  }
+  
+  // pragma MARK: std::optional<Presentation>
+  /**
+   * Specialized version of `std::optional<Presentation>`.
+   */
+  using std__optional_Presentation_ = std::optional<Presentation>;
+  inline std::optional<Presentation> create_std__optional_Presentation_(const Presentation& value) {
+    return std::optional<Presentation>(value);
   }
   
   // pragma MARK: std::function<void(const std::vector<Result>& /* result */)>

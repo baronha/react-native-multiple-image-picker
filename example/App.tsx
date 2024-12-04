@@ -57,22 +57,8 @@ export default function App() {
       const response = await openPicker({
         ...options,
         selectedAssets: Array.isArray(images) ? images : [images],
-        theme: 'light',
-        language: 'vi',
-        imageQuality: 0.1,
-        videoQuality: 0.1,
-        crop: {
-          //
-        },
-        // text: {
-        //   finish: 'Hoan thanh ne',
-        //   original: '原图',
-        //   preview: '预览',
-        //   edit: 'Edit ne',
-        // },
+        theme: 'system',
       })
-
-      console.log('response: ', response)
 
       setImages(Array.isArray(response) ? response : [response])
       layoutEffect()

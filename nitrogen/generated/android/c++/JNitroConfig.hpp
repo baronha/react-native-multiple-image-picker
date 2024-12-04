@@ -100,8 +100,6 @@ namespace margelo::nitro::multipleimagepicker {
       jni::local_ref<jni::JDouble> imageQuality = this->getFieldValue(fieldImageQuality);
       static const auto fieldBackgroundDark = clazz->getField<jni::JDouble>("backgroundDark");
       jni::local_ref<jni::JDouble> backgroundDark = this->getFieldValue(fieldBackgroundDark);
-      static const auto fieldPresentation = clazz->getField<JPresentation>("presentation");
-      jni::local_ref<JPresentation> presentation = this->getFieldValue(fieldPresentation);
       static const auto fieldCrop = clazz->getField<JPickerCropConfig>("crop");
       jni::local_ref<JPickerCropConfig> crop = this->getFieldValue(fieldCrop);
       static const auto fieldText = clazz->getField<JText>("text");
@@ -110,6 +108,8 @@ namespace margelo::nitro::multipleimagepicker {
       jni::local_ref<JLanguage> language = this->getFieldValue(fieldLanguage);
       static const auto fieldTheme = clazz->getField<JTheme>("theme");
       jni::local_ref<JTheme> theme = this->getFieldValue(fieldTheme);
+      static const auto fieldPresentation = clazz->getField<JPresentation>("presentation");
+      jni::local_ref<JPresentation> presentation = this->getFieldValue(fieldPresentation);
       return NitroConfig(
         mediaType->toCpp(),
         [&]() {
@@ -144,11 +144,11 @@ namespace margelo::nitro::multipleimagepicker {
         videoQuality != nullptr ? std::make_optional(videoQuality->value()) : std::nullopt,
         imageQuality != nullptr ? std::make_optional(imageQuality->value()) : std::nullopt,
         backgroundDark != nullptr ? std::make_optional(backgroundDark->value()) : std::nullopt,
-        presentation->toCpp(),
         crop != nullptr ? std::make_optional(crop->toCpp()) : std::nullopt,
         text != nullptr ? std::make_optional(text->toCpp()) : std::nullopt,
         language->toCpp(),
-        theme != nullptr ? std::make_optional(theme->toCpp()) : std::nullopt
+        theme != nullptr ? std::make_optional(theme->toCpp()) : std::nullopt,
+        presentation != nullptr ? std::make_optional(presentation->toCpp()) : std::nullopt
       );
     }
 
@@ -191,11 +191,11 @@ namespace margelo::nitro::multipleimagepicker {
         value.videoQuality.has_value() ? jni::JDouble::valueOf(value.videoQuality.value()) : nullptr,
         value.imageQuality.has_value() ? jni::JDouble::valueOf(value.imageQuality.value()) : nullptr,
         value.backgroundDark.has_value() ? jni::JDouble::valueOf(value.backgroundDark.value()) : nullptr,
-        JPresentation::fromCpp(value.presentation),
         value.crop.has_value() ? JPickerCropConfig::fromCpp(value.crop.value()) : nullptr,
         value.text.has_value() ? JText::fromCpp(value.text.value()) : nullptr,
         JLanguage::fromCpp(value.language),
-        value.theme.has_value() ? JTheme::fromCpp(value.theme.value()) : nullptr
+        value.theme.has_value() ? JTheme::fromCpp(value.theme.value()) : nullptr,
+        value.presentation.has_value() ? JPresentation::fromCpp(value.presentation.value()) : nullptr
       );
     }
   };

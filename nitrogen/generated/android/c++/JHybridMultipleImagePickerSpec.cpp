@@ -19,8 +19,6 @@ namespace margelo::nitro::multipleimagepicker { enum class ResultType; }
 namespace margelo::nitro::multipleimagepicker { enum class SelectBoxStyle; }
 // Forward declaration of `SelectMode` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { enum class SelectMode; }
-// Forward declaration of `Presentation` to properly resolve imports.
-namespace margelo::nitro::multipleimagepicker { enum class Presentation; }
 // Forward declaration of `PickerCropConfig` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { struct PickerCropConfig; }
 // Forward declaration of `Text` to properly resolve imports.
@@ -29,6 +27,8 @@ namespace margelo::nitro::multipleimagepicker { struct Text; }
 namespace margelo::nitro::multipleimagepicker { enum class Language; }
 // Forward declaration of `Theme` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { enum class Theme; }
+// Forward declaration of `Presentation` to properly resolve imports.
+namespace margelo::nitro::multipleimagepicker { enum class Presentation; }
 
 #include "NitroConfig.hpp"
 #include "JNitroConfig.hpp"
@@ -45,8 +45,6 @@ namespace margelo::nitro::multipleimagepicker { enum class Theme; }
 #include "JSelectBoxStyle.hpp"
 #include "SelectMode.hpp"
 #include "JSelectMode.hpp"
-#include "Presentation.hpp"
-#include "JPresentation.hpp"
 #include "PickerCropConfig.hpp"
 #include "JPickerCropConfig.hpp"
 #include "Text.hpp"
@@ -55,6 +53,8 @@ namespace margelo::nitro::multipleimagepicker { enum class Theme; }
 #include "JLanguage.hpp"
 #include "Theme.hpp"
 #include "JTheme.hpp"
+#include "Presentation.hpp"
+#include "JPresentation.hpp"
 #include <functional>
 #include "JFunc_void_std__vector_Result_.hpp"
 #include "JFunc_void_double.hpp"

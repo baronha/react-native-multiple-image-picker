@@ -41,9 +41,9 @@ data class NitroConfig(
   val videoQuality: Double?,
   val imageQuality: Double?,
   val backgroundDark: Double?,
-  val presentation: Presentation,
   val crop: PickerCropConfig?,
   val text: Text?,
   val language: Language,
-  val theme: Theme?
+  val theme: Theme?,
+  val presentation: Presentation?
 )
