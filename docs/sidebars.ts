@@ -13,13 +13,16 @@ import type { SidebarsConfig } from '@docusaurus/plugin-content-docs'
  Create as many sidebars as you want.
  */
 const sidebars: SidebarsConfig = {
-  docs: [
-    'getting-started',
-    'usage',
-    'config',
-    'result',
-    // 'troubleshooting',
-    // 'contributing',
+  'multiple-image-picker': [
+    {
+      type: 'category',
+      label: 'RNMIP',
+      link: {
+        type: 'doc',
+        id: 'index',
+      },
+      items: ['getting-started', 'usage', 'config', 'result'],
+    },
   ],
 }
 
