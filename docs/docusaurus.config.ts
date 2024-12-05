@@ -93,10 +93,11 @@ const config: Config = {
           label: 'Guides',
         },
         {
-          href: 'https://github.com/baronha/react-native-multiple-image-picker/example',
+          href: 'https://github.com/baronha/react-native-multiple-image-picker/tree/main/example',
           label: 'Example',
           position: 'left',
         },
+
         {
           href: 'https://github.com/baronha/react-native-multiple-image-picker',
           label: 'GitHub',
