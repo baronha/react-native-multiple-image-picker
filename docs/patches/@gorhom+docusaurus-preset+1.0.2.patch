@@ -1,0 +1,41 @@
+diff --git a/node_modules/@gorhom/docusaurus-preset/lib/index.js b/node_modules/@gorhom/docusaurus-preset/lib/index.js
+index 66e815e..7ab6b15 100644
+--- a/node_modules/@gorhom/docusaurus-preset/lib/index.js
++++ b/node_modules/@gorhom/docusaurus-preset/lib/index.js
+@@ -23,21 +23,21 @@ export default function preset(context, opts = {}) {
+         theme: prismThemes.github,
+         darkTheme: prismThemes.dracula,
+     };
+-    // overrides footer
+-    themeConfig.footer = {
+-        ...(themeConfig.footer ?? {}),
+-        copyright: `Open Source by <a rel="noreferrer" href="https://gorhom.dev/" target="_blank">Mo Gorhom</a>.`,
+-        links: [
+-            {
+-                label: "Github",
+-                href: "https://github.com/gorhom",
+-            },
+-            {
+-                label: "X (Twitter)",
+-                href: "https://twitter.com/gorhom",
+-            },
+-        ]
+-    };
++    	// overrides footer
++	themeConfig.footer = {
++		
++		copyright: `Open Source by <a rel="noreferrer" href="https://baoha.vercel.app/" target="_blank">Bao Ha</a>.`,
++		links: [
++			{
++				label: "Github",
++				href: "https://github.com/baronha",
++			},
++			{
++				label: "X (Twitter)",
++				href: "https://twitter.com/_baronha",
++			},
++		],
++	}
+     const themes = [];
+     themes.push(makePluginConfig("@gorhom/docusaurus-theme", theme));
+     if (algolia) {

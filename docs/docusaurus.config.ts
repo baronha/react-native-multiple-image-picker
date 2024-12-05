@@ -111,11 +111,15 @@ const config: Config = {
           items: [
             {
               label: 'Getting Started',
-              to: '/docs/guides/',
+              to: '/getting-started',
             },
             {
               label: 'Config',
-              to: '/docs/guides/config',
+              to: '/config',
+            },
+            {
+              label: 'Result',
+              to: '/result',
             },
             {
               label: '☕️ Buy me a coffee',
