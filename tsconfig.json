@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
+    "outDir": "./lib",
     "paths": {
       "@baronha/react-native-multiple-image-picker": ["src"]
     },

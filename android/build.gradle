@@ -1,140 +1,152 @@
 buildscript {
-  // Buildscript is evaluated before everything else so we can't use getExtOrDefault
-  def kotlin_version = "1.6.20"
+    repositories {
+        google()
+        mavenCentral()
+    }
 
-  repositories {
-    google()
-    mavenCentral()
-  }
-
-  dependencies {
-    classpath 'com.android.tools.build:gradle:7.1.1'
-    // noinspection DifferentKotlinGradleVersion
-    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-  }
+    dependencies {
+        classpath "com.android.tools.build:gradle:7.2.1"
+    }
 }
 
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
+def reactNativeArchitectures() {
+    def value = rootProject.getProperties().get("reactNativeArchitectures")
+    return value ? value.split(",") : ["armeabi-v7a", "x86", "x86_64", "arm64-v8a"]
+}
+
+def isNewArchitectureEnabled() {
+    return rootProject.hasProperty("newArchEnabled") && rootProject.getProperty("newArchEnabled") == "true"
+}
+
+apply plugin: "com.android.library"
+apply plugin: 'org.jetbrains.kotlin.android'
+apply from: '../nitrogen/generated/android/MultipleImagePicker+autolinking.gradle'
+
+if (isNewArchitectureEnabled()) {
+    apply plugin: "com.facebook.react"
+}
 
 def getExtOrDefault(name) {
-  return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties['MultipleImagePicker_' + name]
+    return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties["MultipleImagePicker_" + name]
 }
 
 def getExtOrIntegerDefault(name) {
-  return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties['MultipleImagePicker_' + name]).toInteger()
+    return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties["MultipleImagePicker_" + name]).toInteger()
 }
 
 android {
-  compileSdkVersion getExtOrIntegerDefault('compileSdkVersion')
-  buildToolsVersion getExtOrDefault('buildToolsVersion')
-  defaultConfig {
-    minSdkVersion getExtOrIntegerDefault('minSdkVersion')
-    targetSdkVersion getExtOrIntegerDefault('targetSdkVersion')
+    namespace "com.margelo.nitro.multipleimagepicker"
 
-  }
+    ndkVersion getExtOrDefault("ndkVersion")
+    compileSdkVersion getExtOrIntegerDefault("compileSdkVersion")
 
-  buildTypes {
-    release {
-      minifyEnabled false
+    defaultConfig {
+        minSdkVersion getExtOrIntegerDefault("minSdkVersion")
+        targetSdkVersion getExtOrIntegerDefault("targetSdkVersion")
+        buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
+
+        externalNativeBuild {
+            cmake {
+                cppFlags "-O2 -frtti -fexceptions -Wall -fstack-protector-all"
+                arguments "-DANDROID_STL=c++_shared"
+                abiFilters(*reactNativeArchitectures())
+            }
+        }
     }
-  }
-  lintOptions {
-    disable 'GradleCompatible'
-  }
-  compileOptions {
-    sourceCompatibility JavaVersion.VERSION_1_8
-    targetCompatibility JavaVersion.VERSION_1_8
-  }
+
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
+    }
+
+    packagingOptions {
+        excludes = ["META-INF",
+                    "META-INF/**",
+                    "**/libc++_shared.so",
+                    "**/libfbjni.so",
+                    "**/libjsi.so",
+                    "**/libfolly_json.so",
+                    "**/libfolly_runtime.so",
+                    "**/libglog.so",
+                    "**/libhermes.so",
+                    "**/libhermes-executor-debug.so",
+                    "**/libhermes_executor.so",
+                    "**/libreactnativejni.so",
+                    "**/libturbomodulejsijni.so",
+                    "**/libreact_nativemodule_core.so",
+                    "**/libjscexecutor.so"]
+    }
+
+    buildFeatures {
+        buildConfig true
+        prefab true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+
+    lintOptions {
+        disable "GradleCompatible"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    sourceSets {
+        main {
+            if (isNewArchitectureEnabled()) {
+                java.srcDirs += [
+                        // React Codegen files
+                        "${project.buildDir}/generated/source/codegen/java"]
+            }
+        }
+    }
 }
 
 repositories {
-  mavenCentral()
-  google()
-
-  def found = false
-  def defaultDir = null
-  def androidSourcesName = 'React Native sources'
-
-  if (rootProject.ext.has('reactNativeAndroidRoot')) {
-    defaultDir = rootProject.ext.get('reactNativeAndroidRoot')
-  } else {
-    defaultDir = new File(
-            projectDir,
-            '/../../../node_modules/react-native/android'
-    )
-  }
-
-  if (defaultDir.exists()) {
-    maven {
-      url defaultDir.toString()
-      name androidSourcesName
-    }
-
-    logger.info(":${project.name}:reactNativeAndroidRoot ${defaultDir.canonicalPath}")
-    found = true
-  } else {
-    def parentDir = rootProject.projectDir
-
-    1.upto(5, {
-      if (found) return true
-      parentDir = parentDir.parentFile
-
-      def androidSourcesDir = new File(
-              parentDir,
-              'node_modules/react-native'
-      )
-
-      def androidPrebuiltBinaryDir = new File(
-              parentDir,
-              'node_modules/react-native/android'
-      )
-
-      if (androidPrebuiltBinaryDir.exists()) {
-        maven {
-          url androidPrebuiltBinaryDir.toString()
-          name androidSourcesName
-        }
-
-        logger.info(":${project.name}:reactNativeAndroidRoot ${androidPrebuiltBinaryDir.canonicalPath}")
-        found = true
-      } else if (androidSourcesDir.exists()) {
-        maven {
-          url androidSourcesDir.toString()
-          name androidSourcesName
-        }
-
-        logger.info(":${project.name}:reactNativeAndroidRoot ${androidSourcesDir.canonicalPath}")
-        found = true
-      }
-    })
-  }
-
-  if (!found) {
-    throw new GradleException(
-            "${project.name}: unable to locate React Native android sources. " +
-                    "Ensure you have you installed React Native as a dependency in your project and try again."
-    )
-  }
+    mavenCentral()
+    google()
 }
 
-def kotlin_version = "1.6.0"
 
 dependencies {
-  // noinspection GradleDynamicVersion
-  api 'com.facebook.react:react-native:+'
-  implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  implementation 'com.github.bumptech.glide:glide:4.16.0'
-  annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
-  // PictureSelector basic (Necessary)
-  implementation 'io.github.lucksiege:pictureselector:v3.11.2'
+    // For < 0.71, this will be from the local maven repo
+    // For > 0.71, this will be replaced by `com.facebook.react:react-android:$version` by react gradle plugin
+    //noinspection GradleDynamicVersion
 
-  // image compress library (Not necessary)
-  implementation 'io.github.lucksiege:compress:v3.11.2'
+    // Add a dependency on NitroModules
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
+    // PictureSelector basic (Necessary)
+    implementation 'io.github.lucksiege:pictureselector:v3.11.2'
 
-  // uCrop library (Not necessary)
-  implementation 'io.github.lucksiege:ucrop:v3.11.2'
+    // image compress library (Not necessary)
+    implementation 'io.github.lucksiege:compress:v3.11.2'
 
-  // simple camerax library (Not necessary)
-  implementation 'io.github.lucksiege:camerax:v3.11.2'
+    // uCrop library (Not necessary)
+    implementation 'io.github.lucksiege:ucrop:v3.11.2'
+
+    // simple camerax library (Not necessary)
+    implementation 'io.github.lucksiege:camerax:v3.11.2'
+
+
+    implementation "com.facebook.react:react-native:+"
+
+    // Add a dependency on NitroModules
+    implementation project(":react-native-nitro-modules")
 }
+
+if (isNewArchitectureEnabled()) {
+    react {
+        jsRootDir = file("../src/")
+        libraryName = "MultipleImagePicker"
+        codegenJavaPackageName = "com.margelo.nitro.multipleimagepicker"
+    }
+}
+

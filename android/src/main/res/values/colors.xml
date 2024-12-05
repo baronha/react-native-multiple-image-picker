@@ -16,4 +16,6 @@
   <color name="app_color_e0ff6100">#E0FF6100</color>
   <color name="app_color_red">#FF0000</color>
   <color name="app_color_pri">#FB9300</color>
+  <color name="app_color_33">#333333</color>
+  <color name="app_color_3310">#0D333333</color>
 </resources>
