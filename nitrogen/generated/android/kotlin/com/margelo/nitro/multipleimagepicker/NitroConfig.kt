@@ -44,6 +44,6 @@ data class NitroConfig(
   val crop: PickerCropConfig?,
   val text: Text?,
   val language: Language,
-  val theme: Theme?,
-  val presentation: Presentation?
+  val theme: Theme,
+  val presentation: Presentation
 )

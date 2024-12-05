@@ -147,8 +147,8 @@ namespace margelo::nitro::multipleimagepicker {
         crop != nullptr ? std::make_optional(crop->toCpp()) : std::nullopt,
         text != nullptr ? std::make_optional(text->toCpp()) : std::nullopt,
         language->toCpp(),
-        theme != nullptr ? std::make_optional(theme->toCpp()) : std::nullopt,
-        presentation != nullptr ? std::make_optional(presentation->toCpp()) : std::nullopt
+        theme->toCpp(),
+        presentation->toCpp()
       );
     }
 
@@ -194,8 +194,8 @@ namespace margelo::nitro::multipleimagepicker {
         value.crop.has_value() ? JPickerCropConfig::fromCpp(value.crop.value()) : nullptr,
         value.text.has_value() ? JText::fromCpp(value.text.value()) : nullptr,
         JLanguage::fromCpp(value.language),
-        value.theme.has_value() ? JTheme::fromCpp(value.theme.value()) : nullptr,
-        value.presentation.has_value() ? JPresentation::fromCpp(value.presentation.value()) : nullptr
+        JTheme::fromCpp(value.theme),
+        JPresentation::fromCpp(value.presentation)
       );
     }
   };

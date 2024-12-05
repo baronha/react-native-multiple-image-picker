@@ -18,7 +18,7 @@ public extension NitroConfig {
   /**
    * Create a new instance of `NitroConfig`.
    */
-  init(mediaType: MediaType, selectedAssets: [Result], selectBoxStyle: SelectBoxStyle, selectMode: SelectMode, numberOfColumn: Double?, isPreview: Bool?, primaryColor: Double?, allowedCamera: Bool?, allowSwipeToSelect: Bool?, spacing: Double?, isHiddenPreviewButton: Bool?, isHiddenOriginalButton: Bool?, isShowPreviewList: Bool?, allowHapticTouchPreview: Bool?, isShowAssetNumber: Bool?, allowedLimit: Bool?, maxVideo: Double?, maxSelect: Double?, maxVideoDuration: Double?, minVideoDuration: Double?, maxFileSize: Double?, videoQuality: Double?, imageQuality: Double?, backgroundDark: Double?, crop: PickerCropConfig?, text: Text?, language: Language, theme: Theme?, presentation: Presentation?) {
+  init(mediaType: MediaType, selectedAssets: [Result], selectBoxStyle: SelectBoxStyle, selectMode: SelectMode, numberOfColumn: Double?, isPreview: Bool?, primaryColor: Double?, allowedCamera: Bool?, allowSwipeToSelect: Bool?, spacing: Double?, isHiddenPreviewButton: Bool?, isHiddenOriginalButton: Bool?, isShowPreviewList: Bool?, allowHapticTouchPreview: Bool?, isShowAssetNumber: Bool?, allowedLimit: Bool?, maxVideo: Double?, maxSelect: Double?, maxVideoDuration: Double?, minVideoDuration: Double?, maxFileSize: Double?, videoQuality: Double?, imageQuality: Double?, backgroundDark: Double?, crop: PickerCropConfig?, text: Text?, language: Language, theme: Theme, presentation: Presentation) {
     self.init(mediaType, { () -> bridge.std__vector_Result_ in
       var __vector = bridge.create_std__vector_Result_(selectedAssets.count)
       for __item in selectedAssets {
@@ -157,19 +157,7 @@ public extension NitroConfig {
       } else {
         return .init()
       }
-    }(), language, { () -> bridge.std__optional_Theme_ in
-      if let __unwrappedValue = theme {
-        return bridge.create_std__optional_Theme_(__unwrappedValue)
-      } else {
-        return .init()
-      }
-    }(), { () -> bridge.std__optional_Presentation_ in
-      if let __unwrappedValue = presentation {
-        return bridge.create_std__optional_Presentation_(__unwrappedValue)
-      } else {
-        return .init()
-      }
-    }())
+    }(), language, theme, presentation)
   }
 
   var mediaType: MediaType {
@@ -619,37 +607,25 @@ public extension NitroConfig {
     }
   }
   
-  var theme: Theme? {
+  var theme: Theme {
     @inline(__always)
     get {
-      return self.__theme.value
+      return self.__theme
     }
     @inline(__always)
     set {
-      self.__theme = { () -> bridge.std__optional_Theme_ in
-        if let __unwrappedValue = newValue {
-          return bridge.create_std__optional_Theme_(__unwrappedValue)
-        } else {
-          return .init()
-        }
-      }()
+      self.__theme = newValue
     }
   }
   
-  var presentation: Presentation? {
+  var presentation: Presentation {
     @inline(__always)
     get {
-      return self.__presentation.value
+      return self.__presentation
     }
     @inline(__always)
     set {
-      self.__presentation = { () -> bridge.std__optional_Presentation_ in
-        if let __unwrappedValue = newValue {
-          return bridge.create_std__optional_Presentation_(__unwrappedValue)
-        } else {
-          return .init()
-        }
-      }()
+      self.__presentation = newValue
     }
   }
 }

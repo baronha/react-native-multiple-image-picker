@@ -83,11 +83,11 @@ namespace margelo::nitro::multipleimagepicker {
     std::optional<PickerCropConfig> crop     SWIFT_PRIVATE;
     std::optional<Text> text     SWIFT_PRIVATE;
     Language language     SWIFT_PRIVATE;
-    std::optional<Theme> theme     SWIFT_PRIVATE;
-    std::optional<Presentation> presentation     SWIFT_PRIVATE;
+    Theme theme     SWIFT_PRIVATE;
+    Presentation presentation     SWIFT_PRIVATE;
 
   public:
-    explicit NitroConfig(MediaType mediaType, std::vector<Result> selectedAssets, SelectBoxStyle selectBoxStyle, SelectMode selectMode, std::optional<double> numberOfColumn, std::optional<bool> isPreview, std::optional<double> primaryColor, std::optional<bool> allowedCamera, std::optional<bool> allowSwipeToSelect, std::optional<double> spacing, std::optional<bool> isHiddenPreviewButton, std::optional<bool> isHiddenOriginalButton, std::optional<bool> isShowPreviewList, std::optional<bool> allowHapticTouchPreview, std::optional<bool> isShowAssetNumber, std::optional<bool> allowedLimit, std::optional<double> maxVideo, std::optional<double> maxSelect, std::optional<double> maxVideoDuration, std::optional<double> minVideoDuration, std::optional<double> maxFileSize, std::optional<double> videoQuality, std::optional<double> imageQuality, std::optional<double> backgroundDark, std::optional<PickerCropConfig> crop, std::optional<Text> text, Language language, std::optional<Theme> theme, std::optional<Presentation> presentation): mediaType(mediaType), selectedAssets(selectedAssets), selectBoxStyle(selectBoxStyle), selectMode(selectMode), numberOfColumn(numberOfColumn), isPreview(isPreview), primaryColor(primaryColor), allowedCamera(allowedCamera), allowSwipeToSelect(allowSwipeToSelect), spacing(spacing), isHiddenPreviewButton(isHiddenPreviewButton), isHiddenOriginalButton(isHiddenOriginalButton), isShowPreviewList(isShowPreviewList), allowHapticTouchPreview(allowHapticTouchPreview), isShowAssetNumber(isShowAssetNumber), allowedLimit(allowedLimit), maxVideo(maxVideo), maxSelect(maxSelect), maxVideoDuration(maxVideoDuration), minVideoDuration(minVideoDuration), maxFileSize(maxFileSize), videoQuality(videoQuality), imageQuality(imageQuality), backgroundDark(backgroundDark), crop(crop), text(text), language(language), theme(theme), presentation(presentation) {}
+    explicit NitroConfig(MediaType mediaType, std::vector<Result> selectedAssets, SelectBoxStyle selectBoxStyle, SelectMode selectMode, std::optional<double> numberOfColumn, std::optional<bool> isPreview, std::optional<double> primaryColor, std::optional<bool> allowedCamera, std::optional<bool> allowSwipeToSelect, std::optional<double> spacing, std::optional<bool> isHiddenPreviewButton, std::optional<bool> isHiddenOriginalButton, std::optional<bool> isShowPreviewList, std::optional<bool> allowHapticTouchPreview, std::optional<bool> isShowAssetNumber, std::optional<bool> allowedLimit, std::optional<double> maxVideo, std::optional<double> maxSelect, std::optional<double> maxVideoDuration, std::optional<double> minVideoDuration, std::optional<double> maxFileSize, std::optional<double> videoQuality, std::optional<double> imageQuality, std::optional<double> backgroundDark, std::optional<PickerCropConfig> crop, std::optional<Text> text, Language language, Theme theme, Presentation presentation): mediaType(mediaType), selectedAssets(selectedAssets), selectBoxStyle(selectBoxStyle), selectMode(selectMode), numberOfColumn(numberOfColumn), isPreview(isPreview), primaryColor(primaryColor), allowedCamera(allowedCamera), allowSwipeToSelect(allowSwipeToSelect), spacing(spacing), isHiddenPreviewButton(isHiddenPreviewButton), isHiddenOriginalButton(isHiddenOriginalButton), isShowPreviewList(isShowPreviewList), allowHapticTouchPreview(allowHapticTouchPreview), isShowAssetNumber(isShowAssetNumber), allowedLimit(allowedLimit), maxVideo(maxVideo), maxSelect(maxSelect), maxVideoDuration(maxVideoDuration), minVideoDuration(minVideoDuration), maxFileSize(maxFileSize), videoQuality(videoQuality), imageQuality(imageQuality), backgroundDark(backgroundDark), crop(crop), text(text), language(language), theme(theme), presentation(presentation) {}
   };
 
 } // namespace margelo::nitro::multipleimagepicker
@@ -129,8 +129,8 @@ namespace margelo::nitro {
         JSIConverter<std::optional<PickerCropConfig>>::fromJSI(runtime, obj.getProperty(runtime, "crop")),
         JSIConverter<std::optional<Text>>::fromJSI(runtime, obj.getProperty(runtime, "text")),
         JSIConverter<Language>::fromJSI(runtime, obj.getProperty(runtime, "language")),
-        JSIConverter<std::optional<Theme>>::fromJSI(runtime, obj.getProperty(runtime, "theme")),
-        JSIConverter<std::optional<Presentation>>::fromJSI(runtime, obj.getProperty(runtime, "presentation"))
+        JSIConverter<Theme>::fromJSI(runtime, obj.getProperty(runtime, "theme")),
+        JSIConverter<Presentation>::fromJSI(runtime, obj.getProperty(runtime, "presentation"))
       );
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const NitroConfig& arg) {
@@ -162,8 +162,8 @@ namespace margelo::nitro {
       obj.setProperty(runtime, "crop", JSIConverter<std::optional<PickerCropConfig>>::toJSI(runtime, arg.crop));
       obj.setProperty(runtime, "text", JSIConverter<std::optional<Text>>::toJSI(runtime, arg.text));
       obj.setProperty(runtime, "language", JSIConverter<Language>::toJSI(runtime, arg.language));
-      obj.setProperty(runtime, "theme", JSIConverter<std::optional<Theme>>::toJSI(runtime, arg.theme));
-      obj.setProperty(runtime, "presentation", JSIConverter<std::optional<Presentation>>::toJSI(runtime, arg.presentation));
+      obj.setProperty(runtime, "theme", JSIConverter<Theme>::toJSI(runtime, arg.theme));
+      obj.setProperty(runtime, "presentation", JSIConverter<Presentation>::toJSI(runtime, arg.presentation));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -198,8 +198,8 @@ namespace margelo::nitro {
       if (!JSIConverter<std::optional<PickerCropConfig>>::canConvert(runtime, obj.getProperty(runtime, "crop"))) return false;
       if (!JSIConverter<std::optional<Text>>::canConvert(runtime, obj.getProperty(runtime, "text"))) return false;
       if (!JSIConverter<Language>::canConvert(runtime, obj.getProperty(runtime, "language"))) return false;
-      if (!JSIConverter<std::optional<Theme>>::canConvert(runtime, obj.getProperty(runtime, "theme"))) return false;
-      if (!JSIConverter<std::optional<Presentation>>::canConvert(runtime, obj.getProperty(runtime, "presentation"))) return false;
+      if (!JSIConverter<Theme>::canConvert(runtime, obj.getProperty(runtime, "theme"))) return false;
+      if (!JSIConverter<Presentation>::canConvert(runtime, obj.getProperty(runtime, "presentation"))) return false;
       return true;
     }
   };

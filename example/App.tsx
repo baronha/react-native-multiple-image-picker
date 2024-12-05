@@ -57,7 +57,6 @@ export default function App() {
       const response = await openPicker({
         ...options,
         selectedAssets: Array.isArray(images) ? images : [images],
-        theme: 'system',
       })
 
       setImages(Array.isArray(response) ? response : [response])

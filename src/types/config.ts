@@ -302,9 +302,9 @@ export interface NitroConfig {
    * Theme mode
    * @type {Theme}
    */
-  theme?: Theme
+  theme: Theme
 
-  presentation?: Presentation
+  presentation: Presentation
 }
 
 export interface Config
