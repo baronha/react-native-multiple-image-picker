@@ -6,12 +6,12 @@ import type * as Preset from '@docusaurus/preset-classic'
 
 const config: Config = {
   title: 'React Native Multiple Image Picker',
-  tagline:
-    '📸 A powerful, high-performance React Native Multiple Image Picker library.',
+  tagline: 'High-performance React Native Multiple Image Picker library.',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
   url: 'https://your-docusaurus-site.example.com',
+
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
@@ -19,7 +19,8 @@ const config: Config = {
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'baronha', // Usually your GitHub org/user name.
-  projectName: '@baronha/react-native-multiple-image-picker', // Usually your repo name.
+  projectName: 'react-native-multiple-image-picker', // Usually your repo name.
+  trailingSlash: false,
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -29,7 +30,17 @@ const config: Config = {
   // may want to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: 'en',
-    locales: ['en'],
+    locales: ['en', 'vi'],
+    path: 'i18n',
+    localeConfigs: {
+      en: {
+        label: 'English',
+        direction: 'ltr',
+        htmlLang: 'en-US',
+        calendar: 'gregory',
+        path: 'en',
+      },
+    },
   },
 
   presets: [
@@ -69,21 +80,25 @@ const config: Config = {
     // Replace with your project's social card
     image: 'img/docusaurus-social-card.jpg',
     navbar: {
-      title: 'My Site',
+      title: 'RNMIP',
       logo: {
-        alt: 'My Site Logo',
-        src: 'img/logo.svg',
+        alt: 'RNMIP Logo',
+        src: 'img/RNMIP.png',
       },
       items: [
         {
           type: 'docSidebar',
-          sidebarId: 'tutorialSidebar',
+          sidebarId: 'docs',
           position: 'left',
-          label: 'Tutorial',
+          label: 'Guides',
         },
-        { to: '/blog', label: 'Blog', position: 'left' },
         {
-          href: 'https://github.com/facebook/docusaurus',
+          href: 'https://github.com/baronha/react-native-multiple-image-picker/example',
+          label: 'Example',
+          position: 'left',
+        },
+        {
+          href: 'https://github.com/baronha/react-native-multiple-image-picker',
           label: 'GitHub',
           position: 'right',
         },
@@ -93,11 +108,19 @@ const config: Config = {
       style: 'dark',
       links: [
         {
-          title: 'Docs',
+          title: 'Guides',
           items: [
             {
-              label: 'Tutorial',
-              to: '/docs/intro',
+              label: 'Getting Started',
+              to: '/docs/guides/',
+            },
+            {
+              label: 'Config',
+              to: '/docs/guides/config',
+            },
+            {
+              label: '☕️ Buy me a coffee',
+              href: 'https://github.com/sponsors/baronha',
             },
           ],
         },
@@ -105,16 +128,12 @@ const config: Config = {
           title: 'Community',
           items: [
             {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-            },
-            {
-              label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
-            },
-            {
               label: 'X',
-              href: 'https://x.com/docusaurus',
+              href: 'https://x.com/_baronha',
+            },
+            {
+              label: 'Threads',
+              href: 'https://www.threads.net/@___donquijote',
             },
           ],
         },
@@ -122,18 +141,19 @@ const config: Config = {
           title: 'More',
           items: [
             {
-              label: 'Blog',
-              to: '/blog',
+              label: 'Github',
+              href: 'https://github.com/baronha',
             },
             {
-              label: 'GitHub',
-              href: 'https://github.com/facebook/docusaurus',
+              label: 'Binsoo - Photo Editor',
+              href: 'https://apps.apple.com/vn/app/binsoo-photo-filters-editor/id6502683720',
             },
           ],
         },
       ],
       copyright: `Copyright © ${new Date().getFullYear()} Bảo Hà (baronha)`,
     },
+
     prism: {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,

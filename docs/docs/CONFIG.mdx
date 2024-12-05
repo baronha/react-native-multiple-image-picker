@@ -1,0 +1,415 @@
+---
+id: config
+title: Configuration
+sidebar_label: Configuration
+slug: /guides/config
+---
+
+# Configuration
+
+## Core
+
+### MediaType
+
+Type of media to be displayed in the picker.
+
+```typescript
+type MediaType = 'video' | 'image' | 'all'
+```
+
+- **Type**: string
+- **Default**: 'all'
+- **Required**: No
+- **Options**:
+
+  - `video`: Only show videos
+  - `image`: Only show images
+  - `all`: Show both videos and images
+
+  ### SelectMode
+
+Mode of selection in the picker.
+
+```typescript
+type SelectMode = 'single' | 'multiple'
+```
+
+- **Type**: string
+- **Default**: 'multiple'
+- **Required**: No
+- **Options**:
+  - `single`: Allow selecting only one item
+  - `multiple`: Allow selecting multiple items
+
+### Presentation
+
+Modal presentation style for the picker.
+
+```typescript
+type Presentation = 'fullScreenModal' | 'formSheet'
+```
+
+- **Type**: string
+- **Default**: 'fullScreenModal'
+- **Required**: No
+- **Platform**: iOS only
+- **Options**:
+  - `fullScreenModal`: Opens picker in full screen
+  - `formSheet`: Opens picker in a form sheet style
+
+### Language
+
+Interface language for the picker.
+
+```typescript
+type Language =
+  | 'system'
+  | 'zh-Hans'
+  | 'zh-Hant'
+  | 'ja'
+  | 'ko'
+  | 'en'
+  | 'th'
+  | 'id'
+  | 'vi'
+  | 'ru'
+  | 'de'
+  | 'fr'
+  | 'ar'
+```
+
+- **Type**: string
+- **Default**: `system`
+- **Required**: No
+- **Options**:
+  - `system`: 🌐 System default
+  - `zh-Hans`: 🇨🇳 Simplified Chinese
+  - `zh-Hant`: 🇹🇼 Traditional Chinese
+  - `ja`: 🇯🇵 Japanese
+  - `ko`: 🇰🇷 Korean
+  - `en`: 🇬🇧 English
+  - `th`: 🇹🇭 Thai
+  - `id`: 🇮🇩 Indonesian
+  - `vi`: 🇻🇳 Vietnamese
+  - `ru`: 🇷🇺 Russian
+  - `de`: 🇩🇪 German
+  - `fr`: 🇫🇷 French
+  - `ar`: 🇸🇦 Arabic
+
+## Feature Configurations
+
+### Cropping Options
+
+Configuration for image cropping functionality.
+
+```typescript
+type PickerCropConfig = {
+  circle?: boolean
+}
+```
+
+- **Type**: `object`
+- **Required**: No
+- **Platforms**: iOS, Android
+- **Properties**:
+  - `circle`: Enable circular crop mask for profile pictures
+- **Example**:
+
+```typescript
+// Enable basic cropping with default settings
+crop: {}
+
+// Enable cropping with circle crop mask
+crop: {
+  circle: true,
+}
+```
+
+### Custom Text Labels
+
+Customize button labels and headers for localization and branding.
+
+```typescript
+interface Text {
+  finish?: string // Done/Complete button
+  original?: string // Original image button
+  preview?: string // Preview button
+  edit?: string // Edit button
+}
+```
+
+- **Type**: `object`
+- **Required**: No
+- **Properties**:
+  - `finish`: Label for the finish/done button
+  - `original`: Label for the original button
+  - `preview`: Label for the preview button
+  - `edit`: Label for the edit button
+- **Example**:
+
+```typescript
+text: {
+  finish: 'Complete',
+  original: 'Original',
+  preview: 'Preview',
+  edit: 'Edit'
+}
+```
+
+## UI Configuration
+
+### Colors
+
+#### primaryColor
+
+Primary color for the picker UI elements.
+
+```typescript
+primaryColor?: ColorValue
+```
+
+- **Type**: ColorValue
+- **Default**: '#FB9300'
+- **Required**: No
+- **Platforms**: iOS, Android
+- **Accepts**:
+  - Hex strings: '#RGB', '#RGBA', '#RRGGBB', '#RRGGBBAA'
+  - RGB/RGBA strings: 'rgb(255, 0, 0)', 'rgba(255, 0, 0, 0.5)'
+  - Named colors: 'red', 'blue', etc.
+- **Example**:
+
+```typescript
+primaryColor: '#FF0000'
+primaryColor: 'rgb(255, 0, 0)'
+primaryColor: 'red'
+```
+
+#### backgroundDark
+
+Background color for dark mode UI elements.
+
+```typescript
+backgroundDark?: ColorValue
+```
+
+- **Type**: ColorValue
+- **Default**: '#2f2f2f'
+- **Required**: No
+- **Platforms**: iOS, Android
+- **Accepts**: Same formats as primaryColor
+- **Example**:
+
+```typescript
+backgroundDark: '#000000'
+backgroundDark: 'rgb(0, 0, 0)'
+backgroundDark: 'black'
+```
+
+### Layout
+
+#### numberOfColumn
+
+Number of columns in the grid view.
+
+```typescript
+numberOfColumn?: number
+```
+
+- **Type**: number
+- **Default**: 3
+- **Required**: No
+
+#### spacing
+
+Spacing between items in the grid.
+
+```typescript
+spacing?: number
+```
+
+- **Type**: number
+- **Required**: No
+
+### SelectBoxStyle
+
+Style of selection box in the picker.
+
+```typescript
+type SelectBoxStyle = 'number' | 'tick'
+```
+
+- **Type**: string
+- **Default**: 'number'
+- **Required**: No
+- **Options**:
+  - `number`: Shows selection order number
+  - `tick`: Shows checkmark icon
+
+### Theme
+
+Theme mode for the picker.
+
+```typescript
+type Theme = 'light' | 'dark' | 'system'
+```
+
+- **Type**: string
+- **Default**: `system`
+- **Required**: No
+- **Options**:
+  - `light`: Uses light theme
+  - `dark`: Uses dark theme
+  - `system`: Uses system default theme
+- **Platforms**: iOS, Android
+
+## Media Settings
+
+### Selection Limits
+
+#### maxSelect
+
+Maximum number of items that can be selected.
+
+```typescript
+maxSelect?: number
+```
+
+- **Type**: number
+- **Default**: 20
+- **Required**: No
+
+#### maxVideo
+
+Maximum number of videos allowed.
+
+```typescript
+maxVideo?: number
+```
+
+- **Type**: number
+- **Default**: 20
+- **Required**: No
+
+### Video Constraints
+
+#### maxVideoDuration
+
+Maximum duration for videos in seconds.
+
+```typescript
+maxVideoDuration?: number
+```
+
+- **Type**: number
+- **Required**: No
+
+#### minVideoDuration
+
+Minimum duration for videos in seconds.
+
+```typescript
+minVideoDuration?: number
+```
+
+- **Type**: number
+- **Required**: No
+
+#### maxFileSize
+
+Maximum file size in bytes.
+
+```typescript
+maxFileSize?: number
+```
+
+- **Type**: number
+- **Required**: No
+
+### Quality Settings
+
+#### videoQuality
+
+Video quality setting for the picker.
+
+```typescript
+videoQuality?: number
+```
+
+- **Type**: number
+- **Default**: 1
+- **Required**: No
+- **Platforms**: iOS, Android
+- **Range**: 0 to 1
+- **Platform Behavior**:
+  - **iOS**: Continuous range (0 = max compression, 1 = no compression)
+  - **Android**: Binary (0 = low quality, 1 = high quality)
+- **Example**:
+
+```typescript
+// iOS: 80% quality
+// Android: Low quality (0) or High quality (1)
+videoQuality: 0.8 // iOS: 80% quality, Android: Low quality
+videoQuality: 1 // Both platforms: Highest quality
+```
+
+#### imageQuality
+
+Image quality setting for the picker.
+
+```typescript
+imageQuality?: number
+```
+
+- **Type**: number
+- **Default**: 1
+- **Required**: No
+- **Platform**: iOS only
+- **Range**: 0 to 1
+- **Example**:
+
+```typescript
+imageQuality: 0.8 // 80% quality
+```
+
+## Feature Flags
+
+### Preview Options
+
+```typescript
+isPreview?: boolean
+isHiddenPreviewButton?: boolean
+isShowPreviewList?: boolean         // iOS only
+allowHapticTouchPreview?: boolean   // iOS only
+```
+
+- **Type**: boolean
+- **Default**:
+  - `isPreview`: true
+  - Others: false
+- **Required**: No
+
+### Camera & Selection
+
+```typescript
+allowedCamera?: boolean
+allowSwipeToSelect?: boolean
+isShowAssetNumber?: boolean
+isHiddenOriginalButton?: boolean
+```
+
+- **Type**: boolean
+- **Default**:
+  - `allowedCamera`: true
+  - `isHiddenOriginalButton`: false
+  - Others: false
+- **Required**: No
+
+### Selection Limits
+
+```typescript
+allowedLimit?: boolean
+```
+
+- **Type**: boolean
+- **Default**: true
+- **Required**: No
