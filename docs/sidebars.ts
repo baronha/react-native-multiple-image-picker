@@ -17,7 +17,7 @@ const sidebars: SidebarsConfig = {
     'getting-started',
     'usage',
     'config',
-    'preview',
+    'result',
     // 'troubleshooting',
     // 'contributing',
   ],
