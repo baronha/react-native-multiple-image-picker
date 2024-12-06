@@ -14,9 +14,11 @@
   },
   "dependencies": {
     "@baronha/react-native-image-grid": "^0.2.7",
+    "@react-native-segmented-control/segmented-control": "2.5.2",
     "expo": "~51.0.38",
     "expo-build-properties": "^0.12.5",
     "expo-status-bar": "~1.12.1",
+    "expo-system-ui": "~3.0.7",
     "immer": "^10.1.1",
     "react": "18.2.0",
     "react-native": "0.75.0",

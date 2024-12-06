@@ -1,9 +1,15 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { useState } from 'react'
-import { LayoutAnimation, Platform, Text, SafeAreaView } from 'react-native'
+import {
+  LayoutAnimation,
+  Platform,
+  Text,
+  SafeAreaView,
+  Appearance,
+  useColorScheme,
+} from 'react-native'
 import { TouchableOpacity } from 'react-native'
 import { ScrollView } from 'react-native'
-import { View } from 'react-native'
 import { Dimensions } from 'react-native'
 
 import { StyleSheet } from 'react-native'
@@ -16,6 +22,8 @@ import {
 } from '@baronha/react-native-multiple-image-picker'
 import { useImmer } from 'use-immer'
 import { StatusBar } from 'expo-status-bar'
+import { Button, CodeTag, Container, View } from './components'
+import useTheme from './hook/useTheme'
 
 const layoutEffect = () => {
   LayoutAnimation.configureNext({
@@ -33,8 +41,11 @@ const layoutEffect = () => {
 const { width } = Dimensions.get('window')
 
 export default function App() {
+  const { background, background_1 } = useTheme()
   const [images, setImages] = useState<Result[]>([])
   const [options, setOptions] = useImmer<Config>(defaultOptions)
+
+  const colorScheme = useColorScheme()
 
   const onPressImage = (item: Result, index: number) => {
     console.log(item, index)
@@ -60,17 +71,17 @@ export default function App() {
   }
 
   return (
-    <View style={style.container}>
+    <Container>
       <SafeAreaView />
       {Platform.OS === 'android' && (
         <StatusBar
           translucent={false}
           networkActivityIndicatorVisible
-          backgroundColor={'#000'}
+          backgroundColor={background}
         />
       )}
 
-      <ScrollView>
+      <ScrollView style={style.scrollView}>
         <View style={{ alignItems: 'center' }}>
           <ImageGrid
             dataImage={images}
@@ -86,21 +97,21 @@ export default function App() {
             showDelete
             onDeleteImage={onRemovePhoto}
           />
-
-          <TouchableOpacity style={style.buttonOpen} onPress={onPicker}>
-            <Text style={style.textOpen}>Open Picker</Text>
-          </TouchableOpacity>
+          <CodeTag>Hello</CodeTag>
         </View>
       </ScrollView>
-    </View>
+
+      <View level={2}>
+        <Button style={style.buttonOpen} onPress={onPicker}>
+          Open Picker
+        </Button>
+        <SafeAreaView />
+      </View>
+    </Container>
   )
 }
 
 const style = StyleSheet.create({
-  container: {
-    backgroundColor: '#000',
-    flex: 1,
-  },
   title: {
     fontWeight: '900',
     fontSize: 24,
@@ -111,19 +122,8 @@ const style = StyleSheet.create({
   },
   buttonOpen: {
     margin: 24,
-    backgroundColor: '#fff',
-    padding: 12,
-    alignItems: 'center',
-    width: width - 48,
   },
-  textOpen: {
-    fontWeight: 'bold',
-  },
-  header: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: 'rgba(0,0,0,0.9)',
+  scrollView: {
+    flex: 1,
   },
 })
