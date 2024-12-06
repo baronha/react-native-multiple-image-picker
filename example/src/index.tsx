@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { useState } from 'react'
+import React, { ReactNode, useState } from 'react'
 import {
   Appearance,
   ColorSchemeName,
@@ -29,13 +29,18 @@ import {
   Container,
   Row,
   SegmentControl,
+  StickyView,
   Text,
   View,
 } from './components'
 import useTheme from './hook/useTheme'
 import assets from './assets'
 import Divider from './components/Divider'
-import Animated from 'react-native-reanimated'
+import Animated, {
+  useAnimatedScrollHandler,
+  useSharedValue,
+} from 'react-native-reanimated'
+import { WIDTH } from './theme/size'
 
 const layoutEffect = () => {
   LayoutAnimation.configureNext({
@@ -56,12 +61,22 @@ export default function App() {
   const { background, background_1 } = useTheme()
   const [images, setImages] = useState<Result[]>([])
   const [options, changeOptions] = useImmer<Config>(defaultOptions)
+  const scrollY = useSharedValue(0)
 
   const colorScheme = useColorScheme()
 
+  const onScroll = useAnimatedScrollHandler(
+    {
+      onScroll: (e) => {
+        scrollY.value = e.contentOffset.y
+      },
+    },
+    []
+  )
+
   const setOptions = (key: keyof Config, value: Config[keyof Config]) => {
     changeOptions((draft) => {
-      draft[key] = value
+      draft[key] = value as any
     })
   }
 
@@ -90,9 +105,7 @@ export default function App() {
 
   const onChangeTheme = (value: string) => {
     Appearance.setColorScheme(
-      (value === 'system'
-        ? Appearance.getColorScheme()
-        : value) as ColorSchemeName
+      (value === 'system' ? null : value) as ColorSchemeName
     )
   }
 
@@ -114,18 +127,20 @@ export default function App() {
           <Text style={style.mip}>Multiple Image Picker</Text>
           <CodeTag textProps={{ style: { fontSize: 8 } }}>BY BAOHA</CodeTag>
         </View>
+        <StickyView scrollY={scrollY} images={images} />
       </View>
 
       <Animated.ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={style.scrollView}
+        onScroll={onScroll}
+        scrollEventThrottle={16}
       >
         {images.length > 0 ? (
           <ImageGrid
             dataImage={images}
             onPressImage={onPressImage}
-            containerStyle={{ marginTop: 3 }}
-            width={Dimensions.get('window').width - 6}
+            width={WIDTH - 6}
             sourceKey={'path'}
             videoKey={'type'}
             prefixPath={Platform.OS === 'ios' ? 'file://' : ''}
@@ -140,16 +155,17 @@ export default function App() {
           </TouchableOpacity>
         )}
 
-        <Text style={style.title}>Config</Text>
-
         <View style={style.content}>
-          <View>
+          <Text style={style.title}>Config</Text>
+
+          {/* theme */}
+          <View style={style.section}>
             <CodeTag>theme</CodeTag>
+            <Text style={style.des}>Theme mode for the picker</Text>
+
             <SegmentControl
-              selectedIndex={
-                ['system', 'light', 'dark'].indexOf(colorScheme ?? '') ?? 0
-              }
-              values={['system', 'light', 'dark']}
+              selectedIndex={['light', 'dark'].indexOf(colorScheme ?? '') ?? 0}
+              values={['light', 'dark']}
               onValueChange={onChangeTheme}
             />
           </View>
@@ -168,7 +184,7 @@ export default function App() {
 
 const style = StyleSheet.create({
   titleView: {
-    padding: 24,
+    padding: 16,
 
     flexDirection: 'row',
     gap: 12,
@@ -189,16 +205,17 @@ const style = StyleSheet.create({
     textTransform: 'uppercase',
   },
   buttonOpen: {
-    margin: 24,
+    margin: 16,
   },
   scrollView: {
     gap: 12,
   },
   content: {
     flexDirection: 'column',
-    paddingHorizontal: 24,
-    paddingBottom: 24,
+    paddingHorizontal: 16,
+    paddingBottom: 16,
     gap: 16,
+    paddingTop: 16,
   },
 
   logo: {
@@ -215,11 +232,15 @@ const style = StyleSheet.create({
     // backgroundColor: '#D4D4D432',
     borderStyle: 'dashed',
     borderWidth: 2,
-    borderColor: '#D4D4D432',
+    borderColor: '#D4D4D492',
     borderRadius: 8,
   },
   plusSign: {
     width: 16,
     height: 16,
   },
+  section: {
+    gap: 12,
+  },
+  des: {},
 })

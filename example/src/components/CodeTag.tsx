@@ -21,11 +21,13 @@ export function CodeTag({ children, textProps, ...props }: CodeTagProps) {
 const style = StyleSheet.create({
   text: {
     fontFamily: 'monospace',
+    fontWeight: 600,
     fontSize: 16,
   },
   container: {
     padding: 8,
     paddingVertical: 6,
     borderRadius: 4,
+    alignSelf: 'baseline',
   },
 })

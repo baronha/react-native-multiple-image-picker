@@ -20,7 +20,7 @@ export function Button({ children, style: containerStyle, onPress }: Props) {
       onPress={onPress}
     >
       {typeof children === 'string' ? (
-        <Text style={{ color: background }}>{children}</Text>
+        <Text style={[style.text, { color: background }]}>{children}</Text>
       ) : (
         children
       )}
@@ -32,5 +32,9 @@ const style = StyleSheet.create({
   button: {
     padding: 12,
     alignItems: 'center',
+  },
+  text: {
+    fontFamily: 'Avenir',
+    fontWeight: 'bold',
   },
 })

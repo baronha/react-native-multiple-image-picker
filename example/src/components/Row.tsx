@@ -4,11 +4,20 @@ import { View } from './View'
 
 interface RowProps extends ViewProps {
   alignItems?: ViewStyle['alignItems']
+  gap?: number
 }
 
-export function Row({ children, alignItems = 'center', ...props }: RowProps) {
+export function Row({
+  children,
+  gap,
+  alignItems = 'center',
+  ...props
+}: RowProps) {
   return (
-    <View {...props} style={[style.container, props.style, { alignItems }]}>
+    <View
+      {...props}
+      style={[style.container, props.style, { alignItems, gap }]}
+    >
       {children}
     </View>
   )

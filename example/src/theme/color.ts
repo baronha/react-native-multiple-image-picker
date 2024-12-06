@@ -5,8 +5,8 @@ export const light = {
 
   // background level
   background_1: '#f0f0f0',
-  background_2: '#e0e0e0',
-  background_3: '#d0d0d0',
+  background_2: '#f3f3f3',
+  background_3: '#f5f5f5',
 }
 
 export const dark = {
@@ -20,4 +20,7 @@ export const dark = {
   background_3: '#303030',
 }
 
-export const colors = light
+export const colors = {
+  ...light,
+  divider: '#D4D4D499',
+}
