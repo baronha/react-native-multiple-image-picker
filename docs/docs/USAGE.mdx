@@ -8,28 +8,22 @@ slug: /usage
 ## Usage
 
 Here is a simple usage of the Multiple Image Picker. <br/>
-See more [**Config**](/docs/guides/config)
+See more [**Config**](/config)
 
 ```typescript
 import { openPicker, Config } from '@baronha/react-native-multiple-image-picker'
 
 const config: Config = {
-  maxSelect: 20,
-  maxVideo: 20,
+  maxSelect: 10,
+  maxVideo: 10,
   primaryColor: '#FB9300',
   backgroundDark: '#2f2f2f',
-  allowedCamera: true,
-  allowedLimit: true,
-  numberOfColumn: 3,
-  isPreview: true,
-  mediaType: 'all',
-  selectedAssets: [],
+  numberOfColumn: 4,
+  mediaType: 'all'
   selectBoxStyle: 'number',
   selectMode: 'multiple',
-  isShowAssetNumber: false,
-  presentation: 'fullScreenModal',
-  language: 'system',
-  theme: 'system',
+  language: 'vi', // 🇻🇳 Vietnamese
+  theme: 'dark',
   isHiddenOriginalButton: false,
   primaryColor: '#F6B35D',
 }

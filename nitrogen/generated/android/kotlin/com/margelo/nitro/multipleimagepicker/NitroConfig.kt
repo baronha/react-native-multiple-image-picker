@@ -31,7 +31,6 @@ data class NitroConfig(
   val isHiddenOriginalButton: Boolean?,
   val isShowPreviewList: Boolean?,
   val allowHapticTouchPreview: Boolean?,
-  val isShowAssetNumber: Boolean?,
   val allowedLimit: Boolean?,
   val maxVideo: Double?,
   val maxSelect: Double?,

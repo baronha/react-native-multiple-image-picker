@@ -142,12 +142,6 @@ export interface NitroConfig {
   allowHapticTouchPreview?: boolean
 
   /**
-   * Show asset numbers
-   * @type {boolean}
-   */
-  isShowAssetNumber?: boolean
-
-  /**
    * Enable selection limit
    * @type {boolean}
    */

@@ -80,8 +80,6 @@ namespace margelo::nitro::multipleimagepicker {
       jni::local_ref<jni::JBoolean> isShowPreviewList = this->getFieldValue(fieldIsShowPreviewList);
       static const auto fieldAllowHapticTouchPreview = clazz->getField<jni::JBoolean>("allowHapticTouchPreview");
       jni::local_ref<jni::JBoolean> allowHapticTouchPreview = this->getFieldValue(fieldAllowHapticTouchPreview);
-      static const auto fieldIsShowAssetNumber = clazz->getField<jni::JBoolean>("isShowAssetNumber");
-      jni::local_ref<jni::JBoolean> isShowAssetNumber = this->getFieldValue(fieldIsShowAssetNumber);
       static const auto fieldAllowedLimit = clazz->getField<jni::JBoolean>("allowedLimit");
       jni::local_ref<jni::JBoolean> allowedLimit = this->getFieldValue(fieldAllowedLimit);
       static const auto fieldMaxVideo = clazz->getField<jni::JDouble>("maxVideo");
@@ -134,7 +132,6 @@ namespace margelo::nitro::multipleimagepicker {
         isHiddenOriginalButton != nullptr ? std::make_optional(static_cast<bool>(isHiddenOriginalButton->value())) : std::nullopt,
         isShowPreviewList != nullptr ? std::make_optional(static_cast<bool>(isShowPreviewList->value())) : std::nullopt,
         allowHapticTouchPreview != nullptr ? std::make_optional(static_cast<bool>(allowHapticTouchPreview->value())) : std::nullopt,
-        isShowAssetNumber != nullptr ? std::make_optional(static_cast<bool>(isShowAssetNumber->value())) : std::nullopt,
         allowedLimit != nullptr ? std::make_optional(static_cast<bool>(allowedLimit->value())) : std::nullopt,
         maxVideo != nullptr ? std::make_optional(maxVideo->value()) : std::nullopt,
         maxSelect != nullptr ? std::make_optional(maxSelect->value()) : std::nullopt,
@@ -181,7 +178,6 @@ namespace margelo::nitro::multipleimagepicker {
         value.isHiddenOriginalButton.has_value() ? jni::JBoolean::valueOf(value.isHiddenOriginalButton.value()) : nullptr,
         value.isShowPreviewList.has_value() ? jni::JBoolean::valueOf(value.isShowPreviewList.value()) : nullptr,
         value.allowHapticTouchPreview.has_value() ? jni::JBoolean::valueOf(value.allowHapticTouchPreview.value()) : nullptr,
-        value.isShowAssetNumber.has_value() ? jni::JBoolean::valueOf(value.isShowAssetNumber.value()) : nullptr,
         value.allowedLimit.has_value() ? jni::JBoolean::valueOf(value.allowedLimit.value()) : nullptr,
         value.maxVideo.has_value() ? jni::JDouble::valueOf(value.maxVideo.value()) : nullptr,
         value.maxSelect.has_value() ? jni::JDouble::valueOf(value.maxSelect.value()) : nullptr,

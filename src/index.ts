@@ -61,7 +61,6 @@ export const defaultOptions: Config = {
   selectedAssets: [],
   selectBoxStyle: 'number',
   selectMode: 'multiple',
-  isShowAssetNumber: false,
   presentation: 'fullScreenModal',
   language: 'system',
   theme: 'system',

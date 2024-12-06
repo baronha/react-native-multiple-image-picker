@@ -42,10 +42,6 @@ extension HybridMultipleImagePicker {
             photoList.allowAddCamera = allowedCamera
         }
 
-        if let isShowAssetNumber = options.isShowAssetNumber {
-            photoList.isShowAssetNumber = isShowAssetNumber
-        }
-
         if let allowedLimit = options.allowedLimit {
             photoList.allowAddLimit = allowedLimit
         }

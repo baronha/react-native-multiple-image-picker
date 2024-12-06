@@ -70,7 +70,6 @@ namespace margelo::nitro::multipleimagepicker {
     std::optional<bool> isHiddenOriginalButton     SWIFT_PRIVATE;
     std::optional<bool> isShowPreviewList     SWIFT_PRIVATE;
     std::optional<bool> allowHapticTouchPreview     SWIFT_PRIVATE;
-    std::optional<bool> isShowAssetNumber     SWIFT_PRIVATE;
     std::optional<bool> allowedLimit     SWIFT_PRIVATE;
     std::optional<double> maxVideo     SWIFT_PRIVATE;
     std::optional<double> maxSelect     SWIFT_PRIVATE;
@@ -87,7 +86,7 @@ namespace margelo::nitro::multipleimagepicker {
     Presentation presentation     SWIFT_PRIVATE;
 
   public:
-    explicit NitroConfig(MediaType mediaType, std::vector<Result> selectedAssets, SelectBoxStyle selectBoxStyle, SelectMode selectMode, std::optional<double> numberOfColumn, std::optional<bool> isPreview, std::optional<double> primaryColor, std::optional<bool> allowedCamera, std::optional<bool> allowSwipeToSelect, std::optional<double> spacing, std::optional<bool> isHiddenPreviewButton, std::optional<bool> isHiddenOriginalButton, std::optional<bool> isShowPreviewList, std::optional<bool> allowHapticTouchPreview, std::optional<bool> isShowAssetNumber, std::optional<bool> allowedLimit, std::optional<double> maxVideo, std::optional<double> maxSelect, std::optional<double> maxVideoDuration, std::optional<double> minVideoDuration, std::optional<double> maxFileSize, std::optional<double> videoQuality, std::optional<double> imageQuality, std::optional<double> backgroundDark, std::optional<PickerCropConfig> crop, std::optional<Text> text, Language language, Theme theme, Presentation presentation): mediaType(mediaType), selectedAssets(selectedAssets), selectBoxStyle(selectBoxStyle), selectMode(selectMode), numberOfColumn(numberOfColumn), isPreview(isPreview), primaryColor(primaryColor), allowedCamera(allowedCamera), allowSwipeToSelect(allowSwipeToSelect), spacing(spacing), isHiddenPreviewButton(isHiddenPreviewButton), isHiddenOriginalButton(isHiddenOriginalButton), isShowPreviewList(isShowPreviewList), allowHapticTouchPreview(allowHapticTouchPreview), isShowAssetNumber(isShowAssetNumber), allowedLimit(allowedLimit), maxVideo(maxVideo), maxSelect(maxSelect), maxVideoDuration(maxVideoDuration), minVideoDuration(minVideoDuration), maxFileSize(maxFileSize), videoQuality(videoQuality), imageQuality(imageQuality), backgroundDark(backgroundDark), crop(crop), text(text), language(language), theme(theme), presentation(presentation) {}
+    explicit NitroConfig(MediaType mediaType, std::vector<Result> selectedAssets, SelectBoxStyle selectBoxStyle, SelectMode selectMode, std::optional<double> numberOfColumn, std::optional<bool> isPreview, std::optional<double> primaryColor, std::optional<bool> allowedCamera, std::optional<bool> allowSwipeToSelect, std::optional<double> spacing, std::optional<bool> isHiddenPreviewButton, std::optional<bool> isHiddenOriginalButton, std::optional<bool> isShowPreviewList, std::optional<bool> allowHapticTouchPreview, std::optional<bool> allowedLimit, std::optional<double> maxVideo, std::optional<double> maxSelect, std::optional<double> maxVideoDuration, std::optional<double> minVideoDuration, std::optional<double> maxFileSize, std::optional<double> videoQuality, std::optional<double> imageQuality, std::optional<double> backgroundDark, std::optional<PickerCropConfig> crop, std::optional<Text> text, Language language, Theme theme, Presentation presentation): mediaType(mediaType), selectedAssets(selectedAssets), selectBoxStyle(selectBoxStyle), selectMode(selectMode), numberOfColumn(numberOfColumn), isPreview(isPreview), primaryColor(primaryColor), allowedCamera(allowedCamera), allowSwipeToSelect(allowSwipeToSelect), spacing(spacing), isHiddenPreviewButton(isHiddenPreviewButton), isHiddenOriginalButton(isHiddenOriginalButton), isShowPreviewList(isShowPreviewList), allowHapticTouchPreview(allowHapticTouchPreview), allowedLimit(allowedLimit), maxVideo(maxVideo), maxSelect(maxSelect), maxVideoDuration(maxVideoDuration), minVideoDuration(minVideoDuration), maxFileSize(maxFileSize), videoQuality(videoQuality), imageQuality(imageQuality), backgroundDark(backgroundDark), crop(crop), text(text), language(language), theme(theme), presentation(presentation) {}
   };
 
 } // namespace margelo::nitro::multipleimagepicker
@@ -116,7 +115,6 @@ namespace margelo::nitro {
         JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, "isHiddenOriginalButton")),
         JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, "isShowPreviewList")),
         JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, "allowHapticTouchPreview")),
-        JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, "isShowAssetNumber")),
         JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, "allowedLimit")),
         JSIConverter<std::optional<double>>::fromJSI(runtime, obj.getProperty(runtime, "maxVideo")),
         JSIConverter<std::optional<double>>::fromJSI(runtime, obj.getProperty(runtime, "maxSelect")),
@@ -149,7 +147,6 @@ namespace margelo::nitro {
       obj.setProperty(runtime, "isHiddenOriginalButton", JSIConverter<std::optional<bool>>::toJSI(runtime, arg.isHiddenOriginalButton));
       obj.setProperty(runtime, "isShowPreviewList", JSIConverter<std::optional<bool>>::toJSI(runtime, arg.isShowPreviewList));
       obj.setProperty(runtime, "allowHapticTouchPreview", JSIConverter<std::optional<bool>>::toJSI(runtime, arg.allowHapticTouchPreview));
-      obj.setProperty(runtime, "isShowAssetNumber", JSIConverter<std::optional<bool>>::toJSI(runtime, arg.isShowAssetNumber));
       obj.setProperty(runtime, "allowedLimit", JSIConverter<std::optional<bool>>::toJSI(runtime, arg.allowedLimit));
       obj.setProperty(runtime, "maxVideo", JSIConverter<std::optional<double>>::toJSI(runtime, arg.maxVideo));
       obj.setProperty(runtime, "maxSelect", JSIConverter<std::optional<double>>::toJSI(runtime, arg.maxSelect));
@@ -185,7 +182,6 @@ namespace margelo::nitro {
       if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, "isHiddenOriginalButton"))) return false;
       if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, "isShowPreviewList"))) return false;
       if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, "allowHapticTouchPreview"))) return false;
-      if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, "isShowAssetNumber"))) return false;
       if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, "allowedLimit"))) return false;
       if (!JSIConverter<std::optional<double>>::canConvert(runtime, obj.getProperty(runtime, "maxVideo"))) return false;
       if (!JSIConverter<std::optional<double>>::canConvert(runtime, obj.getProperty(runtime, "maxSelect"))) return false;
