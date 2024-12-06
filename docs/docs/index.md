@@ -14,7 +14,7 @@ slug: /
 
 [![iOS][iOS]][iOS-URL] [![Android][Android]][Android-URL] [![Swift][Swift]][Swift-URL] [![Kotlin][Kotlin]][Kotlin-URL] [![React-Native][React-Native]][React-Native-URL]
 
-## Overview
+## Overview 🎇
 
 ![NitroModule](https://img.shields.io/badge/Nitro_Module-0052CC?style=for-the-badge) ![SmoothScroll](https://img.shields.io/badge/Smooth_Scroll-FCC624?style=for-the-badge) ![CropImage](https://img.shields.io/badge/Crop_Image-EA4C89?style=for-the-badge)
 
@@ -24,18 +24,28 @@ React Native Multiple Image Picker **(RNMIP)** enables application to pick image
 
 | 🤩  | ![Logo][Logo]                                                                  |
 | --- | ------------------------------------------------------------------------------ |
-| 🐳  | Save selected image status for later session.                                  |
+| 🐳  | Keep the previous selection.                                                   |
+| 0️⃣  | Selected order index.                                                          |
 | 🎨  | UI Customization (numberOfColumn, spacing, primaryColor ... )                  |
 | 🌚  | Dark Mode, Light Mode                                                          |
 | 🌄  | Choose multiple images/video.                                                  |
 | 🤐  | Compress image after selected (new) ✨                                         |
 | 📦  | Support smart album `(camera roll, selfies, panoramas, favorites, videos...)`. |
-| 0️⃣  | Selected order index.                                                          |
 | 📺  | Display video duration.                                                        |
 | 🎆  | Preview image/video.                                                           |
 | ⛅️ | Support iCloud Photo Library.                                                  |
 | 🔪  | Crop single/multiple image (new) ✨                                            |
-| 🌪  | Scrolling performance.                                                         |
+| 🌪  | Scrolling performance. ☕️                                                      |
+
+## Sponsor & Support ☕️
+
+To keep this library maintained and up-to-date please consider [sponsoring it on GitHub](https://github.com/sponsors/baronha). Or if you are looking for a private support or help in customizing the experience, then reach out to me on Twitter [@\_baronha](https://twitter.com/_baronha).
+
+## Built With ❤️
+
+- [react-native-nitro-modules](https://nitro.margelo.com/docs/nitro-modules)
+- [HXPhotoPicker](https://github.com/SilenceLove/HXPhotoPicker)
+- [PictureSelector](https://github.com/LuckSiege/PictureSelector)
 
 <!-- Badge for README -->
 

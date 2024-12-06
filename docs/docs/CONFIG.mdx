@@ -20,8 +20,8 @@ Mode of selection in the picker.
 
 ### `selectedAssets`
 
-Array of currently selected assets.
-See [Result](/result)
+Keep previous selection in Multiple Image Picker <br/>
+See [**Result**](/result)
 
 - **Type**: Result[]
 - **Default**: `[]`
@@ -35,6 +35,15 @@ Enable camera functionality.
 - **Default**: `true`
 - **Required**: No
 - **Platform**: iOS, Android
+
+### `allowedLimit`
+
+Display additional select more media when permission on `iOS` is limited.
+
+- **Type**: boolean
+- **Default**: `true`
+- **Required**: No
+- **Platform**: iOS
 
 ### `allowSwipeToSelect`
 
@@ -54,30 +63,21 @@ Hide the original button.
 - **Required**: No
 - **Platform**: iOS, Android
 
-### `allowedLimit`
+### `maxSelect`
 
-Enable selection limit view.
+Maximum number of items that can be selected.
 
-- **Type**: boolean
-- **Default**: `true`
+- **Type**: number
+- **Default**: `20`
 - **Required**: No
-- **Platform**: iOS
+- **Platform**: iOS, Android
 
 ### `maxVideo`
 
 Maximum number of videos allowed.
 
 - **Type**: number
-- **Default**: `undefined`
-- **Required**: No
-- **Platform**: iOS, Android
-
-### `maxSelect`
-
-Maximum number of items that can be selected.
-
-- **Type**: number
-- **Default**: `9`
+- **Default**: `20`
 - **Required**: No
 - **Platform**: iOS, Android
 
