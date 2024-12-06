@@ -1,7 +1,7 @@
 export const light = {
-  background: '#fff',
-  foreground: '#000',
-  primary: '#000',
+  background: '#ffffff',
+  foreground: '#000000',
+  primary: '#000000',
 
   // background level
   background_1: '#f0f0f0',
@@ -11,8 +11,8 @@ export const light = {
 
 export const dark = {
   background: '#000',
-  foreground: '#fff',
-  primary: '#fff',
+  foreground: '#ffffff',
+  primary: '#ffffff',
 
   // background level
   background_1: '#101010',

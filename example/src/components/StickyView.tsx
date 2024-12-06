@@ -50,7 +50,7 @@ export function StickyView({
 
 const style = StyleSheet.create({
   container: {
-    position: 'absolute',
+    // position: 'absolute',
   },
   image: {
     flex: 1 / 6,

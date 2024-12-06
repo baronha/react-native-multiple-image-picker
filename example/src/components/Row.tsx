@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, ViewProps, ViewStyle } from 'react-native'
 import { View } from './View'
 
-interface RowProps extends ViewProps {
+export interface RowProps extends ViewProps {
   alignItems?: ViewStyle['alignItems']
   gap?: number
 }

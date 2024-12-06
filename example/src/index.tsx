@@ -1,5 +1,4 @@
-/* eslint-disable react-native/no-inline-styles */
-import React, { ReactNode, useState } from 'react'
+import React, { useState } from 'react'
 import {
   Appearance,
   ColorSchemeName,
@@ -7,10 +6,10 @@ import {
   LayoutAnimation,
   Platform,
   SafeAreaView,
+  TextInput,
   TouchableOpacity,
   useColorScheme,
 } from 'react-native'
-import { ScrollView } from 'react-native'
 import { Dimensions } from 'react-native'
 
 import { StyleSheet } from 'react-native'
@@ -27,7 +26,8 @@ import {
   Button,
   CodeTag,
   Container,
-  Row,
+  CounterView,
+  Input,
   SegmentControl,
   StickyView,
   Text,
@@ -35,12 +35,14 @@ import {
 } from './components'
 import useTheme from './hook/useTheme'
 import assets from './assets'
-import Divider from './components/Divider'
 import Animated, {
   useAnimatedScrollHandler,
   useSharedValue,
 } from 'react-native-reanimated'
 import { WIDTH } from './theme/size'
+import { IS_IOS } from './common/const'
+import { AppContext } from './hook/context'
+import SectionView from './components/SectionView'
 
 const layoutEffect = () => {
   LayoutAnimation.configureNext({
@@ -55,10 +57,8 @@ const layoutEffect = () => {
   })
 }
 
-const { width } = Dimensions.get('window')
-
 export default function App() {
-  const { background, background_1 } = useTheme()
+  const { background } = useTheme()
   const [images, setImages] = useState<Result[]>([])
   const [options, changeOptions] = useImmer<Config>(defaultOptions)
   const scrollY = useSharedValue(0)
@@ -104,9 +104,7 @@ export default function App() {
   }
 
   const onChangeTheme = (value: string) => {
-    Appearance.setColorScheme(
-      (value === 'system' ? null : value) as ColorSchemeName
-    )
+    Appearance.setColorScheme(value as ColorSchemeName)
   }
 
   return (
@@ -130,47 +128,110 @@ export default function App() {
         <StickyView scrollY={scrollY} images={images} />
       </View>
 
-      <Animated.ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={style.scrollView}
-        onScroll={onScroll}
-        scrollEventThrottle={16}
-      >
-        {images.length > 0 ? (
-          <ImageGrid
-            dataImage={images}
-            onPressImage={onPressImage}
-            width={WIDTH - 6}
-            sourceKey={'path'}
-            videoKey={'type'}
-            prefixPath={Platform.OS === 'ios' ? 'file://' : ''}
-            conditionCheckVideo={'video'}
-            videoURLKey={'thumbnail'}
-            showDelete
-            onDeleteImage={onRemovePhoto}
-          />
-        ) : (
-          <TouchableOpacity style={style.buttonPlus} onPress={onPicker}>
-            <Image source={assets.plusSign} style={style.plusSign} />
-          </TouchableOpacity>
-        )}
-
-        <View style={style.content}>
-          <Text style={style.title}>Config</Text>
-
-          {/* theme */}
-          <View style={style.section}>
-            <CodeTag>theme</CodeTag>
-            <Text style={style.des}>Theme mode for the picker</Text>
-
-            <SegmentControl
-              selectedIndex={['light', 'dark'].indexOf(colorScheme ?? '') ?? 0}
-              values={['light', 'dark']}
-              onValueChange={onChangeTheme}
+      <AppContext.Provider value={{ options, setOptions }}>
+        <Animated.ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={style.scrollView}
+          onScroll={onScroll}
+          scrollEventThrottle={16}
+        >
+          {images.length > 0 ? (
+            <ImageGrid
+              dataImage={images}
+              onPressImage={onPressImage}
+              width={WIDTH - 6}
+              sourceKey={'path'}
+              videoKey={'type'}
+              prefixPath={Platform.OS === 'ios' ? 'file://' : ''}
+              conditionCheckVideo={'video'}
+              videoURLKey={'thumbnail'}
+              showDelete
+              onDeleteImage={onRemovePhoto}
             />
+          ) : (
+            <TouchableOpacity style={style.buttonPlus} onPress={onPicker}>
+              <Image source={assets.plusSign} style={style.plusSign} />
+            </TouchableOpacity>
+          )}
+
+          <View style={style.content}>
+            <Text style={style.title}>Config</Text>
+
+            {/* theme */}
+            <View style={style.section}>
+              <SectionView
+                title="theme"
+                description="Theme mode for the picker."
+              />
+              <SegmentControl
+                selectedIndex={
+                  ['light', 'dark'].indexOf(colorScheme ?? '') ?? 0
+                }
+                values={['light', 'dark']}
+                onValueChange={onChangeTheme}
+              />
+            </View>
+
+            {/* selectMode */}
+            <View style={style.section}>
+              <SectionView
+                title="selectMode"
+                description="Mode of selection in the picker."
+              />
+              <SegmentControl
+                selectedIndex={
+                  ['single', 'multiple'].indexOf(options.selectMode ?? '') ?? 0
+                }
+                values={['single', 'multiple']}
+                onValueChange={(value) => setOptions('selectMode', value)}
+              />
+            </View>
+
+            {/* allowedCamera */}
+
+            <SectionView
+              title="allowedCamera"
+              description="Enable camera functionality."
+              optionKey="allowedCamera"
+            />
+
+            {IS_IOS ? (
+              <>
+                {/* allowedLimit */}
+                <SectionView
+                  title="allowedLimit"
+                  description="Display additional select more media when permission on iOS is limited."
+                  optionKey="allowedLimit"
+                />
+              </>
+            ) : null}
+
+            {/* allowSwipeToSelect */}
+            <SectionView
+              title="allowSwipeToSelect"
+              description="Allow swipe to select media."
+              optionKey="allowSwipeToSelect"
+            />
+
+            {/* isHiddenOriginalButton */}
+            <SectionView
+              title="isHiddenOriginalButton"
+              description="Hide the original button in the picker."
+              optionKey="isHiddenOriginalButton"
+            />
+
+            <SectionView
+              title="maxSelect"
+              description="The maximum number of media that can be selected."
+            >
+              <CounterView
+                value={options.maxSelect}
+                onChange={(value) => setOptions('maxSelect', value)}
+              />
+            </SectionView>
           </View>
-        </View>
-      </Animated.ScrollView>
+        </Animated.ScrollView>
+      </AppContext.Provider>
 
       <View level={2}>
         <Button style={style.buttonOpen} onPress={onPicker}>
@@ -190,13 +251,13 @@ const style = StyleSheet.create({
     gap: 12,
   },
   mip: {
-    flex: 1,
+    // flex: 1,
   },
   textView: {
     alignItems: 'flex-start',
-    justifyContent: 'space-between',
     flex: 1,
     height: 48,
+    gap: 4,
   },
   title: {
     fontWeight: 900,
@@ -209,13 +270,13 @@ const style = StyleSheet.create({
   },
   scrollView: {
     gap: 12,
+    paddingTop: 12,
+    paddingBottom: 24,
   },
   content: {
     flexDirection: 'column',
-    paddingHorizontal: 16,
-    paddingBottom: 16,
-    gap: 16,
-    paddingTop: 16,
+    gap: 32,
+    padding: 16,
   },
 
   logo: {
@@ -240,7 +301,15 @@ const style = StyleSheet.create({
     height: 16,
   },
   section: {
-    gap: 12,
+    rowGap: 12,
+    columnGap: 24,
   },
-  des: {},
+  sectionTitle: {
+    gap: 8,
+  },
+
+  des: {
+    fontSize: 12,
+    // marginBottom: 12,
+  },
 })
