@@ -1,7 +1,15 @@
 import React from 'react'
-import { View } from 'react-native'
-import SegmentedControl from '@react-native-segmented-control/segmented-control'
+import { StyleSheet, View } from 'react-native'
+import SegmentedControl, {
+  SegmentedControlProps,
+} from '@react-native-segmented-control/segmented-control'
 
-export function SegmentControl() {
-  return <View></View>
+export function SegmentControl({ ...props }: SegmentedControlProps) {
+  return <SegmentedControl {...props} />
 }
+
+const style = StyleSheet.create({
+  segment: {
+    marginHorizontal: 16,
+  },
+})

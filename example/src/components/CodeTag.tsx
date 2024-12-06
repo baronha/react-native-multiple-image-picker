@@ -1,12 +1,19 @@
 import React from 'react'
 import { View } from './View'
-import { StyleSheet, ViewProps } from 'react-native'
+import { StyleSheet, TextProps, ViewProps } from 'react-native'
 import { Text } from './Text'
 
-export function CodeTag({ children, ...props }: ViewProps) {
+interface CodeTagProps extends ViewProps {
+  children: string
+  textProps?: TextProps
+}
+
+export function CodeTag({ children, textProps, ...props }: CodeTagProps) {
   return (
     <View level={3} {...props} style={[style.container, props.style]}>
-      <Text style={style.text}>{children}</Text>
+      <Text {...textProps} style={[style.text, textProps?.style]}>
+        {children}
+      </Text>
     </View>
   )
 }

@@ -9,11 +9,12 @@
     "web": "expo start --web",
     "pod": "cd ios && bundle exec pod update",
     "pod-new-arch": "cd ios && RCT_NEW_ARCH_ENABLED=1 bundle exec pod install",
-    "prebuild": "expo prebuild --clean",
+    "prebuild": "expo prebuild",
     "gradle": "cd android && ./gradlew clean && ./gradlew build"
   },
   "dependencies": {
     "@baronha/react-native-image-grid": "^0.2.7",
+    "@gorhom/bottom-sheet": "^5.0.6",
     "@react-native-segmented-control/segmented-control": "2.5.2",
     "expo": "~51.0.38",
     "expo-build-properties": "^0.12.5",
@@ -22,6 +23,9 @@
     "immer": "^10.1.1",
     "react": "18.2.0",
     "react-native": "0.75.0",
+    "react-native-gesture-handler": "~2.16.1",
+    "react-native-reanimated": "~3.10.1",
+    "reanimated-color-picker": "^3.0.6",
     "use-immer": "^0.10.0"
   },
   "devDependencies": {
