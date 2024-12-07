@@ -204,23 +204,24 @@ export default function App() {
               />
             </View>
 
+            {/* selectBoxStyle */}
+            <View style={style.section}>
+              <SectionView
+                title="selectBoxStyle"
+                description="Select box style for the picker."
+                optionKey="selectBoxStyle"
+                segmentControl={['number', 'tick']}
+              />
+            </View>
+
             {/* presentation */}
             {IS_IOS ? (
-              <View style={style.section}>
-                <SectionView
-                  title="presentation"
-                  description="Presentation style for the picker."
-                />
-                <SegmentControl
-                  selectedIndex={
-                    ['fullScreenModal', 'formSheet'].indexOf(
-                      options.presentation ?? ''
-                    ) ?? 0
-                  }
-                  values={['fullScreenModal', 'formSheet']}
-                  onValueChange={(value) => setOptions('presentation', value)}
-                />
-              </View>
+              <SectionView
+                title="presentation"
+                description="Presentation style for the picker."
+                optionKey="presentation"
+                segmentControl={['fullScreenModal', 'formSheet']}
+              />
             ) : null}
 
             {/* allowedCamera */}
@@ -289,6 +290,18 @@ export default function App() {
                 range={{ min: 1, max: 10 }}
                 value={options.numberOfColumn}
                 onChange={(value) => setOptions('numberOfColumn', value)}
+              />
+            </SectionView>
+
+            {/* spacing */}
+            <SectionView
+              title="spacing"
+              description="The spacing between the media in the picker."
+            >
+              <CounterView
+                range={{ min: 1, max: 10 }}
+                value={options.spacing ?? 2}
+                onChange={(value) => setOptions('spacing', value)}
               />
             </SectionView>
 
