@@ -7,11 +7,13 @@ import { StyleSheet, Switch } from 'react-native'
 import { useAppContext } from '../hook/context'
 import { Config } from '@baronha/react-native-multiple-image-picker'
 
+type key = keyof Config
 interface SectionViewProps {
-  title: string
+  title: key
   description: string
-  optionKey?: keyof Config
+  optionKey?: key
   children?: React.ReactNode
+  defaultValue?: boolean
 }
 
 export default function SectionView({
@@ -19,6 +21,7 @@ export default function SectionView({
   description,
   optionKey,
   children,
+  defaultValue = false,
 }: SectionViewProps) {
   const { options, setOptions } = useAppContext()
 
@@ -31,7 +34,7 @@ export default function SectionView({
       {children ||
         (optionKey ? (
           <Switch
-            value={(options?.[optionKey] as any) ?? false}
+            value={(options?.[optionKey] as any) ?? defaultValue}
             onValueChange={(value) => setOptions(optionKey, value)}
           />
         ) : null)}

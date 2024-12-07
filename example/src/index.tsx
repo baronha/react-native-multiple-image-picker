@@ -157,6 +157,23 @@ export default function App() {
           <View style={style.content}>
             <Text style={style.title}>Config</Text>
 
+            {/* mediaType */}
+
+            <View style={style.section}>
+              <SectionView
+                title="mediaType"
+                description="The type of media that can be selected."
+              />
+              <SegmentControl
+                selectedIndex={
+                  ['all', 'image', 'video'].indexOf(options.mediaType ?? '') ??
+                  0
+                }
+                values={['all', 'image', 'video']}
+                onValueChange={(value) => setOptions('mediaType', value)}
+              />
+            </View>
+
             {/* theme */}
             <View style={style.section}>
               <SectionView
@@ -186,6 +203,25 @@ export default function App() {
                 onValueChange={(value) => setOptions('selectMode', value)}
               />
             </View>
+
+            {/* presentation */}
+            {IS_IOS ? (
+              <View style={style.section}>
+                <SectionView
+                  title="presentation"
+                  description="Presentation style for the picker."
+                />
+                <SegmentControl
+                  selectedIndex={
+                    ['fullScreenModal', 'formSheet'].indexOf(
+                      options.presentation ?? ''
+                    ) ?? 0
+                  }
+                  values={['fullScreenModal', 'formSheet']}
+                  onValueChange={(value) => setOptions('presentation', value)}
+                />
+              </View>
+            ) : null}
 
             {/* allowedCamera */}
 
@@ -220,15 +256,77 @@ export default function App() {
               optionKey="isHiddenOriginalButton"
             />
 
+            {/* maxSelect */}
             <SectionView
               title="maxSelect"
               description="The maximum number of media that can be selected."
             >
               <CounterView
+                range={{ min: 1 }}
                 value={options.maxSelect}
                 onChange={(value) => setOptions('maxSelect', value)}
               />
             </SectionView>
+
+            {/* maxVideo */}
+            <SectionView
+              title="maxVideo"
+              description="The maximum number of video that can be selected."
+            >
+              <CounterView
+                range={{ min: 1 }}
+                value={options.maxVideo}
+                onChange={(value) => setOptions('maxVideo', value)}
+              />
+            </SectionView>
+
+            {/* numberOfColumn */}
+            <SectionView
+              title="numberOfColumn"
+              description="The number of columns in the picker."
+            >
+              <CounterView
+                range={{ min: 1, max: 10 }}
+                value={options.numberOfColumn}
+                onChange={(value) => setOptions('numberOfColumn', value)}
+              />
+            </SectionView>
+
+            {/* Preview */}
+            <Text style={style.title}>Preview 🌠</Text>
+            {/* isPreview */}
+            <SectionView
+              title="isPreview"
+              description="Hide the preview button in the picker."
+              optionKey="isPreview"
+            />
+
+            {/* isShowPreviewList */}
+            <SectionView
+              title="isShowPreviewList"
+              description="Show the preview list."
+              optionKey="isShowPreviewList"
+            />
+
+            {/* isHiddenPreviewButton */}
+            <SectionView
+              title="isHiddenPreviewButton"
+              description="Hide the preview button in the picker."
+              optionKey="isHiddenPreviewButton"
+            />
+
+            {/* allowHapticTouchPreview */}
+            {IS_IOS ? (
+              <SectionView
+                title="allowHapticTouchPreview"
+                description="Allow haptic touch preview."
+                optionKey="allowHapticTouchPreview"
+              />
+            ) : null}
+
+            <Text style={style.title}>Compress Quality 🤐</Text>
+
+            <Text style={style.title}>Localization 🌐</Text>
           </View>
         </Animated.ScrollView>
       </AppContext.Provider>
@@ -264,6 +362,7 @@ const style = StyleSheet.create({
     fontSize: 20,
     fontFamily: 'Avenir',
     textTransform: 'uppercase',
+    paddingTop: 12,
   },
   buttonOpen: {
     margin: 16,
