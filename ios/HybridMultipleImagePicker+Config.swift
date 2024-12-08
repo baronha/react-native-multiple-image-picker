@@ -76,12 +76,19 @@ extension HybridMultipleImagePicker {
             config.maximumSelectedVideoFileSize = Int(maxFileSize)
         }
 
-        if let maxVideo = options.maxVideo {
-            config.maximumSelectedVideoCount = Int(maxVideo)
-        }
+        // Setting for video
+        if options.mediaType == .all || options.mediaType == .video {
+            if let maxVideo = options.maxVideo {
+                config.maximumSelectedVideoCount = Int(maxVideo)
+            }
 
-        if let maxVideoDuration = options.maxVideoDuration {
-            config.maximumSelectedVideoDuration = Int(maxVideoDuration)
+            if let maxVideoDuration = options.maxVideoDuration {
+                config.maximumSelectedVideoDuration = Int(maxVideoDuration)
+            }
+
+            if let minVideoDuration = options.minVideoDuration {
+                config.minimumSelectedVideoDuration = Int(minVideoDuration)
+            }
         }
 
         if let maxSelect = options.maxSelect {
@@ -112,9 +119,9 @@ extension HybridMultipleImagePicker {
             config.photoSelectionTapAction = .quickSelect
         }
 
-        if let crop = options.crop {
-            config.editorOptions = [.photo, .gifPhoto, .livePhoto]
+        config.editorOptions = [.photo, .gifPhoto, .livePhoto]
 
+        if let crop = options.crop {
             var editor = config.editor
 
             let isCircle = crop.circle ?? false

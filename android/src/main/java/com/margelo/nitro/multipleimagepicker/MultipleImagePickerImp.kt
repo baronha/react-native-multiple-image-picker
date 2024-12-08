@@ -71,6 +71,7 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
         val isPreview = config.isPreview ?: true
         val maxFileSize = config.maxFileSize?.toLong()
         val maxDuration = config.maxVideoDuration?.toInt()
+        val minDuration = config.minVideoDuration?.toInt()
         val allowSwipeToSelect = config.allowSwipeToSelect ?: false
         val imageQuality = config.imageQuality
         val videoQuality = config.videoQuality
@@ -95,6 +96,11 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
                 maxDuration?.let {
                     setFilterVideoMaxSecond(it)
                 }
+
+                minDuration?.let {
+                    setFilterVideoMinSecond(it)
+                }
+
                 maxFileSize?.let {
                     setFilterMaxFileSize(it)
                 }
