@@ -3,14 +3,14 @@ import {
   Appearance,
   ColorSchemeName,
   Image,
+  KeyboardAvoidingView,
   LayoutAnimation,
   Platform,
   SafeAreaView,
-  TextInput,
+  Switch,
   TouchableOpacity,
   useColorScheme,
 } from 'react-native'
-import { Dimensions } from 'react-native'
 
 import { StyleSheet } from 'react-native'
 import ImageGrid from '@baronha/react-native-image-grid'
@@ -28,6 +28,7 @@ import {
   Container,
   CounterView,
   Input,
+  Row,
   SegmentControl,
   StickyView,
   Text,
@@ -40,7 +41,7 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated'
 import { WIDTH } from './theme/size'
-import { IS_IOS } from './common/const'
+import { IS_IOS, LOCALIZED_LANGUAGES } from './common/const'
 import { AppContext } from './hook/context'
 import SectionView from './components/SectionView'
 
@@ -57,8 +58,13 @@ const layoutEffect = () => {
   })
 }
 
+const parseNumber = (value: string): number | undefined => {
+  const parsed = Number(value)
+  return value === '' || Number.isNaN(parsed) ? undefined : parsed
+}
+
 export default function App() {
-  const { background } = useTheme()
+  const { background, foreground } = useTheme()
   const [images, setImages] = useState<Result[]>([])
   const [options, changeOptions] = useImmer<Config>(defaultOptions)
   const scrollY = useSharedValue(0)
@@ -81,7 +87,7 @@ export default function App() {
   }
 
   const onPressImage = (item: Result, index: number) => {
-    console.log(item, index)
+    //
   }
 
   const onPicker = async () => {
@@ -128,221 +134,379 @@ export default function App() {
         <StickyView scrollY={scrollY} images={images} />
       </View>
 
-      <AppContext.Provider value={{ options, setOptions }}>
-        <Animated.ScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={style.scrollView}
-          onScroll={onScroll}
-          scrollEventThrottle={16}
-        >
-          {images.length > 0 ? (
-            <ImageGrid
-              dataImage={images}
-              onPressImage={onPressImage}
-              width={WIDTH - 6}
-              sourceKey={'path'}
-              videoKey={'type'}
-              prefixPath={Platform.OS === 'ios' ? 'file://' : ''}
-              conditionCheckVideo={'video'}
-              videoURLKey={'thumbnail'}
-              showDelete
-              onDeleteImage={onRemovePhoto}
-            />
-          ) : (
-            <TouchableOpacity style={style.buttonPlus} onPress={onPicker}>
-              <Image source={assets.plusSign} style={style.plusSign} />
-            </TouchableOpacity>
-          )}
-
-          <View style={style.content}>
-            <Text style={style.title}>Config</Text>
-
-            {/* mediaType */}
-
-            <View style={style.section}>
-              <SectionView
-                title="mediaType"
-                description="The type of media that can be selected."
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={style.keyboardAvoidingView}
+      >
+        <AppContext.Provider value={{ options, setOptions }}>
+          <Animated.ScrollView
+            keyboardDismissMode="on-drag"
+            keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={style.scrollView}
+            onScroll={onScroll}
+            scrollEventThrottle={16}
+          >
+            {images.length > 0 ? (
+              <ImageGrid
+                dataImage={images}
+                onPressImage={onPressImage}
+                width={WIDTH - 6}
+                sourceKey={'path'}
+                videoKey={'type'}
+                prefixPath={Platform.OS === 'ios' ? 'file://' : ''}
+                conditionCheckVideo={'video'}
+                videoURLKey={'thumbnail'}
+                showDelete
+                onDeleteImage={onRemovePhoto}
               />
-              <SegmentControl
-                selectedIndex={
-                  ['all', 'image', 'video'].indexOf(options.mediaType ?? '') ??
-                  0
-                }
-                values={['all', 'image', 'video']}
-                onValueChange={(value) => setOptions('mediaType', value)}
-              />
-            </View>
+            ) : (
+              <TouchableOpacity style={style.buttonPlus} onPress={onPicker}>
+                <Image source={assets.plusSign} style={style.plusSign} />
+              </TouchableOpacity>
+            )}
 
-            {/* theme */}
-            <View style={style.section}>
-              <SectionView
-                title="theme"
-                description="Theme mode for the picker."
-              />
-              <SegmentControl
-                selectedIndex={
-                  ['light', 'dark'].indexOf(colorScheme ?? '') ?? 0
-                }
-                values={['light', 'dark']}
-                onValueChange={onChangeTheme}
-              />
-            </View>
+            <View style={style.content}>
+              <Text style={style.title}>Config</Text>
 
-            {/* selectMode */}
-            <View style={style.section}>
-              <SectionView
-                title="selectMode"
-                description="Mode of selection in the picker."
-              />
-              <SegmentControl
-                selectedIndex={
-                  ['single', 'multiple'].indexOf(options.selectMode ?? '') ?? 0
-                }
-                values={['single', 'multiple']}
-                onValueChange={(value) => setOptions('selectMode', value)}
-              />
-            </View>
+              {/* mediaType */}
 
-            {/* selectBoxStyle */}
-            <View style={style.section}>
-              <SectionView
-                title="selectBoxStyle"
-                description="Select box style for the picker."
-                optionKey="selectBoxStyle"
-                segmentControl={['number', 'tick']}
-              />
-            </View>
-
-            {/* presentation */}
-            {IS_IOS ? (
-              <SectionView
-                title="presentation"
-                description="Presentation style for the picker."
-                optionKey="presentation"
-                segmentControl={['fullScreenModal', 'formSheet']}
-              />
-            ) : null}
-
-            {/* allowedCamera */}
-
-            <SectionView
-              title="allowedCamera"
-              description="Enable camera functionality."
-              optionKey="allowedCamera"
-            />
-
-            {IS_IOS ? (
-              <>
-                {/* allowedLimit */}
+              <View style={style.section}>
                 <SectionView
-                  title="allowedLimit"
-                  description="Display additional select more media when permission on iOS is limited."
-                  optionKey="allowedLimit"
+                  title="mediaType"
+                  description="The type of media that can be selected."
                 />
-              </>
-            ) : null}
+                <SegmentControl
+                  selectedIndex={
+                    ['all', 'image', 'video'].indexOf(
+                      options.mediaType ?? ''
+                    ) ?? 0
+                  }
+                  values={['all', 'image', 'video']}
+                  onValueChange={(value) => setOptions('mediaType', value)}
+                />
+              </View>
 
-            {/* allowSwipeToSelect */}
-            <SectionView
-              title="allowSwipeToSelect"
-              description="Allow swipe to select media."
-              optionKey="allowSwipeToSelect"
-            />
+              {/* theme */}
+              <View style={style.section}>
+                <SectionView
+                  title="theme"
+                  description="Theme mode for the picker."
+                />
+                <SegmentControl
+                  selectedIndex={
+                    ['light', 'dark'].indexOf(colorScheme ?? '') ?? 0
+                  }
+                  values={['light', 'dark']}
+                  onValueChange={onChangeTheme}
+                />
+              </View>
 
-            {/* isHiddenOriginalButton */}
-            <SectionView
-              title="isHiddenOriginalButton"
-              description="Hide the original button in the picker."
-              optionKey="isHiddenOriginalButton"
-            />
+              {/* selectMode */}
+              <View style={style.section}>
+                <SectionView
+                  title="selectMode"
+                  description="Mode of selection in the picker."
+                />
+                <SegmentControl
+                  selectedIndex={
+                    ['single', 'multiple'].indexOf(options.selectMode ?? '') ??
+                    0
+                  }
+                  values={['single', 'multiple']}
+                  onValueChange={(value) => setOptions('selectMode', value)}
+                />
+              </View>
 
-            {/* maxSelect */}
-            <SectionView
-              title="maxSelect"
-              description="The maximum number of media that can be selected."
-            >
-              <CounterView
-                range={{ min: 1 }}
-                value={options.maxSelect}
-                onChange={(value) => setOptions('maxSelect', value)}
-              />
-            </SectionView>
+              {/* selectBoxStyle */}
+              <View style={style.section}>
+                <SectionView
+                  title="selectBoxStyle"
+                  description="Select box style for the picker."
+                  optionKey="selectBoxStyle"
+                  segmentControl={['number', 'tick']}
+                />
+              </View>
 
-            {/* maxVideo */}
-            <SectionView
-              title="maxVideo"
-              description="The maximum number of video that can be selected."
-            >
-              <CounterView
-                range={{ min: 1 }}
-                value={options.maxVideo}
-                onChange={(value) => setOptions('maxVideo', value)}
-              />
-            </SectionView>
+              {/* presentation */}
+              {IS_IOS ? (
+                <SectionView
+                  title="presentation"
+                  description="Presentation style for the picker."
+                  optionKey="presentation"
+                  segmentControl={['fullScreenModal', 'formSheet']}
+                />
+              ) : null}
 
-            {/* numberOfColumn */}
-            <SectionView
-              title="numberOfColumn"
-              description="The number of columns in the picker."
-            >
-              <CounterView
-                range={{ min: 1, max: 10 }}
-                value={options.numberOfColumn}
-                onChange={(value) => setOptions('numberOfColumn', value)}
-              />
-            </SectionView>
+              {/* allowedCamera */}
 
-            {/* spacing */}
-            <SectionView
-              title="spacing"
-              description="The spacing between the media in the picker."
-            >
-              <CounterView
-                range={{ min: 1, max: 10 }}
-                value={options.spacing ?? 2}
-                onChange={(value) => setOptions('spacing', value)}
-              />
-            </SectionView>
-
-            {/* Preview */}
-            <Text style={style.title}>Preview 🌠</Text>
-            {/* isPreview */}
-            <SectionView
-              title="isPreview"
-              description="Hide the preview button in the picker."
-              optionKey="isPreview"
-            />
-
-            {/* isShowPreviewList */}
-            <SectionView
-              title="isShowPreviewList"
-              description="Show the preview list."
-              optionKey="isShowPreviewList"
-            />
-
-            {/* isHiddenPreviewButton */}
-            <SectionView
-              title="isHiddenPreviewButton"
-              description="Hide the preview button in the picker."
-              optionKey="isHiddenPreviewButton"
-            />
-
-            {/* allowHapticTouchPreview */}
-            {IS_IOS ? (
               <SectionView
-                title="allowHapticTouchPreview"
-                description="Allow haptic touch preview."
-                optionKey="allowHapticTouchPreview"
+                title="allowedCamera"
+                description="Enable camera functionality."
+                optionKey="allowedCamera"
               />
-            ) : null}
 
-            <Text style={style.title}>Compress Quality 🤐</Text>
+              {IS_IOS ? (
+                <>
+                  {/* allowedLimit */}
+                  <SectionView
+                    title="allowedLimit"
+                    description="Display additional select more media when permission on iOS is limited."
+                    optionKey="allowedLimit"
+                  />
+                </>
+              ) : null}
 
-            <Text style={style.title}>Localization 🌐</Text>
-          </View>
-        </Animated.ScrollView>
-      </AppContext.Provider>
+              {/* allowSwipeToSelect */}
+              <SectionView
+                title="allowSwipeToSelect"
+                description="Allow swipe to select media."
+                optionKey="allowSwipeToSelect"
+              />
+
+              {/* isHiddenOriginalButton */}
+              <SectionView
+                title="isHiddenOriginalButton"
+                description="Hide the original button in the picker."
+                optionKey="isHiddenOriginalButton"
+              />
+
+              {/* maxSelect */}
+              <SectionView
+                title="maxSelect"
+                description="The maximum number of media that can be selected."
+              >
+                <CounterView
+                  range={{ min: 1 }}
+                  value={options.maxSelect}
+                  onChange={(value) => setOptions('maxSelect', value)}
+                />
+              </SectionView>
+
+              {/* maxVideo */}
+              <SectionView
+                title="maxVideo"
+                description="The maximum number of video that can be selected."
+              >
+                <CounterView
+                  range={{ min: 1 }}
+                  value={options.maxVideo}
+                  onChange={(value) => setOptions('maxVideo', value)}
+                />
+              </SectionView>
+
+              {/* numberOfColumn */}
+              <SectionView
+                title="numberOfColumn"
+                description="The number of columns in the picker."
+              >
+                <CounterView
+                  range={{ min: 1, max: 10 }}
+                  value={options.numberOfColumn}
+                  onChange={(value) => setOptions('numberOfColumn', value)}
+                />
+              </SectionView>
+
+              {/* spacing */}
+              <SectionView
+                title="spacing"
+                description="The spacing between the media in the picker."
+              >
+                <CounterView
+                  range={{ min: 1, max: 10 }}
+                  value={options.spacing ?? 2}
+                  onChange={(value) => setOptions('spacing', value)}
+                />
+              </SectionView>
+              {/* Filter data 🎞️ */}
+
+              <Text style={style.title}>Filter data 🎞️</Text>
+              {/* maxVideoDuration */}
+              <SectionView
+                title="maxVideoDuration"
+                description="The maximum duration of video that can be selected."
+              >
+                <Input
+                  value={options.maxVideoDuration?.toString() ?? ''}
+                  placeholder="Max Duration"
+                  onChangeText={(value) => {
+                    setOptions('maxVideoDuration', parseNumber(value))
+                  }}
+                />
+              </SectionView>
+
+              {/* minVideoDuration */}
+              <SectionView
+                title="minVideoDuration"
+                description="The minimum duration of video that can be selected."
+              >
+                <Input
+                  value={options.minVideoDuration?.toString() ?? ''}
+                  placeholder="Min Duration"
+                  onChangeText={(value) => {
+                    setOptions('minVideoDuration', parseNumber(value))
+                  }}
+                />
+              </SectionView>
+
+              {/* maxFileSize */}
+              <SectionView
+                title="maxFileSize"
+                description="The maximum size of file that can be selected."
+              >
+                <Input
+                  value={options.maxFileSize?.toString() ?? ''}
+                  placeholder="File Size"
+                  onChangeText={(value) => {
+                    setOptions('maxFileSize', parseNumber(value))
+                  }}
+                />
+              </SectionView>
+
+              <Text style={style.title}>Crop 🌠</Text>
+              <View style={style.section}>
+                <SectionView
+                  title="crop"
+                  description="Enable crop functionality."
+                >
+                  <Switch
+                    value={options.crop !== undefined}
+                    onValueChange={(value) =>
+                      setOptions('crop', value ? {} : undefined)
+                    }
+                  />
+                </SectionView>
+              </View>
+
+              <View style={style.section}>
+                <SectionView
+                  title={'crop.circle' as any}
+                  description="Enable crop circle functionality."
+                >
+                  <Switch
+                    value={options?.crop?.circle}
+                    onValueChange={(value) =>
+                      setOptions(
+                        'crop',
+                        value ? { circle: true } : { circle: false }
+                      )
+                    }
+                  />
+                </SectionView>
+              </View>
+
+              {/* Preview */}
+              <Text style={style.title}>Preview 🌠</Text>
+              {/* isPreview */}
+              <SectionView
+                title="isPreview"
+                description="Hide the preview button in the picker."
+                optionKey="isPreview"
+              />
+
+              {/* isShowPreviewList */}
+              <SectionView
+                title="isShowPreviewList"
+                description="Show the preview list."
+                optionKey="isShowPreviewList"
+              />
+
+              {/* isHiddenPreviewButton */}
+              <SectionView
+                title="isHiddenPreviewButton"
+                description="Hide the preview button in the picker."
+                optionKey="isHiddenPreviewButton"
+              />
+
+              {/* allowHapticTouchPreview */}
+              {IS_IOS ? (
+                <SectionView
+                  title="allowHapticTouchPreview"
+                  description="Allow haptic touch preview."
+                  optionKey="allowHapticTouchPreview"
+                />
+              ) : null}
+
+              {/* <Text style={style.title}>Compress Quality 🤐</Text> */}
+
+              <Text style={style.title}>Localization 🌐</Text>
+
+              <View style={style.section}>
+                <SectionView
+                  title="text"
+                  description="The locale of the picker."
+                />
+
+                {(
+                  [
+                    'finish',
+                    'preview',
+                    'original',
+                    'edit',
+                  ] as (keyof Config['text'])[]
+                ).map((key) => (
+                  <Input
+                    value={options.text?.[key] ?? ''}
+                    placeholder={key}
+                    key={key}
+                    onChangeText={(value) => {
+                      const object = {
+                        ...options.text,
+                        [key]: value,
+                      }
+
+                      Object.entries(object).forEach(([textKey, textValue]) => {
+                        if (textValue === '' || !textValue)
+                          delete object[textKey as keyof Config['text']]
+                      })
+
+                      setOptions(
+                        'text',
+                        Object.entries(object).length > 0 ? object : undefined
+                      )
+                    }}
+                  />
+                ))}
+              </View>
+
+              <View style={style.section}>
+                <SectionView
+                  title="language"
+                  description="The language of the picker."
+                />
+
+                <Row style={style.language}>
+                  {LOCALIZED_LANGUAGES.map(({ key, label }) => {
+                    const onPress = () => {
+                      setOptions('language', key)
+                    }
+                    const active = options.language === key
+
+                    return (
+                      <TouchableOpacity
+                        style={[
+                          style.languageItem,
+                          {
+                            backgroundColor: active ? foreground : background,
+                            borderColor: foreground + '32',
+                          },
+                        ]}
+                        onPress={onPress}
+                      >
+                        <Text
+                          style={{ color: active ? background : foreground }}
+                        >
+                          {label}
+                        </Text>
+                      </TouchableOpacity>
+                    )
+                  })}
+                </Row>
+              </View>
+            </View>
+          </Animated.ScrollView>
+        </AppContext.Provider>
+      </KeyboardAvoidingView>
 
       <View level={2}>
         <Button style={style.buttonOpen} onPress={onPicker}>
@@ -357,7 +521,6 @@ export default function App() {
 const style = StyleSheet.create({
   titleView: {
     padding: 16,
-
     flexDirection: 'row',
     gap: 12,
   },
@@ -376,6 +539,7 @@ const style = StyleSheet.create({
     fontFamily: 'Avenir',
     textTransform: 'uppercase',
     paddingTop: 12,
+    marginBottom: -12,
   },
   buttonOpen: {
     margin: 16,
@@ -423,5 +587,19 @@ const style = StyleSheet.create({
   des: {
     fontSize: 12,
     // marginBottom: 12,
+  },
+  keyboardAvoidingView: {
+    flex: 1,
+  },
+  language: {
+    flexWrap: 'wrap',
+    rowGap: 12,
+    columnGap: 12,
+  },
+  languageItem: {
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 6,
+    borderWidth: 1,
   },
 })
