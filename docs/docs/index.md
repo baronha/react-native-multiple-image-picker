@@ -1,17 +1,17 @@
 ---
 id: index
-title: Multiple Image Picker
+title: Multiple Image Picker | BAO HA
 hide_title: true
 sidebar_label: Multiple Image Picker
 description: 🏞 react-native-multiple-image-picker enables applications to pick images and videos from multiple smart albums in iOS/Android
-image: /img/banner.png
+image: img/banner.png
 slug: /
 ---
 import ReactPlayer from 'react-player'
 
 ![Logo][Logo]
 
-<img src="/img/banner.png" width="100%" />
+<img src="img/banner.png" width="100%" />
 
 [![iOS][iOS]][iOS-URL] [![Android][Android]][Android-URL] [![Swift][Swift]][Swift-URL] [![Kotlin][Kotlin]][Kotlin-URL] [![React-Native][React-Native]][React-Native-URL]
 

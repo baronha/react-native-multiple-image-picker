@@ -14,7 +14,7 @@ const config: Config = {
 
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/react-native-multiple-image-picker/',
+  baseUrl: '/react-native-multiple-image-picker',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
@@ -51,7 +51,7 @@ const config: Config = {
           sidebarPath: './sidebars.ts',
           routeBasePath: '/',
           editUrl:
-            'https://github.com/gorhom/react-native-bottom-sheet/tree/master/website/docs',
+            'https://github.com/baronha/react-native-multiple-image-picker/tree/master/docs/docs',
           lastVersion: 'current',
           versions: {
             current: {
