@@ -7,6 +7,7 @@ description: 🏞 react-native-multiple-image-picker enables applications to pic
 image: img/banner.png
 slug: /
 ---
+
 import ReactPlayer from 'react-player'
 
 ![Logo][Logo]
@@ -44,9 +45,11 @@ To keep this library maintained and up-to-date please consider [sponsoring it on
 
 ## Built With ❤️
 
-- [react-native-nitro-modules](https://nitro.margelo.com/docs/nitro-modules)
-- [HXPhotoPicker](https://github.com/SilenceLove/HXPhotoPicker)
-- [PictureSelector](https://github.com/LuckSiege/PictureSelector)
+[![NitroModules](https://img.shields.io/badge/Nitro_Modules-0052CC?style=for-the-badge)](https://nitro.margelo.com/docs/nitro-modules)
+
+[![HXPhotoPicker](https://img.shields.io/badge/HXPhotoPicker-F05138?style=for-the-badge)](https://github.com/SilenceLove/HXPhotoPicker)
+
+[![PictureSelector](https://img.shields.io/badge/Picture_Selector-b07219?style=for-the-badge)](https://github.com/LuckSiege/PictureSelector)
 
 <!-- Badge for README -->
 

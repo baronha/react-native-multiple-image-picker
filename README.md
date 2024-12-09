@@ -86,9 +86,9 @@ To keep this library maintained and up-to-date please consider [sponsoring it on
 ## Built With ❤️
 
 [![NitroModules](https://img.shields.io/badge/Nitro_Modules-0052CC?style=for-the-badge)](https://nitro.margelo.com/docs/nitro-modules)
-<br>
+<br/>
 [![HXPhotoPicker](https://img.shields.io/badge/HXPhotoPicker-F05138?style=for-the-badge)](https://github.com/SilenceLove/HXPhotoPicker)
-<br>
+<br/>
 [![PictureSelector](https://img.shields.io/badge/Picture_Selector-b07219?style=for-the-badge)](https://github.com/LuckSiege/PictureSelector)
 
 ## Star History

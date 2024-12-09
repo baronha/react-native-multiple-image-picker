@@ -100,6 +100,12 @@ const config: Config = {
           label: 'GitHub',
           position: 'right',
         },
+
+        {
+          href: 'https://apps.apple.com/vn/app/binsoo-photo-filters-editor/id6502683720',
+          label: '✨ Binsoo - Photo Editor',
+          position: 'right',
+        },
       ],
     },
 
