@@ -7,6 +7,7 @@ description: 🏞 react-native-multiple-image-picker enables applications to pic
 image: /img/banner.png
 slug: /
 ---
+import ReactPlayer from 'react-player'
 
 ![Logo][Logo]
 
@@ -16,7 +17,7 @@ slug: /
 
 ## Overview 🎇
 
-![NitroModule](https://img.shields.io/badge/Nitro_Module-0052CC?style=for-the-badge) ![SmoothScroll](https://img.shields.io/badge/Smooth_Scroll-FCC624?style=for-the-badge) ![CropImage](https://img.shields.io/badge/Crop_Image-EA4C89?style=for-the-badge)
+<ReactPlayer playing controls width="100%" height="100%" url='https://github.com/user-attachments/assets/79580bc7-237c-46b7-b92e-1479cc6d9079' />
 
 React Native Multiple Image Picker **(RNMIP)** enables application to pick images and videos from multiple smart album in iOS/Android. React Native Multiple Image Picker is based on two libraries available, [HXPhotoPicker](https://github.com/SilenceLove/HXPhotoPicker) and [PictureSelector](https://github.com/LuckSiege/PictureSelector)
 
