@@ -31,20 +31,13 @@ extension HybridMultipleImagePicker {
             photoList.bottomView.isHiddenOriginalButton = isHiddenOriginalButton
         }
 
-        if let allowHapticTouchPreview = options.allowHapticTouchPreview {
-            photoList.allowHapticTouchPreview = allowHapticTouchPreview
-        }
+        photoList.allowHapticTouchPreview = options.allowHapticTouchPreview ?? true
 
-        if let allowSwipeToSelect = options.allowSwipeToSelect {
-            photoList.allowSwipeToSelect = allowSwipeToSelect
-        }
-        if let allowedCamera = options.allowedCamera {
-            photoList.allowAddCamera = allowedCamera
-        }
+        photoList.allowSwipeToSelect = options.allowSwipeToSelect ?? true
 
-        if let allowedLimit = options.allowedLimit {
-            photoList.allowAddLimit = allowedLimit
-        }
+        photoList.allowAddCamera = options.allowedCamera ?? true
+
+        photoList.allowAddLimit = options.allowedLimit ?? true
 
         // check media type
         switch options.mediaType {
@@ -107,7 +100,7 @@ extension HybridMultipleImagePicker {
 
         previewView.bottomView.isShowPreviewList = isPreview
         photoList.bottomView.isHiddenPreviewButton = !isPreview
-        photoList.allowHapticTouchPreview = !isPreview
+        photoList.allowHapticTouchPreview = isPreview
         photoList.bottomView.previewListTickColor = .clear
         photoList.bottomView.isShowSelectedView = isPreview
 

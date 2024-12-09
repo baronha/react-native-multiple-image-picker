@@ -10,7 +10,7 @@ export const light = {
 }
 
 export const dark = {
-  background: '#000',
+  background: '#000000',
   foreground: '#ffffff',
   primary: '#ffffff',
 

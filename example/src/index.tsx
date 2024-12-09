@@ -30,7 +30,6 @@ import {
   Input,
   Row,
   SegmentControl,
-  StickyView,
   Text,
   View,
 } from './components'
@@ -126,12 +125,10 @@ export default function App() {
 
       <View style={style.titleView}>
         <Image source={assets.logo} style={style.logo} />
-
         <View style={style.textView}>
           <Text style={style.mip}>Multiple Image Picker</Text>
           <CodeTag textProps={{ style: { fontSize: 8 } }}>BY BAOHA</CodeTag>
         </View>
-        <StickyView scrollY={scrollY} images={images} />
       </View>
 
       <KeyboardAvoidingView
@@ -143,7 +140,10 @@ export default function App() {
             keyboardDismissMode="on-drag"
             keyboardShouldPersistTaps="handled"
             showsVerticalScrollIndicator={false}
-            contentContainerStyle={style.scrollView}
+            contentContainerStyle={[
+              style.scrollView,
+              { backgroundColor: background },
+            ]}
             onScroll={onScroll}
             scrollEventThrottle={16}
           >

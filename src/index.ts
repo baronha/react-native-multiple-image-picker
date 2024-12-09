@@ -65,6 +65,7 @@ export const defaultOptions: Config = {
   language: 'system',
   theme: 'system',
   isHiddenOriginalButton: false,
+  allowSwipeToSelect: true,
 }
 
 const LANGUAGES = [
