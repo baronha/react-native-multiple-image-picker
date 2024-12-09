@@ -8,6 +8,12 @@
 
 ## Overview 🎇
 
+
+
+https://github.com/user-attachments/assets/9561b700-f7fd-4872-b0a4-3481878777b5
+
+
+
 React Native Multiple Image Picker **(RNMIP)** enables application to pick images and videos from multiple smart album in iOS/Android. React Native Multiple Image Picker is based on two libraries available, [HXPhotoPicker](https://github.com/SilenceLove/HXPhotoPicker) and [PictureSelector](https://github.com/LuckSiege/PictureSelector)
 
 ## Documentation 📚
@@ -84,7 +90,9 @@ To keep this library maintained and up-to-date please consider [sponsoring it on
 ## Built With ❤️
 
 [![NitroModules](https://img.shields.io/badge/Nitro_Modules-0052CC?style=for-the-badge)](https://nitro.margelo.com/docs/nitro-modules)
+<br>
 [![HXPhotoPicker](https://img.shields.io/badge/HXPhotoPicker-F05138?style=for-the-badge)](https://github.com/SilenceLove/HXPhotoPicker)
+<br>
 [![PictureSelector](https://img.shields.io/badge/Picture_Selector-b07219?style=for-the-badge)](https://github.com/LuckSiege/PictureSelector)
 
 ## Star History
