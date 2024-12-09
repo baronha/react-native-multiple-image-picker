@@ -51,7 +51,7 @@ const config: Config = {
           sidebarPath: './sidebars.ts',
           routeBasePath: '/',
           editUrl:
-            'https://github.com/baronha/react-native-multiple-image-picker/tree/master/docs/docs',
+            'https://github.com/baronha/react-native-multiple-image-picker/tree/master/docs',
           lastVersion: 'current',
           versions: {
             current: {
