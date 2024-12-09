@@ -85,7 +85,7 @@ export default function App() {
     })
   }
 
-  const onPressImage = (item: Result, index: number) => {
+  const onPressImage = () => {
     //
   }
 
