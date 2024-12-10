@@ -6,7 +6,7 @@ import com.margelo.nitro.multipleimagepicker.NitroConfig
 import com.margelo.nitro.multipleimagepicker.Result
 
 
-class MultipleImagePicker: HybridMultipleImagePickerSpec() {
+class MultipleImagePicker : HybridMultipleImagePickerSpec() {
     override val memorySize: Long
         get() = 5
 
@@ -20,7 +20,15 @@ class MultipleImagePicker: HybridMultipleImagePickerSpec() {
         pickerModule.openPicker(config, resolved, rejected)
     }
 
+    override fun openCrop(
+        image: String,
+        config: NitroCropConfig,
+        resolved: (result: CropResult) -> Unit,
+        rejected: (reject: Double) -> Unit
+    ) {
 
+        pickerModule.openCrop(image, config, resolved, rejected)
+    }
 
 
 }

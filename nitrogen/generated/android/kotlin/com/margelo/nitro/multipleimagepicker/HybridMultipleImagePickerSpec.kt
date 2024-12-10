@@ -51,6 +51,17 @@ abstract class HybridMultipleImagePickerSpec: HybridObject() {
     val __result = openPicker(config, resolved.toLambda(), rejected.toLambda())
     return __result
   }
+  
+  @DoNotStrip
+  @Keep
+  abstract fun openCrop(image: String, config: NitroCropConfig, resolved: (result: CropResult) -> Unit, rejected: (reject: Double) -> Unit): Unit
+  
+  @DoNotStrip
+  @Keep
+  private fun openCrop(image: String, config: NitroCropConfig, resolved: Func_void_CropResult, rejected: Func_void_double): Unit {
+    val __result = openCrop(image, config, resolved.toLambda(), rejected.toLambda())
+    return __result
+  }
 
   private external fun initHybrid(): HybridData
 

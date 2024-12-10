@@ -10,6 +10,8 @@
 #include <fbjni/fbjni.h>
 #include "NitroConfig.hpp"
 
+#include "CropRatio.hpp"
+#include "JCropRatio.hpp"
 #include "JLanguage.hpp"
 #include "JMediaType.hpp"
 #include "JPickerCropConfig.hpp"

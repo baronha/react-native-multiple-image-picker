@@ -124,4 +124,25 @@ public class HybridMultipleImagePickerSpecCxx {
       fatalError("Swift errors can currently not be propagated to C++! See https://github.com/swiftlang/swift/issues/75290 (Error: \(__message))")
     }
   }
+  
+  @inline(__always)
+  public func openCrop(image: std.string, config: NitroCropConfig, resolved: bridge.Func_void_CropResult, rejected: bridge.Func_void_double) -> Void {
+    do {
+      try self.__implementation.openCrop(image: String(image), config: config, resolved: { () -> ((CropResult) -> Void) in
+        let __sharedClosure = bridge.share_Func_void_CropResult(resolved)
+        return { (__result: CropResult) -> Void in
+          __sharedClosure.pointee.call(__result)
+        }
+      }(), rejected: { () -> ((Double) -> Void) in
+        let __sharedClosure = bridge.share_Func_void_double(rejected)
+        return { (__reject: Double) -> Void in
+          __sharedClosure.pointee.call(__reject)
+        }
+      }())
+      return 
+    } catch {
+      let __message = "\(error.localizedDescription)"
+      fatalError("Swift errors can currently not be propagated to C++! See https://github.com/swiftlang/swift/issues/75290 (Error: \(__message))")
+    }
+  }
 }

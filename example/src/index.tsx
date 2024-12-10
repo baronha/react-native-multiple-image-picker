@@ -7,6 +7,7 @@ import {
   LayoutAnimation,
   Platform,
   SafeAreaView,
+  ScrollView,
   Switch,
   TouchableOpacity,
   useColorScheme,
@@ -19,6 +20,7 @@ import {
   Result,
   defaultOptions,
   Config,
+  openCrop,
 } from '@baronha/react-native-multiple-image-picker'
 import { useImmer } from 'use-immer'
 import { StatusBar } from 'expo-status-bar'
@@ -35,10 +37,6 @@ import {
 } from './components'
 import useTheme from './hook/useTheme'
 import assets from './assets'
-import Animated, {
-  useAnimatedScrollHandler,
-  useSharedValue,
-} from 'react-native-reanimated'
 import { WIDTH } from './theme/size'
 import { IS_IOS, LOCALIZED_LANGUAGES } from './common/const'
 import { AppContext } from './hook/context'
@@ -66,18 +64,8 @@ export default function App() {
   const { background, foreground } = useTheme()
   const [images, setImages] = useState<Result[]>([])
   const [options, changeOptions] = useImmer<Config>(defaultOptions)
-  const scrollY = useSharedValue(0)
 
   const colorScheme = useColorScheme()
-
-  const onScroll = useAnimatedScrollHandler(
-    {
-      onScroll: (e) => {
-        scrollY.value = e.contentOffset.y
-      },
-    },
-    []
-  )
 
   const setOptions = (key: keyof Config, value: Config[keyof Config]) => {
     changeOptions((draft) => {
@@ -94,9 +82,24 @@ export default function App() {
       const response = await openPicker({
         ...options,
         selectedAssets: images,
+        crop: {},
       })
 
       setImages(Array.isArray(response) ? response : [response])
+      layoutEffect()
+    } catch (e) {
+      console.log('e: ', e)
+    }
+  }
+
+  const onCrop = async () => {
+    try {
+      console.log('images: ', images)
+      const response = await openCrop(images[0].path, {
+        circle: true,
+      })
+
+      console.log('response: ', response)
       layoutEffect()
     } catch (e) {
       console.log('e: ', e)
@@ -136,7 +139,7 @@ export default function App() {
         style={style.keyboardAvoidingView}
       >
         <AppContext.Provider value={{ options, setOptions }}>
-          <Animated.ScrollView
+          <ScrollView
             keyboardDismissMode="on-drag"
             keyboardShouldPersistTaps="handled"
             showsVerticalScrollIndicator={false}
@@ -144,22 +147,26 @@ export default function App() {
               style.scrollView,
               { backgroundColor: background },
             ]}
-            onScroll={onScroll}
             scrollEventThrottle={16}
           >
             {images.length > 0 ? (
-              <ImageGrid
-                dataImage={images}
-                onPressImage={onPressImage}
-                width={WIDTH - 6}
-                sourceKey={'path'}
-                videoKey={'type'}
-                prefixPath={Platform.OS === 'ios' ? 'file://' : ''}
-                conditionCheckVideo={'video'}
-                videoURLKey={'thumbnail'}
-                showDelete
-                onDeleteImage={onRemovePhoto}
-              />
+              <>
+                <ImageGrid
+                  dataImage={images}
+                  onPressImage={onPressImage}
+                  width={WIDTH - 6}
+                  sourceKey={'path'}
+                  videoKey={'type'}
+                  prefixPath={Platform.OS === 'ios' ? 'file://' : ''}
+                  conditionCheckVideo={'video'}
+                  videoURLKey={'thumbnail'}
+                  showDelete
+                  onDeleteImage={onRemovePhoto}
+                />
+                <Button style={style.buttonOpen} onPress={onCrop}>
+                  Open Cropping
+                </Button>
+              </>
             ) : (
               <TouchableOpacity style={style.buttonPlus} onPress={onPicker}>
                 <Image source={assets.plusSign} style={style.plusSign} />
@@ -504,7 +511,7 @@ export default function App() {
                 </Row>
               </View>
             </View>
-          </Animated.ScrollView>
+          </ScrollView>
         </AppContext.Provider>
       </KeyboardAvoidingView>
 

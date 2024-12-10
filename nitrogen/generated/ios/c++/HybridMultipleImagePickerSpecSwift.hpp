@@ -26,6 +26,8 @@ namespace margelo::nitro::multipleimagepicker { enum class SelectBoxStyle; }
 namespace margelo::nitro::multipleimagepicker { enum class SelectMode; }
 // Forward declaration of `PickerCropConfig` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { struct PickerCropConfig; }
+// Forward declaration of `CropRatio` to properly resolve imports.
+namespace margelo::nitro::multipleimagepicker { struct CropRatio; }
 // Forward declaration of `Text` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { struct Text; }
 // Forward declaration of `Language` to properly resolve imports.
@@ -34,6 +36,10 @@ namespace margelo::nitro::multipleimagepicker { enum class Language; }
 namespace margelo::nitro::multipleimagepicker { enum class Theme; }
 // Forward declaration of `Presentation` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { enum class Presentation; }
+// Forward declaration of `NitroCropConfig` to properly resolve imports.
+namespace margelo::nitro::multipleimagepicker { struct NitroCropConfig; }
+// Forward declaration of `CropResult` to properly resolve imports.
+namespace margelo::nitro::multipleimagepicker { struct CropResult; }
 
 #include "NitroConfig.hpp"
 #include "MediaType.hpp"
@@ -45,11 +51,14 @@ namespace margelo::nitro::multipleimagepicker { enum class Presentation; }
 #include "SelectBoxStyle.hpp"
 #include "SelectMode.hpp"
 #include "PickerCropConfig.hpp"
+#include "CropRatio.hpp"
 #include "Text.hpp"
 #include "Language.hpp"
 #include "Theme.hpp"
 #include "Presentation.hpp"
 #include <functional>
+#include "NitroCropConfig.hpp"
+#include "CropResult.hpp"
 
 #if __has_include(<NitroModules/HybridContext.hpp>)
 #include <NitroModules/HybridContext.hpp>
@@ -96,6 +105,9 @@ namespace margelo::nitro::multipleimagepicker {
     // Methods
     inline void openPicker(const NitroConfig& config, const std::function<void(const std::vector<Result>& /* result */)>& resolved, const std::function<void(double /* reject */)>& rejected) override {
       _swiftPart.openPicker(config, resolved, rejected);
+    }
+    inline void openCrop(const std::string& image, const NitroCropConfig& config, const std::function<void(const CropResult& /* result */)>& resolved, const std::function<void(double /* reject */)>& rejected) override {
+      _swiftPart.openCrop(image, config, resolved, rejected);
     }
 
   private:

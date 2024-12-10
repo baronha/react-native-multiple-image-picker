@@ -8,6 +8,10 @@
 #pragma once
 
 // Forward declarations of C++ defined types
+// Forward declaration of `CropRatio` to properly resolve imports.
+namespace margelo::nitro::multipleimagepicker { struct CropRatio; }
+// Forward declaration of `CropResult` to properly resolve imports.
+namespace margelo::nitro::multipleimagepicker { struct CropResult; }
 // Forward declaration of `HybridMultipleImagePickerSpec` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { class HybridMultipleImagePickerSpec; }
 // Forward declaration of `PickerCropConfig` to properly resolve imports.
@@ -24,6 +28,8 @@ namespace margelo::nitro::multipleimagepicker { struct Text; }
 namespace MultipleImagePicker { class HybridMultipleImagePickerSpecCxx; }
 
 // Include C++ defined types
+#include "CropRatio.hpp"
+#include "CropResult.hpp"
 #include "HybridMultipleImagePickerSpec.hpp"
 #include "PickerCropConfig.hpp"
 #include "Result.hpp"
@@ -75,6 +81,17 @@ namespace margelo::nitro::multipleimagepicker::bridge::swift {
   using std__vector_Result_ = std::vector<Result>;
   inline std::vector<Result> create_std__vector_Result_(size_t size) {
     std::vector<Result> vector;
+    vector.reserve(size);
+    return vector;
+  }
+  
+  // pragma MARK: std::vector<CropRatio>
+  /**
+   * Specialized version of `std::vector<CropRatio>`.
+   */
+  using std__vector_CropRatio_ = std::vector<CropRatio>;
+  inline std::vector<CropRatio> create_std__vector_CropRatio_(size_t size) {
+    std::vector<CropRatio> vector;
     vector.reserve(size);
     return vector;
   }
@@ -151,6 +168,34 @@ namespace margelo::nitro::multipleimagepicker::bridge::swift {
   }
   inline std::shared_ptr<Func_void_double_Wrapper> share_Func_void_double(const Func_void_double& value) {
     return std::make_shared<Func_void_double_Wrapper>(value);
+  }
+  
+  // pragma MARK: std::function<void(const CropResult& /* result */)>
+  /**
+   * Specialized version of `std::function<void(const CropResult&)>`.
+   */
+  using Func_void_CropResult = std::function<void(const CropResult& /* result */)>;
+  /**
+   * Wrapper class for a `std::function<void(const CropResult& / * result * /)>`, this can be used from Swift.
+   */
+  class Func_void_CropResult_Wrapper final {
+  public:
+    explicit Func_void_CropResult_Wrapper(const std::function<void(const CropResult& /* result */)>& func): _function(func) {}
+    explicit Func_void_CropResult_Wrapper(std::function<void(const CropResult& /* result */)>&& func): _function(std::move(func)) {}
+    inline void call(CropResult result) const {
+      _function(result);
+    }
+  private:
+    std::function<void(const CropResult& /* result */)> _function;
+  };
+  inline Func_void_CropResult create_Func_void_CropResult(void* _Nonnull closureHolder, void(* _Nonnull call)(void* _Nonnull /* closureHolder */, CropResult), void(* _Nonnull destroy)(void* _Nonnull)) {
+    std::shared_ptr<void> sharedClosureHolder(closureHolder, destroy);
+    return Func_void_CropResult([sharedClosureHolder, call](const CropResult& result) -> void {
+      call(sharedClosureHolder.get(), result);
+    });
+  }
+  inline std::shared_ptr<Func_void_CropResult_Wrapper> share_Func_void_CropResult(const Func_void_CropResult& value) {
+    return std::make_shared<Func_void_CropResult_Wrapper>(value);
   }
   
   // pragma MARK: std::shared_ptr<margelo::nitro::multipleimagepicker::HybridMultipleImagePickerSpec>

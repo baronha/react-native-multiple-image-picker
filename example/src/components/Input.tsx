@@ -11,6 +11,7 @@ export function Input({ ...props }: InputProps) {
     <TextInput
       {...props}
       selectionColor={foreground}
+      placeholderTextColor={foreground + '92'}
       style={[
         style.input,
         { backgroundColor: background_2, color: foreground },

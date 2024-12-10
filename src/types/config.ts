@@ -26,6 +26,8 @@ export type SelectMode = 'single' | 'multiple'
 
 export type MediaType = 'video' | 'image' | 'all'
 
+export type CropRatio = { title?: string; width: number; height: number }
+
 /**
  * Configuration for image cropping
  * @interface PickerCropConfig
@@ -33,6 +35,8 @@ export type MediaType = 'video' | 'image' | 'all'
 export type PickerCropConfig = {
   /** Enable circular crop mask */
   circle?: boolean
+
+  ratio: CropRatio[]
 }
 
 /**
@@ -313,6 +317,7 @@ export interface Config
     | 'language'
     | 'theme'
     | 'backgroundDark'
+    | 'crop'
   > {
   /**
    * Type of media to be displayed
@@ -421,4 +426,57 @@ export interface Config
    * ```
    */
   backgroundDark?: ColorValue
+
+  crop?: Omit<PickerCropConfig, 'ratio'> & {
+    ratio?: CropRatio[]
+  }
+}
+
+export interface NitroCropConfig extends PickerCropConfig {
+  /**
+   * Interface language
+   * @type {Language}
+   */
+  language: Language
+
+  presentation: Presentation
+}
+
+export interface CropConfig
+  extends Omit<NitroCropConfig, 'language' | 'presentation' | 'ratio'> {
+  /**
+   * Language options for the picker.
+   * @description
+   * - 'system': 🌐 System default
+   * - 'zh-Hans': 🇨🇳 Simplified Chinese
+   * - 'zh-Hant': 🇹🇼 Traditional Chinese
+   * - 'ja': 🇯🇵 Japanese
+   * - 'ko': 🇰🇷 Korean
+   * - 'en': 🇬🇧 English
+   * - 'th': 🇹🇭 Thai
+   * - 'id': 🇮🇩 Indonesian
+   * - 'vi': 🇻🇳 Vietnamese (My Country)
+   * - 'ru': 🇷🇺 Russian
+   * - 'de': 🇩🇪 German
+   * - 'fr': 🇫🇷 French
+   * - 'ar': 🇸🇦 Arabic
+   */
+  language?: Language
+
+  /**
+   * Modal presentation style for the picker.
+   * - 'fullScreenModal': Opens picker in full screen
+   * - 'formSheet': Opens picker in a form sheet style
+   *
+   * @platform ios
+   * @default 'fullScreenModal'
+   * @type {Presentation}
+   * @example
+   * ```ts
+   * presentation: 'formSheet'
+   * ```
+   */
+  presentation?: Presentation
+
+  ratio?: CropRatio[]
 }

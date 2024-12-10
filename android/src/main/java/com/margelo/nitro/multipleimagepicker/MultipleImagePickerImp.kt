@@ -2,6 +2,7 @@ package com.margelo.nitro.multipleimagepicker
 
 import android.content.Context
 import android.graphics.Color
+import android.net.Uri
 import androidx.core.content.ContextCompat
 import com.facebook.react.bridge.ColorPropConverter
 import com.facebook.react.bridge.ReactApplicationContext
@@ -23,8 +24,14 @@ import com.luck.picture.lib.style.PictureSelectorStyle
 import com.luck.picture.lib.style.PictureWindowAnimationStyle
 import com.luck.picture.lib.style.SelectMainStyle
 import com.luck.picture.lib.style.TitleBarStyle
+import com.luck.picture.lib.utils.DateUtils
 import com.luck.picture.lib.utils.DensityUtil
+import com.yalantis.ucrop.UCrop
 import com.yalantis.ucrop.UCrop.Options
+import com.yalantis.ucrop.model.AspectRatio
+import java.io.File
+import java.net.HttpURLConnection
+import java.net.URL
 
 class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
     ReactContextBaseJavaModule(reactContext), IApp {
@@ -65,7 +72,6 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
             else -> SelectMimeType.ofAll()
         }
 
-
         val maxSelect = config.maxSelect?.toInt() ?: 20
         val maxVideo = config.maxVideo?.toInt() ?: 20
         val isPreview = config.isPreview ?: true
@@ -82,11 +88,8 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
 
         val isCrop = config.crop != null
 
-        PictureSelector.create(activity)
-            .openGallery(chooseMode)
-            .setImageEngine(imageEngine)
-            .setSelectedData(dataList)
-            .setSelectorUIStyle(style).apply {
+        PictureSelector.create(activity).openGallery(chooseMode).setImageEngine(imageEngine)
+            .setSelectedData(dataList).setSelectorUIStyle(style).apply {
                 if (isCrop) {
                     setCropOption()
                     // Disabled force crop engine for multiple
@@ -113,28 +116,18 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
                 if (videoQuality != null && videoQuality != 1.0) {
                     setVideoQuality(if (videoQuality > 0.5) 1 else 0)
                 }
-            }
-            .setImageSpanCount(config.numberOfColumn?.toInt() ?: 3)
-            .setMaxSelectNum(maxSelect)
-            .isDirectReturnSingle(true)
-            .isSelectZoomAnim(true)
-            .isPageStrategy(true, 50)
+            }.setImageSpanCount(config.numberOfColumn?.toInt() ?: 3).setMaxSelectNum(maxSelect)
+            .isDirectReturnSingle(true).isSelectZoomAnim(true).isPageStrategy(true, 50)
             .isWithSelectVideoImage(true)
             .setMaxVideoSelectNum(if (maxVideo != 20) maxVideo else maxSelect)
-            .isMaxSelectEnabledMask(true)
-            .isAutoVideoPlay(true)
-            .isFastSlidingSelect(allowSwipeToSelect)
-            .isPageSyncAlbumCount(true)
+            .isMaxSelectEnabledMask(true).isAutoVideoPlay(true)
+            .isFastSlidingSelect(allowSwipeToSelect).isPageSyncAlbumCount(true)
             // isPreview
-            .isPreviewImage(isPreview)
-            .isPreviewVideo(isPreview)
+            .isPreviewImage(isPreview).isPreviewVideo(isPreview)
             //
-            .isDisplayCamera(config.allowedCamera ?: true)
-            .isDisplayTimeAxis(true)
-            .setSelectionMode(selectMode)
-            .isOriginalControl(config.isHiddenOriginalButton == false)
-            .setLanguage(getLanguage())
-            .isPreviewFullScreenMode(true)
+            .isDisplayCamera(config.allowedCamera ?: true).isDisplayTimeAxis(true)
+            .setSelectionMode(selectMode).isOriginalControl(config.isHiddenOriginalButton == false)
+            .setLanguage(getLanguage()).isPreviewFullScreenMode(true)
             .forResult(object : OnResultCallbackListener<LocalMedia?> {
                 override fun onResult(localMedia: ArrayList<LocalMedia?>?) {
                     var data: Array<Result> = arrayOf()
@@ -159,6 +152,59 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
                     //
                 }
             })
+    }
+
+    @ReactMethod
+    fun openCrop(
+        image: String,
+        options: NitroCropConfig,
+        resolved: (result: CropResult) -> Unit,
+        rejected: (reject: Double) -> Unit
+    ) {
+        setCropOption()
+
+        try {
+            val uri = when {
+                // image network
+                image.startsWith("http://") || image.startsWith("https://") -> {
+                    // Handle remote URL
+                    val url = URL(image)
+                    val connection = url.openConnection() as HttpURLConnection
+                    connection.doInput = true
+                    connection.connect()
+
+                    val inputStream = connection.inputStream
+                    // Create a temp file to store the image
+                    val file = File(appContext.cacheDir, "CROP_")
+                    file.outputStream().use { output ->
+                        inputStream.copyTo(output)
+                    }
+
+                    Uri.fromFile(file)
+                }
+
+
+                else -> {
+                    Uri.parse(image)
+                }
+            }
+
+            val destinationUri = Uri.fromFile(
+                File(getSandboxPath(appContext), DateUtils.getCreateFileName("CROP_") + ".jpeg")
+            )
+
+            val uCrop = UCrop.of<Any>(uri, destinationUri).withOptions(cropOption)
+
+
+            // set engine
+            uCrop.setImageEngine(CropImageEngine())
+            // start edit
+            currentActivity?.let { uCrop.start(it, 0) }
+
+
+        } catch (e: Exception) {
+            rejected(0.0)
+        }
     }
 
     private fun getLanguage(): Int {
@@ -193,6 +239,19 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
         cropOption.isDragCropImages(true)
         cropOption.setFreeStyleCropEnabled(true)
         cropOption.setSkipCropMimeType(*getNotSupportCrop())
+
+        cropOption.apply {
+            setAspectRatioOptions(
+                1,
+                AspectRatio(null, 1f, 2f),
+                AspectRatio(null, 3f, 4f),
+                AspectRatio(null, 5f, 3f),
+                AspectRatio(null, 16f, 9f),
+                AspectRatio(null, 1f, 1f)
+            )
+        }
+
+        cropOption.setRat
     }
 
 
