@@ -81,7 +81,7 @@ Maximum number of videos allowed.
 - **Required**: No
 - **Platform**: iOS, Android
 
-### `crop`
+## Crop 🪚
 
 Configuration for image cropping functionality.
 
@@ -89,8 +89,51 @@ Configuration for image cropping functionality.
 - **Default**: `undefined`
 - **Required**: No
 - **Platform**: iOS, Android
+
+### `circle`
+
+Enable circular crop mask.
+
+- **Type**: boolean
+- **Default**: `false`
+- **Required**: No
+- **Platform**: iOS, Android
+
+### `ratio`
+
+Aspect ratios for cropping.
+Android: Maximum: 4 items
+
+- **Type**: `array`
+- **Default**: `undefined`
+- **Required**: No
+- **Platform**: iOS, Android
 - **Properties**:
-  - `circle`: boolean - Enable circular crop mask
+  - `title`: string - Display title for the ratio (e.g., "Square", "16:9")
+  - `width`: number - Width value for the aspect ratio
+  - `height`: number - Height value for the aspect ratio
+
+### `defaultRatio`
+
+Default ratio to be selected when opening the crop interface.
+
+- **Type**: `object`
+- **Default**: `undefined`
+- **Required**: No
+- **Platform**: iOS, Android
+- **Properties**:
+  - `title`: string - Display title for the ratio (e.g., "Square", "16:9")
+  - `width`: number - Width value for the aspect ratio
+  - `height`: number - Height value for the aspect ratio
+
+### `freeStyle`
+
+Enable free style cropping.
+
+- **Type**: `boolean`
+- **Default**: `false`
+- **Required**: No
+- **Platform**: iOS, Android
 
 ---
 
