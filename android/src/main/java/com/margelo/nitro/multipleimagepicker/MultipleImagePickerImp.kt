@@ -1,6 +1,7 @@
 package com.margelo.nitro.multipleimagepicker
 
 import android.app.Activity
+import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -167,6 +168,18 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
         resolved: (result: CropResult) -> Unit,
         rejected: (reject: Double) -> Unit
     ) {
+
+
+        fun isImage(uri: Uri, contentResolver: ContentResolver): Boolean {
+            val mimeType: String? = contentResolver.getType(uri)
+            return mimeType?.startsWith("image/") == true
+        }
+
+        val uri = Uri.parse(image)
+        val isImageFile = isImage(uri, appContext.contentResolver)
+
+        if (!isImageFile) return rejected(0.0)
+
         cropOption = Options()
 
         setCropOption(
@@ -216,7 +229,12 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
             // start edit
 
             val cropActivityEventListener = object : BaseActivityEventListener() {
-                override fun onActivityResult(activity: Activity, requestCode: Int, resultCode: Int, data: Intent?) {
+                override fun onActivityResult(
+                    activity: Activity,
+                    requestCode: Int,
+                    resultCode: Int,
+                    data: Intent?
+                ) {
                     if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CROP) {
                         val resultUri = UCrop.getOutput(data!!)
                         val width = UCrop.getOutputImageWidth(data).toDouble()

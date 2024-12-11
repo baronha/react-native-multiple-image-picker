@@ -6,6 +6,7 @@
 //
 
 import HXPhotoPicker
+import MobileCoreServices
 
 // class CropConfig: PickerCropConfig {
 //    //
@@ -14,6 +15,8 @@ import HXPhotoPicker
 extension HybridMultipleImagePicker {
     func openCrop(image: String, config: NitroCropConfig, resolved: @escaping ((CropResult) -> Void), rejected: @escaping ((Double) -> Void)) throws {
         let asset: EditorAsset
+
+        if !isImage(image) { return rejected(0) }
 
         if image.hasPrefix("http://") || image.hasPrefix("https://") || image.hasPrefix("file://") {
             guard let url = URL(string: image),
@@ -100,4 +103,15 @@ extension HybridMultipleImagePicker {
 
         return config
     }
+}
+
+private func isImage(_ urlString: String) -> Bool {
+    guard let url = URL(string: urlString),
+          let pathExtension = url.pathExtension as CFString?,
+          let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, pathExtension, nil)?.takeRetainedValue()
+    else {
+        return false
+    }
+
+    return UTTypeConformsTo(uti, kUTTypeImage)
 }
