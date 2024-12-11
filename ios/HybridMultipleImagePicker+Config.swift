@@ -115,7 +115,7 @@ extension HybridMultipleImagePicker {
         config.editorOptions = [.photo, .gifPhoto, .livePhoto]
 
         if let crop = options.crop {
-            let editor = setCropConfig(circle: crop.circle, ratio: crop.ratio)
+            let editor = setCropConfig(crop)
 
             config.editor = editor
 

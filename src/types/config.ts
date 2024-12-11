@@ -37,6 +37,22 @@ export type PickerCropConfig = {
   circle?: boolean
 
   ratio: CropRatio[]
+
+  /**
+   * Default ratio to be selected when opening the crop interface.
+   * If not specified, the first ratio in the list will be selected.
+   *
+   * @platform ios, android
+   *
+   * @example
+   * ```ts
+   * // Custom ratio without title
+   * defaultRatio: { width: 4, height: 3 }
+   */
+  defaultRatio?: CropRatio
+
+  /** Enable free style cropping */
+  freeStyle?: boolean
 }
 
 /**
@@ -427,7 +443,31 @@ export interface Config
    */
   backgroundDark?: ColorValue
 
+  /**
+   * Configuration for image cropping
+   * @interface PickerCropConfig
+   */
   crop?: Omit<PickerCropConfig, 'ratio'> & {
+    /**
+     * Array of aspect ratios for image cropping. The ratios will be inserted after the default ratios (Original and Square).
+     * Android: Maximum: 4 items
+     *
+     * @platform ios, Android
+     *
+     * @property {Array<CropRatio>} ratio - Array of custom aspect ratios
+     * @property {string} [ratio[].title] - Optional display title for the ratio (e.g., "16:9"). If not provided, will use "width/height"
+     * @property {number} ratio[].width - Width value for aspect ratio
+     * @property {number} ratio[].height - Height value for aspect ratio
+     *
+     * @example
+     * ```ts
+     * ratio: [
+     *   { title: "Instagram", width: 1, height: 1 },
+     *   { title: "Twitter", width: 16, height: 9 },
+     *   { width: 12, height: 11 }
+     * ]
+     * ```
+     */
     ratio?: CropRatio[]
   }
 }
@@ -446,6 +486,9 @@ export interface CropConfig
   extends Omit<NitroCropConfig, 'language' | 'presentation' | 'ratio'> {
   /**
    * Language options for the picker.
+   *
+   * @platform ios
+   *
    * @description
    * - 'system': 🌐 System default
    * - 'zh-Hans': 🇨🇳 Simplified Chinese
@@ -464,19 +507,24 @@ export interface CropConfig
   language?: Language
 
   /**
-   * Modal presentation style for the picker.
-   * - 'fullScreenModal': Opens picker in full screen
-   * - 'formSheet': Opens picker in a form sheet style
+   * Array of aspect ratios for image cropping. The ratios will be inserted after the default ratios (Original and Square).
+   * Android: Maximum: 4 items
    *
-   * @platform ios
-   * @default 'fullScreenModal'
-   * @type {Presentation}
+   * @platform ios, android
+   *
+   * @property {Array<CropRatio>} ratio - Array of custom aspect ratios
+   * @property {string} [ratio[].title] - Optional display title for the ratio (e.g., "16:9"). If not provided, will use "width/height"
+   * @property {number} ratio[].width - Width value for aspect ratio
+   * @property {number} ratio[].height - Height value for aspect ratio
+   *
    * @example
    * ```ts
-   * presentation: 'formSheet'
+   * ratio: [
+   *   { title: "Instagram", width: 1, height: 1 },
+   *   { title: "Twitter", width: 16, height: 9 },
+   *   {  width: 12, height: 11 }
+   * ]
    * ```
    */
-  presentation?: Presentation
-
   ratio?: CropRatio[]
 }

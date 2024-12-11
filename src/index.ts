@@ -43,9 +43,7 @@ export async function openPicker<T extends Config>(
       config.language = 'system'
     }
 
-    if (config.crop) {
-      config.crop.ratio = config.crop.ratio ?? DEFAULT_RATIO
-    }
+    if (config.crop) config.crop.ratio = config.crop.ratio ?? []
 
     return Picker.openPicker(
       config,
@@ -59,14 +57,15 @@ export async function openPicker<T extends Config>(
   })
 }
 
-export async function openCrop(
+export async function openCropper(
   image: string,
-  config: CropConfig
+  config?: CropConfig
 ): Promise<CropResult> {
   return new Promise((resolved, rejected) => {
     const cropConfig = {
       presentation: 'fullScreenModal',
       language: 'system',
+      ratio: [],
       ...config,
     } as NitroCropConfig
 
@@ -85,16 +84,7 @@ export async function openCrop(
 
 const DEFAULT_COUNT = 20
 
-export const DEFAULT_RATIO: CropRatio[] = [
-  {
-    width: 1,
-    height: 1,
-  },
-  {
-    width: 1,
-    height: 1,
-  },
-]
+export const DEFAULT_RATIO: CropRatio[] = []
 
 export const defaultOptions: Config = {
   maxSelect: DEFAULT_COUNT,

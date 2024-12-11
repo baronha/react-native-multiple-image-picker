@@ -34,9 +34,11 @@ namespace margelo::nitro::multipleimagepicker {
   public:
     std::optional<bool> circle     SWIFT_PRIVATE;
     std::vector<CropRatio> ratio     SWIFT_PRIVATE;
+    std::optional<CropRatio> defaultRatio     SWIFT_PRIVATE;
+    std::optional<bool> freeStyle     SWIFT_PRIVATE;
 
   public:
-    explicit PickerCropConfig(std::optional<bool> circle, std::vector<CropRatio> ratio): circle(circle), ratio(ratio) {}
+    explicit PickerCropConfig(std::optional<bool> circle, std::vector<CropRatio> ratio, std::optional<CropRatio> defaultRatio, std::optional<bool> freeStyle): circle(circle), ratio(ratio), defaultRatio(defaultRatio), freeStyle(freeStyle) {}
   };
 
 } // namespace margelo::nitro::multipleimagepicker
@@ -52,13 +54,17 @@ namespace margelo::nitro {
       jsi::Object obj = arg.asObject(runtime);
       return PickerCropConfig(
         JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, "circle")),
-        JSIConverter<std::vector<CropRatio>>::fromJSI(runtime, obj.getProperty(runtime, "ratio"))
+        JSIConverter<std::vector<CropRatio>>::fromJSI(runtime, obj.getProperty(runtime, "ratio")),
+        JSIConverter<std::optional<CropRatio>>::fromJSI(runtime, obj.getProperty(runtime, "defaultRatio")),
+        JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, "freeStyle"))
       );
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const PickerCropConfig& arg) {
       jsi::Object obj(runtime);
       obj.setProperty(runtime, "circle", JSIConverter<std::optional<bool>>::toJSI(runtime, arg.circle));
       obj.setProperty(runtime, "ratio", JSIConverter<std::vector<CropRatio>>::toJSI(runtime, arg.ratio));
+      obj.setProperty(runtime, "defaultRatio", JSIConverter<std::optional<CropRatio>>::toJSI(runtime, arg.defaultRatio));
+      obj.setProperty(runtime, "freeStyle", JSIConverter<std::optional<bool>>::toJSI(runtime, arg.freeStyle));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -68,6 +74,8 @@ namespace margelo::nitro {
       jsi::Object obj = value.getObject(runtime);
       if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, "circle"))) return false;
       if (!JSIConverter<std::vector<CropRatio>>::canConvert(runtime, obj.getProperty(runtime, "ratio"))) return false;
+      if (!JSIConverter<std::optional<CropRatio>>::canConvert(runtime, obj.getProperty(runtime, "defaultRatio"))) return false;
+      if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, "freeStyle"))) return false;
       return true;
     }
   };

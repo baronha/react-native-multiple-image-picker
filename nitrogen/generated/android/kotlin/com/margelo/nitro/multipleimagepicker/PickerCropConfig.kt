@@ -18,5 +18,7 @@ import com.margelo.nitro.core.*
 @Keep
 data class PickerCropConfig(
   val circle: Boolean?,
-  val ratio: Array<CropRatio>
+  val ratio: Array<CropRatio>,
+  val defaultRatio: CropRatio?,
+  val freeStyle: Boolean?
 )

@@ -1,9 +1,6 @@
 package com.margelo.nitro.multipleimagepicker
 
 import com.margelo.nitro.NitroModules
-import com.margelo.nitro.multipleimagepicker.HybridMultipleImagePickerSpec
-import com.margelo.nitro.multipleimagepicker.NitroConfig
-import com.margelo.nitro.multipleimagepicker.Result
 
 
 class MultipleImagePicker : HybridMultipleImagePickerSpec() {

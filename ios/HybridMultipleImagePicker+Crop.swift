@@ -29,16 +29,11 @@ extension HybridMultipleImagePicker {
             asset = .init(type: .photoAsset(.init(localIdentifier: image)))
         }
 
-        let editConfig = setCropConfig(circle: config.circle, ratio: config.ratio)
-//
-//        switch Int(config.presentation.rawValue) {
-//        case 1:
-//            editConfig.modalPresentationStyle = .formSheet
-//        default:
-//            editConfig.modalPresentationStyle = .fullScreen
-//        }
-//
-//        editConfig.languageType = setLocale(language: options.language)
+        let cropOption = PickerCropConfig(circle: config.circle, ratio: config.ratio, defaultRatio: config.defaultRatio, freeStyle: config.freeStyle)
+
+        var editConfig = setCropConfig(cropOption)
+
+        editConfig.languageType = setLocale(language: config.language)
 
         DispatchQueue.main.async {
             Photo.edit(asset: asset, config: editConfig) { result, _ in
@@ -52,16 +47,26 @@ extension HybridMultipleImagePicker {
         }
     }
 
-    func setCropConfig(circle: Bool? = false, ratio: [CropRatio]) -> EditorConfiguration {
+    func setCropConfig(_ cropConfig: PickerCropConfig) -> EditorConfiguration {
         var config = EditorConfiguration()
+
+        if let defaultRatio = cropConfig.defaultRatio {
+            config.cropSize.aspectRatio = .init(width: defaultRatio.width, height: defaultRatio.height)
+        }
 
         config.photo.defaultSelectedToolOption = .cropSize
 
         config.isFixedCropSizeState = true
 
+        config.cropSize.defaultSeletedIndex = 0
+
+        let freeStyle = cropConfig.freeStyle ?? true
+
+        config.cropSize.isFixedRatio = !freeStyle
+
         config.isWhetherFinishButtonDisabledInUneditedState = true
 
-        config.cropSize.isRoundCrop = circle ?? false
+        config.cropSize.isRoundCrop = cropConfig.circle ?? false
 
         config.cropSize.isResetToOriginal = true
 
@@ -72,19 +77,25 @@ extension HybridMultipleImagePicker {
         if config.cropSize.isRoundCrop {
             config.cropSize.aspectRatios = []
         } else {
-            var aspectRatios: [EditorRatioToolConfig] = config.cropSize.aspectRatios
+            var aspectRatios: [EditorRatioToolConfig] = PickerConfiguration.default.editor.cropSize.aspectRatios
 
+            let ratio = cropConfig.ratio
             // custom ratio
             if ratio.count > 0 {
                 ratio.forEach { ratio in
                     let width = Int(ratio.width)
                     let height = Int(ratio.height)
 
-                    aspectRatios.append(.init(title: .custom(ratio.title ?? "\(width)/\(height)"), ratio: .init(width: width, height: height)))
+                    aspectRatios.insert(.init(title: .custom(ratio.title ?? "\(width)/\(height)"), ratio: .init(width: width, height: height)), at: 3)
                 }
             }
 
-            config.cropSize.aspectRatios = aspectRatios
+            config.cropSize.aspectRatios = freeStyle ? aspectRatios : aspectRatios.filter {
+                // check freeStyle crop
+                if $0.ratio == .zero { return false }
+
+                return true
+            }
         }
 
         return config

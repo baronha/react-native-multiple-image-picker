@@ -20,5 +20,7 @@ data class NitroCropConfig(
   val language: Language,
   val presentation: Presentation,
   val circle: Boolean?,
-  val ratio: Array<CropRatio>
+  val ratio: Array<CropRatio>,
+  val defaultRatio: CropRatio?,
+  val freeStyle: Boolean?
 )

@@ -18,7 +18,7 @@ public extension PickerCropConfig {
   /**
    * Create a new instance of `PickerCropConfig`.
    */
-  init(circle: Bool?, ratio: [CropRatio]) {
+  init(circle: Bool?, ratio: [CropRatio], defaultRatio: CropRatio?, freeStyle: Bool?) {
     self.init({ () -> bridge.std__optional_bool_ in
       if let __unwrappedValue = circle {
         return bridge.create_std__optional_bool_(__unwrappedValue)
@@ -31,6 +31,18 @@ public extension PickerCropConfig {
         __vector.push_back(__item)
       }
       return __vector
+    }(), { () -> bridge.std__optional_CropRatio_ in
+      if let __unwrappedValue = defaultRatio {
+        return bridge.create_std__optional_CropRatio_(__unwrappedValue)
+      } else {
+        return .init()
+      }
+    }(), { () -> bridge.std__optional_bool_ in
+      if let __unwrappedValue = freeStyle {
+        return bridge.create_std__optional_bool_(__unwrappedValue)
+      } else {
+        return .init()
+      }
     }())
   }
 
@@ -64,6 +76,46 @@ public extension PickerCropConfig {
           __vector.push_back(__item)
         }
         return __vector
+      }()
+    }
+  }
+  
+  var defaultRatio: CropRatio? {
+    @inline(__always)
+    get {
+      return { () -> CropRatio? in
+        if let __unwrapped = self.__defaultRatio.value {
+          return __unwrapped
+        } else {
+          return nil
+        }
+      }()
+    }
+    @inline(__always)
+    set {
+      self.__defaultRatio = { () -> bridge.std__optional_CropRatio_ in
+        if let __unwrappedValue = newValue {
+          return bridge.create_std__optional_CropRatio_(__unwrappedValue)
+        } else {
+          return .init()
+        }
+      }()
+    }
+  }
+  
+  var freeStyle: Bool? {
+    @inline(__always)
+    get {
+      return self.__freeStyle.value
+    }
+    @inline(__always)
+    set {
+      self.__freeStyle = { () -> bridge.std__optional_bool_ in
+        if let __unwrappedValue = newValue {
+          return bridge.create_std__optional_bool_(__unwrappedValue)
+        } else {
+          return .init()
+        }
       }()
     }
   }

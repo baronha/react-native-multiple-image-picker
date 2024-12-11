@@ -20,7 +20,7 @@ import {
   Result,
   defaultOptions,
   Config,
-  openCrop,
+  openCropper,
 } from '@baronha/react-native-multiple-image-picker'
 import { useImmer } from 'use-immer'
 import { StatusBar } from 'expo-status-bar'
@@ -82,7 +82,13 @@ export default function App() {
       const response = await openPicker({
         ...options,
         selectedAssets: images,
-        crop: {},
+        crop: {
+          ratio: [
+            { title: 'Instagram', width: 1, height: 1 },
+            { title: 'Twitter', width: 16, height: 9 },
+            { title: 'Facebook', width: 12, height: 11 },
+          ],
+        },
       })
 
       setImages(Array.isArray(response) ? response : [response])
@@ -95,11 +101,21 @@ export default function App() {
   const onCrop = async () => {
     try {
       console.log('images: ', images)
-      const response = await openCrop(images[0].path, {
-        circle: true,
+      const response = await openCropper(images[0].path, {
+        ratio: [
+          { title: 'Instagram', width: 1, height: 1 },
+          { title: 'Twitter', width: 16, height: 9 },
+          { title: 'Facebook', width: 12, height: 11 },
+        ],
       })
 
-      console.log('response: ', response)
+      setImages((prev) => {
+        const data = [...prev]
+        data[0].path = response.path
+        data[0].width = response.width
+        data[0].height = response.height
+        return data
+      })
       layoutEffect()
     } catch (e) {
       console.log('e: ', e)

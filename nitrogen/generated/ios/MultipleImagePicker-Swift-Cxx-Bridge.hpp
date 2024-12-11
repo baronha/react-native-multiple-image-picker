@@ -96,6 +96,15 @@ namespace margelo::nitro::multipleimagepicker::bridge::swift {
     return vector;
   }
   
+  // pragma MARK: std::optional<CropRatio>
+  /**
+   * Specialized version of `std::optional<CropRatio>`.
+   */
+  using std__optional_CropRatio_ = std::optional<CropRatio>;
+  inline std::optional<CropRatio> create_std__optional_CropRatio_(const CropRatio& value) {
+    return std::optional<CropRatio>(value);
+  }
+  
   // pragma MARK: std::optional<PickerCropConfig>
   /**
    * Specialized version of `std::optional<PickerCropConfig>`.
