@@ -115,22 +115,7 @@ extension HybridMultipleImagePicker {
         config.editorOptions = [.photo, .gifPhoto, .livePhoto]
 
         if let crop = options.crop {
-            var editor = config.editor
-
-            let isCircle = crop.circle ?? false
-
-            editor.cropSize.isRoundCrop = isCircle
-
-            if isCircle {
-                editor.cropSize.aspectRatios = []
-            } else {
-                editor.cropSize.aspectRatios = PickerConfiguration.default.editor.cropSize.aspectRatios
-            }
-
-            editor.photo.defaultSelectedToolOption = .cropSize
-            editor.toolsView = .init(toolOptions: [.init(imageType: config.editor.imageResource.editor.tools.cropSize, type: .cropSize)])
-
-            editor.isFixedCropSizeState = true
+            let editor = setCropConfig(crop)
 
             config.editor = editor
 
@@ -164,10 +149,7 @@ extension HybridMultipleImagePicker {
         }
 
         // LIGHT THEME
-        if isDark {
-//            config.appearanceStyle = .dark
-//            config.photoList.titleView.backgroundColor = UIColor.white.withAlphaComponent(0.5)
-        } else {
+        if !isDark {
             let background = UIColor.white
             let barStyle = UIBarStyle.default
 
@@ -225,35 +207,37 @@ extension HybridMultipleImagePicker {
             }
         }
 
-        switch options.language {
+        config.languageType = setLocale(language: options.language)
+    }
+
+    func setLocale(language: Language) -> LanguageType {
+        switch language {
         case .vi:
-            config.languageType = .vietnamese // -> 🇻🇳 My country. Yeahhh
+            return .vietnamese // -> 🇻🇳 My country. Yeahhh
         case .zhHans:
-            config.languageType = .simplifiedChinese
+            return .simplifiedChinese
         case .zhHant:
-            config.languageType = .traditionalChinese
+            return .traditionalChinese
         case .ja:
-            config.languageType = .japanese
+            return .japanese
         case .ko:
-            config.languageType = .korean
+            return .korean
         case .en:
-            config.languageType = .english
+            return .english
         case .th:
-            config.languageType = .thai
+            return .thai
         case .id:
-            config.languageType = .indonesia
-
+            return .indonesia
         case .ru:
-            config.languageType = .russian
+            return .russian
         case .de:
-            config.languageType = .german
+            return .german
         case .fr:
-            config.languageType = .french
+            return .french
         case .ar:
-            config.languageType = .arabic
-
+            return .arabic
         default:
-            config.languageType = .system
+            return .system
         }
     }
 }

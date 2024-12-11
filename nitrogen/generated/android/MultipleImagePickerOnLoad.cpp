@@ -14,6 +14,7 @@
 #include "JHybridMultipleImagePickerSpec.hpp"
 #include "JFunc_void_std__vector_Result_.hpp"
 #include "JFunc_void_double.hpp"
+#include "JFunc_void_CropResult.hpp"
 #include <NitroModules/JNISharedPtr.hpp>
 #include <NitroModules/DefaultConstructableObject.hpp>
 
@@ -28,6 +29,8 @@ int initialize(JavaVM* vm) {
     // Register native JNI methods
     margelo::nitro::multipleimagepicker::JHybridMultipleImagePickerSpec::registerNatives();
     margelo::nitro::multipleimagepicker::JFunc_void_std__vector_Result_::registerNatives();
+    margelo::nitro::multipleimagepicker::JFunc_void_double::registerNatives();
+    margelo::nitro::multipleimagepicker::JFunc_void_CropResult::registerNatives();
     margelo::nitro::multipleimagepicker::JFunc_void_double::registerNatives();
 
     // Register Nitro Hybrid Objects

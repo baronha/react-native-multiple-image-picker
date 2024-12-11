@@ -21,6 +21,8 @@ namespace margelo::nitro::multipleimagepicker { enum class SelectBoxStyle; }
 namespace margelo::nitro::multipleimagepicker { enum class SelectMode; }
 // Forward declaration of `PickerCropConfig` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { struct PickerCropConfig; }
+// Forward declaration of `CropRatio` to properly resolve imports.
+namespace margelo::nitro::multipleimagepicker { struct CropRatio; }
 // Forward declaration of `Text` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { struct Text; }
 // Forward declaration of `Language` to properly resolve imports.
@@ -29,6 +31,10 @@ namespace margelo::nitro::multipleimagepicker { enum class Language; }
 namespace margelo::nitro::multipleimagepicker { enum class Theme; }
 // Forward declaration of `Presentation` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { enum class Presentation; }
+// Forward declaration of `NitroCropConfig` to properly resolve imports.
+namespace margelo::nitro::multipleimagepicker { struct NitroCropConfig; }
+// Forward declaration of `CropResult` to properly resolve imports.
+namespace margelo::nitro::multipleimagepicker { struct CropResult; }
 
 #include "NitroConfig.hpp"
 #include "JNitroConfig.hpp"
@@ -47,6 +53,8 @@ namespace margelo::nitro::multipleimagepicker { enum class Presentation; }
 #include "JSelectMode.hpp"
 #include "PickerCropConfig.hpp"
 #include "JPickerCropConfig.hpp"
+#include "CropRatio.hpp"
+#include "JCropRatio.hpp"
 #include "Text.hpp"
 #include "JText.hpp"
 #include "Language.hpp"
@@ -58,6 +66,11 @@ namespace margelo::nitro::multipleimagepicker { enum class Presentation; }
 #include <functional>
 #include "JFunc_void_std__vector_Result_.hpp"
 #include "JFunc_void_double.hpp"
+#include "NitroCropConfig.hpp"
+#include "JNitroCropConfig.hpp"
+#include "CropResult.hpp"
+#include "JFunc_void_CropResult.hpp"
+#include "JCropResult.hpp"
 
 namespace margelo::nitro::multipleimagepicker {
 
@@ -83,6 +96,10 @@ namespace margelo::nitro::multipleimagepicker {
   void JHybridMultipleImagePickerSpec::openPicker(const NitroConfig& config, const std::function<void(const std::vector<Result>& /* result */)>& resolved, const std::function<void(double /* reject */)>& rejected) {
     static const auto method = _javaPart->getClass()->getMethod<void(jni::alias_ref<JNitroConfig> /* config */, jni::alias_ref<JFunc_void_std__vector_Result_::javaobject> /* resolved */, jni::alias_ref<JFunc_void_double::javaobject> /* rejected */)>("openPicker");
     method(_javaPart, JNitroConfig::fromCpp(config), JFunc_void_std__vector_Result_::fromCpp(resolved), JFunc_void_double::fromCpp(rejected));
+  }
+  void JHybridMultipleImagePickerSpec::openCrop(const std::string& image, const NitroCropConfig& config, const std::function<void(const CropResult& /* result */)>& resolved, const std::function<void(double /* reject */)>& rejected) {
+    static const auto method = _javaPart->getClass()->getMethod<void(jni::alias_ref<jni::JString> /* image */, jni::alias_ref<JNitroCropConfig> /* config */, jni::alias_ref<JFunc_void_CropResult::javaobject> /* resolved */, jni::alias_ref<JFunc_void_double::javaobject> /* rejected */)>("openCrop");
+    method(_javaPart, jni::make_jstring(image), JNitroCropConfig::fromCpp(config), JFunc_void_CropResult::fromCpp(resolved), JFunc_void_double::fromCpp(rejected));
   }
 
 } // namespace margelo::nitro::multipleimagepicker

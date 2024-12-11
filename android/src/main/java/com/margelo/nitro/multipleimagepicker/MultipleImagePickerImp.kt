@@ -1,8 +1,14 @@
 package com.margelo.nitro.multipleimagepicker
 
+import android.app.Activity
+import android.content.ContentResolver
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import androidx.core.content.ContextCompat
+import com.facebook.react.bridge.ActivityEventListener
+import com.facebook.react.bridge.BaseActivityEventListener
 import com.facebook.react.bridge.ColorPropConverter
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
@@ -23,8 +29,16 @@ import com.luck.picture.lib.style.PictureSelectorStyle
 import com.luck.picture.lib.style.PictureWindowAnimationStyle
 import com.luck.picture.lib.style.SelectMainStyle
 import com.luck.picture.lib.style.TitleBarStyle
+import com.luck.picture.lib.utils.DateUtils
 import com.luck.picture.lib.utils.DensityUtil
+import com.yalantis.ucrop.UCrop
 import com.yalantis.ucrop.UCrop.Options
+import com.yalantis.ucrop.UCrop.REQUEST_CROP
+import com.yalantis.ucrop.model.AspectRatio
+import java.io.File
+import java.net.HttpURLConnection
+import java.net.URL
+
 
 class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
     ReactContextBaseJavaModule(reactContext), IApp {
@@ -65,7 +79,6 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
             else -> SelectMimeType.ofAll()
         }
 
-
         val maxSelect = config.maxSelect?.toInt() ?: 20
         val maxVideo = config.maxVideo?.toInt() ?: 20
         val isPreview = config.isPreview ?: true
@@ -82,13 +95,10 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
 
         val isCrop = config.crop != null
 
-        PictureSelector.create(activity)
-            .openGallery(chooseMode)
-            .setImageEngine(imageEngine)
-            .setSelectedData(dataList)
-            .setSelectorUIStyle(style).apply {
+        PictureSelector.create(activity).openGallery(chooseMode).setImageEngine(imageEngine)
+            .setSelectedData(dataList).setSelectorUIStyle(style).apply {
                 if (isCrop) {
-                    setCropOption()
+                    setCropOption(config.crop)
                     // Disabled force crop engine for multiple
                     if (!isMultiple) setCropEngine(CropEngine(cropOption))
                     else setEditMediaInterceptListener(setEditMediaEvent())
@@ -113,28 +123,18 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
                 if (videoQuality != null && videoQuality != 1.0) {
                     setVideoQuality(if (videoQuality > 0.5) 1 else 0)
                 }
-            }
-            .setImageSpanCount(config.numberOfColumn?.toInt() ?: 3)
-            .setMaxSelectNum(maxSelect)
-            .isDirectReturnSingle(true)
-            .isSelectZoomAnim(true)
-            .isPageStrategy(true, 50)
+            }.setImageSpanCount(config.numberOfColumn?.toInt() ?: 3).setMaxSelectNum(maxSelect)
+            .isDirectReturnSingle(true).isSelectZoomAnim(true).isPageStrategy(true, 50)
             .isWithSelectVideoImage(true)
             .setMaxVideoSelectNum(if (maxVideo != 20) maxVideo else maxSelect)
-            .isMaxSelectEnabledMask(true)
-            .isAutoVideoPlay(true)
-            .isFastSlidingSelect(allowSwipeToSelect)
-            .isPageSyncAlbumCount(true)
+            .isMaxSelectEnabledMask(true).isAutoVideoPlay(true)
+            .isFastSlidingSelect(allowSwipeToSelect).isPageSyncAlbumCount(true)
             // isPreview
-            .isPreviewImage(isPreview)
-            .isPreviewVideo(isPreview)
+            .isPreviewImage(isPreview).isPreviewVideo(isPreview)
             //
-            .isDisplayCamera(config.allowedCamera ?: true)
-            .isDisplayTimeAxis(true)
-            .setSelectionMode(selectMode)
-            .isOriginalControl(config.isHiddenOriginalButton == false)
-            .setLanguage(getLanguage())
-            .isPreviewFullScreenMode(true)
+            .isDisplayCamera(config.allowedCamera ?: true).isDisplayTimeAxis(true)
+            .setSelectionMode(selectMode).isOriginalControl(config.isHiddenOriginalButton == false)
+            .setLanguage(getLanguage()).isPreviewFullScreenMode(true)
             .forResult(object : OnResultCallbackListener<LocalMedia?> {
                 override fun onResult(localMedia: ArrayList<LocalMedia?>?) {
                     var data: Array<Result> = arrayOf()
@@ -161,6 +161,112 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
             })
     }
 
+    @ReactMethod
+    fun openCrop(
+        image: String,
+        options: NitroCropConfig,
+        resolved: (result: CropResult) -> Unit,
+        rejected: (reject: Double) -> Unit
+    ) {
+
+
+        fun isImage(uri: Uri, contentResolver: ContentResolver): Boolean {
+            val mimeType: String? = contentResolver.getType(uri)
+            return mimeType?.startsWith("image/") == true
+        }
+
+        val uri = Uri.parse(image)
+        val isImageFile = isImage(uri, appContext.contentResolver)
+
+        if (!isImageFile) return rejected(0.0)
+
+        cropOption = Options()
+
+        setCropOption(
+            PickerCropConfig(
+                circle = options.circle,
+                ratio = options.ratio,
+                defaultRatio = options.defaultRatio,
+                freeStyle = options.freeStyle
+            )
+        )
+
+        try {
+            val uri = when {
+                // image network
+                image.startsWith("http://") || image.startsWith("https://") -> {
+                    // Handle remote URL
+                    val url = URL(image)
+                    val connection = url.openConnection() as HttpURLConnection
+                    connection.doInput = true
+                    connection.connect()
+
+                    val inputStream = connection.inputStream
+                    // Create a temp file to store the image
+                    val file = File(appContext.cacheDir, "CROP_")
+                    file.outputStream().use { output ->
+                        inputStream.copyTo(output)
+                    }
+
+                    Uri.fromFile(file)
+                }
+
+
+                else -> {
+                    Uri.parse(image)
+                }
+            }
+
+
+            val destinationUri = Uri.fromFile(
+                File(getSandboxPath(appContext), DateUtils.getCreateFileName("CROP_") + ".jpeg")
+            )
+
+            val uCrop = UCrop.of<Any>(uri, destinationUri).withOptions(cropOption)
+
+            // set engine
+            uCrop.setImageEngine(CropImageEngine())
+            // start edit
+
+            val cropActivityEventListener = object : BaseActivityEventListener() {
+                override fun onActivityResult(
+                    activity: Activity,
+                    requestCode: Int,
+                    resultCode: Int,
+                    data: Intent?
+                ) {
+                    if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CROP) {
+                        val resultUri = UCrop.getOutput(data!!)
+                        val width = UCrop.getOutputImageWidth(data).toDouble()
+                        val height = UCrop.getOutputImageHeight(data).toDouble()
+
+                        resultUri?.let {
+                            val result = CropResult(
+                                path = it.toString(),
+                                width,
+                                height,
+                            )
+                            resolved(result)
+                        }
+                    } else if (resultCode == UCrop.RESULT_ERROR) {
+                        val cropError = UCrop.getError(data!!)
+                        rejected(0.0)
+                    }
+
+                    // Remove listener after getting result
+                    reactApplicationContext.removeActivityEventListener(this)
+                }
+            }
+
+            // Add listener before starting UCrop
+            reactApplicationContext.addActivityEventListener(cropActivityEventListener)
+
+            currentActivity?.let { uCrop.start(it, REQUEST_CROP) }
+        } catch (e: Exception) {
+            rejected(0.0)
+        }
+    }
+
     private fun getLanguage(): Int {
         return when (config.language) {
             Language.VI -> LanguageConfig.VIETNAM  // -> 🇻🇳 My country. Yeahhh
@@ -177,12 +283,10 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
         }
     }
 
-    private fun setCropOption() {
-//        val mainStyle: SelectMainStyle = style.selectMainStyle
-
+    private fun setCropOption(config: PickerCropConfig?) {
         cropOption.setShowCropFrame(true)
         cropOption.setShowCropGrid(true)
-        cropOption.setCircleDimmedLayer(config.crop?.circle ?: false)
+        cropOption.setCircleDimmedLayer(config?.circle ?: false)
         cropOption.setCropOutputPathDir(getSandboxPath(appContext))
         cropOption.isCropDragSmoothToCenter(true)
         cropOption.isForbidSkipMultipleCrop(true)
@@ -191,8 +295,48 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
         cropOption.setStatusBarColor(Color.WHITE)
         cropOption.isDarkStatusBarBlack(true)
         cropOption.isDragCropImages(true)
-        cropOption.setFreeStyleCropEnabled(true)
+        cropOption.setFreeStyleCropEnabled(config?.freeStyle ?: true)
         cropOption.setSkipCropMimeType(*getNotSupportCrop())
+
+
+        val ratioCount = config?.ratio?.size ?: 0
+
+        if (config?.defaultRatio != null || ratioCount > 0) {
+
+            var ratioList = arrayOf(AspectRatio("Original", 0f, 0f))
+
+            if (ratioCount > 0) {
+                config?.ratio?.take(4)?.toTypedArray()?.forEach { item ->
+                    ratioList += AspectRatio(
+                        item.title, item.width.toFloat(), item.height.toFloat()
+                    )
+                }
+            }
+
+            // Add default Aspects
+            ratioList += arrayOf(
+                AspectRatio(null, 1f, 1f),
+                AspectRatio(null, 16f, 9f),
+                AspectRatio(null, 4f, 3f),
+                AspectRatio(null, 3f, 2f)
+            )
+
+            config?.defaultRatio?.let {
+                val defaultRatio = AspectRatio(it.title, it.width.toFloat(), it.height.toFloat())
+                ratioList = arrayOf(defaultRatio) + ratioList
+
+            }
+
+            cropOption.apply {
+
+                setAspectRatioOptions(
+                    0,
+                    *ratioList.take(5).toTypedArray()
+                )
+
+            }
+
+        }
     }
 
 

@@ -20,7 +20,7 @@ export function CodeTag({ children, textProps, ...props }: CodeTagProps) {
 
 const style = StyleSheet.create({
   text: {
-    fontFamily: 'monospace',
+    // fontFamily: 'monospace',
     fontWeight: 600,
     fontSize: 16,
   },

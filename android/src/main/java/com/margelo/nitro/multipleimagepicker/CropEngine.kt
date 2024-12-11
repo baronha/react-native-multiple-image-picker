@@ -51,8 +51,9 @@ class CropImageEngine : UCropImageEngine {
     }
 }
 
-class CropEngine(cropOption: UCrop.Options) : CropFileEngine {
-    private val options: UCrop.Options = cropOption
+class CropEngine(cropOption: Options) : CropFileEngine {
+    private val options: Options = cropOption
+
     override fun onStartCrop(
         fragment: Fragment,
         srcUri: Uri?,
@@ -78,6 +79,7 @@ class MediaEditInterceptListener(
         val inputUri =
             if (PictureMimeType.isContent(currentEditPath)) Uri.parse(currentEditPath)
             else Uri.fromFile(File(currentEditPath))
+
         val destinationUri = Uri.fromFile(
             File(outputCropPath, DateUtils.getCreateFileName("CROP_") + ".jpeg")
         )

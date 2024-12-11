@@ -7,7 +7,16 @@ import { type MultipleImagePicker } from './specs/MultipleImagePicker.nitro'
 
 import { processColor, Appearance } from 'react-native'
 
-import { Result, Config, NitroConfig } from './types'
+import {
+  Result,
+  Config,
+  NitroConfig,
+  CropResult,
+  CropConfig,
+  NitroCropConfig,
+  CropRatio,
+} from './types'
+import { CropError } from './types/error'
 
 const Picker = NitroModules.createHybridObject<MultipleImagePicker>(
   'MultipleImagePicker'
@@ -34,6 +43,8 @@ export async function openPicker<T extends Config>(
       config.language = 'system'
     }
 
+    if (config.crop) config.crop.ratio = config.crop.ratio ?? []
+
     return Picker.openPicker(
       config,
       (result: Result[]) => {
@@ -46,7 +57,34 @@ export async function openPicker<T extends Config>(
   })
 }
 
+export async function openCropper(
+  image: string,
+  config?: CropConfig
+): Promise<CropResult> {
+  return new Promise((resolved, rejected) => {
+    const cropConfig = {
+      presentation: 'fullScreenModal',
+      language: 'system',
+      ratio: [],
+      ...config,
+    } as NitroCropConfig
+
+    Picker.openCrop(
+      image,
+      cropConfig,
+      (result: CropResult) => {
+        resolved(result)
+      },
+      (error: CropError) => {
+        rejected(error)
+      }
+    )
+  })
+}
+
 const DEFAULT_COUNT = 20
+
+export const DEFAULT_RATIO: CropRatio[] = []
 
 export const defaultOptions: Config = {
   maxSelect: DEFAULT_COUNT,
