@@ -32,10 +32,14 @@ React Native Multiple Image Picker **(RNMIP)** enables application to pick image
 | 🔪  | Crop single/multiple image (new) ✨                                            |
 | 🌪  | Scrolling performance. ☕️                                                      |
 
+## Installation
+
+See more [**Installation**](https://baronha.github.io/react-native-multiple-image-picker/getting-started)
+
 ## Usage
 
 Here is a simple usage of the Multiple Image Picker. <br/>
-See more [**Config**](/config)
+See more [**Config**](https://baronha.github.io/react-native-multiple-image-picker/config)
 
 ```typescript
 import { openPicker, Config } from '@baronha/react-native-multiple-image-picker'
@@ -76,7 +80,7 @@ const onPicker = async () => {
 - [x] Dynamic Theme.
 - [x] Dynamic Language.
 - [ ] Open Camera Controller.
-- [ ] Open Crop Controller.
+- [x] Open Crop Controller.
 - [ ] Open Preview Controller.
 
 ## Sponsor & Support ☕️
