@@ -21,6 +21,7 @@ import {
   defaultOptions,
   Config,
   openCropper,
+  openPreview,
 } from '@baronha/react-native-multiple-image-picker'
 import { useImmer } from 'use-immer'
 import { StatusBar } from 'expo-status-bar'
@@ -73,8 +74,8 @@ export default function App() {
     })
   }
 
-  const onPressImage = () => {
-    //
+  const onPressImage = (_: Result, index: number) => {
+    openPreview(images, index, {})
   }
 
   const onPicker = async () => {
@@ -123,7 +124,7 @@ export default function App() {
   }
 
   const onRemovePhoto = (_: Result, index: number) => {
-    const data = [...images].filter((_, idx) => idx !== index)
+    const data = [...images].filter((__, idx) => idx !== index)
     setImages(data)
   }
 

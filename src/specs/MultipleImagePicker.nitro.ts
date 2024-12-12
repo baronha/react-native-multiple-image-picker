@@ -1,5 +1,12 @@
 import { type HybridObject } from 'react-native-nitro-modules'
-import { CropResult, NitroConfig, NitroCropConfig, Result } from '../types'
+import {
+  CropResult,
+  MediaPreview,
+  NitroConfig,
+  NitroCropConfig,
+  NitroPreviewConfig,
+  Result,
+} from '../types'
 
 export interface MultipleImagePicker
   extends HybridObject<{ ios: 'swift'; android: 'kotlin' }> {
@@ -14,5 +21,11 @@ export interface MultipleImagePicker
     config: NitroCropConfig,
     resolved: (result: CropResult) => void,
     rejected: (reject: number) => void
+  ): void
+
+  openPreview(
+    media: MediaPreview[],
+    index: number,
+    config: NitroPreviewConfig
   ): void
 }

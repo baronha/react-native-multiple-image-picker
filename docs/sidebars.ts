@@ -25,6 +25,7 @@ const sidebars: SidebarsConfig = {
     },
 
     'crop',
+    'preview',
   ],
 }
 

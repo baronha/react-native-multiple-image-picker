@@ -145,4 +145,15 @@ public class HybridMultipleImagePickerSpecCxx {
       fatalError("Swift errors can currently not be propagated to C++! See https://github.com/swiftlang/swift/issues/75290 (Error: \(__message))")
     }
   }
+  
+  @inline(__always)
+  public func openPreview(media: bridge.std__vector_MediaPreview_, index: Double, config: NitroPreviewConfig) -> Void {
+    do {
+      try self.__implementation.openPreview(media: media.map({ __item in __item }), index: index, config: config)
+      return 
+    } catch {
+      let __message = "\(error.localizedDescription)"
+      fatalError("Swift errors can currently not be propagated to C++! See https://github.com/swiftlang/swift/issues/75290 (Error: \(__message))")
+    }
+  }
 }

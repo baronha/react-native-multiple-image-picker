@@ -19,6 +19,7 @@ import com.luck.picture.lib.basic.PictureSelector
 import com.luck.picture.lib.config.PictureMimeType
 import com.luck.picture.lib.config.SelectMimeType
 import com.luck.picture.lib.config.SelectModeConfig
+import com.luck.picture.lib.engine.ImageEngine
 import com.luck.picture.lib.engine.PictureSelectorEngine
 import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.interfaces.OnMediaEditInterceptListener
@@ -92,11 +93,13 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
         val isMultiple = config.selectMode == SelectMode.MULTIPLE
         val selectMode = if (isMultiple) SelectModeConfig.MULTIPLE else SelectModeConfig.SINGLE
 
-
         val isCrop = config.crop != null
 
-        PictureSelector.create(activity).openGallery(chooseMode).setImageEngine(imageEngine)
-            .setSelectedData(dataList).setSelectorUIStyle(style).apply {
+        PictureSelector.create(activity)
+            .openGallery(chooseMode)
+            .setImageEngine(imageEngine)
+            .setSelectedData(dataList)
+            .setSelectorUIStyle(style).apply {
                 if (isCrop) {
                     setCropOption(config.crop)
                     // Disabled force crop engine for multiple
@@ -123,18 +126,27 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
                 if (videoQuality != null && videoQuality != 1.0) {
                     setVideoQuality(if (videoQuality > 0.5) 1 else 0)
                 }
-            }.setImageSpanCount(config.numberOfColumn?.toInt() ?: 3).setMaxSelectNum(maxSelect)
-            .isDirectReturnSingle(true).isSelectZoomAnim(true).isPageStrategy(true, 50)
+            }.setImageSpanCount(config.numberOfColumn?.toInt() ?: 3)
+            .setMaxSelectNum(maxSelect)
+            .isDirectReturnSingle(true)
+            .isSelectZoomAnim(true)
+            .isPageStrategy(true, 50)
             .isWithSelectVideoImage(true)
             .setMaxVideoSelectNum(if (maxVideo != 20) maxVideo else maxSelect)
-            .isMaxSelectEnabledMask(true).isAutoVideoPlay(true)
-            .isFastSlidingSelect(allowSwipeToSelect).isPageSyncAlbumCount(true)
+            .isMaxSelectEnabledMask(true)
+            .isAutoVideoPlay(true)
+            .isFastSlidingSelect(allowSwipeToSelect)
+            .isPageSyncAlbumCount(true)
             // isPreview
-            .isPreviewImage(isPreview).isPreviewVideo(isPreview)
+            .isPreviewImage(isPreview)
+            .isPreviewVideo(isPreview)
             //
-            .isDisplayCamera(config.allowedCamera ?: true).isDisplayTimeAxis(true)
-            .setSelectionMode(selectMode).isOriginalControl(config.isHiddenOriginalButton == false)
-            .setLanguage(getLanguage()).isPreviewFullScreenMode(true)
+            .isDisplayCamera(config.allowedCamera ?: true)
+            .isDisplayTimeAxis(true)
+            .setSelectionMode(selectMode)
+            .isOriginalControl(config.isHiddenOriginalButton == false)
+            .setLanguage(getLanguage(config.language))
+            .isPreviewFullScreenMode(true)
             .forResult(object : OnResultCallbackListener<LocalMedia?> {
                 override fun onResult(localMedia: ArrayList<LocalMedia?>?) {
                     var data: Array<Result> = arrayOf()
@@ -168,18 +180,6 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
         resolved: (result: CropResult) -> Unit,
         rejected: (reject: Double) -> Unit
     ) {
-
-
-        fun isImage(uri: Uri, contentResolver: ContentResolver): Boolean {
-            val mimeType: String? = contentResolver.getType(uri)
-            return mimeType?.startsWith("image/") == true
-        }
-
-        val uri = Uri.parse(image)
-        val isImageFile = isImage(uri, appContext.contentResolver)
-
-        if (!isImageFile) return rejected(0.0)
-
         cropOption = Options()
 
         setCropOption(
@@ -211,17 +211,12 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
                     Uri.fromFile(file)
                 }
 
-
-                else -> {
-                    Uri.parse(image)
-                }
+                else -> Uri.parse(image)
             }
-
 
             val destinationUri = Uri.fromFile(
                 File(getSandboxPath(appContext), DateUtils.getCreateFileName("CROP_") + ".jpeg")
             )
-
             val uCrop = UCrop.of<Any>(uri, destinationUri).withOptions(cropOption)
 
             // set engine
@@ -267,8 +262,23 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
         }
     }
 
-    private fun getLanguage(): Int {
-        return when (config.language) {
+    @ReactMethod
+    fun openPreview(media: Array<MediaPreview>, config: NitroPreviewConfig) {
+
+        val imageEngine = GlideEngine.createGlideEngine()
+
+        var list: ArrayList<LocalMedia> = arrayListOf()
+
+        PictureSelector
+            .create(currentActivity)
+            .openPreview()
+            .setImageEngine(imageEngine)
+            .setLanguage(getLanguage(config.language))
+            .startFragmentPreview(config.index.toInt(), false, list)
+    }
+
+    private fun getLanguage(language: Language): Int {
+        return when (language) {
             Language.VI -> LanguageConfig.VIETNAM  // -> 🇻🇳 My country. Yeahhh
             Language.EN -> LanguageConfig.ENGLISH
             Language.ZH_HANS -> LanguageConfig.CHINESE

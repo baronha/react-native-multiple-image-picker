@@ -14,6 +14,8 @@ namespace margelo::nitro::multipleimagepicker { struct CropRatio; }
 namespace margelo::nitro::multipleimagepicker { struct CropResult; }
 // Forward declaration of `HybridMultipleImagePickerSpec` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { class HybridMultipleImagePickerSpec; }
+// Forward declaration of `MediaPreview` to properly resolve imports.
+namespace margelo::nitro::multipleimagepicker { struct MediaPreview; }
 // Forward declaration of `PickerCropConfig` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { struct PickerCropConfig; }
 // Forward declaration of `ResultType` to properly resolve imports.
@@ -31,6 +33,7 @@ namespace MultipleImagePicker { class HybridMultipleImagePickerSpecCxx; }
 #include "CropRatio.hpp"
 #include "CropResult.hpp"
 #include "HybridMultipleImagePickerSpec.hpp"
+#include "MediaPreview.hpp"
 #include "PickerCropConfig.hpp"
 #include "Result.hpp"
 #include "ResultType.hpp"
@@ -205,6 +208,17 @@ namespace margelo::nitro::multipleimagepicker::bridge::swift {
   }
   inline std::shared_ptr<Func_void_CropResult_Wrapper> share_Func_void_CropResult(const Func_void_CropResult& value) {
     return std::make_shared<Func_void_CropResult_Wrapper>(value);
+  }
+  
+  // pragma MARK: std::vector<MediaPreview>
+  /**
+   * Specialized version of `std::vector<MediaPreview>`.
+   */
+  using std__vector_MediaPreview_ = std::vector<MediaPreview>;
+  inline std::vector<MediaPreview> create_std__vector_MediaPreview_(size_t size) {
+    std::vector<MediaPreview> vector;
+    vector.reserve(size);
+    return vector;
   }
   
   // pragma MARK: std::shared_ptr<margelo::nitro::multipleimagepicker::HybridMultipleImagePickerSpec>

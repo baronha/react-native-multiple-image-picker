@@ -21,6 +21,10 @@ namespace margelo::nitro::multipleimagepicker { struct Result; }
 namespace margelo::nitro::multipleimagepicker { struct NitroCropConfig; }
 // Forward declaration of `CropResult` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { struct CropResult; }
+// Forward declaration of `MediaPreview` to properly resolve imports.
+namespace margelo::nitro::multipleimagepicker { struct MediaPreview; }
+// Forward declaration of `NitroPreviewConfig` to properly resolve imports.
+namespace margelo::nitro::multipleimagepicker { struct NitroPreviewConfig; }
 
 #include "NitroConfig.hpp"
 #include <functional>
@@ -29,6 +33,8 @@ namespace margelo::nitro::multipleimagepicker { struct CropResult; }
 #include <string>
 #include "NitroCropConfig.hpp"
 #include "CropResult.hpp"
+#include "MediaPreview.hpp"
+#include "NitroPreviewConfig.hpp"
 
 namespace margelo::nitro::multipleimagepicker {
 
@@ -63,6 +69,7 @@ namespace margelo::nitro::multipleimagepicker {
       // Methods
       virtual void openPicker(const NitroConfig& config, const std::function<void(const std::vector<Result>& /* result */)>& resolved, const std::function<void(double /* reject */)>& rejected) = 0;
       virtual void openCrop(const std::string& image, const NitroCropConfig& config, const std::function<void(const CropResult& /* result */)>& resolved, const std::function<void(double /* reject */)>& rejected) = 0;
+      virtual void openPreview(const std::vector<MediaPreview>& media, double index, const NitroPreviewConfig& config) = 0;
 
     protected:
       // Hybrid Setup

@@ -62,6 +62,10 @@ abstract class HybridMultipleImagePickerSpec: HybridObject() {
     val __result = openCrop(image, config, resolved.toLambda(), rejected.toLambda())
     return __result
   }
+  
+  @DoNotStrip
+  @Keep
+  abstract fun openPreview(media: Array<MediaPreview>, index: Double, config: NitroPreviewConfig): Unit
 
   private external fun initHybrid(): HybridData
 

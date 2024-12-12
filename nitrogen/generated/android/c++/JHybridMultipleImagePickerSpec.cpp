@@ -35,6 +35,10 @@ namespace margelo::nitro::multipleimagepicker { enum class Presentation; }
 namespace margelo::nitro::multipleimagepicker { struct NitroCropConfig; }
 // Forward declaration of `CropResult` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { struct CropResult; }
+// Forward declaration of `MediaPreview` to properly resolve imports.
+namespace margelo::nitro::multipleimagepicker { struct MediaPreview; }
+// Forward declaration of `NitroPreviewConfig` to properly resolve imports.
+namespace margelo::nitro::multipleimagepicker { struct NitroPreviewConfig; }
 
 #include "NitroConfig.hpp"
 #include "JNitroConfig.hpp"
@@ -71,6 +75,10 @@ namespace margelo::nitro::multipleimagepicker { struct CropResult; }
 #include "CropResult.hpp"
 #include "JFunc_void_CropResult.hpp"
 #include "JCropResult.hpp"
+#include "MediaPreview.hpp"
+#include "JMediaPreview.hpp"
+#include "NitroPreviewConfig.hpp"
+#include "JNitroPreviewConfig.hpp"
 
 namespace margelo::nitro::multipleimagepicker {
 
@@ -100,6 +108,18 @@ namespace margelo::nitro::multipleimagepicker {
   void JHybridMultipleImagePickerSpec::openCrop(const std::string& image, const NitroCropConfig& config, const std::function<void(const CropResult& /* result */)>& resolved, const std::function<void(double /* reject */)>& rejected) {
     static const auto method = _javaPart->getClass()->getMethod<void(jni::alias_ref<jni::JString> /* image */, jni::alias_ref<JNitroCropConfig> /* config */, jni::alias_ref<JFunc_void_CropResult::javaobject> /* resolved */, jni::alias_ref<JFunc_void_double::javaobject> /* rejected */)>("openCrop");
     method(_javaPart, jni::make_jstring(image), JNitroCropConfig::fromCpp(config), JFunc_void_CropResult::fromCpp(resolved), JFunc_void_double::fromCpp(rejected));
+  }
+  void JHybridMultipleImagePickerSpec::openPreview(const std::vector<MediaPreview>& media, double index, const NitroPreviewConfig& config) {
+    static const auto method = _javaPart->getClass()->getMethod<void(jni::alias_ref<jni::JArrayClass<JMediaPreview>> /* media */, double /* index */, jni::alias_ref<JNitroPreviewConfig> /* config */)>("openPreview");
+    method(_javaPart, [&]() {
+      size_t __size = media.size();
+      jni::local_ref<jni::JArrayClass<JMediaPreview>> __array = jni::JArrayClass<JMediaPreview>::newArray(__size);
+      for (size_t __i = 0; __i < __size; __i++) {
+        const auto& __element = media[__i];
+        __array->setElement(__i, *JMediaPreview::fromCpp(__element));
+      }
+      return __array;
+    }(), index, JNitroPreviewConfig::fromCpp(config));
   }
 
 } // namespace margelo::nitro::multipleimagepicker

@@ -16,12 +16,16 @@ namespace margelo::nitro::multipleimagepicker { struct CropResult; }
 namespace margelo::nitro::multipleimagepicker { class HybridMultipleImagePickerSpec; }
 // Forward declaration of `Language` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { enum class Language; }
+// Forward declaration of `MediaPreview` to properly resolve imports.
+namespace margelo::nitro::multipleimagepicker { struct MediaPreview; }
 // Forward declaration of `MediaType` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { enum class MediaType; }
 // Forward declaration of `NitroConfig` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { struct NitroConfig; }
 // Forward declaration of `NitroCropConfig` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { struct NitroCropConfig; }
+// Forward declaration of `NitroPreviewConfig` to properly resolve imports.
+namespace margelo::nitro::multipleimagepicker { struct NitroPreviewConfig; }
 // Forward declaration of `PickerCropConfig` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { struct PickerCropConfig; }
 // Forward declaration of `Presentation` to properly resolve imports.
@@ -44,9 +48,11 @@ namespace margelo::nitro::multipleimagepicker { enum class Theme; }
 #include "CropResult.hpp"
 #include "HybridMultipleImagePickerSpec.hpp"
 #include "Language.hpp"
+#include "MediaPreview.hpp"
 #include "MediaType.hpp"
 #include "NitroConfig.hpp"
 #include "NitroCropConfig.hpp"
+#include "NitroPreviewConfig.hpp"
 #include "PickerCropConfig.hpp"
 #include "Presentation.hpp"
 #include "Result.hpp"

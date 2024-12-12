@@ -14,7 +14,6 @@ React Native Multiple Image Picker **(RNMIP)** enables application to pick image
 
 ## Documentation 📚
 
-
 ## Features 🔥
 
 | 🤩  | ![Logo][Logo]                                                                  |
@@ -78,10 +77,10 @@ const onPicker = async () => {
 - [x] Multiple Crop Image.
 - [x] Multiple Preview Image.
 - [x] Dynamic Theme.
-- [x] Dynamic Language.
-- [ ] Open Camera Controller.
+- [x] Dynamic Language
 - [x] Open Crop Controller.
-- [ ] Open Preview Controller.
+- [x] Open Preview Controller.
+- [ ] Open Camera Controller.
 
 ## Sponsor & Support ☕️
 

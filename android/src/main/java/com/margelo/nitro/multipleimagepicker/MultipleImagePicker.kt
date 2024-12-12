@@ -23,9 +23,15 @@ class MultipleImagePicker : HybridMultipleImagePickerSpec() {
         resolved: (result: CropResult) -> Unit,
         rejected: (reject: Double) -> Unit
     ) {
-
         pickerModule.openCrop(image, config, resolved, rejected)
     }
 
+    override fun openPreview(
+        media: Array<MediaPreview>,
+        index: Double,
+        config: NitroPreviewConfig
+    ) {
+        pickerModule.openPreview(media, index.toInt(), config)
+    }
 
 }

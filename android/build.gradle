@@ -135,6 +135,9 @@ dependencies {
     // simple camerax library (Not necessary)
     implementation 'io.github.lucksiege:camerax:v3.11.2'
 
+    // exoplayer
+    implementation "com.google.android.exoplayer:exoplayer:2.19.1"
+
 
     implementation "com.facebook.react:react-native:+"
 
