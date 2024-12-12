@@ -147,9 +147,9 @@ public class HybridMultipleImagePickerSpecCxx {
   }
   
   @inline(__always)
-  public func openPreview(media: bridge.std__vector_MediaPreview_, config: NitroPreviewConfig) -> Void {
+  public func openPreview(media: bridge.std__vector_MediaPreview_, index: Double, config: NitroPreviewConfig) -> Void {
     do {
-      try self.__implementation.openPreview(media: media.map({ __item in __item }), config: config)
+      try self.__implementation.openPreview(media: media.map({ __item in __item }), index: index, config: config)
       return 
     } catch {
       let __message = "\(error.localizedDescription)"

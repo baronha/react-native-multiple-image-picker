@@ -12,7 +12,6 @@
 
 #include "JLanguage.hpp"
 #include "Language.hpp"
-#include <optional>
 
 namespace margelo::nitro::multipleimagepicker {
 
@@ -32,16 +31,10 @@ namespace margelo::nitro::multipleimagepicker {
     [[maybe_unused]]
     NitroPreviewConfig toCpp() const {
       static const auto clazz = javaClassStatic();
-      static const auto fieldIndex = clazz->getField<double>("index");
-      double index = this->getFieldValue(fieldIndex);
       static const auto fieldLanguage = clazz->getField<JLanguage>("language");
       jni::local_ref<JLanguage> language = this->getFieldValue(fieldLanguage);
-      static const auto fieldBackgroundColor = clazz->getField<jni::JDouble>("backgroundColor");
-      jni::local_ref<jni::JDouble> backgroundColor = this->getFieldValue(fieldBackgroundColor);
       return NitroPreviewConfig(
-        index,
-        language->toCpp(),
-        backgroundColor != nullptr ? std::make_optional(backgroundColor->value()) : std::nullopt
+        language->toCpp()
       );
     }
 
@@ -52,9 +45,7 @@ namespace margelo::nitro::multipleimagepicker {
     [[maybe_unused]]
     static jni::local_ref<JNitroPreviewConfig::javaobject> fromCpp(const NitroPreviewConfig& value) {
       return newInstance(
-        value.index,
-        JLanguage::fromCpp(value.language),
-        value.backgroundColor.has_value() ? jni::JDouble::valueOf(value.backgroundColor.value()) : nullptr
+        JLanguage::fromCpp(value.language)
       );
     }
   };

@@ -26,8 +26,12 @@ class MultipleImagePicker : HybridMultipleImagePickerSpec() {
         pickerModule.openCrop(image, config, resolved, rejected)
     }
 
-    override fun openPreview(media: Array<MediaPreview>, config: NitroPreviewConfig) {
-        pickerModule.openPreview(media, config)
+    override fun openPreview(
+        media: Array<MediaPreview>,
+        index: Double,
+        config: NitroPreviewConfig
+    ) {
+        pickerModule.openPreview(media, index.toInt(), config)
     }
 
 }

@@ -17,7 +17,5 @@ import com.margelo.nitro.core.*
 @DoNotStrip
 @Keep
 data class NitroPreviewConfig(
-  val index: Double,
-  val language: Language,
-  val backgroundColor: Double?
+  val language: Language
 )

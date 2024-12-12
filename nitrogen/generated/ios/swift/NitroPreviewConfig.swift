@@ -18,27 +18,10 @@ public extension NitroPreviewConfig {
   /**
    * Create a new instance of `NitroPreviewConfig`.
    */
-  init(index: Double, language: Language, backgroundColor: Double?) {
-    self.init(index, language, { () -> bridge.std__optional_double_ in
-      if let __unwrappedValue = backgroundColor {
-        return bridge.create_std__optional_double_(__unwrappedValue)
-      } else {
-        return .init()
-      }
-    }())
+  init(language: Language) {
+    self.init(language)
   }
 
-  var index: Double {
-    @inline(__always)
-    get {
-      return self.__index
-    }
-    @inline(__always)
-    set {
-      self.__index = newValue
-    }
-  }
-  
   var language: Language {
     @inline(__always)
     get {
@@ -47,23 +30,6 @@ public extension NitroPreviewConfig {
     @inline(__always)
     set {
       self.__language = newValue
-    }
-  }
-  
-  var backgroundColor: Double? {
-    @inline(__always)
-    get {
-      return self.__backgroundColor.value
-    }
-    @inline(__always)
-    set {
-      self.__backgroundColor = { () -> bridge.std__optional_double_ in
-        if let __unwrappedValue = newValue {
-          return bridge.create_std__optional_double_(__unwrappedValue)
-        } else {
-          return .init()
-        }
-      }()
     }
   }
 }

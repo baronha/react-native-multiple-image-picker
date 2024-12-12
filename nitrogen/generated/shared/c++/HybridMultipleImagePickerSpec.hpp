@@ -69,7 +69,7 @@ namespace margelo::nitro::multipleimagepicker {
       // Methods
       virtual void openPicker(const NitroConfig& config, const std::function<void(const std::vector<Result>& /* result */)>& resolved, const std::function<void(double /* reject */)>& rejected) = 0;
       virtual void openCrop(const std::string& image, const NitroCropConfig& config, const std::function<void(const CropResult& /* result */)>& resolved, const std::function<void(double /* reject */)>& rejected) = 0;
-      virtual void openPreview(const std::vector<MediaPreview>& media, const NitroPreviewConfig& config) = 0;
+      virtual void openPreview(const std::vector<MediaPreview>& media, double index, const NitroPreviewConfig& config) = 0;
 
     protected:
       // Hybrid Setup

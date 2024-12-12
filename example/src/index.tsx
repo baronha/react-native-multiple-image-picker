@@ -76,16 +76,7 @@ export default function App() {
   }
 
   const onPressImage = (_: Result, index: number) => {
-    openPreview(
-      [
-        {
-          path: 'https://images.unsplash.com/photo-1733863200891-22bba4483644?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw0fHx8ZW58MHx8fHx8',
-          type: 'image',
-        } as MediaPreview,
-        ...images,
-      ],
-      { index, backgroundColor: 'red' }
-    )
+    openPreview(images, index, {})
   }
 
   const onPicker = async () => {

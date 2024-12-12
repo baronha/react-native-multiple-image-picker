@@ -91,15 +91,13 @@ export async function openCropper(
 
 export function openPreview(
   media: Result[] | MediaPreview[],
+  index: number = 0,
   conf: PreviewConfig
 ): void {
   const config: PreviewConfig = {
     language: conf.language ?? 'system',
-    backgroundColor: '#000000',
     ...conf,
   }
-
-  config.backgroundColor = processColor(config.backgroundColor) as any
 
   if (config?.language && !LANGUAGES.includes(config.language)) {
     config.language = 'system'
@@ -109,7 +107,11 @@ export function openPreview(
     throw new Error('Media is required')
   }
 
-  Picker.openPreview(media as MediaPreview[], config as NitroPreviewConfig)
+  Picker.openPreview(
+    media as MediaPreview[],
+    index,
+    config as NitroPreviewConfig
+  )
 }
 
 const DEFAULT_COUNT = 20

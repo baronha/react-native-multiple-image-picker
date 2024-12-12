@@ -65,7 +65,7 @@ abstract class HybridMultipleImagePickerSpec: HybridObject() {
   
   @DoNotStrip
   @Keep
-  abstract fun openPreview(media: Array<MediaPreview>, config: NitroPreviewConfig): Unit
+  abstract fun openPreview(media: Array<MediaPreview>, index: Double, config: NitroPreviewConfig): Unit
 
   private external fun initHybrid(): HybridData
 

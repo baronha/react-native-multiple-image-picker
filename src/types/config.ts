@@ -533,11 +533,7 @@ export interface CropConfig
 
 // PREVIEW
 export type NitroPreviewConfig = {
-  index: number
-
   language: Language
-
-  backgroundColor?: number
 }
 
 export interface PreviewConfig
@@ -563,23 +559,4 @@ export interface PreviewConfig
    * - 'ar': 🇸🇦 Arabic
    */
   language?: Language
-
-  /**
-   * Background color for dark mode UI elements.
-   * Accepts various color formats:
-   * - Hex strings: '#RGB', '#RGBA', '#RRGGBB', '#RRGGBBAA'
-   * - RGB/RGBA strings: 'rgb(255, 0, 0)', 'rgba(255, 0, 0, 0.5)'
-   * - Named colors: 'red', 'blue', etc.
-   * - Numbers for RGB values
-   *
-   * @platform ios, android
-   * @type {ColorValue}
-   * @example
-   * ```ts
-   * backgroundDark: '#000000'
-   * backgroundDark: 'rgb(0, 0, 0)'
-   * backgroundDark: 'black'
-   * ```
-   */
-  backgroundColor?: ColorValue
 }

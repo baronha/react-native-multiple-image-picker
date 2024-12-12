@@ -115,8 +115,8 @@ namespace margelo::nitro::multipleimagepicker {
     inline void openCrop(const std::string& image, const NitroCropConfig& config, const std::function<void(const CropResult& /* result */)>& resolved, const std::function<void(double /* reject */)>& rejected) override {
       _swiftPart.openCrop(image, config, resolved, rejected);
     }
-    inline void openPreview(const std::vector<MediaPreview>& media, const NitroPreviewConfig& config) override {
-      _swiftPart.openPreview(media, config);
+    inline void openPreview(const std::vector<MediaPreview>& media, double index, const NitroPreviewConfig& config) override {
+      _swiftPart.openPreview(media, std::forward<decltype(index)>(index), config);
     }
 
   private:

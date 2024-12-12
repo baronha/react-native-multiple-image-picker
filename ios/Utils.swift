@@ -6,6 +6,7 @@
 //
 
 import MobileCoreServices
+import UniformTypeIdentifiers
 
 func isImage(_ urlString: String) -> Bool {
     guard let url = URL(string: urlString),
@@ -17,4 +18,19 @@ func isImage(_ urlString: String) -> Bool {
     }
 
     return UTTypeConformsTo(uti, kUTTypeImage)
+}
+
+func isGifFile(_ url: URL) -> Bool {
+    // Kiểm tra phần mở rộng
+    if url.pathExtension.lowercased() == "gif" {
+        return true
+    }
+
+    // Kiểm tra UTI
+    let fileExtension = url.pathExtension as CFString
+    guard let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, fileExtension, nil)?.takeRetainedValue() else {
+        return false
+    }
+
+    return UTTypeConformsTo(uti, kUTTypeGIF)
 }

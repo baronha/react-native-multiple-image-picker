@@ -6,14 +6,12 @@
 //
 
 import HXPhotoPicker
-import Kingfisher
 
 extension HybridMultipleImagePicker {
-    func openPreview(media: [MediaPreview], config: NitroPreviewConfig) throws {
+    func openPreview(media: [MediaPreview], index: Double, config: NitroPreviewConfig) throws {
         var previewConfig = HXPhotoPicker.PhotoBrowser.Configuration()
         previewConfig.showDelete = false
 
-        let index = config.index
         var assets: [PhotoAsset] = []
 
         previewConfig.tintColor = .white
@@ -30,8 +28,8 @@ extension HybridMultipleImagePicker {
                 asset = .init(localIdentifier: localIdentifier)
 
                 // auto play gif
-                if let filePath = mediaItem.path, asset?.isGifAsset == true,
-                   let url = URL(string: filePath)
+                if let filePath = mediaItem.path,
+                   let url = URL(string: filePath), isGifFile(url) == true
                 {
                     asset = .init(.init(imageURL: url))
                 }
@@ -61,6 +59,8 @@ extension HybridMultipleImagePicker {
                 assets.append(asset)
             }
         }
+
+        if Int(index) > assets.count - 1 { return }
 
         DispatchQueue.main.async {
             HXPhotoPicker.PhotoBrowser.show(

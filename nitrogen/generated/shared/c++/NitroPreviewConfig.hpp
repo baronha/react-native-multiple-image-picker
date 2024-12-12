@@ -22,7 +22,6 @@
 namespace margelo::nitro::multipleimagepicker { enum class Language; }
 
 #include "Language.hpp"
-#include <optional>
 
 namespace margelo::nitro::multipleimagepicker {
 
@@ -31,12 +30,10 @@ namespace margelo::nitro::multipleimagepicker {
    */
   struct NitroPreviewConfig {
   public:
-    double index     SWIFT_PRIVATE;
     Language language     SWIFT_PRIVATE;
-    std::optional<double> backgroundColor     SWIFT_PRIVATE;
 
   public:
-    explicit NitroPreviewConfig(double index, Language language, std::optional<double> backgroundColor): index(index), language(language), backgroundColor(backgroundColor) {}
+    explicit NitroPreviewConfig(Language language): language(language) {}
   };
 
 } // namespace margelo::nitro::multipleimagepicker
@@ -51,16 +48,12 @@ namespace margelo::nitro {
     static inline NitroPreviewConfig fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
       return NitroPreviewConfig(
-        JSIConverter<double>::fromJSI(runtime, obj.getProperty(runtime, "index")),
-        JSIConverter<Language>::fromJSI(runtime, obj.getProperty(runtime, "language")),
-        JSIConverter<std::optional<double>>::fromJSI(runtime, obj.getProperty(runtime, "backgroundColor"))
+        JSIConverter<Language>::fromJSI(runtime, obj.getProperty(runtime, "language"))
       );
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const NitroPreviewConfig& arg) {
       jsi::Object obj(runtime);
-      obj.setProperty(runtime, "index", JSIConverter<double>::toJSI(runtime, arg.index));
       obj.setProperty(runtime, "language", JSIConverter<Language>::toJSI(runtime, arg.language));
-      obj.setProperty(runtime, "backgroundColor", JSIConverter<std::optional<double>>::toJSI(runtime, arg.backgroundColor));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -68,9 +61,7 @@ namespace margelo::nitro {
         return false;
       }
       jsi::Object obj = value.getObject(runtime);
-      if (!JSIConverter<double>::canConvert(runtime, obj.getProperty(runtime, "index"))) return false;
       if (!JSIConverter<Language>::canConvert(runtime, obj.getProperty(runtime, "language"))) return false;
-      if (!JSIConverter<std::optional<double>>::canConvert(runtime, obj.getProperty(runtime, "backgroundColor"))) return false;
       return true;
     }
   };

@@ -109,8 +109,8 @@ namespace margelo::nitro::multipleimagepicker {
     static const auto method = _javaPart->getClass()->getMethod<void(jni::alias_ref<jni::JString> /* image */, jni::alias_ref<JNitroCropConfig> /* config */, jni::alias_ref<JFunc_void_CropResult::javaobject> /* resolved */, jni::alias_ref<JFunc_void_double::javaobject> /* rejected */)>("openCrop");
     method(_javaPart, jni::make_jstring(image), JNitroCropConfig::fromCpp(config), JFunc_void_CropResult::fromCpp(resolved), JFunc_void_double::fromCpp(rejected));
   }
-  void JHybridMultipleImagePickerSpec::openPreview(const std::vector<MediaPreview>& media, const NitroPreviewConfig& config) {
-    static const auto method = _javaPart->getClass()->getMethod<void(jni::alias_ref<jni::JArrayClass<JMediaPreview>> /* media */, jni::alias_ref<JNitroPreviewConfig> /* config */)>("openPreview");
+  void JHybridMultipleImagePickerSpec::openPreview(const std::vector<MediaPreview>& media, double index, const NitroPreviewConfig& config) {
+    static const auto method = _javaPart->getClass()->getMethod<void(jni::alias_ref<jni::JArrayClass<JMediaPreview>> /* media */, double /* index */, jni::alias_ref<JNitroPreviewConfig> /* config */)>("openPreview");
     method(_javaPart, [&]() {
       size_t __size = media.size();
       jni::local_ref<jni::JArrayClass<JMediaPreview>> __array = jni::JArrayClass<JMediaPreview>::newArray(__size);
@@ -119,7 +119,7 @@ namespace margelo::nitro::multipleimagepicker {
         __array->setElement(__i, *JMediaPreview::fromCpp(__element));
       }
       return __array;
-    }(), JNitroPreviewConfig::fromCpp(config));
+    }(), index, JNitroPreviewConfig::fromCpp(config));
   }
 
 } // namespace margelo::nitro::multipleimagepicker

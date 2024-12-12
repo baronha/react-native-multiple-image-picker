@@ -23,5 +23,9 @@ export interface MultipleImagePicker
     rejected: (reject: number) => void
   ): void
 
-  openPreview(media: MediaPreview[], config: NitroPreviewConfig): void
+  openPreview(
+    media: MediaPreview[],
+    index: number,
+    config: NitroPreviewConfig
+  ): void
 }
