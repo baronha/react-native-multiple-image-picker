@@ -79,8 +79,8 @@ export default function App() {
     openPreview(
       [
         {
-          path: 'http://tsnrhapp.oss-cn-hangzhou.aliyuncs.com/chartle/IMG_3385.MP4',
-          type: 'video',
+          path: 'https://images.unsplash.com/photo-1733863200891-22bba4483644?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw0fHx8ZW58MHx8fHx8',
+          type: 'image',
         } as MediaPreview,
         ...images,
       ],
@@ -112,16 +112,13 @@ export default function App() {
   const onCrop = async () => {
     try {
       console.log('images: ', images)
-      const response = await openCropper(
-        'https://images.unsplash.com/photo-1610562275255-03b7fa0d4655?q=80&w=2861&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        {
-          ratio: [
-            { title: 'Instagram', width: 1, height: 1 },
-            { title: 'Twitter', width: 16, height: 9 },
-            { title: 'Facebook', width: 12, height: 11 },
-          ],
-        }
-      )
+      const response = await openCropper(images[0].path, {
+        ratio: [
+          { title: 'Instagram', width: 1, height: 1 },
+          { title: 'Twitter', width: 16, height: 9 },
+          { title: 'Facebook', width: 12, height: 11 },
+        ],
+      })
 
       setImages((prev) => {
         const data = [...prev]
