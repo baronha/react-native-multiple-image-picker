@@ -27,7 +27,7 @@ Pod::Spec.new do |s|
   }
 
 
-  s.dependency "HXPhotoPicker/Picker/Lite", "4.2.3"
+  s.dependency "HXPhotoPicker/Picker", "4.2.3"
   s.dependency "HXPhotoPicker/Editor/Lite", "4.2.3"
 
   s.pod_target_xcconfig = {

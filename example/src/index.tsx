@@ -21,6 +21,8 @@ import {
   defaultOptions,
   Config,
   openCropper,
+  openPreview,
+  MediaPreview,
 } from '@baronha/react-native-multiple-image-picker'
 import { useImmer } from 'use-immer'
 import { StatusBar } from 'expo-status-bar'
@@ -73,8 +75,17 @@ export default function App() {
     })
   }
 
-  const onPressImage = () => {
-    //
+  const onPressImage = (_: Result, index: number) => {
+    openPreview(
+      [
+        {
+          path: 'http://tsnrhapp.oss-cn-hangzhou.aliyuncs.com/chartle/IMG_3385.MP4',
+          type: 'video',
+        } as MediaPreview,
+        ...images,
+      ],
+      { index, backgroundColor: 'red' }
+    )
   }
 
   const onPicker = async () => {
@@ -101,13 +112,16 @@ export default function App() {
   const onCrop = async () => {
     try {
       console.log('images: ', images)
-      const response = await openCropper(images[0].path, {
-        ratio: [
-          { title: 'Instagram', width: 1, height: 1 },
-          { title: 'Twitter', width: 16, height: 9 },
-          { title: 'Facebook', width: 12, height: 11 },
-        ],
-      })
+      const response = await openCropper(
+        'https://images.unsplash.com/photo-1610562275255-03b7fa0d4655?q=80&w=2861&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        {
+          ratio: [
+            { title: 'Instagram', width: 1, height: 1 },
+            { title: 'Twitter', width: 16, height: 9 },
+            { title: 'Facebook', width: 12, height: 11 },
+          ],
+        }
+      )
 
       setImages((prev) => {
         const data = [...prev]
@@ -123,7 +137,7 @@ export default function App() {
   }
 
   const onRemovePhoto = (_: Result, index: number) => {
-    const data = [...images].filter((_, idx) => idx !== index)
+    const data = [...images].filter((__, idx) => idx !== index)
     setImages(data)
   }
 

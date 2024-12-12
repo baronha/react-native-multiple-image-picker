@@ -1,4 +1,4 @@
-type ResultType = 'image' | 'video'
+export type ResultType = 'image' | 'video'
 
 export interface Result {
   path: string

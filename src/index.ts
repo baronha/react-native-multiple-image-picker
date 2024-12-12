@@ -15,6 +15,9 @@ import {
   CropConfig,
   NitroCropConfig,
   CropRatio,
+  PreviewConfig,
+  NitroPreviewConfig,
+  MediaPreview,
 } from './types'
 import { CropError } from './types/error'
 
@@ -69,6 +72,10 @@ export async function openCropper(
       ...config,
     } as NitroCropConfig
 
+    if (config?.language && !LANGUAGES.includes(config.language)) {
+      config.language = 'system'
+    }
+
     Picker.openCrop(
       image,
       cropConfig,
@@ -80,6 +87,29 @@ export async function openCropper(
       }
     )
   })
+}
+
+export function openPreview(
+  media: Result[] | MediaPreview[],
+  conf: PreviewConfig
+): void {
+  const config: PreviewConfig = {
+    language: conf.language ?? 'system',
+    backgroundColor: '#000000',
+    ...conf,
+  }
+
+  config.backgroundColor = processColor(config.backgroundColor) as any
+
+  if (config?.language && !LANGUAGES.includes(config.language)) {
+    config.language = 'system'
+  }
+
+  if (media.length === 0) {
+    throw new Error('Media is required')
+  }
+
+  Picker.openPreview(media as MediaPreview[], config as NitroPreviewConfig)
 }
 
 const DEFAULT_COUNT = 20
