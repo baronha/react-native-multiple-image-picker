@@ -1,13 +1,11 @@
 package com.margelo.nitro.multipleimagepicker
 
 import android.app.Activity
-import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import androidx.core.content.ContextCompat
-import com.facebook.react.bridge.ActivityEventListener
 import com.facebook.react.bridge.BaseActivityEventListener
 import com.facebook.react.bridge.ColorPropConverter
 import com.facebook.react.bridge.ReactApplicationContext
@@ -19,9 +17,9 @@ import com.luck.picture.lib.basic.PictureSelector
 import com.luck.picture.lib.config.PictureMimeType
 import com.luck.picture.lib.config.SelectMimeType
 import com.luck.picture.lib.config.SelectModeConfig
-import com.luck.picture.lib.engine.ImageEngine
 import com.luck.picture.lib.engine.PictureSelectorEngine
 import com.luck.picture.lib.entity.LocalMedia
+import com.luck.picture.lib.interfaces.OnCustomLoadingListener
 import com.luck.picture.lib.interfaces.OnMediaEditInterceptListener
 import com.luck.picture.lib.interfaces.OnResultCallbackListener
 import com.luck.picture.lib.language.LanguageConfig
@@ -32,6 +30,7 @@ import com.luck.picture.lib.style.SelectMainStyle
 import com.luck.picture.lib.style.TitleBarStyle
 import com.luck.picture.lib.utils.DateUtils
 import com.luck.picture.lib.utils.DensityUtil
+import com.luck.picture.lib.utils.MediaUtils
 import com.yalantis.ucrop.UCrop
 import com.yalantis.ucrop.UCrop.Options
 import com.yalantis.ucrop.UCrop.REQUEST_CROP
@@ -99,7 +98,8 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
             .openGallery(chooseMode)
             .setImageEngine(imageEngine)
             .setSelectedData(dataList)
-            .setSelectorUIStyle(style).apply {
+            .setSelectorUIStyle(style)
+            .apply {
                 if (isCrop) {
                     setCropOption(config.crop)
                     // Disabled force crop engine for multiple
@@ -126,7 +126,8 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
                 if (videoQuality != null && videoQuality != 1.0) {
                     setVideoQuality(if (videoQuality > 0.5) 1 else 0)
                 }
-            }.setImageSpanCount(config.numberOfColumn?.toInt() ?: 3)
+            }
+            .setImageSpanCount(config.numberOfColumn?.toInt() ?: 3)
             .setMaxSelectNum(maxSelect)
             .isDirectReturnSingle(true)
             .isSelectZoomAnim(true)
@@ -263,19 +264,60 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
     }
 
     @ReactMethod
-    fun openPreview(media: Array<MediaPreview>, config: NitroPreviewConfig) {
-
+    fun openPreview(media: Array<MediaPreview>, index: Int, config: NitroPreviewConfig) {
         val imageEngine = GlideEngine.createGlideEngine()
 
-        var list: ArrayList<LocalMedia> = arrayListOf()
+        val assets: ArrayList<LocalMedia> = arrayListOf()
+
+        val previewStyle = PictureSelectorStyle()
+        val titleBarStyle = TitleBarStyle()
+
+        previewStyle.windowAnimationStyle.setActivityEnterAnimation(R.anim.anim_modal_in)
+        previewStyle.windowAnimationStyle.setActivityExitAnimation(com.luck.picture.lib.R.anim.ps_anim_modal_out)
+        previewStyle.selectMainStyle.previewBackgroundColor = Color.BLACK
+
+        titleBarStyle.previewTitleBackgroundColor = Color.BLACK
+        previewStyle.titleBarStyle = titleBarStyle
+
+        media.forEach { mediaItem ->
+            var asset: LocalMedia? = null
+
+            mediaItem.path?.let { path ->
+                // network asset
+                if (path.startsWith("https://") || path.startsWith("http://")) {
+                    val localMedia = LocalMedia.create()
+                    localMedia.path = path
+                    localMedia.mimeType =
+                        if (mediaItem.type == ResultType.VIDEO) "video/mp4" else MediaUtils.getMimeTypeFromMediaHttpUrl(
+                            path
+                        ) ?: "image/jpg"
+                    asset = localMedia
+                } else {
+                    asset = LocalMedia.generateLocalMedia(appContext, path)
+                }
+            }
+
+            asset?.let { assets.add(it) }
+        }
 
         PictureSelector
             .create(currentActivity)
             .openPreview()
             .setImageEngine(imageEngine)
             .setLanguage(getLanguage(config.language))
-            .startFragmentPreview(config.index.toInt(), false, list)
+            .setSelectorUIStyle(previewStyle)
+            .isPreviewFullScreenMode(true)
+            .isAutoVideoPlay(true)
+            .setVideoPlayerEngine(ExoPlayerEngine())
+            .isVideoPauseResumePlay(true)
+            .setCustomLoadingListener(getCustomLoadingListener())
+            .startActivityPreview(index, false, assets)
     }
+
+    private fun getCustomLoadingListener(): OnCustomLoadingListener {
+        return OnCustomLoadingListener { context -> LoadingDialog(context) }
+    }
+
 
     private fun getLanguage(language: Language): Int {
         return when (language) {
@@ -343,9 +385,7 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
                     0,
                     *ratioList.take(5).toTypedArray()
                 )
-
             }
-
         }
     }
 
