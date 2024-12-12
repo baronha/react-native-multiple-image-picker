@@ -1,0 +1,79 @@
+---
+id: preview
+title: Open Preview
+sidebar_label: Open Preview
+slug: /preview
+---
+
+import ReactPlayer from 'react-player'
+
+## Overview
+
+Preview is a simple image viewer that supports both local and remote media. It allows you to preview images and videos seamlessly.
+
+<ReactPlayer
+  playing
+  controls
+  width="100%"
+  height="100%"
+  url="https://github.com/user-attachments/assets/92a1c319-ad99-4d24-892c-7cd878787acd"
+/>
+
+## Usage
+
+```typescript
+import { openPreview } from '@baronha/react-native-multiple-image-picker'
+
+const cropConfig: CropConfig = {
+  language: 'system',
+}
+
+const media: MediaPreview[] = [
+  // remote image
+  {
+    path: 'https://images.unsplash.com/photo-1733235015085-fc29c17c4a16?w=500',
+    type: 'image',
+  },
+  // local video
+  {
+    path: 'file://Documents/video-sample/mp4',
+    thumbnail:
+      'https://images.unsplash.com/photo-1733889886752-f4599c954608?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    type: 'video',
+  },
+  // remote video
+  {
+    path: 'https://cdn.pixabay.com/video/2024/02/09/199958-911694865_large.mp4',
+    type: 'video',
+  },
+]
+
+// call to preview
+openPreview(media, 2, cropConfig)
+```
+
+## `MediaPreview[]`
+
+`MediaPreview[]` is an array of media objects that you want to preview. Each object in the array should have the following properties:<br/>
+
+**NOTE**: You can also use [`Result[]`](/result) from openPicker's return result
+
+- `path`: A string representing the URL or file path of the media.
+- `type`: A string indicating the type of media, either `image` or `video`.
+- `thumbnail` (optional): A string representing the URL of the thumbnail image for videos.
+- `localIdentifier` (optional): A string representing the local identifier for media from device gallery.
+
+## `index`
+
+The `index` parameter in the `openPreview` function specifies the initial media item to display. It is a zero-based index, meaning that `0` will display the first item in the `MediaPreview` array.
+
+## `cropConfig`
+
+### [`language`](/config/#language)
+
+## Additional Information
+
+- Ensure that the media paths are accessible and correctly formatted.
+- The `openPreview` function is part of the `@baronha/react-native-multiple-image-picker` package, which should be installed and properly configured in your project.
+
+For more detailed information, refer to the [official documentation](https://github.com/baronha/react-native-multiple-image-picker).

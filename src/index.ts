@@ -90,7 +90,7 @@ export async function openCropper(
 }
 
 export function openPreview(
-  media: Result[] | MediaPreview[],
+  media: MediaPreview[] | Result[],
   index: number = 0,
   conf: PreviewConfig
 ): void {

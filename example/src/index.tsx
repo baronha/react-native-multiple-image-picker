@@ -22,7 +22,6 @@ import {
   Config,
   openCropper,
   openPreview,
-  MediaPreview,
 } from '@baronha/react-native-multiple-image-picker'
 import { useImmer } from 'use-immer'
 import { StatusBar } from 'expo-status-bar'
