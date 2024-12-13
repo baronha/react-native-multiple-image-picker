@@ -1,0 +1,95 @@
+---
+id: crop
+title: Open Crop
+sidebar_label: Open Crop
+slug: /crop
+---
+
+## Usage
+
+```typescript
+import { openCropper } from '@baronha/react-native-multiple-image-picker'
+
+const cropConfig: CropConfig = {
+  // ...
+}
+
+const open = async () => {
+  try {
+    const response = await openCropper('file://path/to/image.jpg', cropConfig)
+    setImages(response)
+  } catch (e) {
+    // catch error for multiple image picker
+  }
+}
+```
+
+## CropConfig
+
+### `circle`
+
+Enable circular crop mask.
+
+- **Type**: boolean
+- **Default**: `false`
+- **Required**: No
+- **Platform**: iOS, Android
+
+### `ratio`
+
+Aspect ratios for cropping.
+Android: Maximum: 4 items
+
+- **Type**: `array`
+- **Default**: `undefined`
+- **Required**: No
+- **Platform**: iOS, Android
+- **Properties**:
+  - `title`: string - Display title for the ratio (e.g., "Square", "16:9")
+  - `width`: number - Width value for the aspect ratio
+  - `height`: number - Height value for the aspect ratio
+
+### `defaultRatio`
+
+Default ratio to be selected when opening the crop interface.
+
+- **Type**: `object`
+- **Default**: `undefined`
+- **Required**: No
+- **Platform**: iOS, Android
+- **Properties**:
+  - `title`: string - Display title for the ratio (e.g., "Square", "16:9")
+  - `width`: number - Width value for the aspect ratio
+  - `height`: number - Height value for the aspect ratio
+
+### `freeStyle`
+
+Enable free style cropping.
+
+- **Type**: `boolean`
+- **Default**: `false`
+- **Required**: No
+- **Platform**: iOS, Android
+
+### `language`
+
+- **Type**: `string`
+- **Default**: `false`
+- **Required**: No
+- **Platform**: iOS
+
+See [**Language**](/config/#language)
+
+## Result
+
+### `path`
+
+- **Type**: `string`
+
+### `width`
+
+- **Type**: `number`
+
+### `height`
+
+- **Type**: `number`

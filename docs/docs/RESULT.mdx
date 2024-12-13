@@ -1,0 +1,87 @@
+---
+id: result
+title: Result
+sidebar_label: Result
+slug: /result
+---
+
+The result object returned for each selected media item.
+
+### `path`
+
+- **Type**: string
+- **Description**: Local file path of the media
+
+### `fileName`
+
+- **Type**: string
+- **Description**: Name of the media file
+
+### `localIdentifier`
+
+- **Type**: string
+- **Description**: Unique identifier for the media asset
+
+### `width`
+
+- **Type**: number
+- **Description**: Width of the media in pixels
+
+### `height`
+
+- **Type**: number
+- **Description**: Height of the media in pixels
+
+### `mime`
+
+- **Type**: string
+- **Description**: MIME type of the media file
+
+### `size`
+
+- **Type**: number
+- **Description**: File size in bytes
+
+### `bucketId`
+
+- **Type**: number
+- **Description**: ID of the bucket containing the media
+- **Platform**: Android
+
+### `realPath`
+
+- **Type**: string
+- **Description**: Actual file path in the device storage
+- **Platform**: Android
+
+### `parentFolderName`
+
+- **Type**: string
+- **Description**: Name of the parent folder
+- **Platform**: Android
+
+### `creationDate`
+
+- **Type**: number
+- **Description**: Creation timestamp of the media
+
+### `type`
+
+- **Type**: string
+- **Options**: `image` | `video`
+- **Description**: Type of the media file
+
+### `duration`
+
+- **Type**: number
+- **Description**: Duration in seconds (for video files)
+
+### `thumbnail`
+
+- **Type**: string
+- **Description**: Thumbnail path for video files
+
+### `crop`
+
+- **Type**: boolean
+- **Description**: Indicates if the media has been cropped

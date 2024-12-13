@@ -1,0 +1,37 @@
+---
+id: usage
+title: Usage
+sidebar_label: Usage
+slug: /usage
+---
+
+Here is a simple usage of the Multiple Image Picker. <br/>
+See more [**Config**](/config)
+
+```typescript
+import { openPicker, Config } from '@baronha/react-native-multiple-image-picker'
+
+const config: Config = {
+  maxSelect: 10,
+  maxVideo: 10,
+  primaryColor: '#FB9300',
+  backgroundDark: '#2f2f2f',
+  numberOfColumn: 4,
+  mediaType: 'all',
+  selectBoxStyle: 'number',
+  selectMode: 'multiple',
+  language: 'vi', // 🇻🇳 Vietnamese
+  theme: 'dark',
+  isHiddenOriginalButton: false,
+  primaryColor: '#F6B35D',
+}
+
+const onPicker = async () => {
+  try {
+    const response = await openPicker(config)
+    setImages(response)
+  } catch (e) {
+    // catch error for multiple image picker
+  }
+}
+```

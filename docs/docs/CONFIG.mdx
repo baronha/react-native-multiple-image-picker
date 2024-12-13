@@ -1,0 +1,360 @@
+---
+id: config
+title: Configuration
+sidebar_label: Configuration
+slug: /config
+---
+
+# Configuration
+
+### `selectMode`
+
+Mode of selection in the picker.
+
+- **Type**: string
+- **Default**: `multiple`
+- **Required**: No
+- **Options**:
+  - `single`: Single selection mode
+  - `multiple`: Multiple selection mode
+
+### `selectedAssets`
+
+Keep previous selection in Multiple Image Picker <br/>
+See [**Result**](/result)
+
+- **Type**: Result[]
+- **Default**: `[]`
+- **Required**: No
+
+### `allowedLimit`
+
+Display additional select more media when permission on `iOS` is limited.
+
+- **Type**: boolean
+- **Default**: `true`
+- **Required**: No
+- **Platform**: iOS
+
+### `allowSwipeToSelect`
+
+Allow swiping to select items.
+
+- **Type**: boolean
+- **Default**: `true`
+- **Required**: No
+- **Platform**: iOS, Android
+
+### `isHiddenOriginalButton`
+
+Hide the original button.
+
+- **Type**: boolean
+- **Default**: `false`
+- **Required**: No
+- **Platform**: iOS, Android
+
+### `maxSelect`
+
+Maximum number of items that can be selected.
+
+- **Type**: number
+- **Default**: `20`
+- **Required**: No
+- **Platform**: iOS, Android
+
+### `maxVideo`
+
+Maximum number of videos allowed.
+
+- **Type**: number
+- **Default**: `20`
+- **Required**: No
+- **Platform**: iOS, Android
+
+## Camera 📸
+
+Configuration camera functionality.
+
+- **Type**: object
+- **Default**: `{}`
+- **Required**: No
+- **Platform**: iOS, Android
+
+### `cameraDevice`
+
+Camera device to be used.
+
+- **Type**: `string`
+- **Default**: `back`
+- **Required**: No
+- **Platform**: iOS
+- **Options**:
+  - `back`: Back camera
+  - `front`: Front camera
+
+### `videoMaximumDuration`
+
+Maximum video duration in seconds.
+
+- **Type**: number
+- **Default**: 60
+- **Required**: No
+- **Platform**: iOS, Android
+
+## Crop 🪚
+
+Configuration for image cropping functionality.
+
+- **Type**: object
+- **Default**: `undefined`
+- **Required**: No
+- **Platform**: iOS, Android
+
+### `circle`
+
+Enable circular crop mask.
+
+- **Type**: boolean
+- **Default**: `false`
+- **Required**: No
+- **Platform**: iOS, Android
+
+### `ratio`
+
+Aspect ratios for cropping.
+Android: Maximum: 4 items
+
+- **Type**: `array`
+- **Default**: `undefined`
+- **Required**: No
+- **Platform**: iOS, Android
+- **Properties**:
+  - `title`: string - Display title for the ratio (e.g., "Square", "16:9")
+  - `width`: number - Width value for the aspect ratio
+  - `height`: number - Height value for the aspect ratio
+
+### `defaultRatio`
+
+Default ratio to be selected when opening the crop interface.
+
+- **Type**: `object`
+- **Default**: `undefined`
+- **Required**: No
+- **Platform**: iOS, Android
+- **Properties**:
+  - `title`: string - Display title for the ratio (e.g., "Square", "16:9")
+  - `width`: number - Width value for the aspect ratio
+  - `height`: number - Height value for the aspect ratio
+
+### `freeStyle`
+
+Enable free style cropping.
+
+- **Type**: `boolean`
+- **Default**: `false`
+- **Required**: No
+- **Platform**: iOS, Android
+
+---
+
+## UI Customize 🌈
+
+### `theme`
+
+Theme mode for the picker.
+
+- **Type**: string
+- **Default**: `system`
+- **Required**: No
+- **Platform**: iOS, Android
+- **Options**:
+  - `light`: Light theme
+  - `dark`: Dark theme
+  - `system`: System default theme
+
+### `primaryColor`
+
+Primary color for the picker UI elements.
+
+- **Type**: ColorValue
+- **Default**: 🟦 `#2979ff`
+- **Required**: No
+- **Platform**: iOS, Android
+
+### `backgroundDark`
+
+Background color for dark mode UI elements.
+
+- **Type**: ColorValue
+- **Default**: ⚫️ `#1A1A1A`
+- **Required**: No
+- **Platform**: iOS, Android
+
+### `selectBoxStyle`
+
+Style of selection box in the picker.
+
+- **Type**: string
+- **Default**: `number`
+- **Required**: No
+- **Options**:
+  - `number`: Show numbers in selection box
+  - `tick`: Show checkmark in selection box
+
+### `spacing`
+
+Spacing between items in the grid.
+
+- **Type**: number
+- **Default**: `2`
+- **Required**: No
+- **Platform**: iOS, Android
+
+### `numberOfColumn`
+
+Number of columns in the grid view.
+
+- **Type**: number
+- **Default**: `4`
+- **Required**: No
+- **Platform**: iOS, Android
+
+### `presentation`
+
+Modal presentation style for the picker.
+
+- **Type**: string
+- **Default**: `fullScreenModal`
+- **Required**: No
+- **Platform**: iOS
+- **Options**:
+  - `fullScreenModal`: Full screen presentation
+  - `formSheet`: Form sheet presentation
+
+---
+
+## Filter data 🎞️
+
+### `mediaType`
+
+Type of media to be displayed in the picker.
+
+- **Type**: string
+- **Default**: `all`
+- **Required**: No
+- **Options**:
+  - `video`: Only show videos
+  - `image`: Only show images
+  - `all`: Show both videos and images
+
+### `maxVideoDuration`
+
+Maximum duration for videos in seconds.
+
+- **Type**: number
+- **Default**: `undefined`
+- **Required**: No
+- **Platform**: iOS, Android
+
+### `minVideoDuration`
+
+Minimum duration for videos in seconds.
+
+- **Type**: number
+- **Default**: `undefined`
+- **Required**: No
+- **Platform**: iOS, Android
+
+### `maxFileSize`
+
+Maximum file size in bytes.
+
+- **Type**: number
+- **Default**: `undefined`
+- **Required**: No
+- **Platform**: iOS, Android
+
+---
+
+## Preview 🌠
+
+### `isPreview`
+
+Enable preview functionality.
+
+- **Type**: boolean
+- **Default**: `true`
+- **Required**: No
+- **Platform**: iOS, Android
+
+### `isShowPreviewList`
+
+Show preview list.
+
+- **Type**: boolean
+- **Default**: `false`
+- **Required**: No
+- **Platform**: iOS
+
+### `isHiddenPreviewButton`
+
+Hide the preview button and button mode.
+
+- **Type**: boolean
+- **Default**: `false`
+- **Required**: No
+- **Platform**: iOS, Android
+
+### `allowHapticTouchPreview`
+
+Enable haptic feedback on preview.
+
+- **Type**: boolean
+- **Default**: `false`
+- **Required**: No
+- **Platform**: iOS
+
+---
+
+## Localization 🌐
+
+### `text`
+
+Custom text labels for buttons and headers.
+
+- **Type**: object
+- **Default**: `undefined`
+- **Required**: No
+- **Platform**: iOS, Android
+- **Properties**:
+  - `finish`: string - Text for finish/done button
+  - `original`: string - Text for original button
+  - `preview`: string - Text for preview button
+  - `edit`: string - Text for edit button
+
+### `language`
+
+Interface language for the picker.
+
+- **Type**: string
+- **Default**: `system`
+- **Required**: No
+- **Options**:
+
+  - `system`: 🌐 System default
+  - `zh-Hans`: 🇨🇳 Simplified Chinese
+  - `zh-Hant`: 🇹🇼 Traditional Chinese
+  - `ja`: 🇯🇵 Japanese
+  - `ko`: 🇰🇷 Korean
+  - `en`: 🇬🇧 English
+  - `vi`: 🇻🇳 Vietnamese
+  - `ru`: 🇷🇺 Russian
+  - `de`: 🇩🇪 German
+  - `fr`: 🇫🇷 French
+  - `ar`: 🇸🇦 Arabic
+
+  **iOS Only**:
+
+  - `id`: 🇮🇩 Indonesian
+  - `th`: 🇹🇭 Thai
