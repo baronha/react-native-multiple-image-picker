@@ -9,8 +9,8 @@ import HXPhotoPicker
 import Photos
 
 extension HybridMultipleImagePicker {
-    func getResult(_ asset: PhotoAsset, _ compression: PhotoAsset.Compression) async throws -> Result {
-        let urlResult = try await asset.urlResult(compression)
+    func getResult(_ asset: PhotoAsset) async throws -> Result {
+        let urlResult = try await asset.urlResult()
         let url = urlResult.url
             
         let creationDate = Int(asset.phAsset?.creationDate?.timeIntervalSince1970 ?? 0)

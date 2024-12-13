@@ -94,10 +94,6 @@ namespace margelo::nitro::multipleimagepicker {
       jni::local_ref<jni::JDouble> minVideoDuration = this->getFieldValue(fieldMinVideoDuration);
       static const auto fieldMaxFileSize = clazz->getField<jni::JDouble>("maxFileSize");
       jni::local_ref<jni::JDouble> maxFileSize = this->getFieldValue(fieldMaxFileSize);
-      static const auto fieldVideoQuality = clazz->getField<jni::JDouble>("videoQuality");
-      jni::local_ref<jni::JDouble> videoQuality = this->getFieldValue(fieldVideoQuality);
-      static const auto fieldImageQuality = clazz->getField<jni::JDouble>("imageQuality");
-      jni::local_ref<jni::JDouble> imageQuality = this->getFieldValue(fieldImageQuality);
       static const auto fieldBackgroundDark = clazz->getField<jni::JDouble>("backgroundDark");
       jni::local_ref<jni::JDouble> backgroundDark = this->getFieldValue(fieldBackgroundDark);
       static const auto fieldCrop = clazz->getField<JPickerCropConfig>("crop");
@@ -140,8 +136,6 @@ namespace margelo::nitro::multipleimagepicker {
         maxVideoDuration != nullptr ? std::make_optional(maxVideoDuration->value()) : std::nullopt,
         minVideoDuration != nullptr ? std::make_optional(minVideoDuration->value()) : std::nullopt,
         maxFileSize != nullptr ? std::make_optional(maxFileSize->value()) : std::nullopt,
-        videoQuality != nullptr ? std::make_optional(videoQuality->value()) : std::nullopt,
-        imageQuality != nullptr ? std::make_optional(imageQuality->value()) : std::nullopt,
         backgroundDark != nullptr ? std::make_optional(backgroundDark->value()) : std::nullopt,
         crop != nullptr ? std::make_optional(crop->toCpp()) : std::nullopt,
         text != nullptr ? std::make_optional(text->toCpp()) : std::nullopt,
@@ -186,8 +180,6 @@ namespace margelo::nitro::multipleimagepicker {
         value.maxVideoDuration.has_value() ? jni::JDouble::valueOf(value.maxVideoDuration.value()) : nullptr,
         value.minVideoDuration.has_value() ? jni::JDouble::valueOf(value.minVideoDuration.value()) : nullptr,
         value.maxFileSize.has_value() ? jni::JDouble::valueOf(value.maxFileSize.value()) : nullptr,
-        value.videoQuality.has_value() ? jni::JDouble::valueOf(value.videoQuality.value()) : nullptr,
-        value.imageQuality.has_value() ? jni::JDouble::valueOf(value.imageQuality.value()) : nullptr,
         value.backgroundDark.has_value() ? jni::JDouble::valueOf(value.backgroundDark.value()) : nullptr,
         value.crop.has_value() ? JPickerCropConfig::fromCpp(value.crop.value()) : nullptr,
         value.text.has_value() ? JText::fromCpp(value.text.value()) : nullptr,

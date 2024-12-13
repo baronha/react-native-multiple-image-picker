@@ -451,8 +451,6 @@ export default function App() {
                 />
               ) : null}
 
-              {/* <Text style={style.title}>Compress Quality 🤐</Text> */}
-
               <Text style={style.title}>Localization 🌐</Text>
 
               <View style={style.section}>

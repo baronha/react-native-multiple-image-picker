@@ -23,7 +23,6 @@ React Native Multiple Image Picker **(RNMIP)** enables application to pick image
 | 🎨  | UI Customization (numberOfColumn, spacing, primaryColor ... )                  |
 | 🌚  | Dark Mode, Light Mode                                                          |
 | 🌄  | Choose multiple images/video.                                                  |
-| 🤐  | Compress image after selected (new) ✨                                         |
 | 📦  | Support smart album `(camera roll, selfies, panoramas, favorites, videos...)`. |
 | 📺  | Display video duration.                                                        |
 | 🎆  | Preview image/video.                                                           |

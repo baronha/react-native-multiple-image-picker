@@ -25,7 +25,7 @@ extension PHAsset {
                 let imgRef = try generator.copyCGImage(at: time, actualTime: nil)
                 thumbnail = UIImage(cgImage: imgRef)
             } catch {
-                print("Lỗi khi tạo thumbnail: \(error)")
+                print("Error create thumbnail: \(error)")
                 return nil
             }
 
@@ -48,7 +48,7 @@ extension PHAsset {
             return nil
         }
 
-        let data = uiImage.jpegData(compressionQuality: 1.0)
+        let data = uiImage.jpegData(compressionQuality: 0.9)
 
         let fullPath = URL(fileURLWithPath: tempDirectory).appendingPathComponent("\(prefix ?? "thumb")-\(ProcessInfo.processInfo.globallyUniqueString).jpg").path
 

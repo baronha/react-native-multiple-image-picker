@@ -198,62 +198,6 @@ export interface NitroConfig {
   maxFileSize?: number
 
   /**
-   * Video quality setting for the picker.
-   * Platform-specific quality settings:
-   *
-   * @type {number}
-   * @platform ios, android
-   *
-   * @ios
-   * - Range: 0 to 1
-   * - 0: Maximum compression, lowest quality
-   * - 1: No compression, highest quality
-   *
-   * @android
-   * - Only two options:
-   * - 0: Low quality
-   * - 1: High quality
-   *
-   * @default 1
-   *
-   * @example
-   * ```ts
-   * // iOS: 80% quality
-   * // Android: High quality (1) or Low quality (0)
-   * videoQuality: 0.8  // iOS: 80% quality, Android: Low quality
-   * videoQuality: 1    // Both platforms: Highest quality
-   * ```
-   *
-   * @remarks
-   * - iOS supports continuous range from 0 to 1
-   * - Android only supports two discrete values: 0 (low) or 1 (high)
-   * - Values between 0 and 1 on Android will be rounded
-   */
-  videoQuality?: number
-
-  /**
-   * Image quality setting for the picker.
-   * Determines the compression level of the selected images.
-   *
-   * @type {number}
-   * @value 0 - 1
-   *
-   * @default 1
-   * @platform ios
-   * @todo Add support for Android platform
-   *
-   * @example
-   * ```ts
-   * imageQuality: 0.8 // 80% quality
-   * ```
-   *
-   * @remarks
-   * - Adjust this value to balance between image quality and file size.
-   * - Useful for optimizing performance and storage usage.
-   */
-  imageQuality?: number
-
-  /**
    * Background color for dark mode in number format
    * @type {number}
    */

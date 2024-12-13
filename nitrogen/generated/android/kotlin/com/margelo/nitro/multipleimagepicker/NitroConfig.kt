@@ -37,8 +37,6 @@ data class NitroConfig(
   val maxVideoDuration: Double?,
   val minVideoDuration: Double?,
   val maxFileSize: Double?,
-  val videoQuality: Double?,
-  val imageQuality: Double?,
   val backgroundDark: Double?,
   val crop: PickerCropConfig?,
   val text: Text?,

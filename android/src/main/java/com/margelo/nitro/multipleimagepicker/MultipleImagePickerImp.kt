@@ -86,9 +86,6 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
         val maxDuration = config.maxVideoDuration?.toInt()
         val minDuration = config.minVideoDuration?.toInt()
         val allowSwipeToSelect = config.allowSwipeToSelect ?: false
-        val imageQuality = config.imageQuality
-        val videoQuality = config.videoQuality
-
         val isMultiple = config.selectMode == SelectMode.MULTIPLE
         val selectMode = if (isMultiple) SelectModeConfig.MULTIPLE else SelectModeConfig.SINGLE
 
@@ -116,15 +113,6 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
 
                 maxFileSize?.let {
                     setFilterMaxFileSize(it)
-                }
-
-                //TODO: set compress export
-//                if (imageQuality != null && imageQuality != 1.0) {
-//                    setCompressEngine(CompressEngine())
-//                }
-
-                if (videoQuality != null && videoQuality != 1.0) {
-                    setVideoQuality(if (videoQuality > 0.5) 1 else 0)
                 }
             }
             .setImageSpanCount(config.numberOfColumn?.toInt() ?: 3)

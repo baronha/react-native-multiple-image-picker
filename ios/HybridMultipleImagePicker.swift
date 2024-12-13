@@ -38,19 +38,6 @@ class HybridMultipleImagePicker: HybridMultipleImagePickerSpec {
 
                 controller.autoDismiss = false
 
-                //
-                let imageQuality = config.imageQuality ?? 1.0
-
-                let videoQuality: Int = {
-                    if let quality = config.videoQuality {
-                        return Int(quality * 10)
-                    }
-
-                    return 10
-                }()
-
-                let compression: PhotoAsset.Compression = .init(imageCompressionQuality: imageQuality, videoExportParameter: .init(preset: videoQuality == 10 ? .highQuality : videoQuality < 5 ? .mediumQuality : .lowQuality, quality: videoQuality))
-
                 // check crop for single
                 if let asset = pickerResult.photoAssets.first, config.selectMode == .single, config.crop != nil, asset.mediaType == .photo, asset.editedResult?.url == nil {
                     // open crop
@@ -60,7 +47,7 @@ class HybridMultipleImagePicker: HybridMultipleImagePickerSpec {
                             photoAsset.editedResult = .some(result)
 
                             Task {
-                                let resultData = try await self.getResult(photoAsset, compression)
+                                let resultData = try await self.getResult(photoAsset)
 
                                 DispatchQueue.main.async {
                                     resolved([resultData])
@@ -88,7 +75,7 @@ class HybridMultipleImagePicker: HybridMultipleImagePickerSpec {
                     for response in pickerResult.photoAssets {
                         group.enter()
 
-                        let resultData = try await self.getResult(response, compression)
+                        let resultData = try await self.getResult(response)
 
                         data.append(resultData)
                         group.leave()
