@@ -39,6 +39,8 @@ namespace margelo::nitro::multipleimagepicker { struct CropResult; }
 namespace margelo::nitro::multipleimagepicker { struct MediaPreview; }
 // Forward declaration of `NitroPreviewConfig` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { struct NitroPreviewConfig; }
+// Forward declaration of `NitroCameraConfig` to properly resolve imports.
+namespace margelo::nitro::multipleimagepicker { struct NitroCameraConfig; }
 
 #include "NitroConfig.hpp"
 #include "JNitroConfig.hpp"
@@ -79,6 +81,9 @@ namespace margelo::nitro::multipleimagepicker { struct NitroPreviewConfig; }
 #include "JMediaPreview.hpp"
 #include "NitroPreviewConfig.hpp"
 #include "JNitroPreviewConfig.hpp"
+#include "NitroCameraConfig.hpp"
+#include "JNitroCameraConfig.hpp"
+#include "JFunc_void_Result.hpp"
 
 namespace margelo::nitro::multipleimagepicker {
 
@@ -120,6 +125,10 @@ namespace margelo::nitro::multipleimagepicker {
       }
       return __array;
     }(), index, JNitroPreviewConfig::fromCpp(config));
+  }
+  void JHybridMultipleImagePickerSpec::openCamera(const NitroCameraConfig& config, const std::function<void(const Result& /* result */)>& resolved, const std::function<void(double /* reject */)>& rejected) {
+    static const auto method = _javaPart->getClass()->getMethod<void(jni::alias_ref<JNitroCameraConfig> /* config */, jni::alias_ref<JFunc_void_Result::javaobject> /* resolved */, jni::alias_ref<JFunc_void_double::javaobject> /* rejected */)>("openCamera");
+    method(_javaPart, JNitroCameraConfig::fromCpp(config), JFunc_void_Result::fromCpp(resolved), JFunc_void_double::fromCpp(rejected));
   }
 
 } // namespace margelo::nitro::multipleimagepicker

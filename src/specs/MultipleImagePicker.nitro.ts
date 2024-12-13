@@ -2,6 +2,7 @@ import { type HybridObject } from 'react-native-nitro-modules'
 import {
   CropResult,
   MediaPreview,
+  NitroCameraConfig,
   NitroConfig,
   NitroCropConfig,
   NitroPreviewConfig,
@@ -27,5 +28,11 @@ export interface MultipleImagePicker
     media: MediaPreview[],
     index: number,
     config: NitroPreviewConfig
+  ): void
+
+  openCamera(
+    config: NitroCameraConfig,
+    resolved: (result: Result) => void,
+    rejected: (reject: number) => void
   ): void
 }

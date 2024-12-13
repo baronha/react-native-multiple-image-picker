@@ -52,8 +52,6 @@ extension HybridMultipleImagePicker {
 
         config.photo.defaultSelectedToolOption = .cropSize
 
-        config.isFixedCropSizeState = true
-
         config.cropSize.defaultSeletedIndex = 0
 
         let freeStyle = cropConfig.freeStyle ?? true
@@ -66,7 +64,11 @@ extension HybridMultipleImagePicker {
 
         config.cropSize.isResetToOriginal = true
 
-        config.toolsView = .init(toolOptions: [.init(imageType: PickerConfiguration.default.editor.imageResource.editor.tools.cropSize, type: .cropSize)])
+        config.isFixedCropSizeState = true
+
+        config.toolsView = .init(toolOptions: [
+            .init(imageType: PickerConfiguration.default.editor.imageResource.editor.tools.cropSize, type: .cropSize),
+        ])
 
         config.photo.defaultSelectedToolOption = .cropSize
 

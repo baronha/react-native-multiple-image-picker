@@ -94,12 +94,8 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
 
         val isCrop = config.crop != null
 
-        PictureSelector.create(activity)
-            .openGallery(chooseMode)
-            .setImageEngine(imageEngine)
-            .setSelectedData(dataList)
-            .setSelectorUIStyle(style)
-            .apply {
+        PictureSelector.create(activity).openGallery(chooseMode).setImageEngine(imageEngine)
+            .setSelectedData(dataList).setSelectorUIStyle(style).apply {
                 if (isCrop) {
                     setCropOption(config.crop)
                     // Disabled force crop engine for multiple
@@ -126,28 +122,18 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
                 if (videoQuality != null && videoQuality != 1.0) {
                     setVideoQuality(if (videoQuality > 0.5) 1 else 0)
                 }
-            }
-            .setImageSpanCount(config.numberOfColumn?.toInt() ?: 3)
-            .setMaxSelectNum(maxSelect)
-            .isDirectReturnSingle(true)
-            .isSelectZoomAnim(true)
-            .isPageStrategy(true, 50)
+            }.setImageSpanCount(config.numberOfColumn?.toInt() ?: 3).setMaxSelectNum(maxSelect)
+            .isDirectReturnSingle(true).isSelectZoomAnim(true).isPageStrategy(true, 50)
             .isWithSelectVideoImage(true)
             .setMaxVideoSelectNum(if (maxVideo != 20) maxVideo else maxSelect)
-            .isMaxSelectEnabledMask(true)
-            .isAutoVideoPlay(true)
-            .isFastSlidingSelect(allowSwipeToSelect)
-            .isPageSyncAlbumCount(true)
+            .isMaxSelectEnabledMask(true).isAutoVideoPlay(true)
+            .isFastSlidingSelect(allowSwipeToSelect).isPageSyncAlbumCount(true)
             // isPreview
-            .isPreviewImage(isPreview)
-            .isPreviewVideo(isPreview)
+            .isPreviewImage(isPreview).isPreviewVideo(isPreview)
             //
-            .isDisplayCamera(config.allowedCamera ?: true)
-            .isDisplayTimeAxis(true)
-            .setSelectionMode(selectMode)
-            .isOriginalControl(config.isHiddenOriginalButton == false)
-            .setLanguage(getLanguage(config.language))
-            .isPreviewFullScreenMode(true)
+            .isDisplayCamera(config.allowedCamera ?: true).isDisplayTimeAxis(true)
+            .setSelectionMode(selectMode).isOriginalControl(config.isHiddenOriginalButton == false)
+            .setLanguage(getLanguage(config.language)).isPreviewFullScreenMode(true)
             .forResult(object : OnResultCallbackListener<LocalMedia?> {
                 override fun onResult(localMedia: ArrayList<LocalMedia?>?) {
                     var data: Array<Result> = arrayOf()
@@ -226,10 +212,7 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
 
             val cropActivityEventListener = object : BaseActivityEventListener() {
                 override fun onActivityResult(
-                    activity: Activity,
-                    requestCode: Int,
-                    resultCode: Int,
-                    data: Intent?
+                    activity: Activity, requestCode: Int, resultCode: Int, data: Intent?
                 ) {
                     if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CROP) {
                         val resultUri = UCrop.getOutput(data!!)
@@ -300,22 +283,52 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
             asset?.let { assets.add(it) }
         }
 
-        PictureSelector
-            .create(currentActivity)
-            .openPreview()
-            .setImageEngine(imageEngine)
-            .setLanguage(getLanguage(config.language))
-            .setSelectorUIStyle(previewStyle)
-            .isPreviewFullScreenMode(true)
-            .isAutoVideoPlay(true)
-            .setVideoPlayerEngine(ExoPlayerEngine())
-            .isVideoPauseResumePlay(true)
+        PictureSelector.create(currentActivity).openPreview().setImageEngine(imageEngine)
+            .setLanguage(getLanguage(config.language)).setSelectorUIStyle(previewStyle)
+            .isPreviewFullScreenMode(true).isAutoVideoPlay(true)
+            .setVideoPlayerEngine(ExoPlayerEngine()).isVideoPauseResumePlay(true)
             .setCustomLoadingListener(getCustomLoadingListener())
             .startActivityPreview(index, false, assets)
     }
 
     private fun getCustomLoadingListener(): OnCustomLoadingListener {
         return OnCustomLoadingListener { context -> LoadingDialog(context) }
+    }
+
+
+    @ReactMethod
+    fun openCamera(
+        config: NitroCameraConfig,
+        resolved: (result: Result) -> Unit,
+        rejected: (reject: Double) -> Unit
+    ) {
+
+        val chooseMode = getChooseMode(config.mediaType)
+
+        PictureSelector
+            .create(currentActivity)
+            .openCamera(chooseMode)
+            .setLanguage(getLanguage(config.language))
+            .isQuickCapture(true)
+            .setCameraInterceptListener()
+            .forResult(object : OnResultCallbackListener<LocalMedia?> {
+                override fun onResult(result: java.util.ArrayList<LocalMedia?>?) {
+                    println("camera: $result")
+                }
+
+                override fun onCancel() {
+                    TODO("Not yet implemented")
+                }
+
+            })
+    }
+
+    private fun getChooseMode(mediaType: MediaType): Int {
+        return when (mediaType) {
+            MediaType.VIDEO -> SelectMimeType.ofVideo()
+            MediaType.IMAGE -> SelectMimeType.ofImage()
+            else -> SelectMimeType.ofAll()
+        }
     }
 
 
@@ -382,8 +395,7 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
             cropOption.apply {
 
                 setAspectRatioOptions(
-                    0,
-                    *ratioList.take(5).toTypedArray()
+                    0, *ratioList.take(5).toTypedArray()
                 )
             }
         }

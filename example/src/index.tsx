@@ -22,6 +22,7 @@ import {
   Config,
   openCropper,
   openPreview,
+  openCamera,
 } from '@baronha/react-native-multiple-image-picker'
 import { useImmer } from 'use-immer'
 import { StatusBar } from 'expo-status-bar'
@@ -123,6 +124,15 @@ export default function App() {
     }
   }
 
+  const onCamera = async () => {
+    try {
+      const response = await openCamera({})
+      console.log('response: ', response)
+    } catch (e) {
+      console.log('e: ', e)
+    }
+  }
+
   const onRemovePhoto = (_: Result, index: number) => {
     const data = [...images].filter((__, idx) => idx !== index)
     setImages(data)
@@ -180,7 +190,7 @@ export default function App() {
                   showDelete
                   onDeleteImage={onRemovePhoto}
                 />
-                <Button style={style.buttonOpen} onPress={onCrop}>
+                <Button style={style.buttonCrop} onPress={onCrop}>
                   Open Cropping
                 </Button>
               </>
@@ -533,9 +543,20 @@ export default function App() {
       </KeyboardAvoidingView>
 
       <View level={2}>
-        <Button style={style.buttonOpen} onPress={onPicker}>
-          Open Picker
-        </Button>
+        <Row level={2} style={style.bottomView}>
+          <TouchableOpacity
+            style={[style.cameraButton, { borderColor: foreground }]}
+            onPress={onCamera}
+          >
+            <Image
+              source={assets.camera}
+              style={[style.camera, { tintColor: foreground }]}
+            />
+          </TouchableOpacity>
+          <Button style={style.buttonOpen} onPress={onPicker}>
+            Open Picker
+          </Button>
+        </Row>
         <SafeAreaView />
       </View>
     </Container>
@@ -565,9 +586,7 @@ const style = StyleSheet.create({
     paddingTop: 12,
     marginBottom: -12,
   },
-  buttonOpen: {
-    margin: 16,
-  },
+
   scrollView: {
     gap: 12,
     paddingTop: 12,
@@ -625,5 +644,29 @@ const style = StyleSheet.create({
     paddingVertical: 8,
     borderRadius: 6,
     borderWidth: 1,
+  },
+  camera: {
+    width: 24,
+    height: 24,
+  },
+  bottomView: {
+    padding: 16,
+    gap: 24,
+    alignItems: 'center',
+  },
+  buttonOpen: {
+    flex: 1,
+    marginLeft: 16,
+  },
+  buttonCrop: {
+    margin: 16,
+  },
+  cameraButton: {
+    height: '100%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    paddingHorizontal: 12,
   },
 })

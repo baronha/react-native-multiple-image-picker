@@ -1,6 +1,6 @@
 import React from 'react'
-import { StyleSheet, ViewProps, ViewStyle } from 'react-native'
-import { View } from './View'
+import { StyleSheet, ViewStyle } from 'react-native'
+import { View, ViewProps } from './View'
 
 export interface RowProps extends ViewProps {
   alignItems?: ViewStyle['alignItems']

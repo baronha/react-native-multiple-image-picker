@@ -118,12 +118,21 @@ extension HybridMultipleImagePicker {
             let editor = setCropConfig(crop)
 
             config.editor = editor
-
         } else {
             previewView.bottomView.isHiddenEditButton = true
         }
 
         photoList.finishSelectionAfterTakingPhoto = true
+
+        if photoList.allowAddCamera == true {
+            var cameraConfig = CameraConfiguration()
+
+            cameraConfig.allowsEditing = options.crop != nil && options.selectMode == .single
+
+            cameraConfig.modalPresentationStyle = .fullScreen
+
+            photoList.cameraType = .custom(cameraConfig)
+        }
 
         config.photoList = photoList
         config.previewView = previewView
@@ -131,12 +140,7 @@ extension HybridMultipleImagePicker {
         setLanguage(options)
         setTheme(options)
 
-        switch Int(options.presentation.rawValue) {
-        case 1:
-            config.modalPresentationStyle = .formSheet
-        default:
-            config.modalPresentationStyle = .fullScreen
-        }
+        config.modalPresentationStyle = getPresentation(options.presentation)
     }
 
     private func setTheme(_ options: NitroConfig) {
@@ -208,6 +212,15 @@ extension HybridMultipleImagePicker {
         }
 
         config.languageType = setLocale(language: options.language)
+    }
+
+    func getPresentation(_ presentation: Presentation) -> UIModalPresentationStyle {
+        switch Int(presentation.rawValue) {
+        case 1:
+            return .formSheet
+        default:
+            return .fullScreen
+        }
     }
 
     func setLocale(language: Language) -> LanguageType {

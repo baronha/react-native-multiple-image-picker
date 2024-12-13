@@ -10,7 +10,7 @@ import Photos
 
 extension HybridMultipleImagePicker {
     func getResult(_ asset: PhotoAsset, _ compression: PhotoAsset.Compression) async throws -> Result {
-        let urlResult = try await asset.urlResult(compression)
+        let urlResult = try await asset.urlResult()
         let url = urlResult.url
             
         let creationDate = Int(asset.phAsset?.creationDate?.timeIntervalSince1970 ?? 0)

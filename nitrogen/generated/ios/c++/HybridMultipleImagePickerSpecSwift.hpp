@@ -44,6 +44,8 @@ namespace margelo::nitro::multipleimagepicker { struct CropResult; }
 namespace margelo::nitro::multipleimagepicker { struct MediaPreview; }
 // Forward declaration of `NitroPreviewConfig` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { struct NitroPreviewConfig; }
+// Forward declaration of `NitroCameraConfig` to properly resolve imports.
+namespace margelo::nitro::multipleimagepicker { struct NitroCameraConfig; }
 
 #include "NitroConfig.hpp"
 #include "MediaType.hpp"
@@ -65,6 +67,7 @@ namespace margelo::nitro::multipleimagepicker { struct NitroPreviewConfig; }
 #include "CropResult.hpp"
 #include "MediaPreview.hpp"
 #include "NitroPreviewConfig.hpp"
+#include "NitroCameraConfig.hpp"
 
 #if __has_include(<NitroModules/HybridContext.hpp>)
 #include <NitroModules/HybridContext.hpp>
@@ -117,6 +120,9 @@ namespace margelo::nitro::multipleimagepicker {
     }
     inline void openPreview(const std::vector<MediaPreview>& media, double index, const NitroPreviewConfig& config) override {
       _swiftPart.openPreview(media, std::forward<decltype(index)>(index), config);
+    }
+    inline void openCamera(const NitroCameraConfig& config, const std::function<void(const Result& /* result */)>& resolved, const std::function<void(double /* reject */)>& rejected) override {
+      _swiftPart.openCamera(config, resolved, rejected);
     }
 
   private:

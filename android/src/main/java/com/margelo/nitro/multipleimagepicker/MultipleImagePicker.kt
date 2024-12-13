@@ -34,4 +34,12 @@ class MultipleImagePicker : HybridMultipleImagePickerSpec() {
         pickerModule.openPreview(media, index.toInt(), config)
     }
 
+    override fun openCamera(
+        config: NitroCameraConfig,
+        resolved: (result: Result) -> Unit,
+        rejected: (reject: Double) -> Unit
+    ) {
+        pickerModule.openCamera(config, resolved, rejected)
+    }
+
 }

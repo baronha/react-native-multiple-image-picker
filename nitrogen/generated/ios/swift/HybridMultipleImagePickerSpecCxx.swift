@@ -156,4 +156,25 @@ public class HybridMultipleImagePickerSpecCxx {
       fatalError("Swift errors can currently not be propagated to C++! See https://github.com/swiftlang/swift/issues/75290 (Error: \(__message))")
     }
   }
+  
+  @inline(__always)
+  public func openCamera(config: NitroCameraConfig, resolved: bridge.Func_void_Result, rejected: bridge.Func_void_double) -> Void {
+    do {
+      try self.__implementation.openCamera(config: config, resolved: { () -> ((Result) -> Void) in
+        let __sharedClosure = bridge.share_Func_void_Result(resolved)
+        return { (__result: Result) -> Void in
+          __sharedClosure.pointee.call(__result)
+        }
+      }(), rejected: { () -> ((Double) -> Void) in
+        let __sharedClosure = bridge.share_Func_void_double(rejected)
+        return { (__reject: Double) -> Void in
+          __sharedClosure.pointee.call(__reject)
+        }
+      }())
+      return 
+    } catch {
+      let __message = "\(error.localizedDescription)"
+      fatalError("Swift errors can currently not be propagated to C++! See https://github.com/swiftlang/swift/issues/75290 (Error: \(__message))")
+    }
+  }
 }

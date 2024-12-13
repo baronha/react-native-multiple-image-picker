@@ -3,3 +3,4 @@
 export * from './result'
 export * from './config'
 export * from './media'
+export * from './camera'

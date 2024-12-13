@@ -18,6 +18,9 @@ import {
   PreviewConfig,
   NitroPreviewConfig,
   MediaPreview,
+  NitroCameraConfig,
+  CameraResult,
+  CameraConfig,
 } from './types'
 import { CropError } from './types/error'
 
@@ -32,22 +35,22 @@ type IPromisePicker<T extends Config> = T['selectMode'] extends 'single'
 export async function openPicker<T extends Config>(
   conf: T
 ): Promise<IPromisePicker<T>> {
+  const config = { ...defaultOptions, ...conf } as NitroConfig
+  config.primaryColor = processColor(config.primaryColor) as any
+  config.backgroundDark = processColor(config.backgroundDark) as any
+
+  if ((config as Config)?.theme === 'system') {
+    const theme = Appearance.getColorScheme() ?? 'light'
+    config.theme = theme
+  }
+
+  if (config?.language && !LANGUAGES.includes(config.language)) {
+    config.language = 'system'
+  }
+
+  if (config.crop) config.crop.ratio = config.crop.ratio ?? []
+
   return new Promise((resolved, rejected) => {
-    const config = { ...defaultOptions, ...conf } as NitroConfig
-    config.primaryColor = processColor(config.primaryColor) as any
-    config.backgroundDark = processColor(config.backgroundDark) as any
-
-    if ((config as Config)?.theme === 'system') {
-      const theme = Appearance.getColorScheme() ?? 'light'
-      config.theme = theme
-    }
-
-    if (config?.language && !LANGUAGES.includes(config.language)) {
-      config.language = 'system'
-    }
-
-    if (config.crop) config.crop.ratio = config.crop.ratio ?? []
-
     return Picker.openPicker(
       config,
       (result: Result[]) => {
@@ -64,18 +67,18 @@ export async function openCropper(
   image: string,
   config?: CropConfig
 ): Promise<CropResult> {
+  const cropConfig = {
+    presentation: 'fullScreenModal',
+    language: 'system',
+    ratio: [],
+    ...config,
+  } as NitroCropConfig
+
+  if (config?.language && !LANGUAGES.includes(config.language)) {
+    config.language = 'system'
+  }
+
   return new Promise((resolved, rejected) => {
-    const cropConfig = {
-      presentation: 'fullScreenModal',
-      language: 'system',
-      ratio: [],
-      ...config,
-    } as NitroCropConfig
-
-    if (config?.language && !LANGUAGES.includes(config.language)) {
-      config.language = 'system'
-    }
-
     Picker.openCrop(
       image,
       cropConfig,
@@ -112,6 +115,32 @@ export function openPreview(
     index,
     config as NitroPreviewConfig
   )
+}
+
+export async function openCamera(conf: CameraConfig) {
+  const config: CameraConfig = {
+    language: conf.language ?? 'system',
+    mediaType: 'all',
+    presentation: 'fullScreenModal',
+    cameraType: 'custom',
+    ...conf,
+  }
+
+  if (config?.language && !LANGUAGES.includes(config.language)) {
+    config.language = 'system'
+  }
+
+  return new Promise((resolved, rejected) => {
+    Picker.openCamera(
+      config as NitroCameraConfig,
+      (result: CameraResult) => {
+        resolved(result)
+      },
+      (error: number) => {
+        rejected(error)
+      }
+    )
+  })
 }
 
 const DEFAULT_COUNT = 20

@@ -17,6 +17,7 @@ namespace margelo::nitro::multipleimagepicker {
       prototype.registerHybridMethod("openPicker", &HybridMultipleImagePickerSpec::openPicker);
       prototype.registerHybridMethod("openCrop", &HybridMultipleImagePickerSpec::openCrop);
       prototype.registerHybridMethod("openPreview", &HybridMultipleImagePickerSpec::openPreview);
+      prototype.registerHybridMethod("openCamera", &HybridMultipleImagePickerSpec::openCamera);
     });
   }
 
