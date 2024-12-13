@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - v.2.0
+      - main
     paths:
       - 'docs/**'
 
