@@ -36,6 +36,8 @@ namespace margelo::nitro::multipleimagepicker { enum class Language; }
 namespace margelo::nitro::multipleimagepicker { enum class Theme; }
 // Forward declaration of `Presentation` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { enum class Presentation; }
+// Forward declaration of `PickerCameraConfig` to properly resolve imports.
+namespace margelo::nitro::multipleimagepicker { struct PickerCameraConfig; }
 
 #include "MediaType.hpp"
 #include <vector>
@@ -48,6 +50,7 @@ namespace margelo::nitro::multipleimagepicker { enum class Presentation; }
 #include "Language.hpp"
 #include "Theme.hpp"
 #include "Presentation.hpp"
+#include "PickerCameraConfig.hpp"
 
 namespace margelo::nitro::multipleimagepicker {
 
@@ -63,7 +66,6 @@ namespace margelo::nitro::multipleimagepicker {
     std::optional<double> numberOfColumn     SWIFT_PRIVATE;
     std::optional<bool> isPreview     SWIFT_PRIVATE;
     std::optional<double> primaryColor     SWIFT_PRIVATE;
-    std::optional<bool> allowedCamera     SWIFT_PRIVATE;
     std::optional<bool> allowSwipeToSelect     SWIFT_PRIVATE;
     std::optional<double> spacing     SWIFT_PRIVATE;
     std::optional<bool> isHiddenPreviewButton     SWIFT_PRIVATE;
@@ -82,9 +84,10 @@ namespace margelo::nitro::multipleimagepicker {
     Language language     SWIFT_PRIVATE;
     Theme theme     SWIFT_PRIVATE;
     Presentation presentation     SWIFT_PRIVATE;
+    std::optional<PickerCameraConfig> camera     SWIFT_PRIVATE;
 
   public:
-    explicit NitroConfig(MediaType mediaType, std::vector<Result> selectedAssets, SelectBoxStyle selectBoxStyle, SelectMode selectMode, std::optional<double> numberOfColumn, std::optional<bool> isPreview, std::optional<double> primaryColor, std::optional<bool> allowedCamera, std::optional<bool> allowSwipeToSelect, std::optional<double> spacing, std::optional<bool> isHiddenPreviewButton, std::optional<bool> isHiddenOriginalButton, std::optional<bool> isShowPreviewList, std::optional<bool> allowHapticTouchPreview, std::optional<bool> allowedLimit, std::optional<double> maxVideo, std::optional<double> maxSelect, std::optional<double> maxVideoDuration, std::optional<double> minVideoDuration, std::optional<double> maxFileSize, std::optional<double> backgroundDark, std::optional<PickerCropConfig> crop, std::optional<Text> text, Language language, Theme theme, Presentation presentation): mediaType(mediaType), selectedAssets(selectedAssets), selectBoxStyle(selectBoxStyle), selectMode(selectMode), numberOfColumn(numberOfColumn), isPreview(isPreview), primaryColor(primaryColor), allowedCamera(allowedCamera), allowSwipeToSelect(allowSwipeToSelect), spacing(spacing), isHiddenPreviewButton(isHiddenPreviewButton), isHiddenOriginalButton(isHiddenOriginalButton), isShowPreviewList(isShowPreviewList), allowHapticTouchPreview(allowHapticTouchPreview), allowedLimit(allowedLimit), maxVideo(maxVideo), maxSelect(maxSelect), maxVideoDuration(maxVideoDuration), minVideoDuration(minVideoDuration), maxFileSize(maxFileSize), backgroundDark(backgroundDark), crop(crop), text(text), language(language), theme(theme), presentation(presentation) {}
+    explicit NitroConfig(MediaType mediaType, std::vector<Result> selectedAssets, SelectBoxStyle selectBoxStyle, SelectMode selectMode, std::optional<double> numberOfColumn, std::optional<bool> isPreview, std::optional<double> primaryColor, std::optional<bool> allowSwipeToSelect, std::optional<double> spacing, std::optional<bool> isHiddenPreviewButton, std::optional<bool> isHiddenOriginalButton, std::optional<bool> isShowPreviewList, std::optional<bool> allowHapticTouchPreview, std::optional<bool> allowedLimit, std::optional<double> maxVideo, std::optional<double> maxSelect, std::optional<double> maxVideoDuration, std::optional<double> minVideoDuration, std::optional<double> maxFileSize, std::optional<double> backgroundDark, std::optional<PickerCropConfig> crop, std::optional<Text> text, Language language, Theme theme, Presentation presentation, std::optional<PickerCameraConfig> camera): mediaType(mediaType), selectedAssets(selectedAssets), selectBoxStyle(selectBoxStyle), selectMode(selectMode), numberOfColumn(numberOfColumn), isPreview(isPreview), primaryColor(primaryColor), allowSwipeToSelect(allowSwipeToSelect), spacing(spacing), isHiddenPreviewButton(isHiddenPreviewButton), isHiddenOriginalButton(isHiddenOriginalButton), isShowPreviewList(isShowPreviewList), allowHapticTouchPreview(allowHapticTouchPreview), allowedLimit(allowedLimit), maxVideo(maxVideo), maxSelect(maxSelect), maxVideoDuration(maxVideoDuration), minVideoDuration(minVideoDuration), maxFileSize(maxFileSize), backgroundDark(backgroundDark), crop(crop), text(text), language(language), theme(theme), presentation(presentation), camera(camera) {}
   };
 
 } // namespace margelo::nitro::multipleimagepicker
@@ -106,7 +109,6 @@ namespace margelo::nitro {
         JSIConverter<std::optional<double>>::fromJSI(runtime, obj.getProperty(runtime, "numberOfColumn")),
         JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, "isPreview")),
         JSIConverter<std::optional<double>>::fromJSI(runtime, obj.getProperty(runtime, "primaryColor")),
-        JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, "allowedCamera")),
         JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, "allowSwipeToSelect")),
         JSIConverter<std::optional<double>>::fromJSI(runtime, obj.getProperty(runtime, "spacing")),
         JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, "isHiddenPreviewButton")),
@@ -124,7 +126,8 @@ namespace margelo::nitro {
         JSIConverter<std::optional<Text>>::fromJSI(runtime, obj.getProperty(runtime, "text")),
         JSIConverter<Language>::fromJSI(runtime, obj.getProperty(runtime, "language")),
         JSIConverter<Theme>::fromJSI(runtime, obj.getProperty(runtime, "theme")),
-        JSIConverter<Presentation>::fromJSI(runtime, obj.getProperty(runtime, "presentation"))
+        JSIConverter<Presentation>::fromJSI(runtime, obj.getProperty(runtime, "presentation")),
+        JSIConverter<std::optional<PickerCameraConfig>>::fromJSI(runtime, obj.getProperty(runtime, "camera"))
       );
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const NitroConfig& arg) {
@@ -136,7 +139,6 @@ namespace margelo::nitro {
       obj.setProperty(runtime, "numberOfColumn", JSIConverter<std::optional<double>>::toJSI(runtime, arg.numberOfColumn));
       obj.setProperty(runtime, "isPreview", JSIConverter<std::optional<bool>>::toJSI(runtime, arg.isPreview));
       obj.setProperty(runtime, "primaryColor", JSIConverter<std::optional<double>>::toJSI(runtime, arg.primaryColor));
-      obj.setProperty(runtime, "allowedCamera", JSIConverter<std::optional<bool>>::toJSI(runtime, arg.allowedCamera));
       obj.setProperty(runtime, "allowSwipeToSelect", JSIConverter<std::optional<bool>>::toJSI(runtime, arg.allowSwipeToSelect));
       obj.setProperty(runtime, "spacing", JSIConverter<std::optional<double>>::toJSI(runtime, arg.spacing));
       obj.setProperty(runtime, "isHiddenPreviewButton", JSIConverter<std::optional<bool>>::toJSI(runtime, arg.isHiddenPreviewButton));
@@ -155,6 +157,7 @@ namespace margelo::nitro {
       obj.setProperty(runtime, "language", JSIConverter<Language>::toJSI(runtime, arg.language));
       obj.setProperty(runtime, "theme", JSIConverter<Theme>::toJSI(runtime, arg.theme));
       obj.setProperty(runtime, "presentation", JSIConverter<Presentation>::toJSI(runtime, arg.presentation));
+      obj.setProperty(runtime, "camera", JSIConverter<std::optional<PickerCameraConfig>>::toJSI(runtime, arg.camera));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -169,7 +172,6 @@ namespace margelo::nitro {
       if (!JSIConverter<std::optional<double>>::canConvert(runtime, obj.getProperty(runtime, "numberOfColumn"))) return false;
       if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, "isPreview"))) return false;
       if (!JSIConverter<std::optional<double>>::canConvert(runtime, obj.getProperty(runtime, "primaryColor"))) return false;
-      if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, "allowedCamera"))) return false;
       if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, "allowSwipeToSelect"))) return false;
       if (!JSIConverter<std::optional<double>>::canConvert(runtime, obj.getProperty(runtime, "spacing"))) return false;
       if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, "isHiddenPreviewButton"))) return false;
@@ -188,6 +190,7 @@ namespace margelo::nitro {
       if (!JSIConverter<Language>::canConvert(runtime, obj.getProperty(runtime, "language"))) return false;
       if (!JSIConverter<Theme>::canConvert(runtime, obj.getProperty(runtime, "theme"))) return false;
       if (!JSIConverter<Presentation>::canConvert(runtime, obj.getProperty(runtime, "presentation"))) return false;
+      if (!JSIConverter<std::optional<PickerCameraConfig>>::canConvert(runtime, obj.getProperty(runtime, "camera"))) return false;
       return true;
     }
   };

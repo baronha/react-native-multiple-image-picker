@@ -17,9 +17,3 @@ export interface Result {
   thumbnail?: string
   crop?: boolean
 }
-
-export interface CropResult {
-  path: string
-  width: number
-  height: number
-}

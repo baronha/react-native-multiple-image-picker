@@ -83,13 +83,6 @@ export default function App() {
       const response = await openPicker({
         ...options,
         selectedAssets: images,
-        crop: {
-          ratio: [
-            { title: 'Instagram', width: 1, height: 1 },
-            { title: 'Twitter', width: 16, height: 9 },
-            { title: 'Facebook', width: 12, height: 11 },
-          ],
-        },
       })
 
       setImages(Array.isArray(response) ? response : [response])
@@ -262,13 +255,39 @@ export default function App() {
                 />
               ) : null}
 
-              {/* allowedCamera */}
+              <Text style={style.title}>Camera 📸</Text>
+              <View style={style.section}>
+                <SectionView
+                  title="camera"
+                  description="Enable camera functionality."
+                >
+                  <Switch
+                    value={options.camera !== undefined}
+                    onValueChange={(value) =>
+                      setOptions('camera', value ? {} : undefined)
+                    }
+                  />
+                </SectionView>
 
-              <SectionView
-                title="allowedCamera"
-                description="Enable camera functionality."
-                optionKey="allowedCamera"
-              />
+                {/* camera videoMaximumDuration */}
+                <SectionView
+                  title={'camera.videoMaximumDuration' as any}
+                  description="The maximum duration of video that can be selected."
+                >
+                  <Input
+                    value={
+                      options.camera?.videoMaximumDuration?.toString() ?? ''
+                    }
+                    placeholder="Video Duration"
+                    onChangeText={(value) => {
+                      setOptions('camera', {
+                        ...(options.camera ?? { cameraDevice: 'back' }),
+                        videoMaximumDuration: parseNumber(value),
+                      })
+                    }}
+                  />
+                </SectionView>
+              </View>
 
               {IS_IOS ? (
                 <>

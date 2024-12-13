@@ -18,7 +18,7 @@ public extension NitroConfig {
   /**
    * Create a new instance of `NitroConfig`.
    */
-  init(mediaType: MediaType, selectedAssets: [Result], selectBoxStyle: SelectBoxStyle, selectMode: SelectMode, numberOfColumn: Double?, isPreview: Bool?, primaryColor: Double?, allowedCamera: Bool?, allowSwipeToSelect: Bool?, spacing: Double?, isHiddenPreviewButton: Bool?, isHiddenOriginalButton: Bool?, isShowPreviewList: Bool?, allowHapticTouchPreview: Bool?, allowedLimit: Bool?, maxVideo: Double?, maxSelect: Double?, maxVideoDuration: Double?, minVideoDuration: Double?, maxFileSize: Double?, backgroundDark: Double?, crop: PickerCropConfig?, text: Text?, language: Language, theme: Theme, presentation: Presentation) {
+  init(mediaType: MediaType, selectedAssets: [Result], selectBoxStyle: SelectBoxStyle, selectMode: SelectMode, numberOfColumn: Double?, isPreview: Bool?, primaryColor: Double?, allowSwipeToSelect: Bool?, spacing: Double?, isHiddenPreviewButton: Bool?, isHiddenOriginalButton: Bool?, isShowPreviewList: Bool?, allowHapticTouchPreview: Bool?, allowedLimit: Bool?, maxVideo: Double?, maxSelect: Double?, maxVideoDuration: Double?, minVideoDuration: Double?, maxFileSize: Double?, backgroundDark: Double?, crop: PickerCropConfig?, text: Text?, language: Language, theme: Theme, presentation: Presentation, camera: PickerCameraConfig?) {
     self.init(mediaType, { () -> bridge.std__vector_Result_ in
       var __vector = bridge.create_std__vector_Result_(selectedAssets.count)
       for __item in selectedAssets {
@@ -40,12 +40,6 @@ public extension NitroConfig {
     }(), { () -> bridge.std__optional_double_ in
       if let __unwrappedValue = primaryColor {
         return bridge.create_std__optional_double_(__unwrappedValue)
-      } else {
-        return .init()
-      }
-    }(), { () -> bridge.std__optional_bool_ in
-      if let __unwrappedValue = allowedCamera {
-        return bridge.create_std__optional_bool_(__unwrappedValue)
       } else {
         return .init()
       }
@@ -139,7 +133,13 @@ public extension NitroConfig {
       } else {
         return .init()
       }
-    }(), language, theme, presentation)
+    }(), language, theme, presentation, { () -> bridge.std__optional_PickerCameraConfig_ in
+      if let __unwrappedValue = camera {
+        return bridge.create_std__optional_PickerCameraConfig_(__unwrappedValue)
+      } else {
+        return .init()
+      }
+    }())
   }
 
   var mediaType: MediaType {
@@ -236,23 +236,6 @@ public extension NitroConfig {
       self.__primaryColor = { () -> bridge.std__optional_double_ in
         if let __unwrappedValue = newValue {
           return bridge.create_std__optional_double_(__unwrappedValue)
-        } else {
-          return .init()
-        }
-      }()
-    }
-  }
-  
-  var allowedCamera: Bool? {
-    @inline(__always)
-    get {
-      return self.__allowedCamera.value
-    }
-    @inline(__always)
-    set {
-      self.__allowedCamera = { () -> bridge.std__optional_bool_ in
-        if let __unwrappedValue = newValue {
-          return bridge.create_std__optional_bool_(__unwrappedValue)
         } else {
           return .init()
         }
@@ -557,6 +540,29 @@ public extension NitroConfig {
     @inline(__always)
     set {
       self.__presentation = newValue
+    }
+  }
+  
+  var camera: PickerCameraConfig? {
+    @inline(__always)
+    get {
+      return { () -> PickerCameraConfig? in
+        if let __unwrapped = self.__camera.value {
+          return __unwrapped
+        } else {
+          return nil
+        }
+      }()
+    }
+    @inline(__always)
+    set {
+      self.__camera = { () -> bridge.std__optional_PickerCameraConfig_ in
+        if let __unwrappedValue = newValue {
+          return bridge.create_std__optional_PickerCameraConfig_(__unwrappedValue)
+        } else {
+          return .init()
+        }
+      }()
     }
   }
 }

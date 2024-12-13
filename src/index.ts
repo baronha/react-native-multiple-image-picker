@@ -76,7 +76,7 @@ export async function openCropper(
       config.language = 'system'
     }
 
-    Picker.openCrop(
+    return Picker.openCrop(
       image,
       cropConfig,
       (result: CropResult) => {
@@ -107,7 +107,7 @@ export function openPreview(
     throw new Error('Media is required')
   }
 
-  Picker.openPreview(
+  return Picker.openPreview(
     media as MediaPreview[],
     index,
     config as NitroPreviewConfig
@@ -123,7 +123,6 @@ export const defaultOptions: Config = {
   maxVideo: DEFAULT_COUNT,
   primaryColor: '#FB9300',
   backgroundDark: '#2f2f2f',
-  allowedCamera: true,
   allowedLimit: true,
   numberOfColumn: 3,
   isPreview: true,
@@ -136,6 +135,10 @@ export const defaultOptions: Config = {
   theme: 'system',
   isHiddenOriginalButton: false,
   allowSwipeToSelect: true,
+  camera: {
+    cameraDevice: 'front',
+    videoMaximumDuration: 60,
+  },
 }
 
 const LANGUAGES = [

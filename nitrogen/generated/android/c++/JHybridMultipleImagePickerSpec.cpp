@@ -31,6 +31,10 @@ namespace margelo::nitro::multipleimagepicker { enum class Language; }
 namespace margelo::nitro::multipleimagepicker { enum class Theme; }
 // Forward declaration of `Presentation` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { enum class Presentation; }
+// Forward declaration of `PickerCameraConfig` to properly resolve imports.
+namespace margelo::nitro::multipleimagepicker { struct PickerCameraConfig; }
+// Forward declaration of `CameraDevice` to properly resolve imports.
+namespace margelo::nitro::multipleimagepicker { enum class CameraDevice; }
 // Forward declaration of `NitroCropConfig` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { struct NitroCropConfig; }
 // Forward declaration of `CropResult` to properly resolve imports.
@@ -67,6 +71,10 @@ namespace margelo::nitro::multipleimagepicker { struct NitroPreviewConfig; }
 #include "JTheme.hpp"
 #include "Presentation.hpp"
 #include "JPresentation.hpp"
+#include "PickerCameraConfig.hpp"
+#include "JPickerCameraConfig.hpp"
+#include "CameraDevice.hpp"
+#include "JCameraDevice.hpp"
 #include <functional>
 #include "JFunc_void_std__vector_Result_.hpp"
 #include "JFunc_void_double.hpp"

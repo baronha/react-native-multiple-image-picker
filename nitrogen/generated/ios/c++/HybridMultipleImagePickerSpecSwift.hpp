@@ -36,6 +36,10 @@ namespace margelo::nitro::multipleimagepicker { enum class Language; }
 namespace margelo::nitro::multipleimagepicker { enum class Theme; }
 // Forward declaration of `Presentation` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { enum class Presentation; }
+// Forward declaration of `PickerCameraConfig` to properly resolve imports.
+namespace margelo::nitro::multipleimagepicker { struct PickerCameraConfig; }
+// Forward declaration of `CameraDevice` to properly resolve imports.
+namespace margelo::nitro::multipleimagepicker { enum class CameraDevice; }
 // Forward declaration of `NitroCropConfig` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { struct NitroCropConfig; }
 // Forward declaration of `CropResult` to properly resolve imports.
@@ -60,6 +64,8 @@ namespace margelo::nitro::multipleimagepicker { struct NitroPreviewConfig; }
 #include "Language.hpp"
 #include "Theme.hpp"
 #include "Presentation.hpp"
+#include "PickerCameraConfig.hpp"
+#include "CameraDevice.hpp"
 #include <functional>
 #include "NitroCropConfig.hpp"
 #include "CropResult.hpp"

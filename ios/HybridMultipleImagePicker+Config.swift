@@ -35,8 +35,6 @@ extension HybridMultipleImagePicker {
 
         photoList.allowSwipeToSelect = options.allowSwipeToSelect ?? true
 
-        photoList.allowAddCamera = options.allowedCamera ?? true
-
         photoList.allowAddLimit = options.allowedLimit ?? true
 
         // check media type
@@ -48,6 +46,9 @@ extension HybridMultipleImagePicker {
         default:
             config.selectOptions = [.video, .photo, .gifPhoto, .livePhoto]
         }
+
+        config.indicatorType = .system
+        config.photoList.cell.kf_indicatorColor = .black
 
         if let boxStyle = SelectBoxView.Style(rawValue: Int(options.selectBoxStyle.rawValue)) {
             previewView.selectBox.style = boxStyle
@@ -94,8 +95,6 @@ extension HybridMultipleImagePicker {
 
         config.isSelectedOriginal = false
 
-//        config.isFetchDeatilsAsset = true
-
         let isPreview = options.isPreview ?? true
 
         previewView.bottomView.isShowPreviewList = isPreview
@@ -115,15 +114,34 @@ extension HybridMultipleImagePicker {
         config.editorOptions = [.photo, .gifPhoto, .livePhoto]
 
         if let crop = options.crop {
-            let editor = setCropConfig(crop)
-
-            config.editor = editor
-
+            config.editor = setCropConfig(crop)
         } else {
             previewView.bottomView.isHiddenEditButton = true
         }
 
         photoList.finishSelectionAfterTakingPhoto = true
+
+        if let cameraOption = options.camera {
+            photoList.allowAddCamera = true
+
+            var cameraConfig = SystemCameraConfiguration()
+
+            cameraConfig.editExportPreset = .highQuality
+            cameraConfig.videoQuality = .typeHigh
+
+            switch Int(cameraOption.cameraDevice.rawValue) {
+            case 0:
+                cameraConfig.cameraDevice = .front
+            default:
+                cameraConfig.cameraDevice = .rear
+            }
+
+            cameraConfig.videoMaximumDuration = cameraOption.videoMaximumDuration ?? 60
+
+            photoList.cameraType = .system(cameraConfig)
+        } else {
+            photoList.allowAddCamera = false
+        }
 
         config.photoList = photoList
         config.previewView = previewView

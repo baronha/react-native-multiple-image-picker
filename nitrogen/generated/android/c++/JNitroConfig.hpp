@@ -10,10 +10,13 @@
 #include <fbjni/fbjni.h>
 #include "NitroConfig.hpp"
 
+#include "CameraDevice.hpp"
 #include "CropRatio.hpp"
+#include "JCameraDevice.hpp"
 #include "JCropRatio.hpp"
 #include "JLanguage.hpp"
 #include "JMediaType.hpp"
+#include "JPickerCameraConfig.hpp"
 #include "JPickerCropConfig.hpp"
 #include "JPresentation.hpp"
 #include "JResult.hpp"
@@ -24,6 +27,7 @@
 #include "JTheme.hpp"
 #include "Language.hpp"
 #include "MediaType.hpp"
+#include "PickerCameraConfig.hpp"
 #include "PickerCropConfig.hpp"
 #include "Presentation.hpp"
 #include "Result.hpp"
@@ -68,8 +72,6 @@ namespace margelo::nitro::multipleimagepicker {
       jni::local_ref<jni::JBoolean> isPreview = this->getFieldValue(fieldIsPreview);
       static const auto fieldPrimaryColor = clazz->getField<jni::JDouble>("primaryColor");
       jni::local_ref<jni::JDouble> primaryColor = this->getFieldValue(fieldPrimaryColor);
-      static const auto fieldAllowedCamera = clazz->getField<jni::JBoolean>("allowedCamera");
-      jni::local_ref<jni::JBoolean> allowedCamera = this->getFieldValue(fieldAllowedCamera);
       static const auto fieldAllowSwipeToSelect = clazz->getField<jni::JBoolean>("allowSwipeToSelect");
       jni::local_ref<jni::JBoolean> allowSwipeToSelect = this->getFieldValue(fieldAllowSwipeToSelect);
       static const auto fieldSpacing = clazz->getField<jni::JDouble>("spacing");
@@ -106,6 +108,8 @@ namespace margelo::nitro::multipleimagepicker {
       jni::local_ref<JTheme> theme = this->getFieldValue(fieldTheme);
       static const auto fieldPresentation = clazz->getField<JPresentation>("presentation");
       jni::local_ref<JPresentation> presentation = this->getFieldValue(fieldPresentation);
+      static const auto fieldCamera = clazz->getField<JPickerCameraConfig>("camera");
+      jni::local_ref<JPickerCameraConfig> camera = this->getFieldValue(fieldCamera);
       return NitroConfig(
         mediaType->toCpp(),
         [&]() {
@@ -123,7 +127,6 @@ namespace margelo::nitro::multipleimagepicker {
         numberOfColumn != nullptr ? std::make_optional(numberOfColumn->value()) : std::nullopt,
         isPreview != nullptr ? std::make_optional(static_cast<bool>(isPreview->value())) : std::nullopt,
         primaryColor != nullptr ? std::make_optional(primaryColor->value()) : std::nullopt,
-        allowedCamera != nullptr ? std::make_optional(static_cast<bool>(allowedCamera->value())) : std::nullopt,
         allowSwipeToSelect != nullptr ? std::make_optional(static_cast<bool>(allowSwipeToSelect->value())) : std::nullopt,
         spacing != nullptr ? std::make_optional(spacing->value()) : std::nullopt,
         isHiddenPreviewButton != nullptr ? std::make_optional(static_cast<bool>(isHiddenPreviewButton->value())) : std::nullopt,
@@ -141,7 +144,8 @@ namespace margelo::nitro::multipleimagepicker {
         text != nullptr ? std::make_optional(text->toCpp()) : std::nullopt,
         language->toCpp(),
         theme->toCpp(),
-        presentation->toCpp()
+        presentation->toCpp(),
+        camera != nullptr ? std::make_optional(camera->toCpp()) : std::nullopt
       );
     }
 
@@ -167,7 +171,6 @@ namespace margelo::nitro::multipleimagepicker {
         value.numberOfColumn.has_value() ? jni::JDouble::valueOf(value.numberOfColumn.value()) : nullptr,
         value.isPreview.has_value() ? jni::JBoolean::valueOf(value.isPreview.value()) : nullptr,
         value.primaryColor.has_value() ? jni::JDouble::valueOf(value.primaryColor.value()) : nullptr,
-        value.allowedCamera.has_value() ? jni::JBoolean::valueOf(value.allowedCamera.value()) : nullptr,
         value.allowSwipeToSelect.has_value() ? jni::JBoolean::valueOf(value.allowSwipeToSelect.value()) : nullptr,
         value.spacing.has_value() ? jni::JDouble::valueOf(value.spacing.value()) : nullptr,
         value.isHiddenPreviewButton.has_value() ? jni::JBoolean::valueOf(value.isHiddenPreviewButton.value()) : nullptr,
@@ -185,7 +188,8 @@ namespace margelo::nitro::multipleimagepicker {
         value.text.has_value() ? JText::fromCpp(value.text.value()) : nullptr,
         JLanguage::fromCpp(value.language),
         JTheme::fromCpp(value.theme),
-        JPresentation::fromCpp(value.presentation)
+        JPresentation::fromCpp(value.presentation),
+        value.camera.has_value() ? JPickerCameraConfig::fromCpp(value.camera.value()) : nullptr
       );
     }
   };

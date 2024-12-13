@@ -24,7 +24,6 @@ data class NitroConfig(
   val numberOfColumn: Double?,
   val isPreview: Boolean?,
   val primaryColor: Double?,
-  val allowedCamera: Boolean?,
   val allowSwipeToSelect: Boolean?,
   val spacing: Double?,
   val isHiddenPreviewButton: Boolean?,
@@ -42,5 +41,6 @@ data class NitroConfig(
   val text: Text?,
   val language: Language,
   val theme: Theme,
-  val presentation: Presentation
+  val presentation: Presentation,
+  val camera: PickerCameraConfig?
 )

@@ -96,6 +96,7 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
             .setImageEngine(imageEngine)
             .setSelectedData(dataList)
             .setSelectorUIStyle(style)
+
             .apply {
                 if (isCrop) {
                     setCropOption(config.crop)
@@ -114,6 +115,13 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
                 maxFileSize?.let {
                     setFilterMaxFileSize(it)
                 }
+
+
+                isDisplayCamera(config.camera != null)
+
+                config.camera?.let {
+                    setCameraInterceptListener(CameraEngine(appContext, it))
+                }
             }
             .setImageSpanCount(config.numberOfColumn?.toInt() ?: 3)
             .setMaxSelectNum(maxSelect)
@@ -129,8 +137,6 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
             // isPreview
             .isPreviewImage(isPreview)
             .isPreviewVideo(isPreview)
-            //
-            .isDisplayCamera(config.allowedCamera ?: true)
             .isDisplayTimeAxis(true)
             .setSelectionMode(selectMode)
             .isOriginalControl(config.isHiddenOriginalButton == false)

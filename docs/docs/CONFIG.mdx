@@ -27,15 +27,6 @@ See [**Result**](/result)
 - **Default**: `[]`
 - **Required**: No
 
-### `allowedCamera`
-
-Enable camera functionality.
-
-- **Type**: boolean
-- **Default**: `true`
-- **Required**: No
-- **Platform**: iOS, Android
-
 ### `allowedLimit`
 
 Display additional select more media when permission on `iOS` is limited.
@@ -78,6 +69,36 @@ Maximum number of videos allowed.
 
 - **Type**: number
 - **Default**: `20`
+- **Required**: No
+- **Platform**: iOS, Android
+
+## Camera 📸
+
+Configuration camera functionality.
+
+- **Type**: object
+- **Default**: `{}`
+- **Required**: No
+- **Platform**: iOS, Android
+
+### `cameraDevice`
+
+Camera device to be used.
+
+- **Type**: `string`
+- **Default**: `back`
+- **Required**: No
+- **Platform**: iOS
+- **Options**:
+  - `back`: Back camera
+  - `front`: Front camera
+
+### `videoMaximumDuration`
+
+Maximum video duration in seconds.
+
+- **Type**: number
+- **Default**: 60
 - **Required**: No
 - **Platform**: iOS, Android
 

@@ -8,6 +8,8 @@
 #pragma once
 
 // Forward declarations of C++ defined types
+// Forward declaration of `CameraDevice` to properly resolve imports.
+namespace margelo::nitro::multipleimagepicker { enum class CameraDevice; }
 // Forward declaration of `CropRatio` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { struct CropRatio; }
 // Forward declaration of `CropResult` to properly resolve imports.
@@ -16,6 +18,8 @@ namespace margelo::nitro::multipleimagepicker { struct CropResult; }
 namespace margelo::nitro::multipleimagepicker { class HybridMultipleImagePickerSpec; }
 // Forward declaration of `MediaPreview` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { struct MediaPreview; }
+// Forward declaration of `PickerCameraConfig` to properly resolve imports.
+namespace margelo::nitro::multipleimagepicker { struct PickerCameraConfig; }
 // Forward declaration of `PickerCropConfig` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { struct PickerCropConfig; }
 // Forward declaration of `ResultType` to properly resolve imports.
@@ -30,10 +34,12 @@ namespace margelo::nitro::multipleimagepicker { struct Text; }
 namespace MultipleImagePicker { class HybridMultipleImagePickerSpecCxx; }
 
 // Include C++ defined types
+#include "CameraDevice.hpp"
 #include "CropRatio.hpp"
 #include "CropResult.hpp"
 #include "HybridMultipleImagePickerSpec.hpp"
 #include "MediaPreview.hpp"
+#include "PickerCameraConfig.hpp"
 #include "PickerCropConfig.hpp"
 #include "Result.hpp"
 #include "ResultType.hpp"
@@ -124,6 +130,15 @@ namespace margelo::nitro::multipleimagepicker::bridge::swift {
   using std__optional_Text_ = std::optional<Text>;
   inline std::optional<Text> create_std__optional_Text_(const Text& value) {
     return std::optional<Text>(value);
+  }
+  
+  // pragma MARK: std::optional<PickerCameraConfig>
+  /**
+   * Specialized version of `std::optional<PickerCameraConfig>`.
+   */
+  using std__optional_PickerCameraConfig_ = std::optional<PickerCameraConfig>;
+  inline std::optional<PickerCameraConfig> create_std__optional_PickerCameraConfig_(const PickerCameraConfig& value) {
+    return std::optional<PickerCameraConfig>(value);
   }
   
   // pragma MARK: std::function<void(const std::vector<Result>& /* result */)>
