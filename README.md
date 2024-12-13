@@ -111,13 +111,6 @@ Thanks go to these wonderful people:
 	<tbody>
 		<tr>
             <td align="center">
-                <a href="https://github.com/cd-butterfly">
-                    <img src="https://avatars.githubusercontent.com/u/6622823?v=4" width="100;" alt="cd-butterfly"/>
-                    <br />
-                    <sub><b>cd-butterfly</b></sub>
-                </a>
-            </td>
-            <td align="center">
                 <a href="https://github.com/baronha">
                     <img src="https://avatars.githubusercontent.com/u/23580920?v=4" width="100;" alt="baronha"/>
                     <br />
@@ -150,6 +143,13 @@ Thanks go to these wonderful people:
                     <img src="https://avatars.githubusercontent.com/u/8768794?v=4" width="100;" alt="denisbevilacqua"/>
                     <br />
                     <sub><b>Denis Bevilacqua</b></sub>
+                </a>
+            </td>
+            <td align="center">
+                <a href="https://github.com/cd-butterfly">
+                    <img src="https://avatars.githubusercontent.com/u/6622823?v=4" width="100;" alt="cd-butterfly"/>
+                    <br />
+                    <sub><b>cd-butterfly</b></sub>
                 </a>
             </td>
 		</tr>
