@@ -22,6 +22,7 @@ import {
   Config,
   openCropper,
   openPreview,
+  openCamera,
 } from '@baronha/react-native-multiple-image-picker'
 import { useImmer } from 'use-immer'
 import { StatusBar } from 'expo-status-bar'
@@ -86,6 +87,18 @@ export default function App() {
       })
 
       setImages(Array.isArray(response) ? response : [response])
+      layoutEffect()
+    } catch (e) {
+      console.log('e: ', e)
+    }
+  }
+
+  const onCamera = async () => {
+    try {
+      const response = await openCamera()
+
+      console.log('response: ', response)
+
       layoutEffect()
     } catch (e) {
       console.log('e: ', e)
@@ -550,9 +563,14 @@ export default function App() {
       </KeyboardAvoidingView>
 
       <View level={2}>
-        <Button style={style.buttonOpen} onPress={onPicker}>
-          Open Picker
-        </Button>
+        <Row style={style.bottom} level={2} gap={12}>
+          <Button type="outline" onPress={onCamera}>
+            Open Camera
+          </Button>
+          <Button style={style.openPicker} onPress={onPicker}>
+            Open Picker
+          </Button>
+        </Row>
         <SafeAreaView />
       </View>
     </Container>
@@ -642,5 +660,12 @@ const style = StyleSheet.create({
     paddingVertical: 8,
     borderRadius: 6,
     borderWidth: 1,
+  },
+  bottom: {
+    padding: 16,
+    paddingHorizontal: 24,
+  },
+  openPicker: {
+    flex: 1,
   },
 })

@@ -66,6 +66,17 @@ abstract class HybridMultipleImagePickerSpec: HybridObject() {
   @DoNotStrip
   @Keep
   abstract fun openPreview(media: Array<MediaPreview>, index: Double, config: NitroPreviewConfig): Unit
+  
+  @DoNotStrip
+  @Keep
+  abstract fun openCamera(config: NitroCameraConfig, resolved: (result: CameraResult) -> Unit, rejected: (reject: Double) -> Unit): Unit
+  
+  @DoNotStrip
+  @Keep
+  private fun openCamera(config: NitroCameraConfig, resolved: Func_void_CameraResult, rejected: Func_void_double): Unit {
+    val __result = openCamera(config, resolved.toLambda(), rejected.toLambda())
+    return __result
+  }
 
   private external fun initHybrid(): HybridData
 

@@ -8,7 +8,55 @@
 import HXPhotoPicker
 
 extension HybridMultipleImagePicker {
-//    func setCameraConfig(config: Camera) {
-//        //
-//    }
+    func openCamera(config: NitroCameraConfig, resolved: @escaping ((CameraResult) -> Void), rejected: @escaping ((Double) -> Void)) throws {
+        var cameraConfig = CameraConfiguration()
+
+        cameraConfig.videoMaximumDuration = config.videoMaximumDuration ?? 60
+
+        cameraConfig.modalPresentationStyle = self.setPresentation(config.presentation)
+
+        cameraConfig.editor.modalPresentationStyle = .fullScreen
+
+        if let crop = config.crop {
+            let editor = PickerCropConfig(circle: crop.circle, ratio: crop.ratio, defaultRatio: crop.defaultRatio, freeStyle: crop.freeStyle)
+            cameraConfig.editor = setCropConfig(editor)
+        } else {
+            cameraConfig.allowsEditing = false
+        }
+
+        cameraConfig.languageType = setLocale(language: config.language)
+        cameraConfig.isSaveSystemAlbum = config.isSaveSystemAlbum ?? false
+        cameraConfig.allowLocation = config.allowLocation ?? true
+
+        switch Int(config.cameraDevice.rawValue) {
+        case 0:
+            cameraConfig.position = .front
+        default:
+            cameraConfig.position = .back
+        }
+
+        DispatchQueue.main.async {
+            Photo.capture(cameraConfig) { result, _, _ in
+                print("result: ", result)
+            }
+        }
+    }
+
+    func setCameraConfig(_ options: PickerCameraConfig) -> SystemCameraConfiguration {
+        var config = SystemCameraConfiguration()
+
+        config.editExportPreset = .highQuality
+        config.videoQuality = .typeHigh
+
+        switch Int(options.cameraDevice.rawValue) {
+        case 0:
+            config.cameraDevice = .front
+        default:
+            config.cameraDevice = .rear
+        }
+
+        config.videoMaximumDuration = options.videoMaximumDuration ?? 60
+
+        return config
+    }
 }

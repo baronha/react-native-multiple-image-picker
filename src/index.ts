@@ -18,6 +18,9 @@ import {
   PreviewConfig,
   NitroPreviewConfig,
   MediaPreview,
+  CameraConfig,
+  NitroCameraConfig,
+  CameraResult,
 } from './types'
 import { CropError } from './types/error'
 
@@ -112,6 +115,38 @@ export function openPreview(
     index,
     config as NitroPreviewConfig
   )
+}
+
+export async function openCamera(config?: CameraConfig): Promise<CameraResult> {
+  return new Promise((resolved, rejected) => {
+    const cameraConfig = {
+      cameraDevice: 'back',
+      presentation: 'fullScreenModal',
+      language: 'system',
+      mediaType: 'all',
+      allowLocation: true,
+      isSaveSystemAlbum: false,
+      crop: {},
+      ...config,
+    } as NitroCameraConfig
+
+    if (config?.language && !LANGUAGES.includes(config.language)) {
+      config.language = 'system'
+    }
+
+    if (cameraConfig.crop)
+      cameraConfig.crop.ratio = cameraConfig.crop?.ratio ?? []
+
+    return Picker.openCamera(
+      cameraConfig,
+      (result: CameraResult) => {
+        resolved(result)
+      },
+      (error: number) => {
+        rejected(error)
+      }
+    )
+  })
 }
 
 const DEFAULT_COUNT = 20

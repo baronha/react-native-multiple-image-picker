@@ -73,11 +73,7 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
         setStyle() // set style for UI
         handleSelectedAssets(config)
 
-        val chooseMode = when (config.mediaType) {
-            MediaType.VIDEO -> SelectMimeType.ofVideo()
-            MediaType.IMAGE -> SelectMimeType.ofImage()
-            else -> SelectMimeType.ofAll()
-        }
+        val chooseMode = getChooseMode(config.mediaType)
 
         val maxSelect = config.maxSelect?.toInt() ?: 20
         val maxVideo = config.maxVideo?.toInt() ?: 20
@@ -310,6 +306,45 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
 
     private fun getCustomLoadingListener(): OnCustomLoadingListener {
         return OnCustomLoadingListener { context -> LoadingDialog(context) }
+    }
+
+    @ReactMethod
+    fun openCamera(
+        config: NitroCameraConfig,
+        resolved: (result: CameraResult) -> Unit,
+        rejected: (reject: Double) -> Unit
+    ) {
+        val chooseMode = getChooseMode(config.mediaType)
+        val cameraConfig = PickerCameraConfig(
+            cameraDevice = config.cameraDevice,
+            videoMaximumDuration = config.videoMaximumDuration
+        )
+
+        PictureSelector
+            .create(currentActivity)
+            .openCamera(chooseMode)
+//            .setLanguage(getLanguage(config.language))
+            .isQuickCapture(true)
+            .setCameraInterceptListener(CameraEngine(appContext, cameraConfig))
+            .forResult(object : OnResultCallbackListener<LocalMedia?> {
+                override fun onResult(result: java.util.ArrayList<LocalMedia?>?) {
+                    println("camera: $result")
+                }
+
+                override fun onCancel() {
+                    TODO("Not yet implemented")
+                }
+
+            })
+
+    }
+
+    private fun getChooseMode(mediaType: MediaType): Int {
+        return when (mediaType) {
+            MediaType.VIDEO -> SelectMimeType.ofVideo()
+            MediaType.IMAGE -> SelectMimeType.ofImage()
+            else -> SelectMimeType.ofAll()
+        }
     }
 
 
