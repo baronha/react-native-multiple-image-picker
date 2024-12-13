@@ -1,7 +1,7 @@
 {
   "name": "@baronha/react-native-multiple-image-picker",
   "version": "2.0.1",
-  "description": "� react-native-multiple-image-picker enables applications to pick images and videos from multiple smart albums in iOS/Android, similar to the current Facebook app.�",
+  "description": "� react-native-multiple-image-picker enables applications to pick images and videos from multiple smart albums in iOS/Android �",
   "main": "lib/index",
   "module": "lib/index",
   "types": "lib/index.d.ts",
@@ -21,6 +21,7 @@
     "ios/**/*.mm",
     "ios/**/*.cpp",
     "ios/**/*.swift",
+    "ios/**/*.xcassets",
     "app.plugin.js",
     "*.podspec",
     "README.md"
