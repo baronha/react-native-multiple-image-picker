@@ -21,7 +21,7 @@
     "ios/**/*.mm",
     "ios/**/*.cpp",
     "ios/**/*.swift",
-    "ios/**/*.xcassets",
+    "ios/Assets.xcassets",
     "app.plugin.js",
     "*.podspec",
     "README.md"
