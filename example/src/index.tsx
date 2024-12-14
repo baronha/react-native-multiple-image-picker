@@ -95,7 +95,9 @@ export default function App() {
 
   const onCamera = async () => {
     try {
-      const response = await openCamera()
+      const response = await openCamera({
+        crop: false,
+      })
 
       console.log('response: ', response)
 

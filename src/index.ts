@@ -14,13 +14,13 @@ import {
   CropResult,
   CropConfig,
   NitroCropConfig,
-  CropRatio,
   PreviewConfig,
   NitroPreviewConfig,
   MediaPreview,
   CameraConfig,
   NitroCameraConfig,
   CameraResult,
+  Language,
 } from './types'
 import { CropError } from './types/error'
 
@@ -45,11 +45,13 @@ export async function openPicker<T extends Config>(
       config.theme = theme
     }
 
-    if (config?.language && !LANGUAGES.includes(config.language)) {
-      config.language = 'system'
+    config.language = validateLanguage(config.language)
+
+    if (typeof config.crop === 'boolean') {
+      config.crop = config.crop ? { ratio: [] } : undefined
     }
 
-    if (config.crop) config.crop.ratio = config.crop.ratio ?? []
+    if (config.crop) config.crop.ratio = config.crop?.ratio ?? []
 
     return Picker.openPicker(
       config,
@@ -75,9 +77,7 @@ export async function openCropper(
       ...config,
     } as NitroCropConfig
 
-    if (config?.language && !LANGUAGES.includes(config.language)) {
-      config.language = 'system'
-    }
+    cropConfig.language = validateLanguage(cropConfig.language)
 
     return Picker.openCrop(
       image,
@@ -126,16 +126,18 @@ export async function openCamera(config?: CameraConfig): Promise<CameraResult> {
       mediaType: 'all',
       allowLocation: true,
       isSaveSystemAlbum: false,
-      crop: {},
+      color: processColor(config?.color ?? primaryColor) as any,
       ...config,
     } as NitroCameraConfig
 
-    if (config?.language && !LANGUAGES.includes(config.language)) {
-      config.language = 'system'
+    cameraConfig.language = validateLanguage(cameraConfig.language)
+
+    if (typeof cameraConfig.crop === 'boolean') {
+      cameraConfig.crop = cameraConfig.crop ? { ratio: [] } : undefined
     }
 
-    if (cameraConfig.crop)
-      cameraConfig.crop.ratio = cameraConfig.crop?.ratio ?? []
+    if (cameraConfig.crop && !cameraConfig.crop?.ratio)
+      cameraConfig.crop.ratio = []
 
     return Picker.openCamera(
       cameraConfig,
@@ -151,12 +153,37 @@ export async function openCamera(config?: CameraConfig): Promise<CameraResult> {
 
 const DEFAULT_COUNT = 20
 
-export const DEFAULT_RATIO: CropRatio[] = []
+// Xử lý language với type checking
+const validateLanguage = (language?: Language): Language => {
+  if (!language || !LANGUAGES.includes(language)) {
+    return 'system'
+  }
+  return language
+}
+
+const processCropConfig = (
+  crop?: boolean | CropConfig
+): CropConfig | undefined => {
+  if (typeof crop === 'boolean') {
+    return crop ? { ratio: [] } : undefined
+  }
+
+  if (crop && typeof crop === 'object') {
+    return {
+      ...crop,
+      ratio: crop.ratio || [], // Changed from ?? to || to ensure array
+    }
+  }
+
+  return undefined
+}
+
+const primaryColor = '#FB9300'
 
 export const defaultOptions: Config = {
   maxSelect: DEFAULT_COUNT,
   maxVideo: DEFAULT_COUNT,
-  primaryColor: '#FB9300',
+  primaryColor,
   backgroundDark: '#2f2f2f',
   allowedLimit: true,
   numberOfColumn: 3,

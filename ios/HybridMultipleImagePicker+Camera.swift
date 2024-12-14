@@ -27,6 +27,12 @@ extension HybridMultipleImagePicker {
         cameraConfig.languageType = setLocale(language: config.language)
         cameraConfig.isSaveSystemAlbum = config.isSaveSystemAlbum ?? false
         cameraConfig.allowLocation = config.allowLocation ?? true
+        cameraConfig.sessionPreset = .hd1920x1080
+        cameraConfig.aspectRatio = .fullScreen
+
+        if let color = config.color, let focusColor = getReactColor(Int(color)) {
+            cameraConfig.focusColor = focusColor
+        }
 
         switch Int(config.cameraDevice.rawValue) {
         case 0:

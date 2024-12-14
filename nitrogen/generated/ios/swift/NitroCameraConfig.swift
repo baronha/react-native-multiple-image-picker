@@ -18,7 +18,7 @@ public extension NitroCameraConfig {
   /**
    * Create a new instance of `NitroCameraConfig`.
    */
-  init(mediaType: MediaType, presentation: Presentation, language: Language, crop: PickerCropConfig?, isSaveSystemAlbum: Bool?, allowLocation: Bool?, cameraDevice: CameraDevice, videoMaximumDuration: Double?) {
+  init(mediaType: MediaType, presentation: Presentation, language: Language, crop: PickerCropConfig?, isSaveSystemAlbum: Bool?, allowLocation: Bool?, color: Double?, cameraDevice: CameraDevice, videoMaximumDuration: Double?) {
     self.init(mediaType, presentation, language, { () -> bridge.std__optional_PickerCropConfig_ in
       if let __unwrappedValue = crop {
         return bridge.create_std__optional_PickerCropConfig_(__unwrappedValue)
@@ -34,6 +34,12 @@ public extension NitroCameraConfig {
     }(), { () -> bridge.std__optional_bool_ in
       if let __unwrappedValue = allowLocation {
         return bridge.create_std__optional_bool_(__unwrappedValue)
+      } else {
+        return .init()
+      }
+    }(), { () -> bridge.std__optional_double_ in
+      if let __unwrappedValue = color {
+        return bridge.create_std__optional_double_(__unwrappedValue)
       } else {
         return .init()
       }
@@ -129,6 +135,23 @@ public extension NitroCameraConfig {
       self.__allowLocation = { () -> bridge.std__optional_bool_ in
         if let __unwrappedValue = newValue {
           return bridge.create_std__optional_bool_(__unwrappedValue)
+        } else {
+          return .init()
+        }
+      }()
+    }
+  }
+  
+  var color: Double? {
+    @inline(__always)
+    get {
+      return self.__color.value
+    }
+    @inline(__always)
+    set {
+      self.__color = { () -> bridge.std__optional_double_ in
+        if let __unwrappedValue = newValue {
+          return bridge.create_std__optional_double_(__unwrappedValue)
         } else {
           return .init()
         }

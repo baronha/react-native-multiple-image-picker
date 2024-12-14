@@ -56,6 +56,8 @@ namespace margelo::nitro::multipleimagepicker {
       jni::local_ref<jni::JBoolean> isSaveSystemAlbum = this->getFieldValue(fieldIsSaveSystemAlbum);
       static const auto fieldAllowLocation = clazz->getField<jni::JBoolean>("allowLocation");
       jni::local_ref<jni::JBoolean> allowLocation = this->getFieldValue(fieldAllowLocation);
+      static const auto fieldColor = clazz->getField<jni::JDouble>("color");
+      jni::local_ref<jni::JDouble> color = this->getFieldValue(fieldColor);
       static const auto fieldCameraDevice = clazz->getField<JCameraDevice>("cameraDevice");
       jni::local_ref<JCameraDevice> cameraDevice = this->getFieldValue(fieldCameraDevice);
       static const auto fieldVideoMaximumDuration = clazz->getField<jni::JDouble>("videoMaximumDuration");
@@ -67,6 +69,7 @@ namespace margelo::nitro::multipleimagepicker {
         crop != nullptr ? std::make_optional(crop->toCpp()) : std::nullopt,
         isSaveSystemAlbum != nullptr ? std::make_optional(static_cast<bool>(isSaveSystemAlbum->value())) : std::nullopt,
         allowLocation != nullptr ? std::make_optional(static_cast<bool>(allowLocation->value())) : std::nullopt,
+        color != nullptr ? std::make_optional(color->value()) : std::nullopt,
         cameraDevice->toCpp(),
         videoMaximumDuration != nullptr ? std::make_optional(videoMaximumDuration->value()) : std::nullopt
       );
@@ -85,6 +88,7 @@ namespace margelo::nitro::multipleimagepicker {
         value.crop.has_value() ? JPickerCropConfig::fromCpp(value.crop.value()) : nullptr,
         value.isSaveSystemAlbum.has_value() ? jni::JBoolean::valueOf(value.isSaveSystemAlbum.value()) : nullptr,
         value.allowLocation.has_value() ? jni::JBoolean::valueOf(value.allowLocation.value()) : nullptr,
+        value.color.has_value() ? jni::JDouble::valueOf(value.color.value()) : nullptr,
         JCameraDevice::fromCpp(value.cameraDevice),
         value.videoMaximumDuration.has_value() ? jni::JDouble::valueOf(value.videoMaximumDuration.value()) : nullptr
       );

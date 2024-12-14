@@ -1,3 +1,4 @@
+import { ColorValue } from 'react-native'
 import { CropRatio, Language, MediaType, Presentation } from './config'
 import { PickerCropConfig } from './crop'
 
@@ -37,12 +38,19 @@ export interface NitroCameraConfig extends PickerCameraConfig {
    * @type {boolean}
    */
   allowLocation?: boolean
+
+  color?: number
 }
 
 export interface CameraConfig
   extends Omit<
     NitroCameraConfig,
-    'cameraDevice' | 'mediaType' | 'language' | 'presentation' | 'crop'
+    | 'cameraDevice'
+    | 'mediaType'
+    | 'language'
+    | 'presentation'
+    | 'crop'
+    | 'color'
   > {
   /**
    * Type of camera
@@ -90,34 +98,55 @@ export interface CameraConfig
    */
   language?: Language
 
-  crop?: Omit<PickerCropConfig, 'ratio'> & {
-    /**
-     * Array of aspect ratios for image cropping. The ratios will be inserted after the default ratios (Original and Square).
-     * Android: Maximum: 4 items
-     *
-     * @platform ios, Android
-     *
-     * @property {Array<CropRatio>} ratio - Array of custom aspect ratios
-     * @property {string} [ratio[].title] - Optional display title for the ratio (e.g., "16:9"). If not provided, will use "width/height"
-     * @property {number} ratio[].width - Width value for aspect ratio
-     * @property {number} ratio[].height - Height value for aspect ratio
-     *
-     * @example
-     * ```ts
-     * ratio: [
-     *   { title: "Instagram", width: 1, height: 1 },
-     *   { title: "Twitter", width: 16, height: 9 },
-     *   { width: 12, height: 11 }
-     * ]
-     * ```
-     */
-    ratio?: CropRatio[]
+  crop?:
+    | boolean
+    | (Omit<PickerCropConfig, 'ratio'> & {
+        /**
+         * Array of aspect ratios for image cropping. The ratios will be inserted after the default ratios (Original and Square).
+         * Android: Maximum: 4 items
+         *
+         * @platform ios, Android
+         *
+         * @property {Array<CropRatio>} ratio - Array of custom aspect ratios
+         * @property {string} [ratio[].title] - Optional display title for the ratio (e.g., "16:9"). If not provided, will use "width/height"
+         * @property {number} ratio[].width - Width value for aspect ratio
+         * @property {number} ratio[].height - Height value for aspect ratio
+         *
+         * @example
+         * ```ts
+         * ratio: [
+         *   { title: "Instagram", width: 1, height: 1 },
+         *   { title: "Twitter", width: 16, height: 9 },
+         *   { width: 12, height: 11 }
+         * ]
+         * ```
+         */
+        ratio?: CropRatio[]
 
-    /**
-     * Camera configuration
-     * @type {CameraConfig}
-     */
-  }
+        /**
+         * Camera configuration
+         * @type {CameraConfig}
+         */
+      })
+
+  /**
+   * Primary color for the picker UI elements.
+   * Accepts various color formats:
+   * - Hex strings: '#RGB', '#RGBA', '#RRGGBB', '#RRGGBBAA'
+   * - RGB/RGBA strings: 'rgb(255, 0, 0)', 'rgba(255, 0, 0, 0.5)'
+   * - Named colors: 'red', 'blue', etc.
+   * - Numbers for RGB values
+   *
+   * @platform ios, android
+   * @type {ColorValue}
+   * @example
+   * ```ts
+   * primaryColor: '#FF0000'
+   * primaryColor: 'rgb(255, 0, 0)'
+   * primaryColor: 'red'
+   * ```
+   */
+  color?: ColorValue
 }
 
 export interface CameraResult {
