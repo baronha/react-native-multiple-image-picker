@@ -162,6 +162,13 @@ Thanks go to these wonderful people:
                 </a>
             </td>
             <td align="center">
+                <a href="https://github.com/jeongshin">
+                    <img src="https://avatars.githubusercontent.com/u/64301935?v=4" width="100;" alt="jeongshin"/>
+                    <br />
+                    <sub><b>Huckleberry</b></sub>
+                </a>
+            </td>
+            <td align="center">
                 <a href="https://github.com/shafiqjefri">
                     <img src="https://avatars.githubusercontent.com/u/126740667?v=4" width="100;" alt="shafiqjefri"/>
                     <br />
@@ -189,6 +196,8 @@ Thanks go to these wonderful people:
                     <sub><b>Yogesh Mane</b></sub>
                 </a>
             </td>
+		</tr>
+		<tr>
             <td align="center">
                 <a href="https://github.com/ouabing">
                     <img src="https://avatars.githubusercontent.com/u/1430376?v=4" width="100;" alt="ouabing"/>
@@ -196,8 +205,6 @@ Thanks go to these wonderful people:
                     <sub><b>abing</b></sub>
                 </a>
             </td>
-		</tr>
-		<tr>
             <td align="center">
                 <a href="https://github.com/hieuphan1030">
                     <img src="https://avatars.githubusercontent.com/u/108206954?v=4" width="100;" alt="hieuphan1030"/>
