@@ -31,6 +31,7 @@ Pod::Spec.new do |s|
   s.dependency "HXPhotoPicker/Editor", "4.2.4"
   s.dependency "HXPhotoPicker/Camera/Lite", "4.2.4"
 
+
   s.pod_target_xcconfig = {
     # C++ compiler flags, mainly for folly.
     "CLANG_CXX_LANGUAGE_STANDARD" => "c++20",
