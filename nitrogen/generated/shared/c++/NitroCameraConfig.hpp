@@ -48,13 +48,12 @@ namespace margelo::nitro::multipleimagepicker {
     Language language     SWIFT_PRIVATE;
     std::optional<PickerCropConfig> crop     SWIFT_PRIVATE;
     std::optional<bool> isSaveSystemAlbum     SWIFT_PRIVATE;
-    std::optional<bool> allowLocation     SWIFT_PRIVATE;
     std::optional<double> color     SWIFT_PRIVATE;
     std::optional<CameraDevice> cameraDevice     SWIFT_PRIVATE;
     std::optional<double> videoMaximumDuration     SWIFT_PRIVATE;
 
   public:
-    explicit NitroCameraConfig(MediaType mediaType, Presentation presentation, Language language, std::optional<PickerCropConfig> crop, std::optional<bool> isSaveSystemAlbum, std::optional<bool> allowLocation, std::optional<double> color, std::optional<CameraDevice> cameraDevice, std::optional<double> videoMaximumDuration): mediaType(mediaType), presentation(presentation), language(language), crop(crop), isSaveSystemAlbum(isSaveSystemAlbum), allowLocation(allowLocation), color(color), cameraDevice(cameraDevice), videoMaximumDuration(videoMaximumDuration) {}
+    explicit NitroCameraConfig(MediaType mediaType, Presentation presentation, Language language, std::optional<PickerCropConfig> crop, std::optional<bool> isSaveSystemAlbum, std::optional<double> color, std::optional<CameraDevice> cameraDevice, std::optional<double> videoMaximumDuration): mediaType(mediaType), presentation(presentation), language(language), crop(crop), isSaveSystemAlbum(isSaveSystemAlbum), color(color), cameraDevice(cameraDevice), videoMaximumDuration(videoMaximumDuration) {}
   };
 
 } // namespace margelo::nitro::multipleimagepicker
@@ -74,7 +73,6 @@ namespace margelo::nitro {
         JSIConverter<Language>::fromJSI(runtime, obj.getProperty(runtime, "language")),
         JSIConverter<std::optional<PickerCropConfig>>::fromJSI(runtime, obj.getProperty(runtime, "crop")),
         JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, "isSaveSystemAlbum")),
-        JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, "allowLocation")),
         JSIConverter<std::optional<double>>::fromJSI(runtime, obj.getProperty(runtime, "color")),
         JSIConverter<std::optional<CameraDevice>>::fromJSI(runtime, obj.getProperty(runtime, "cameraDevice")),
         JSIConverter<std::optional<double>>::fromJSI(runtime, obj.getProperty(runtime, "videoMaximumDuration"))
@@ -87,7 +85,6 @@ namespace margelo::nitro {
       obj.setProperty(runtime, "language", JSIConverter<Language>::toJSI(runtime, arg.language));
       obj.setProperty(runtime, "crop", JSIConverter<std::optional<PickerCropConfig>>::toJSI(runtime, arg.crop));
       obj.setProperty(runtime, "isSaveSystemAlbum", JSIConverter<std::optional<bool>>::toJSI(runtime, arg.isSaveSystemAlbum));
-      obj.setProperty(runtime, "allowLocation", JSIConverter<std::optional<bool>>::toJSI(runtime, arg.allowLocation));
       obj.setProperty(runtime, "color", JSIConverter<std::optional<double>>::toJSI(runtime, arg.color));
       obj.setProperty(runtime, "cameraDevice", JSIConverter<std::optional<CameraDevice>>::toJSI(runtime, arg.cameraDevice));
       obj.setProperty(runtime, "videoMaximumDuration", JSIConverter<std::optional<double>>::toJSI(runtime, arg.videoMaximumDuration));
@@ -103,7 +100,6 @@ namespace margelo::nitro {
       if (!JSIConverter<Language>::canConvert(runtime, obj.getProperty(runtime, "language"))) return false;
       if (!JSIConverter<std::optional<PickerCropConfig>>::canConvert(runtime, obj.getProperty(runtime, "crop"))) return false;
       if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, "isSaveSystemAlbum"))) return false;
-      if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, "allowLocation"))) return false;
       if (!JSIConverter<std::optional<double>>::canConvert(runtime, obj.getProperty(runtime, "color"))) return false;
       if (!JSIConverter<std::optional<CameraDevice>>::canConvert(runtime, obj.getProperty(runtime, "cameraDevice"))) return false;
       if (!JSIConverter<std::optional<double>>::canConvert(runtime, obj.getProperty(runtime, "videoMaximumDuration"))) return false;

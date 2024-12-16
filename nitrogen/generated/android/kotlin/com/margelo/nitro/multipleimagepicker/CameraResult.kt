@@ -17,5 +17,11 @@ import com.margelo.nitro.core.*
 @DoNotStrip
 @Keep
 data class CameraResult(
-  val path: String
+  val path: String,
+  val type: ResultType,
+  val width: Double?,
+  val height: Double?,
+  val duration: Double?,
+  val thumbnail: String?,
+  val fileName: String?
 )

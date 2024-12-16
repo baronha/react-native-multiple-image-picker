@@ -1,6 +1,7 @@
 import { ColorValue } from 'react-native'
 import { CropRatio, Language, MediaType, Presentation } from './config'
 import { PickerCropConfig } from './crop'
+import { BaseResult, ResultType } from './result'
 
 export type CameraDevice = 'front' | 'back'
 
@@ -32,12 +33,6 @@ export interface NitroCameraConfig extends PickerCameraConfig {
    * @type {boolean}
    */
   isSaveSystemAlbum?: boolean
-
-  /**
-   * Allow location
-   * @type {boolean}
-   */
-  allowLocation?: boolean
 
   color?: number
 }
@@ -143,6 +138,6 @@ export interface CameraConfig
   color?: ColorValue
 }
 
-export interface CameraResult {
-  path: string
+export interface CameraResult extends BaseResult {
+  //
 }

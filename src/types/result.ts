@@ -1,8 +1,22 @@
 export type ResultType = 'image' | 'video'
 
-export interface Result {
+export interface BaseResult {
   path: string
-  fileName: string
+
+  type: ResultType
+
+  width?: number
+
+  height?: number
+
+  duration?: number
+
+  thumbnail?: string
+
+  fileName?: string
+}
+
+export interface Result extends BaseResult {
   localIdentifier: string
   width: number
   height: number
@@ -12,8 +26,5 @@ export interface Result {
   realPath?: string
   parentFolderName?: string
   creationDate?: number
-  type: ResultType
-  duration?: number
-  thumbnail?: string
   crop?: boolean
 }

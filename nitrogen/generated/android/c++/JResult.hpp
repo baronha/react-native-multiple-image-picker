@@ -33,10 +33,6 @@ namespace margelo::nitro::multipleimagepicker {
     [[maybe_unused]]
     Result toCpp() const {
       static const auto clazz = javaClassStatic();
-      static const auto fieldPath = clazz->getField<jni::JString>("path");
-      jni::local_ref<jni::JString> path = this->getFieldValue(fieldPath);
-      static const auto fieldFileName = clazz->getField<jni::JString>("fileName");
-      jni::local_ref<jni::JString> fileName = this->getFieldValue(fieldFileName);
       static const auto fieldLocalIdentifier = clazz->getField<jni::JString>("localIdentifier");
       jni::local_ref<jni::JString> localIdentifier = this->getFieldValue(fieldLocalIdentifier);
       static const auto fieldWidth = clazz->getField<double>("width");
@@ -55,17 +51,19 @@ namespace margelo::nitro::multipleimagepicker {
       jni::local_ref<jni::JString> parentFolderName = this->getFieldValue(fieldParentFolderName);
       static const auto fieldCreationDate = clazz->getField<jni::JDouble>("creationDate");
       jni::local_ref<jni::JDouble> creationDate = this->getFieldValue(fieldCreationDate);
+      static const auto fieldCrop = clazz->getField<jni::JBoolean>("crop");
+      jni::local_ref<jni::JBoolean> crop = this->getFieldValue(fieldCrop);
+      static const auto fieldPath = clazz->getField<jni::JString>("path");
+      jni::local_ref<jni::JString> path = this->getFieldValue(fieldPath);
       static const auto fieldType = clazz->getField<JResultType>("type");
       jni::local_ref<JResultType> type = this->getFieldValue(fieldType);
       static const auto fieldDuration = clazz->getField<jni::JDouble>("duration");
       jni::local_ref<jni::JDouble> duration = this->getFieldValue(fieldDuration);
       static const auto fieldThumbnail = clazz->getField<jni::JString>("thumbnail");
       jni::local_ref<jni::JString> thumbnail = this->getFieldValue(fieldThumbnail);
-      static const auto fieldCrop = clazz->getField<jni::JBoolean>("crop");
-      jni::local_ref<jni::JBoolean> crop = this->getFieldValue(fieldCrop);
+      static const auto fieldFileName = clazz->getField<jni::JString>("fileName");
+      jni::local_ref<jni::JString> fileName = this->getFieldValue(fieldFileName);
       return Result(
-        path->toStdString(),
-        fileName->toStdString(),
         localIdentifier->toStdString(),
         width,
         height,
@@ -75,10 +73,12 @@ namespace margelo::nitro::multipleimagepicker {
         realPath != nullptr ? std::make_optional(realPath->toStdString()) : std::nullopt,
         parentFolderName != nullptr ? std::make_optional(parentFolderName->toStdString()) : std::nullopt,
         creationDate != nullptr ? std::make_optional(creationDate->value()) : std::nullopt,
+        crop != nullptr ? std::make_optional(static_cast<bool>(crop->value())) : std::nullopt,
+        path->toStdString(),
         type->toCpp(),
         duration != nullptr ? std::make_optional(duration->value()) : std::nullopt,
         thumbnail != nullptr ? std::make_optional(thumbnail->toStdString()) : std::nullopt,
-        crop != nullptr ? std::make_optional(static_cast<bool>(crop->value())) : std::nullopt
+        fileName != nullptr ? std::make_optional(fileName->toStdString()) : std::nullopt
       );
     }
 
@@ -89,8 +89,6 @@ namespace margelo::nitro::multipleimagepicker {
     [[maybe_unused]]
     static jni::local_ref<JResult::javaobject> fromCpp(const Result& value) {
       return newInstance(
-        jni::make_jstring(value.path),
-        jni::make_jstring(value.fileName),
         jni::make_jstring(value.localIdentifier),
         value.width,
         value.height,
@@ -100,10 +98,12 @@ namespace margelo::nitro::multipleimagepicker {
         value.realPath.has_value() ? jni::make_jstring(value.realPath.value()) : nullptr,
         value.parentFolderName.has_value() ? jni::make_jstring(value.parentFolderName.value()) : nullptr,
         value.creationDate.has_value() ? jni::JDouble::valueOf(value.creationDate.value()) : nullptr,
+        value.crop.has_value() ? jni::JBoolean::valueOf(value.crop.value()) : nullptr,
+        jni::make_jstring(value.path),
         JResultType::fromCpp(value.type),
         value.duration.has_value() ? jni::JDouble::valueOf(value.duration.value()) : nullptr,
         value.thumbnail.has_value() ? jni::make_jstring(value.thumbnail.value()) : nullptr,
-        value.crop.has_value() ? jni::JBoolean::valueOf(value.crop.value()) : nullptr
+        value.fileName.has_value() ? jni::make_jstring(value.fileName.value()) : nullptr
       );
     }
   };

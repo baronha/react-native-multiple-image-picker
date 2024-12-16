@@ -6,31 +6,23 @@
 //
 
 import HXPhotoPicker
-import Photos
+// import Photos
 
 extension HybridMultipleImagePicker {
     func getResult(_ asset: PhotoAsset) async throws -> Result {
         let urlResult = try await asset.urlResult()
         let url = urlResult.url
-            
+
         let creationDate = Int(asset.phAsset?.creationDate?.timeIntervalSince1970 ?? 0)
-            
+
         let mime = url.getMimeType()
-            
-        let fileName = {
-            if let phAsset = asset.phAsset, let resources = PHAssetResource.assetResources(for: phAsset).first {
-                return resources.originalFilename
-            }
-                
-            return ""
-        }()
-            
+
+        let phAsset = asset.phAsset
+
         let type: ResultType = .init(fromString: asset.mediaType == .video ? "video" : "image")!
-        let thumbnail = asset.phAsset?.getVideoThumbnail(from: url.absoluteString, in: 1)
-            
-        return Result(path: url.absoluteString,
-                      fileName: fileName,
-                      localIdentifier: asset.phAsset!.localIdentifier,
+        let thumbnail = asset.phAsset?.getVideoAssetThumbnail(from: url.absoluteString, in: 1)
+
+        return Result(localIdentifier: phAsset!.localIdentifier,
                       width: asset.imageSize.width,
                       height: asset.imageSize.height,
                       mime: mime,
@@ -39,9 +31,11 @@ extension HybridMultipleImagePicker {
                       realPath: nil,
                       parentFolderName: nil,
                       creationDate: creationDate > 0 ? Double(creationDate) : nil,
+                      crop: false,
+                      path: url.absoluteString,
                       type: type,
                       duration: asset.videoDuration,
                       thumbnail: thumbnail,
-                      crop: false)
+                      fileName: phAsset?.fileName)
     }
 }

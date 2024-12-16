@@ -18,8 +18,8 @@ public extension Result {
   /**
    * Create a new instance of `Result`.
    */
-  init(path: String, fileName: String, localIdentifier: String, width: Double, height: Double, mime: String, size: Double, bucketId: Double?, realPath: String?, parentFolderName: String?, creationDate: Double?, type: ResultType, duration: Double?, thumbnail: String?, crop: Bool?) {
-    self.init(std.string(path), std.string(fileName), std.string(localIdentifier), width, height, std.string(mime), size, { () -> bridge.std__optional_double_ in
+  init(localIdentifier: String, width: Double, height: Double, mime: String, size: Double, bucketId: Double?, realPath: String?, parentFolderName: String?, creationDate: Double?, crop: Bool?, path: String, type: ResultType, duration: Double?, thumbnail: String?, fileName: String?) {
+    self.init(std.string(localIdentifier), width, height, std.string(mime), size, { () -> bridge.std__optional_double_ in
       if let __unwrappedValue = bucketId {
         return bridge.create_std__optional_double_(__unwrappedValue)
       } else {
@@ -43,7 +43,13 @@ public extension Result {
       } else {
         return .init()
       }
-    }(), type, { () -> bridge.std__optional_double_ in
+    }(), { () -> bridge.std__optional_bool_ in
+      if let __unwrappedValue = crop {
+        return bridge.create_std__optional_bool_(__unwrappedValue)
+      } else {
+        return .init()
+      }
+    }(), std.string(path), type, { () -> bridge.std__optional_double_ in
       if let __unwrappedValue = duration {
         return bridge.create_std__optional_double_(__unwrappedValue)
       } else {
@@ -55,37 +61,15 @@ public extension Result {
       } else {
         return .init()
       }
-    }(), { () -> bridge.std__optional_bool_ in
-      if let __unwrappedValue = crop {
-        return bridge.create_std__optional_bool_(__unwrappedValue)
+    }(), { () -> bridge.std__optional_std__string_ in
+      if let __unwrappedValue = fileName {
+        return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
       } else {
         return .init()
       }
     }())
   }
 
-  var path: String {
-    @inline(__always)
-    get {
-      return String(self.__path)
-    }
-    @inline(__always)
-    set {
-      self.__path = std.string(newValue)
-    }
-  }
-  
-  var fileName: String {
-    @inline(__always)
-    get {
-      return String(self.__fileName)
-    }
-    @inline(__always)
-    set {
-      self.__fileName = std.string(newValue)
-    }
-  }
-  
   var localIdentifier: String {
     @inline(__always)
     get {
@@ -221,6 +205,34 @@ public extension Result {
     }
   }
   
+  var crop: Bool? {
+    @inline(__always)
+    get {
+      return self.__crop.value
+    }
+    @inline(__always)
+    set {
+      self.__crop = { () -> bridge.std__optional_bool_ in
+        if let __unwrappedValue = newValue {
+          return bridge.create_std__optional_bool_(__unwrappedValue)
+        } else {
+          return .init()
+        }
+      }()
+    }
+  }
+  
+  var path: String {
+    @inline(__always)
+    get {
+      return String(self.__path)
+    }
+    @inline(__always)
+    set {
+      self.__path = std.string(newValue)
+    }
+  }
+  
   var type: ResultType {
     @inline(__always)
     get {
@@ -272,16 +284,22 @@ public extension Result {
     }
   }
   
-  var crop: Bool? {
+  var fileName: String? {
     @inline(__always)
     get {
-      return self.__crop.value
+      return { () -> String? in
+        if let __unwrapped = self.__fileName.value {
+          return String(__unwrapped)
+        } else {
+          return nil
+        }
+      }()
     }
     @inline(__always)
     set {
-      self.__crop = { () -> bridge.std__optional_bool_ in
+      self.__fileName = { () -> bridge.std__optional_std__string_ in
         if let __unwrappedValue = newValue {
-          return bridge.create_std__optional_bool_(__unwrappedValue)
+          return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
         } else {
           return .init()
         }

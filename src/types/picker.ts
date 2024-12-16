@@ -345,34 +345,36 @@ export interface Config
    * @interface PickerCropConfig
    */
 
-  crop?: Omit<PickerCropConfig, 'ratio'> & {
-    /**
-     * Array of aspect ratios for image cropping. The ratios will be inserted after the default ratios (Original and Square).
-     * Android: Maximum: 4 items
-     *
-     * @platform ios, Android
-     *
-     * @property {Array<CropRatio>} ratio - Array of custom aspect ratios
-     * @property {string} [ratio[].title] - Optional display title for the ratio (e.g., "16:9"). If not provided, will use "width/height"
-     * @property {number} ratio[].width - Width value for aspect ratio
-     * @property {number} ratio[].height - Height value for aspect ratio
-     *
-     * @example
-     * ```ts
-     * ratio: [
-     *   { title: "Instagram", width: 1, height: 1 },
-     *   { title: "Twitter", width: 16, height: 9 },
-     *   { width: 12, height: 11 }
-     * ]
-     * ```
-     */
-    ratio?: CropRatio[]
+  crop?:
+    | boolean
+    | (Omit<PickerCropConfig, 'ratio'> & {
+        /**
+         * Array of aspect ratios for image cropping. The ratios will be inserted after the default ratios (Original and Square).
+         * Android: Maximum: 4 items
+         *
+         * @platform ios, Android
+         *
+         * @property {Array<CropRatio>} ratio - Array of custom aspect ratios
+         * @property {string} [ratio[].title] - Optional display title for the ratio (e.g., "16:9"). If not provided, will use "width/height"
+         * @property {number} ratio[].width - Width value for aspect ratio
+         * @property {number} ratio[].height - Height value for aspect ratio
+         *
+         * @example
+         * ```ts
+         * ratio: [
+         *   { title: "Instagram", width: 1, height: 1 },
+         *   { title: "Twitter", width: 16, height: 9 },
+         *   { width: 12, height: 11 }
+         * ]
+         * ```
+         */
+        ratio?: CropRatio[]
 
-    /**
-     * Camera configuration
-     * @type {CameraConfig}
-     */
-  }
+        /**
+         * Camera configuration
+         * @type {CameraConfig}
+         */
+      })
 
   camera?: PickerCameraConfig
 }

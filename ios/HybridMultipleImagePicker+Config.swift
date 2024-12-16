@@ -124,9 +124,7 @@ extension HybridMultipleImagePicker {
         if let cameraOption = options.camera {
             photoList.allowAddCamera = true
 
-            var cameraConfig = setCameraConfig(cameraOption)
-
-            photoList.cameraType = .system(cameraConfig)
+            photoList.cameraType = .system(setCameraConfig(cameraOption))
         } else {
             photoList.allowAddCamera = false
         }

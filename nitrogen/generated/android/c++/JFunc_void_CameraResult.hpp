@@ -14,6 +14,9 @@
 #include "CameraResult.hpp"
 #include "JCameraResult.hpp"
 #include <string>
+#include "ResultType.hpp"
+#include "JResultType.hpp"
+#include <optional>
 
 namespace margelo::nitro::multipleimagepicker {
 

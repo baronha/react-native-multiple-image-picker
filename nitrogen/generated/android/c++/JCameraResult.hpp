@@ -10,6 +10,9 @@
 #include <fbjni/fbjni.h>
 #include "CameraResult.hpp"
 
+#include "JResultType.hpp"
+#include "ResultType.hpp"
+#include <optional>
 #include <string>
 
 namespace margelo::nitro::multipleimagepicker {
@@ -32,8 +35,26 @@ namespace margelo::nitro::multipleimagepicker {
       static const auto clazz = javaClassStatic();
       static const auto fieldPath = clazz->getField<jni::JString>("path");
       jni::local_ref<jni::JString> path = this->getFieldValue(fieldPath);
+      static const auto fieldType = clazz->getField<JResultType>("type");
+      jni::local_ref<JResultType> type = this->getFieldValue(fieldType);
+      static const auto fieldWidth = clazz->getField<jni::JDouble>("width");
+      jni::local_ref<jni::JDouble> width = this->getFieldValue(fieldWidth);
+      static const auto fieldHeight = clazz->getField<jni::JDouble>("height");
+      jni::local_ref<jni::JDouble> height = this->getFieldValue(fieldHeight);
+      static const auto fieldDuration = clazz->getField<jni::JDouble>("duration");
+      jni::local_ref<jni::JDouble> duration = this->getFieldValue(fieldDuration);
+      static const auto fieldThumbnail = clazz->getField<jni::JString>("thumbnail");
+      jni::local_ref<jni::JString> thumbnail = this->getFieldValue(fieldThumbnail);
+      static const auto fieldFileName = clazz->getField<jni::JString>("fileName");
+      jni::local_ref<jni::JString> fileName = this->getFieldValue(fieldFileName);
       return CameraResult(
-        path->toStdString()
+        path->toStdString(),
+        type->toCpp(),
+        width != nullptr ? std::make_optional(width->value()) : std::nullopt,
+        height != nullptr ? std::make_optional(height->value()) : std::nullopt,
+        duration != nullptr ? std::make_optional(duration->value()) : std::nullopt,
+        thumbnail != nullptr ? std::make_optional(thumbnail->toStdString()) : std::nullopt,
+        fileName != nullptr ? std::make_optional(fileName->toStdString()) : std::nullopt
       );
     }
 
@@ -44,7 +65,13 @@ namespace margelo::nitro::multipleimagepicker {
     [[maybe_unused]]
     static jni::local_ref<JCameraResult::javaobject> fromCpp(const CameraResult& value) {
       return newInstance(
-        jni::make_jstring(value.path)
+        jni::make_jstring(value.path),
+        JResultType::fromCpp(value.type),
+        value.width.has_value() ? jni::JDouble::valueOf(value.width.value()) : nullptr,
+        value.height.has_value() ? jni::JDouble::valueOf(value.height.value()) : nullptr,
+        value.duration.has_value() ? jni::JDouble::valueOf(value.duration.value()) : nullptr,
+        value.thumbnail.has_value() ? jni::make_jstring(value.thumbnail.value()) : nullptr,
+        value.fileName.has_value() ? jni::make_jstring(value.fileName.value()) : nullptr
       );
     }
   };

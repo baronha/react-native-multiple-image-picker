@@ -22,7 +22,6 @@ data class NitroCameraConfig(
   val language: Language,
   val crop: PickerCropConfig?,
   val isSaveSystemAlbum: Boolean?,
-  val allowLocation: Boolean?,
   val color: Double?,
   val cameraDevice: CameraDevice?,
   val videoMaximumDuration: Double?

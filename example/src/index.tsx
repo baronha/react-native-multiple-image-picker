@@ -83,7 +83,7 @@ export default function App() {
     try {
       const response = await openPicker({
         ...options,
-        selectedAssets: images,
+        selectedAssets: images.filter((item) => item.localIdentifier),
       })
 
       setImages(Array.isArray(response) ? response : [response])
@@ -96,10 +96,17 @@ export default function App() {
   const onCamera = async () => {
     try {
       const response = await openCamera({
-        crop: false,
+        crop: true,
+        isSaveSystemAlbum: false,
+        mediaType: 'all',
+        videoMaximumDuration: 5,
       })
 
-      console.log('response: ', response)
+      setImages((prev) => {
+        return [response as Result, ...prev]
+      })
+
+      console.log('camera response: ', response)
 
       layoutEffect()
     } catch (e) {
@@ -430,7 +437,7 @@ export default function App() {
                   <Switch
                     value={options.crop !== undefined}
                     onValueChange={(value) =>
-                      setOptions('crop', value ? {} : undefined)
+                      setOptions('crop', value ? true : undefined)
                     }
                   />
                 </SectionView>

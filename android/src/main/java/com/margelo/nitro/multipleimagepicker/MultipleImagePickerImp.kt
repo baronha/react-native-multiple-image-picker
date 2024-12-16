@@ -14,6 +14,7 @@ import com.facebook.react.bridge.ReactMethod
 import com.luck.picture.lib.app.IApp
 import com.luck.picture.lib.app.PictureAppMaster
 import com.luck.picture.lib.basic.PictureSelector
+import com.luck.picture.lib.config.Crop
 import com.luck.picture.lib.config.PictureMimeType
 import com.luck.picture.lib.config.SelectMimeType
 import com.luck.picture.lib.config.SelectModeConfig
@@ -323,8 +324,10 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
         PictureSelector
             .create(currentActivity)
             .openCamera(chooseMode)
-//            .setLanguage(getLanguage(config.language))
+            .setLanguage(getLanguage(config.language))
             .isQuickCapture(true)
+            .setCropEngine(CropEngine(cropOption))
+//            .setOfAllCameraType(chooseMode)
             .setCameraInterceptListener(CameraEngine(appContext, cameraConfig))
             .forResult(object : OnResultCallbackListener<LocalMedia?> {
                 override fun onResult(result: java.util.ArrayList<LocalMedia?>?) {
@@ -556,9 +559,8 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
             height = item.cropImageHeight.toDouble()
         }
 
+
         val media = Result(
-            path,
-            fileName = item.fileName,
             localIdentifier = item.id.toString(),
             width,
             height,
@@ -568,10 +570,12 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
             realPath = item.realPath,
             parentFolderName = item.parentFolderName,
             creationDate = item.dateAddedTime.toDouble(),
+            crop = item.isCut,
+            path,
             type,
-            duration = item.duration.toDouble(),
+            fileName = item.fileName,
             thumbnail = item.videoThumbnailPath,
-            crop = item.isCut
+            duration = item.duration.toDouble()
         )
 
         return media
