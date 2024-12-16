@@ -27,16 +27,22 @@ Pod::Spec.new do |s|
   }
 
 
-  s.dependency "HXPhotoPicker/Picker", "4.2.3"
-  s.dependency "HXPhotoPicker/Editor/Lite", "4.2.3"
+  s.dependency "HXPhotoPicker/Picker", "4.2.4"
+  s.dependency "HXPhotoPicker/Editor/Lite", "4.2.4"
 
   s.pod_target_xcconfig = {
     # C++ compiler flags, mainly for folly.
-    "GCC_PREPROCESSOR_DEFINITIONS" => "$(inherited) FOLLY_NO_CONFIG FOLLY_CFG_NO_COROUTINES"
+    "CLANG_CXX_LANGUAGE_STANDARD" => "c++20",
+    "GCC_PREPROCESSOR_DEFINITIONS" => "$(inherited) FOLLY_NO_CONFIG FOLLY_CFG_NO_COROUTINES FOLLY_MOBILE"
   }
 
-  load 'nitrogen/generated/ios/MultipleImagePicker+autolinking.rb'
+  if ENV["USE_FRAMEWORKS"]
+    s.dependency "React-Core"
+    add_dependency(s, "React-jsinspector", :framework_name => "jsinspector_modern")
+    add_dependency(s, "React-rendererconsistency", :framework_name => "React_rendererconsistency")
+  end
 
+  load 'nitrogen/generated/ios/MultipleImagePicker+autolinking.rb'
 
   add_nitrogen_files(s)
 
