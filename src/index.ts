@@ -153,29 +153,11 @@ export async function openCamera(config?: CameraConfig): Promise<CameraResult> {
 
 const DEFAULT_COUNT = 20
 
-// Xử lý language với type checking
 const validateLanguage = (language?: Language): Language => {
   if (!language || !LANGUAGES.includes(language)) {
     return 'system'
   }
   return language
-}
-
-const processCropConfig = (
-  crop?: boolean | CropConfig
-): CropConfig | undefined => {
-  if (typeof crop === 'boolean') {
-    return crop ? { ratio: [] } : undefined
-  }
-
-  if (crop && typeof crop === 'object') {
-    return {
-      ...crop,
-      ratio: crop.ratio || [], // Changed from ?? to || to ensure array
-    }
-  }
-
-  return undefined
 }
 
 const primaryColor = '#FB9300'
@@ -198,7 +180,7 @@ export const defaultOptions: Config = {
   isHiddenOriginalButton: false,
   allowSwipeToSelect: true,
   camera: {
-    cameraDevice: 'front',
+    cameraDevice: 'back',
     videoMaximumDuration: 60,
   },
 }

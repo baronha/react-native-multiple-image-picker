@@ -1151,6 +1151,9 @@
   resolved "https://registry.npmjs.org/@baronha/react-native-image-grid/-/react-native-image-grid-0.2.7.tgz"
   integrity sha512-F5q+hJ1p0+hfWYhOK4uL2EgseG89hpiMu0rMIaiw7lMpEA3sKC1AUOhOTKS58LeX1xE/XoqZ0P7tzyntKN+EoQ==
 
+"@baronha/react-native-multiple-image-picker@file:..":
+  version "2.0.4"
+
 "@expo/bunyan@^4.0.0":
   version "4.0.1"
   resolved "https://registry.npmjs.org/@expo/bunyan/-/bunyan-4.0.1.tgz"

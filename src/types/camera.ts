@@ -9,7 +9,7 @@ export type PickerCameraConfig = {
    * Type of camera
    * @typedef {'front' | 'back'} CameraDevice
    */
-  cameraDevice: CameraDevice
+  cameraDevice?: CameraDevice
 
   /**
    * Maximum duration of video
@@ -52,12 +52,6 @@ export interface CameraConfig
     | 'crop'
     | 'color'
   > {
-  /**
-   * Type of camera
-   * @typedef {'front' | 'back'} CameraDevice
-   */
-  cameraDevice?: CameraDevice
-
   /**
    * Type of media to be displayed
    * @typedef {'video' | 'image' | 'all'} MediaType

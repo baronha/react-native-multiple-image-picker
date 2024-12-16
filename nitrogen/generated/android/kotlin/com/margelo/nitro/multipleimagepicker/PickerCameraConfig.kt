@@ -17,6 +17,6 @@ import com.margelo.nitro.core.*
 @DoNotStrip
 @Keep
 data class PickerCameraConfig(
-  val cameraDevice: CameraDevice,
+  val cameraDevice: CameraDevice?,
   val videoMaximumDuration: Double?
 )

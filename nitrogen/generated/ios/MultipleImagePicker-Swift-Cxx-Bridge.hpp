@@ -135,6 +135,15 @@ namespace margelo::nitro::multipleimagepicker::bridge::swift {
     return std::optional<Text>(value);
   }
   
+  // pragma MARK: std::optional<CameraDevice>
+  /**
+   * Specialized version of `std::optional<CameraDevice>`.
+   */
+  using std__optional_CameraDevice_ = std::optional<CameraDevice>;
+  inline std::optional<CameraDevice> create_std__optional_CameraDevice_(const CameraDevice& value) {
+    return std::optional<CameraDevice>(value);
+  }
+  
   // pragma MARK: std::optional<PickerCameraConfig>
   /**
    * Specialized version of `std::optional<PickerCameraConfig>`.

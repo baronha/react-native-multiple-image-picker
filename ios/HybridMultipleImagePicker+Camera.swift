@@ -34,7 +34,7 @@ extension HybridMultipleImagePicker {
             cameraConfig.focusColor = focusColor
         }
 
-        switch Int(config.cameraDevice.rawValue) {
+        switch Int(config.cameraDevice?.rawValue ?? 1) {
         case 0:
             cameraConfig.position = .front
         default:
@@ -54,7 +54,7 @@ extension HybridMultipleImagePicker {
         config.editExportPreset = .highQuality
         config.videoQuality = .typeHigh
 
-        switch Int(options.cameraDevice.rawValue) {
+        switch Int(options.cameraDevice?.rawValue ?? 1) {
         case 0:
             config.cameraDevice = .front
         default:

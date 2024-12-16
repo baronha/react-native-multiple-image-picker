@@ -70,7 +70,7 @@ namespace margelo::nitro::multipleimagepicker {
         isSaveSystemAlbum != nullptr ? std::make_optional(static_cast<bool>(isSaveSystemAlbum->value())) : std::nullopt,
         allowLocation != nullptr ? std::make_optional(static_cast<bool>(allowLocation->value())) : std::nullopt,
         color != nullptr ? std::make_optional(color->value()) : std::nullopt,
-        cameraDevice->toCpp(),
+        cameraDevice != nullptr ? std::make_optional(cameraDevice->toCpp()) : std::nullopt,
         videoMaximumDuration != nullptr ? std::make_optional(videoMaximumDuration->value()) : std::nullopt
       );
     }
@@ -89,7 +89,7 @@ namespace margelo::nitro::multipleimagepicker {
         value.isSaveSystemAlbum.has_value() ? jni::JBoolean::valueOf(value.isSaveSystemAlbum.value()) : nullptr,
         value.allowLocation.has_value() ? jni::JBoolean::valueOf(value.allowLocation.value()) : nullptr,
         value.color.has_value() ? jni::JDouble::valueOf(value.color.value()) : nullptr,
-        JCameraDevice::fromCpp(value.cameraDevice),
+        value.cameraDevice.has_value() ? JCameraDevice::fromCpp(value.cameraDevice.value()) : nullptr,
         value.videoMaximumDuration.has_value() ? jni::JDouble::valueOf(value.videoMaximumDuration.value()) : nullptr
       );
     }

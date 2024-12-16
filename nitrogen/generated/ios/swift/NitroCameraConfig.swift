@@ -18,7 +18,7 @@ public extension NitroCameraConfig {
   /**
    * Create a new instance of `NitroCameraConfig`.
    */
-  init(mediaType: MediaType, presentation: Presentation, language: Language, crop: PickerCropConfig?, isSaveSystemAlbum: Bool?, allowLocation: Bool?, color: Double?, cameraDevice: CameraDevice, videoMaximumDuration: Double?) {
+  init(mediaType: MediaType, presentation: Presentation, language: Language, crop: PickerCropConfig?, isSaveSystemAlbum: Bool?, allowLocation: Bool?, color: Double?, cameraDevice: CameraDevice?, videoMaximumDuration: Double?) {
     self.init(mediaType, presentation, language, { () -> bridge.std__optional_PickerCropConfig_ in
       if let __unwrappedValue = crop {
         return bridge.create_std__optional_PickerCropConfig_(__unwrappedValue)
@@ -43,7 +43,13 @@ public extension NitroCameraConfig {
       } else {
         return .init()
       }
-    }(), cameraDevice, { () -> bridge.std__optional_double_ in
+    }(), { () -> bridge.std__optional_CameraDevice_ in
+      if let __unwrappedValue = cameraDevice {
+        return bridge.create_std__optional_CameraDevice_(__unwrappedValue)
+      } else {
+        return .init()
+      }
+    }(), { () -> bridge.std__optional_double_ in
       if let __unwrappedValue = videoMaximumDuration {
         return bridge.create_std__optional_double_(__unwrappedValue)
       } else {
@@ -159,14 +165,20 @@ public extension NitroCameraConfig {
     }
   }
   
-  var cameraDevice: CameraDevice {
+  var cameraDevice: CameraDevice? {
     @inline(__always)
     get {
-      return self.__cameraDevice
+      return self.__cameraDevice.value
     }
     @inline(__always)
     set {
-      self.__cameraDevice = newValue
+      self.__cameraDevice = { () -> bridge.std__optional_CameraDevice_ in
+        if let __unwrappedValue = newValue {
+          return bridge.create_std__optional_CameraDevice_(__unwrappedValue)
+        } else {
+          return .init()
+        }
+      }()
     }
   }
   

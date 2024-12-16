@@ -1,6 +1,6 @@
 {
   "name": "multipleimagepickerexample",
-  "version": "1.0.0",
+  "version": "2.0.4",
   "main": "expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
@@ -13,6 +13,7 @@
     "gradle": "cd android && ./gradlew clean && ./gradlew build"
   },
   "dependencies": {
+    "@baronha/react-native-multiple-image-picker": "file:../",
     "@baronha/react-native-image-grid": "^0.2.7",
     "@react-native-segmented-control/segmented-control": "2.5.2",
     "expo": "~51.0.38",

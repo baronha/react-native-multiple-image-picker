@@ -50,11 +50,11 @@ namespace margelo::nitro::multipleimagepicker {
     std::optional<bool> isSaveSystemAlbum     SWIFT_PRIVATE;
     std::optional<bool> allowLocation     SWIFT_PRIVATE;
     std::optional<double> color     SWIFT_PRIVATE;
-    CameraDevice cameraDevice     SWIFT_PRIVATE;
+    std::optional<CameraDevice> cameraDevice     SWIFT_PRIVATE;
     std::optional<double> videoMaximumDuration     SWIFT_PRIVATE;
 
   public:
-    explicit NitroCameraConfig(MediaType mediaType, Presentation presentation, Language language, std::optional<PickerCropConfig> crop, std::optional<bool> isSaveSystemAlbum, std::optional<bool> allowLocation, std::optional<double> color, CameraDevice cameraDevice, std::optional<double> videoMaximumDuration): mediaType(mediaType), presentation(presentation), language(language), crop(crop), isSaveSystemAlbum(isSaveSystemAlbum), allowLocation(allowLocation), color(color), cameraDevice(cameraDevice), videoMaximumDuration(videoMaximumDuration) {}
+    explicit NitroCameraConfig(MediaType mediaType, Presentation presentation, Language language, std::optional<PickerCropConfig> crop, std::optional<bool> isSaveSystemAlbum, std::optional<bool> allowLocation, std::optional<double> color, std::optional<CameraDevice> cameraDevice, std::optional<double> videoMaximumDuration): mediaType(mediaType), presentation(presentation), language(language), crop(crop), isSaveSystemAlbum(isSaveSystemAlbum), allowLocation(allowLocation), color(color), cameraDevice(cameraDevice), videoMaximumDuration(videoMaximumDuration) {}
   };
 
 } // namespace margelo::nitro::multipleimagepicker
@@ -76,7 +76,7 @@ namespace margelo::nitro {
         JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, "isSaveSystemAlbum")),
         JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, "allowLocation")),
         JSIConverter<std::optional<double>>::fromJSI(runtime, obj.getProperty(runtime, "color")),
-        JSIConverter<CameraDevice>::fromJSI(runtime, obj.getProperty(runtime, "cameraDevice")),
+        JSIConverter<std::optional<CameraDevice>>::fromJSI(runtime, obj.getProperty(runtime, "cameraDevice")),
         JSIConverter<std::optional<double>>::fromJSI(runtime, obj.getProperty(runtime, "videoMaximumDuration"))
       );
     }
@@ -89,7 +89,7 @@ namespace margelo::nitro {
       obj.setProperty(runtime, "isSaveSystemAlbum", JSIConverter<std::optional<bool>>::toJSI(runtime, arg.isSaveSystemAlbum));
       obj.setProperty(runtime, "allowLocation", JSIConverter<std::optional<bool>>::toJSI(runtime, arg.allowLocation));
       obj.setProperty(runtime, "color", JSIConverter<std::optional<double>>::toJSI(runtime, arg.color));
-      obj.setProperty(runtime, "cameraDevice", JSIConverter<CameraDevice>::toJSI(runtime, arg.cameraDevice));
+      obj.setProperty(runtime, "cameraDevice", JSIConverter<std::optional<CameraDevice>>::toJSI(runtime, arg.cameraDevice));
       obj.setProperty(runtime, "videoMaximumDuration", JSIConverter<std::optional<double>>::toJSI(runtime, arg.videoMaximumDuration));
       return obj;
     }
@@ -105,7 +105,7 @@ namespace margelo::nitro {
       if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, "isSaveSystemAlbum"))) return false;
       if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, "allowLocation"))) return false;
       if (!JSIConverter<std::optional<double>>::canConvert(runtime, obj.getProperty(runtime, "color"))) return false;
-      if (!JSIConverter<CameraDevice>::canConvert(runtime, obj.getProperty(runtime, "cameraDevice"))) return false;
+      if (!JSIConverter<std::optional<CameraDevice>>::canConvert(runtime, obj.getProperty(runtime, "cameraDevice"))) return false;
       if (!JSIConverter<std::optional<double>>::canConvert(runtime, obj.getProperty(runtime, "videoMaximumDuration"))) return false;
       return true;
     }

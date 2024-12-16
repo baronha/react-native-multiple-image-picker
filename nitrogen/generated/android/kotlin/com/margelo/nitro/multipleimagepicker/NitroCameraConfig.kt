@@ -24,6 +24,6 @@ data class NitroCameraConfig(
   val isSaveSystemAlbum: Boolean?,
   val allowLocation: Boolean?,
   val color: Double?,
-  val cameraDevice: CameraDevice,
+  val cameraDevice: CameraDevice?,
   val videoMaximumDuration: Double?
 )

@@ -37,7 +37,7 @@ namespace margelo::nitro::multipleimagepicker {
       static const auto fieldVideoMaximumDuration = clazz->getField<jni::JDouble>("videoMaximumDuration");
       jni::local_ref<jni::JDouble> videoMaximumDuration = this->getFieldValue(fieldVideoMaximumDuration);
       return PickerCameraConfig(
-        cameraDevice->toCpp(),
+        cameraDevice != nullptr ? std::make_optional(cameraDevice->toCpp()) : std::nullopt,
         videoMaximumDuration != nullptr ? std::make_optional(videoMaximumDuration->value()) : std::nullopt
       );
     }
@@ -49,7 +49,7 @@ namespace margelo::nitro::multipleimagepicker {
     [[maybe_unused]]
     static jni::local_ref<JPickerCameraConfig::javaobject> fromCpp(const PickerCameraConfig& value) {
       return newInstance(
-        JCameraDevice::fromCpp(value.cameraDevice),
+        value.cameraDevice.has_value() ? JCameraDevice::fromCpp(value.cameraDevice.value()) : nullptr,
         value.videoMaximumDuration.has_value() ? jni::JDouble::valueOf(value.videoMaximumDuration.value()) : nullptr
       );
     }

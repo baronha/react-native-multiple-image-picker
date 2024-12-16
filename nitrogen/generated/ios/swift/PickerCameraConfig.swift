@@ -18,8 +18,14 @@ public extension PickerCameraConfig {
   /**
    * Create a new instance of `PickerCameraConfig`.
    */
-  init(cameraDevice: CameraDevice, videoMaximumDuration: Double?) {
-    self.init(cameraDevice, { () -> bridge.std__optional_double_ in
+  init(cameraDevice: CameraDevice?, videoMaximumDuration: Double?) {
+    self.init({ () -> bridge.std__optional_CameraDevice_ in
+      if let __unwrappedValue = cameraDevice {
+        return bridge.create_std__optional_CameraDevice_(__unwrappedValue)
+      } else {
+        return .init()
+      }
+    }(), { () -> bridge.std__optional_double_ in
       if let __unwrappedValue = videoMaximumDuration {
         return bridge.create_std__optional_double_(__unwrappedValue)
       } else {
@@ -28,14 +34,20 @@ public extension PickerCameraConfig {
     }())
   }
 
-  var cameraDevice: CameraDevice {
+  var cameraDevice: CameraDevice? {
     @inline(__always)
     get {
-      return self.__cameraDevice
+      return self.__cameraDevice.value
     }
     @inline(__always)
     set {
-      self.__cameraDevice = newValue
+      self.__cameraDevice = { () -> bridge.std__optional_CameraDevice_ in
+        if let __unwrappedValue = newValue {
+          return bridge.create_std__optional_CameraDevice_(__unwrappedValue)
+        } else {
+          return .init()
+        }
+      }()
     }
   }
   
