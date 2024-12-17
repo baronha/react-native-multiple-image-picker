@@ -22,6 +22,7 @@
 namespace margelo::nitro::multipleimagepicker { enum class Language; }
 
 #include "Language.hpp"
+#include <optional>
 
 namespace margelo::nitro::multipleimagepicker {
 
@@ -31,9 +32,10 @@ namespace margelo::nitro::multipleimagepicker {
   struct NitroPreviewConfig {
   public:
     Language language     SWIFT_PRIVATE;
+    std::optional<bool> videoAutoPlay     SWIFT_PRIVATE;
 
   public:
-    explicit NitroPreviewConfig(Language language): language(language) {}
+    explicit NitroPreviewConfig(Language language, std::optional<bool> videoAutoPlay): language(language), videoAutoPlay(videoAutoPlay) {}
   };
 
 } // namespace margelo::nitro::multipleimagepicker
@@ -48,12 +50,14 @@ namespace margelo::nitro {
     static inline NitroPreviewConfig fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
       return NitroPreviewConfig(
-        JSIConverter<Language>::fromJSI(runtime, obj.getProperty(runtime, "language"))
+        JSIConverter<Language>::fromJSI(runtime, obj.getProperty(runtime, "language")),
+        JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, "videoAutoPlay"))
       );
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const NitroPreviewConfig& arg) {
       jsi::Object obj(runtime);
       obj.setProperty(runtime, "language", JSIConverter<Language>::toJSI(runtime, arg.language));
+      obj.setProperty(runtime, "videoAutoPlay", JSIConverter<std::optional<bool>>::toJSI(runtime, arg.videoAutoPlay));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -62,6 +66,7 @@ namespace margelo::nitro {
       }
       jsi::Object obj = value.getObject(runtime);
       if (!JSIConverter<Language>::canConvert(runtime, obj.getProperty(runtime, "language"))) return false;
+      if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, "videoAutoPlay"))) return false;
       return true;
     }
   };

@@ -15,7 +15,7 @@ extension HybridMultipleImagePicker {
         var assets: [PhotoAsset] = []
 
         previewConfig.tintColor = .white
-        previewConfig.videoPlayType = .auto
+        previewConfig.videoPlayType = config.videoAutoPlay == true ? .auto : .normal
         previewConfig.livePhotoPlayType = .auto
 
         previewConfig.languageType = setLocale(language: config.language)

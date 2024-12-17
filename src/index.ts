@@ -22,7 +22,7 @@ import {
   CameraResult,
   Language,
 } from './types'
-import { CropError } from './types/error'
+import { CropError, CameraError } from './types/error'
 
 const Picker = NitroModules.createHybridObject<MultipleImagePicker>(
   'MultipleImagePicker'
@@ -95,10 +95,11 @@ export async function openCropper(
 export function openPreview(
   media: MediaPreview[] | Result[],
   index: number = 0,
-  conf: PreviewConfig
+  conf?: PreviewConfig
 ): void {
   const config: PreviewConfig = {
-    language: conf.language ?? 'system',
+    language: conf?.language ?? 'system',
+    videoAutoPlay: true,
     ...conf,
   }
 
@@ -145,7 +146,7 @@ export async function openCamera(config?: CameraConfig): Promise<CameraResult> {
       (result: CameraResult) => {
         resolved(result)
       },
-      (error: number) => {
+      (error: CameraError) => {
         rejected(error)
       }
     )

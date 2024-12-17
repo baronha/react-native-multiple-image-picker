@@ -32,7 +32,7 @@ extension HybridMultipleImagePicker {
                       parentFolderName: nil,
                       creationDate: creationDate > 0 ? Double(creationDate) : nil,
                       crop: false,
-                      path: url.absoluteString,
+                      path: "file://\(url.absoluteString)",
                       type: type,
                       duration: asset.videoDuration,
                       thumbnail: thumbnail,

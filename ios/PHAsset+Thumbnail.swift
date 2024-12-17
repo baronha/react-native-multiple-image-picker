@@ -10,7 +10,9 @@ import Photos
 extension PHAsset {
     func getVideoAssetThumbnail(from moviePath: String, in seconds: Double) -> String? {
         if mediaType == .video {
-            return getVideoThumbnail(from: moviePath, in: seconds)
+            if let path = getVideoThumbnail(from: moviePath, in: seconds) {
+                return "file://\(path)"
+            }
         }
 
         return nil

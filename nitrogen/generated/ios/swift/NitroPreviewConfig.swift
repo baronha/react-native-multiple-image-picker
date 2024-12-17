@@ -18,8 +18,14 @@ public extension NitroPreviewConfig {
   /**
    * Create a new instance of `NitroPreviewConfig`.
    */
-  init(language: Language) {
-    self.init(language)
+  init(language: Language, videoAutoPlay: Bool?) {
+    self.init(language, { () -> bridge.std__optional_bool_ in
+      if let __unwrappedValue = videoAutoPlay {
+        return bridge.create_std__optional_bool_(__unwrappedValue)
+      } else {
+        return .init()
+      }
+    }())
   }
 
   var language: Language {
@@ -30,6 +36,23 @@ public extension NitroPreviewConfig {
     @inline(__always)
     set {
       self.__language = newValue
+    }
+  }
+  
+  var videoAutoPlay: Bool? {
+    @inline(__always)
+    get {
+      return self.__videoAutoPlay.value
+    }
+    @inline(__always)
+    set {
+      self.__videoAutoPlay = { () -> bridge.std__optional_bool_ in
+        if let __unwrappedValue = newValue {
+          return bridge.create_std__optional_bool_(__unwrappedValue)
+        } else {
+          return .init()
+        }
+      }()
     }
   }
 }

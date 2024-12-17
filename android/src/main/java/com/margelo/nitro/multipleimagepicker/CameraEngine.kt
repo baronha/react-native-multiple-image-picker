@@ -28,7 +28,7 @@ class CameraEngine(
         camera.setRecordVideoMaxSecond(config.videoMaximumDuration?.toInt() ?: 60)
         camera.setCameraAroundState(config.cameraDevice == CameraDevice.FRONT)
         camera.setOutputPathDir(getSandboxCameraOutputPath())
-        
+
         config.color?.let {
             val primaryColor = ColorPropConverter.getColor(it, appContext)
             camera.setCaptureLoadingColor(primaryColor)

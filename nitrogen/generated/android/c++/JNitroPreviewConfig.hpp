@@ -12,6 +12,7 @@
 
 #include "JLanguage.hpp"
 #include "Language.hpp"
+#include <optional>
 
 namespace margelo::nitro::multipleimagepicker {
 
@@ -33,8 +34,11 @@ namespace margelo::nitro::multipleimagepicker {
       static const auto clazz = javaClassStatic();
       static const auto fieldLanguage = clazz->getField<JLanguage>("language");
       jni::local_ref<JLanguage> language = this->getFieldValue(fieldLanguage);
+      static const auto fieldVideoAutoPlay = clazz->getField<jni::JBoolean>("videoAutoPlay");
+      jni::local_ref<jni::JBoolean> videoAutoPlay = this->getFieldValue(fieldVideoAutoPlay);
       return NitroPreviewConfig(
-        language->toCpp()
+        language->toCpp(),
+        videoAutoPlay != nullptr ? std::make_optional(static_cast<bool>(videoAutoPlay->value())) : std::nullopt
       );
     }
 
@@ -45,7 +49,8 @@ namespace margelo::nitro::multipleimagepicker {
     [[maybe_unused]]
     static jni::local_ref<JNitroPreviewConfig::javaobject> fromCpp(const NitroPreviewConfig& value) {
       return newInstance(
-        JLanguage::fromCpp(value.language)
+        JLanguage::fromCpp(value.language),
+        value.videoAutoPlay.has_value() ? jni::JBoolean::valueOf(value.videoAutoPlay.value()) : nullptr
       );
     }
   };

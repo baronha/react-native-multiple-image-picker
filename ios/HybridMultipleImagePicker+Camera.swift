@@ -87,7 +87,7 @@ extension HybridMultipleImagePicker {
 
                     let thumbnail = getVideoThumbnail(from: url.absoluteString, in: 1)
 
-                    var result = CameraResult(path: url.absoluteString,
+                    var result = CameraResult(path: "file://\(url.absoluteString)",
                                               type: ResultType.video,
                                               width: nil,
                                               height: nil,

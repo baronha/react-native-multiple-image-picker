@@ -92,7 +92,6 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
             .setImageEngine(imageEngine)
             .setSelectedData(dataList)
             .setSelectorUIStyle(style)
-
             .apply {
                 if (isCrop) {
                     setCropOption(config.crop)
@@ -129,6 +128,7 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
                     setCameraInterceptListener(CameraEngine(appContext, cameraConfig))
                 }
             }
+            .setVideoThumbnailListener(VideoThumbnailEngine(getVideoThumbnailDir()))
             .setImageSpanCount(config.numberOfColumn?.toInt() ?: 3)
             .setMaxSelectNum(maxSelect)
             .isDirectReturnSingle(true)
@@ -307,7 +307,7 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
             .setLanguage(getLanguage(config.language))
             .setSelectorUIStyle(previewStyle)
             .isPreviewFullScreenMode(true)
-            .isAutoVideoPlay(true)
+            .isAutoVideoPlay(config.videoAutoPlay == true)
             .setVideoPlayerEngine(ExoPlayerEngine())
             .isVideoPauseResumePlay(true)
             .setCustomLoadingListener(getCustomLoadingListener())
@@ -334,6 +334,7 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
             .setCameraInterceptListener(CameraEngine(appContext, config))
             .isQuickCapture(true)
             .isOriginalControl(true)
+            .setVideoThumbnailListener(VideoThumbnailEngine(getVideoThumbnailDir()))
             .apply {
                 if (config.crop != null) {
                     setCropEngine(CropEngine(cropOption))
@@ -370,6 +371,15 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
             MediaType.IMAGE -> SelectMimeType.ofImage()
             else -> SelectMimeType.ofAll()
         }
+    }
+
+    private fun getVideoThumbnailDir(): String {
+        val externalFilesDir: File? = appContext.getExternalFilesDir("")
+        val customFile = File(externalFilesDir?.absolutePath, "Thumbnail")
+        if (!customFile.exists()) {
+            customFile.mkdirs()
+        }
+        return customFile.absolutePath + File.separator
     }
 
 
@@ -571,15 +581,21 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
             if (item.mimeType.startsWith("video/")) ResultType.VIDEO else ResultType.IMAGE
 
         var path = item.path
-
         var width: Double = item.width.toDouble()
         var height: Double = item.height.toDouble()
+
+        val thumbnail = item.videoThumbnailPath?.let {
+            if (!it.startsWith("file://")) "file://$it" else it
+        }
 
         if (item.isCut) {
             path = "file://${item.cutPath}"
             width = item.cropImageWidth.toDouble()
             height = item.cropImageHeight.toDouble()
         }
+
+        if (!path.startsWith("file://") && !path.startsWith("content://") && type == ResultType.IMAGE)
+            path = "file://$path"
 
         val media = Result(
             localIdentifier = item.id.toString(),
@@ -595,7 +611,7 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
             path,
             type,
             fileName = item.fileName,
-            thumbnail = item.videoThumbnailPath,
+            thumbnail = thumbnail,
             duration = item.duration.toDouble()
         )
 

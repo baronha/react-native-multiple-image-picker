@@ -93,19 +93,15 @@ export default function App() {
     }
   }
 
+  console.log('images: ', images)
+
   const onCamera = async () => {
     try {
-      const response = await openCamera({
-        mediaType: 'all',
-        videoMaximumDuration: 5,
-        color: 'black',
-      })
+      const response = await openCamera()
 
       setImages((prev) => {
         return [response as Result, ...prev]
       })
-
-      console.log('camera response: ', response)
 
       layoutEffect()
     } catch (e) {
@@ -115,7 +111,6 @@ export default function App() {
 
   const onCrop = async () => {
     try {
-      console.log('images: ', images)
       const response = await openCropper(images[0].path, {
         ratio: [
           { title: 'Instagram', width: 1, height: 1 },
@@ -188,7 +183,6 @@ export default function App() {
                   width={WIDTH - 6}
                   sourceKey={'path'}
                   videoKey={'type'}
-                  prefixPath={Platform.OS === 'ios' ? 'file://' : ''}
                   conditionCheckVideo={'video'}
                   videoURLKey={'thumbnail'}
                   showDelete
