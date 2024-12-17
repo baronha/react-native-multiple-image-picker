@@ -14,7 +14,6 @@ import com.facebook.react.bridge.ReactMethod
 import com.luck.picture.lib.app.IApp
 import com.luck.picture.lib.app.PictureAppMaster
 import com.luck.picture.lib.basic.PictureSelector
-import com.luck.picture.lib.config.Crop
 import com.luck.picture.lib.config.PictureMimeType
 import com.luck.picture.lib.config.SelectMimeType
 import com.luck.picture.lib.config.SelectModeConfig

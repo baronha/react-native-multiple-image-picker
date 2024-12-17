@@ -1,7 +1,7 @@
 import { ColorValue } from 'react-native'
-import { CropRatio, Language, MediaType, Presentation, Theme } from './config'
+import { Language, MediaType, Presentation, Theme } from './config'
 import { Result } from './result'
-import { PickerCropConfig } from './crop'
+import { PickerCropConfig, CropRatio } from './crop'
 import { PickerCameraConfig } from './camera'
 
 export type SelectBoxStyle = 'number' | 'tick'
@@ -217,6 +217,7 @@ export interface NitroConfig {
   camera?: PickerCameraConfig
 }
 
+// CONFIG TYPE
 export interface Config
   extends Omit<
     NitroConfig,

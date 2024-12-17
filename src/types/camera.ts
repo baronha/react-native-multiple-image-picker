@@ -1,7 +1,7 @@
 import { ColorValue } from 'react-native'
-import { CropRatio, Language, MediaType, Presentation } from './config'
-import { PickerCropConfig } from './crop'
-import { BaseResult, ResultType } from './result'
+import { Language, MediaType, Presentation } from './config'
+import { PickerCropConfig, CropRatio } from './crop'
+import { BaseResult } from './result'
 
 export type CameraDevice = 'front' | 'back'
 
