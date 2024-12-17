@@ -126,9 +126,10 @@ export async function openCamera(config?: CameraConfig): Promise<CameraResult> {
       mediaType: 'all',
       allowLocation: true,
       isSaveSystemAlbum: false,
-      color: processColor(config?.color ?? primaryColor) as any,
       ...config,
     } as NitroCameraConfig
+
+    cameraConfig.color = processColor(cameraConfig.color ?? primaryColor) as any
 
     cameraConfig.language = validateLanguage(cameraConfig.language)
 

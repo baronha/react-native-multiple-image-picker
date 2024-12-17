@@ -96,10 +96,9 @@ export default function App() {
   const onCamera = async () => {
     try {
       const response = await openCamera({
-        crop: true,
-        isSaveSystemAlbum: false,
         mediaType: 'all',
         videoMaximumDuration: 5,
+        color: 'black',
       })
 
       setImages((prev) => {
@@ -449,7 +448,11 @@ export default function App() {
                   description="Enable crop circle functionality."
                 >
                   <Switch
-                    value={options?.crop?.circle}
+                    value={
+                      typeof options.crop === 'boolean'
+                        ? options.crop
+                        : options.crop?.circle
+                    }
                     onValueChange={(value) =>
                       setOptions(
                         'crop',

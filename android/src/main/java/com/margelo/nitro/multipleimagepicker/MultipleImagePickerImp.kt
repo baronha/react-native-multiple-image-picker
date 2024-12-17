@@ -112,11 +112,21 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
                     setFilterMaxFileSize(it)
                 }
 
-
                 isDisplayCamera(config.camera != null)
 
                 config.camera?.let {
-                    setCameraInterceptListener(CameraEngine(appContext, it))
+                    val cameraConfig = NitroCameraConfig(
+                        mediaType = MediaType.ALL,
+                        presentation = Presentation.FULLSCREENMODAL,
+                        language = Language.SYSTEM,
+                        crop = null,
+                        isSaveSystemAlbum = false,
+                        color = config.primaryColor,
+                        cameraDevice = it.cameraDevice,
+                        videoMaximumDuration = it.videoMaximumDuration
+                    )
+
+                    setCameraInterceptListener(CameraEngine(appContext, cameraConfig))
                 }
             }
             .setImageSpanCount(config.numberOfColumn?.toInt() ?: 3)
@@ -314,31 +324,44 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
         resolved: (result: CameraResult) -> Unit,
         rejected: (reject: Double) -> Unit
     ) {
+        val activity = currentActivity
         val chooseMode = getChooseMode(config.mediaType)
-        val cameraConfig = PickerCameraConfig(
-            cameraDevice = config.cameraDevice,
-            videoMaximumDuration = config.videoMaximumDuration
-        )
 
         PictureSelector
-            .create(currentActivity)
+            .create(activity)
             .openCamera(chooseMode)
             .setLanguage(getLanguage(config.language))
+            .setCameraInterceptListener(CameraEngine(appContext, config))
             .isQuickCapture(true)
-            .setCropEngine(CropEngine(cropOption))
-//            .setOfAllCameraType(chooseMode)
-            .setCameraInterceptListener(CameraEngine(appContext, cameraConfig))
-            .forResult(object : OnResultCallbackListener<LocalMedia?> {
-                override fun onResult(result: java.util.ArrayList<LocalMedia?>?) {
-                    println("camera: $result")
+            .isOriginalControl(true)
+            .apply {
+                if (config.crop != null) {
+                    setCropEngine(CropEngine(cropOption))
+                }
+            }
+            .forResultActivity(object : OnResultCallbackListener<LocalMedia?> {
+                override fun onResult(results: java.util.ArrayList<LocalMedia?>?) {
+                    results?.first()?.let {
+                        val result = getResult(it)
+
+                        resolved(
+                            CameraResult(
+                                path = result.path,
+                                type = result.type,
+                                width = result.width,
+                                height = result.height,
+                                duration = result.duration,
+                                thumbnail = result.thumbnail,
+                                fileName = result.fileName
+                            )
+                        )
+                    }
                 }
 
                 override fun onCancel() {
-                    TODO("Not yet implemented")
+//                    rejected(0.0)
                 }
-
             })
-
     }
 
     private fun getChooseMode(mediaType: MediaType): Int {
@@ -557,7 +580,6 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
             width = item.cropImageWidth.toDouble()
             height = item.cropImageHeight.toDouble()
         }
-
 
         val media = Result(
             localIdentifier = item.id.toString(),

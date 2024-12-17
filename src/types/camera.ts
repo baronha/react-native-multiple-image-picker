@@ -40,12 +40,7 @@ export interface NitroCameraConfig extends PickerCameraConfig {
 export interface CameraConfig
   extends Omit<
     NitroCameraConfig,
-    | 'cameraDevice'
-    | 'mediaType'
-    | 'language'
-    | 'presentation'
-    | 'crop'
-    | 'color'
+    'mediaType' | 'language' | 'presentation' | 'crop' | 'color'
   > {
   /**
    * Type of media to be displayed

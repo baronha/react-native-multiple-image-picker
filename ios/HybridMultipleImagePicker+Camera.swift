@@ -78,7 +78,7 @@ extension HybridMultipleImagePicker {
                     if let filePath {
                         resolved(CameraResult(path: filePath, type: ResultType.image, width: uiImage.size.width, height: uiImage.size.height, duration: nil, thumbnail: nil, fileName: fileName))
                     } else {
-                        rejected(0)
+                        rejected(1)
                     }
 
                 case .video(let url):
