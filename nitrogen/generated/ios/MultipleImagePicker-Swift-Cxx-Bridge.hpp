@@ -10,6 +10,8 @@
 // Forward declarations of C++ defined types
 // Forward declaration of `CameraDevice` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { enum class CameraDevice; }
+// Forward declaration of `CameraResult` to properly resolve imports.
+namespace margelo::nitro::multipleimagepicker { struct CameraResult; }
 // Forward declaration of `CropRatio` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { struct CropRatio; }
 // Forward declaration of `CropResult` to properly resolve imports.
@@ -35,6 +37,7 @@ namespace MultipleImagePicker { class HybridMultipleImagePickerSpecCxx; }
 
 // Include C++ defined types
 #include "CameraDevice.hpp"
+#include "CameraResult.hpp"
 #include "CropRatio.hpp"
 #include "CropResult.hpp"
 #include "HybridMultipleImagePickerSpec.hpp"
@@ -130,6 +133,15 @@ namespace margelo::nitro::multipleimagepicker::bridge::swift {
   using std__optional_Text_ = std::optional<Text>;
   inline std::optional<Text> create_std__optional_Text_(const Text& value) {
     return std::optional<Text>(value);
+  }
+  
+  // pragma MARK: std::optional<CameraDevice>
+  /**
+   * Specialized version of `std::optional<CameraDevice>`.
+   */
+  using std__optional_CameraDevice_ = std::optional<CameraDevice>;
+  inline std::optional<CameraDevice> create_std__optional_CameraDevice_(const CameraDevice& value) {
+    return std::optional<CameraDevice>(value);
   }
   
   // pragma MARK: std::optional<PickerCameraConfig>
@@ -234,6 +246,34 @@ namespace margelo::nitro::multipleimagepicker::bridge::swift {
     std::vector<MediaPreview> vector;
     vector.reserve(size);
     return vector;
+  }
+  
+  // pragma MARK: std::function<void(const CameraResult& /* result */)>
+  /**
+   * Specialized version of `std::function<void(const CameraResult&)>`.
+   */
+  using Func_void_CameraResult = std::function<void(const CameraResult& /* result */)>;
+  /**
+   * Wrapper class for a `std::function<void(const CameraResult& / * result * /)>`, this can be used from Swift.
+   */
+  class Func_void_CameraResult_Wrapper final {
+  public:
+    explicit Func_void_CameraResult_Wrapper(const std::function<void(const CameraResult& /* result */)>& func): _function(func) {}
+    explicit Func_void_CameraResult_Wrapper(std::function<void(const CameraResult& /* result */)>&& func): _function(std::move(func)) {}
+    inline void call(CameraResult result) const {
+      _function(result);
+    }
+  private:
+    std::function<void(const CameraResult& /* result */)> _function;
+  };
+  inline Func_void_CameraResult create_Func_void_CameraResult(void* _Nonnull closureHolder, void(* _Nonnull call)(void* _Nonnull /* closureHolder */, CameraResult), void(* _Nonnull destroy)(void* _Nonnull)) {
+    std::shared_ptr<void> sharedClosureHolder(closureHolder, destroy);
+    return Func_void_CameraResult([sharedClosureHolder, call](const CameraResult& result) -> void {
+      call(sharedClosureHolder.get(), result);
+    });
+  }
+  inline std::shared_ptr<Func_void_CameraResult_Wrapper> share_Func_void_CameraResult(const Func_void_CameraResult& value) {
+    return std::make_shared<Func_void_CameraResult_Wrapper>(value);
   }
   
   // pragma MARK: std::shared_ptr<margelo::nitro::multipleimagepicker::HybridMultipleImagePickerSpec>

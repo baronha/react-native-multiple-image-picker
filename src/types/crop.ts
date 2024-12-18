@@ -1,4 +1,6 @@
-import { CropRatio, Language, Presentation } from './config'
+import { Language, Presentation } from './config'
+
+export type CropRatio = { title?: string; width: number; height: number }
 
 /**
  * Configuration for image cropping

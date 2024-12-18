@@ -17,5 +17,6 @@ import com.margelo.nitro.core.*
 @DoNotStrip
 @Keep
 data class NitroPreviewConfig(
-  val language: Language
+  val language: Language,
+  val videoAutoPlay: Boolean?
 )

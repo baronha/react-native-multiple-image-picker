@@ -17,8 +17,6 @@ import com.margelo.nitro.core.*
 @DoNotStrip
 @Keep
 data class Result(
-  val path: String,
-  val fileName: String,
   val localIdentifier: String,
   val width: Double,
   val height: Double,
@@ -28,8 +26,10 @@ data class Result(
   val realPath: String?,
   val parentFolderName: String?,
   val creationDate: Double?,
+  val crop: Boolean?,
+  val path: String,
   val type: ResultType,
   val duration: Double?,
   val thumbnail: String?,
-  val crop: Boolean?
+  val fileName: String?
 )

@@ -4,6 +4,13 @@ import { ResultType } from './result'
 // PREVIEW
 export type NitroPreviewConfig = {
   language: Language
+
+  /**
+   * Auto play video when open preview.
+   *
+   * @platform iOS, Android
+   */
+  videoAutoPlay?: boolean
 }
 
 export interface PreviewConfig

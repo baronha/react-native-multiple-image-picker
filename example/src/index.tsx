@@ -22,6 +22,7 @@ import {
   Config,
   openCropper,
   openPreview,
+  openCamera,
 } from '@baronha/react-native-multiple-image-picker'
 import { useImmer } from 'use-immer'
 import { StatusBar } from 'expo-status-bar'
@@ -82,7 +83,7 @@ export default function App() {
     try {
       const response = await openPicker({
         ...options,
-        selectedAssets: images,
+        selectedAssets: images.filter((item) => item.localIdentifier),
       })
 
       setImages(Array.isArray(response) ? response : [response])
@@ -92,9 +93,22 @@ export default function App() {
     }
   }
 
+  const onCamera = async () => {
+    try {
+      const response = await openCamera()
+
+      setImages((prev) => {
+        return [response as Result, ...prev]
+      })
+
+      layoutEffect()
+    } catch (e) {
+      console.log('e: ', e)
+    }
+  }
+
   const onCrop = async () => {
     try {
-      console.log('images: ', images)
       const response = await openCropper(images[0].path, {
         ratio: [
           { title: 'Instagram', width: 1, height: 1 },
@@ -167,7 +181,6 @@ export default function App() {
                   width={WIDTH - 6}
                   sourceKey={'path'}
                   videoKey={'type'}
-                  prefixPath={Platform.OS === 'ios' ? 'file://' : ''}
                   conditionCheckVideo={'video'}
                   videoURLKey={'thumbnail'}
                   showDelete
@@ -415,7 +428,7 @@ export default function App() {
                   <Switch
                     value={options.crop !== undefined}
                     onValueChange={(value) =>
-                      setOptions('crop', value ? {} : undefined)
+                      setOptions('crop', value ? true : undefined)
                     }
                   />
                 </SectionView>
@@ -427,7 +440,11 @@ export default function App() {
                   description="Enable crop circle functionality."
                 >
                   <Switch
-                    value={options?.crop?.circle}
+                    value={
+                      typeof options.crop === 'boolean'
+                        ? options.crop
+                        : options.crop?.circle
+                    }
                     onValueChange={(value) =>
                       setOptions(
                         'crop',
@@ -550,9 +567,14 @@ export default function App() {
       </KeyboardAvoidingView>
 
       <View level={2}>
-        <Button style={style.buttonOpen} onPress={onPicker}>
-          Open Picker
-        </Button>
+        <Row style={style.bottom} level={2} gap={12}>
+          <Button type="outline" onPress={onCamera}>
+            Open Camera
+          </Button>
+          <Button style={style.openPicker} onPress={onPicker}>
+            Open Picker
+          </Button>
+        </Row>
         <SafeAreaView />
       </View>
     </Container>
@@ -642,5 +664,12 @@ const style = StyleSheet.create({
     paddingVertical: 8,
     borderRadius: 6,
     borderWidth: 1,
+  },
+  bottom: {
+    padding: 16,
+    paddingHorizontal: 24,
+  },
+  openPicker: {
+    flex: 1,
   },
 })

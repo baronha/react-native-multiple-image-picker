@@ -124,21 +124,7 @@ extension HybridMultipleImagePicker {
         if let cameraOption = options.camera {
             photoList.allowAddCamera = true
 
-            var cameraConfig = SystemCameraConfiguration()
-
-            cameraConfig.editExportPreset = .highQuality
-            cameraConfig.videoQuality = .typeHigh
-
-            switch Int(cameraOption.cameraDevice.rawValue) {
-            case 0:
-                cameraConfig.cameraDevice = .front
-            default:
-                cameraConfig.cameraDevice = .rear
-            }
-
-            cameraConfig.videoMaximumDuration = cameraOption.videoMaximumDuration ?? 60
-
-            photoList.cameraType = .system(cameraConfig)
+            photoList.cameraType = .system(setCameraConfig(cameraOption))
         } else {
             photoList.allowAddCamera = false
         }
@@ -149,12 +135,7 @@ extension HybridMultipleImagePicker {
         setLanguage(options)
         setTheme(options)
 
-        switch Int(options.presentation.rawValue) {
-        case 1:
-            config.modalPresentationStyle = .formSheet
-        default:
-            config.modalPresentationStyle = .fullScreen
-        }
+        config.modalPresentationStyle = setPresentation(options.presentation)
     }
 
     private func setTheme(_ options: NitroConfig) {
@@ -201,6 +182,19 @@ extension HybridMultipleImagePicker {
         config.navigationTitleColor = .white
         config.photoList.titleView.arrow.arrowColor = .white
         config.photoList.cell.customSelectableCellClass = nil
+    }
+
+    func setPresentation(_ presentation: Presentation?) -> UIModalPresentationStyle {
+        if let presentation {
+            switch Int(presentation.rawValue) {
+            case 1:
+                return .formSheet
+            default:
+                return .fullScreen
+            }
+        }
+
+        return .fullScreen
     }
 
     private func setLanguage(_ options: NitroConfig) {

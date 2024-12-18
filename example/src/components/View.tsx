@@ -1,8 +1,8 @@
 import React from 'react'
-import { View as RNView, ViewProps } from 'react-native'
+import { View as RNView, ViewProps as RNViewProps } from 'react-native'
 import useTheme from '../hook/useTheme'
 
-interface Props extends ViewProps {
+export interface ViewProps extends RNViewProps {
   level?: 0 | 1 | 2 | 3
   flex?: number
 }
@@ -12,7 +12,7 @@ export function View({
   style: containerStyle,
   level = 0,
   flex,
-}: Props) {
+}: ViewProps) {
   const theme = useTheme()
   const backgroundColor = !level
     ? theme.background

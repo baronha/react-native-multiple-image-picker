@@ -73,11 +73,7 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
         setStyle() // set style for UI
         handleSelectedAssets(config)
 
-        val chooseMode = when (config.mediaType) {
-            MediaType.VIDEO -> SelectMimeType.ofVideo()
-            MediaType.IMAGE -> SelectMimeType.ofImage()
-            else -> SelectMimeType.ofAll()
-        }
+        val chooseMode = getChooseMode(config.mediaType)
 
         val maxSelect = config.maxSelect?.toInt() ?: 20
         val maxVideo = config.maxVideo?.toInt() ?: 20
@@ -96,7 +92,6 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
             .setImageEngine(imageEngine)
             .setSelectedData(dataList)
             .setSelectorUIStyle(style)
-
             .apply {
                 if (isCrop) {
                     setCropOption(config.crop)
@@ -116,13 +111,24 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
                     setFilterMaxFileSize(it)
                 }
 
-
                 isDisplayCamera(config.camera != null)
 
                 config.camera?.let {
-                    setCameraInterceptListener(CameraEngine(appContext, it))
+                    val cameraConfig = NitroCameraConfig(
+                        mediaType = MediaType.ALL,
+                        presentation = Presentation.FULLSCREENMODAL,
+                        language = Language.SYSTEM,
+                        crop = null,
+                        isSaveSystemAlbum = false,
+                        color = config.primaryColor,
+                        cameraDevice = it.cameraDevice,
+                        videoMaximumDuration = it.videoMaximumDuration
+                    )
+
+                    setCameraInterceptListener(CameraEngine(appContext, cameraConfig))
                 }
             }
+            .setVideoThumbnailListener(VideoThumbnailEngine(getVideoThumbnailDir()))
             .setImageSpanCount(config.numberOfColumn?.toInt() ?: 3)
             .setMaxSelectNum(maxSelect)
             .isDirectReturnSingle(true)
@@ -301,7 +307,7 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
             .setLanguage(getLanguage(config.language))
             .setSelectorUIStyle(previewStyle)
             .isPreviewFullScreenMode(true)
-            .isAutoVideoPlay(true)
+            .isAutoVideoPlay(config.videoAutoPlay == true)
             .setVideoPlayerEngine(ExoPlayerEngine())
             .isVideoPauseResumePlay(true)
             .setCustomLoadingListener(getCustomLoadingListener())
@@ -310,6 +316,70 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
 
     private fun getCustomLoadingListener(): OnCustomLoadingListener {
         return OnCustomLoadingListener { context -> LoadingDialog(context) }
+    }
+
+    @ReactMethod
+    fun openCamera(
+        config: NitroCameraConfig,
+        resolved: (result: CameraResult) -> Unit,
+        rejected: (reject: Double) -> Unit
+    ) {
+        val activity = currentActivity
+        val chooseMode = getChooseMode(config.mediaType)
+
+        PictureSelector
+            .create(activity)
+            .openCamera(chooseMode)
+            .setLanguage(getLanguage(config.language))
+            .setCameraInterceptListener(CameraEngine(appContext, config))
+            .isQuickCapture(true)
+            .isOriginalControl(true)
+            .setVideoThumbnailListener(VideoThumbnailEngine(getVideoThumbnailDir()))
+            .apply {
+                if (config.crop != null) {
+                    setCropEngine(CropEngine(cropOption))
+                }
+            }
+            .forResultActivity(object : OnResultCallbackListener<LocalMedia?> {
+                override fun onResult(results: java.util.ArrayList<LocalMedia?>?) {
+                    results?.first()?.let {
+                        val result = getResult(it)
+
+                        resolved(
+                            CameraResult(
+                                path = result.path,
+                                type = result.type,
+                                width = result.width,
+                                height = result.height,
+                                duration = result.duration,
+                                thumbnail = result.thumbnail,
+                                fileName = result.fileName
+                            )
+                        )
+                    }
+                }
+
+                override fun onCancel() {
+//                    rejected(0.0)
+                }
+            })
+    }
+
+    private fun getChooseMode(mediaType: MediaType): Int {
+        return when (mediaType) {
+            MediaType.VIDEO -> SelectMimeType.ofVideo()
+            MediaType.IMAGE -> SelectMimeType.ofImage()
+            else -> SelectMimeType.ofAll()
+        }
+    }
+
+    private fun getVideoThumbnailDir(): String {
+        val externalFilesDir: File? = appContext.getExternalFilesDir("")
+        val customFile = File(externalFilesDir?.absolutePath, "Thumbnail")
+        if (!customFile.exists()) {
+            customFile.mkdirs()
+        }
+        return customFile.absolutePath + File.separator
     }
 
 
@@ -511,9 +581,12 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
             if (item.mimeType.startsWith("video/")) ResultType.VIDEO else ResultType.IMAGE
 
         var path = item.path
-
         var width: Double = item.width.toDouble()
         var height: Double = item.height.toDouble()
+
+        val thumbnail = item.videoThumbnailPath?.let {
+            if (!it.startsWith("file://")) "file://$it" else it
+        }
 
         if (item.isCut) {
             path = "file://${item.cutPath}"
@@ -521,9 +594,10 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
             height = item.cropImageHeight.toDouble()
         }
 
+        if (!path.startsWith("file://") && !path.startsWith("content://") && type == ResultType.IMAGE)
+            path = "file://$path"
+
         val media = Result(
-            path,
-            fileName = item.fileName,
             localIdentifier = item.id.toString(),
             width,
             height,
@@ -533,10 +607,12 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
             realPath = item.realPath,
             parentFolderName = item.parentFolderName,
             creationDate = item.dateAddedTime.toDouble(),
+            crop = item.isCut,
+            path,
             type,
-            duration = item.duration.toDouble(),
-            thumbnail = item.videoThumbnailPath,
-            crop = item.isCut
+            fileName = item.fileName,
+            thumbnail = thumbnail,
+            duration = item.duration.toDouble()
         )
 
         return media

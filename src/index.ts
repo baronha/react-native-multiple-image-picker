@@ -14,12 +14,15 @@ import {
   CropResult,
   CropConfig,
   NitroCropConfig,
-  CropRatio,
   PreviewConfig,
   NitroPreviewConfig,
   MediaPreview,
+  CameraConfig,
+  NitroCameraConfig,
+  CameraResult,
+  Language,
 } from './types'
-import { CropError } from './types/error'
+import { CropError, CameraError } from './types/error'
 
 const Picker = NitroModules.createHybridObject<MultipleImagePicker>(
   'MultipleImagePicker'
@@ -42,11 +45,13 @@ export async function openPicker<T extends Config>(
       config.theme = theme
     }
 
-    if (config?.language && !LANGUAGES.includes(config.language)) {
-      config.language = 'system'
+    config.language = validateLanguage(config.language)
+
+    if (typeof config.crop === 'boolean') {
+      config.crop = config.crop ? { ratio: [] } : undefined
     }
 
-    if (config.crop) config.crop.ratio = config.crop.ratio ?? []
+    if (config.crop) config.crop.ratio = config.crop?.ratio ?? []
 
     return Picker.openPicker(
       config,
@@ -72,9 +77,7 @@ export async function openCropper(
       ...config,
     } as NitroCropConfig
 
-    if (config?.language && !LANGUAGES.includes(config.language)) {
-      config.language = 'system'
-    }
+    cropConfig.language = validateLanguage(cropConfig.language)
 
     return Picker.openCrop(
       image,
@@ -92,10 +95,11 @@ export async function openCropper(
 export function openPreview(
   media: MediaPreview[] | Result[],
   index: number = 0,
-  conf: PreviewConfig
+  conf?: PreviewConfig
 ): void {
   const config: PreviewConfig = {
-    language: conf.language ?? 'system',
+    language: conf?.language ?? 'system',
+    videoAutoPlay: true,
     ...conf,
   }
 
@@ -114,14 +118,56 @@ export function openPreview(
   )
 }
 
+export async function openCamera(config?: CameraConfig): Promise<CameraResult> {
+  return new Promise((resolved, rejected) => {
+    const cameraConfig = {
+      cameraDevice: 'back',
+      presentation: 'fullScreenModal',
+      language: 'system',
+      mediaType: 'all',
+      allowLocation: true,
+      isSaveSystemAlbum: false,
+      ...config,
+    } as NitroCameraConfig
+
+    cameraConfig.color = processColor(cameraConfig.color ?? primaryColor) as any
+
+    cameraConfig.language = validateLanguage(cameraConfig.language)
+
+    if (typeof cameraConfig.crop === 'boolean') {
+      cameraConfig.crop = cameraConfig.crop ? { ratio: [] } : undefined
+    }
+
+    if (cameraConfig.crop && !cameraConfig.crop?.ratio)
+      cameraConfig.crop.ratio = []
+
+    return Picker.openCamera(
+      cameraConfig,
+      (result: CameraResult) => {
+        resolved(result)
+      },
+      (error: CameraError) => {
+        rejected(error)
+      }
+    )
+  })
+}
+
 const DEFAULT_COUNT = 20
 
-export const DEFAULT_RATIO: CropRatio[] = []
+const validateLanguage = (language?: Language): Language => {
+  if (!language || !LANGUAGES.includes(language)) {
+    return 'system'
+  }
+  return language
+}
+
+const primaryColor = '#2979ff'
 
 export const defaultOptions: Config = {
   maxSelect: DEFAULT_COUNT,
   maxVideo: DEFAULT_COUNT,
-  primaryColor: '#FB9300',
+  primaryColor,
   backgroundDark: '#2f2f2f',
   allowedLimit: true,
   numberOfColumn: 3,
@@ -136,7 +182,7 @@ export const defaultOptions: Config = {
   isHiddenOriginalButton: false,
   allowSwipeToSelect: true,
   camera: {
-    cameraDevice: 'front',
+    cameraDevice: 'back',
     videoMaximumDuration: 60,
   },
 }

@@ -20,6 +20,7 @@ class Assets {
 
 extension UIImage {
     static var close = UIImage(name: "close")
+
     convenience init(name: String) {
         self.init(named: name, in: Assets.bundle(), compatibleWith: nil)!
     }

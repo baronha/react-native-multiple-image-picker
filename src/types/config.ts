@@ -18,5 +18,3 @@ export type Language =
   | 'ar'
 
 export type MediaType = 'video' | 'image' | 'all'
-
-export type CropRatio = { title?: string; width: number; height: number }

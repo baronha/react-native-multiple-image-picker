@@ -1,6 +1,6 @@
 {
   "name": "multipleimagepickerexample",
-  "version": "1.0.0",
+  "version": "2.0.4",
   "main": "expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
