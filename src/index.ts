@@ -162,7 +162,7 @@ const validateLanguage = (language?: Language): Language => {
   return language
 }
 
-const primaryColor = '#FB9300'
+const primaryColor = '#2979ff'
 
 export const defaultOptions: Config = {
   maxSelect: DEFAULT_COUNT,

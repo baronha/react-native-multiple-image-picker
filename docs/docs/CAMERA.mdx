@@ -1,0 +1,269 @@
+---
+id: camera
+title: Camera 📸
+sidebar_label: Camera 📸
+slug: /camera
+---
+
+import ReactPlayer from 'react-player'
+
+The camera module provides a simple interface for capturing photos and recording videos with customizable options.
+
+<ReactPlayer
+  playing
+  controls
+  width="100%"
+  height="100%"
+  url="https://github.com/user-attachments/assets/7afbc4cd-07a7-46b0-8501-9f1b3be70699"
+/>
+
+## Usage
+
+```typescript
+import { openCamera } from '@baronha/react-native-multiple-image-picker'
+
+const open = async () => {
+  try {
+    const response = await openCamera({
+      mediaType: 'all',
+      cameraDevice: 'back'
+    })
+    console.log(response)
+  } catch (e) {
+    console.log(e)
+  }
+}
+```
+
+## Configuration Options
+
+### `mediaType`
+Specifies the type of media that can be captured.
+
+```typescript
+mediaType?: 'video' | 'image' | 'all'
+```
+
+**Default:** `'all'`
+
+### `cameraDevice`
+Selects which camera to use for capture.
+
+```typescript
+cameraDevice?: 'front' | 'back'
+```
+
+**Default:** `'back'`
+
+### `videoMaximumDuration`
+Sets the maximum duration for video recording in seconds.
+
+```typescript
+videoMaximumDuration?: number
+```
+
+**Default:** No limit
+
+### `presentation`
+Controls how the camera view is presented (iOS only).
+
+```typescript
+presentation?: 'fullScreenModal' | 'formSheet'
+```
+
+**Default:** `'fullScreenModal'`
+
+### `language`
+Sets the interface language.
+
+```typescript
+language?: Language
+```
+
+**Supported values:**
+- 🌐 `'system'`: System default
+- 🇨🇳 `'zh-Hans'`: Simplified Chinese
+- 🇹🇼 `'zh-Hant'`: Traditional Chinese
+- 🇯🇵 `'ja'`: Japanese
+- 🇰🇷 `'ko'`: Korean
+- 🇬🇧 `'en'`: English
+- 🇹🇭 `'th'`: Thai
+- 🇮🇩 `'id'`: Indonesian
+- 🇻🇳 `'vi'`: Vietnamese
+- 🇷🇺 `'ru'`: Russian
+- 🇩🇪 `'de'`: German
+- 🇫🇷 `'fr'`: French
+- 🇸🇦 `'ar'`: Arabic
+
+**Default:** `'system'`
+
+### `crop`
+Enables and configures image cropping after capture.
+
+See details in [Crop Configuration](/config/#crop-)
+
+### `color`
+
+- **Type**: [**ColorValue**](https://reactnative.dev/docs/colors)
+- **Default**: 🟦 `#2979ff`
+- **Required**: No
+- **Platform**: iOS, Android
+
+## Result Type
+
+The camera function returns a `CameraResult` object:
+
+```typescript
+interface CameraResult {
+  /**
+   * Path to the captured media file
+   * - iOS: Starts with 'file://'
+   * - Android: Can start with 'file://' or 'content://'
+   */
+  path: string
+
+  /**
+   * Type of captured media
+   * - 'video': For video recordings
+   * - 'image': For photos
+   */
+  type: 'video' | 'image'
+
+  /**
+   * Width of the media in pixels
+   * For cropped images, this represents the final cropped width
+   */
+  width: number
+
+  /**
+   * Height of the media in pixels
+   * For cropped images, this represents the final cropped height
+   */
+  height: number
+
+  /**
+   * Duration of the video in seconds
+   * Only available when type is 'video'
+   * @platform ios, android
+   */
+  duration: number
+
+  /**
+   * Path to the video thumbnail image
+   * Only available when type is 'video'
+   * Format: 'file://path/to/thumbnail.jpg'
+   * @platform ios, android
+   */
+  thumbnail?: string
+
+  /**
+   * Original filename of the captured media
+   * Example: 'IMG_1234.JPG' or 'VID_5678.MP4'
+   */
+  fileName: string
+}
+```
+
+### Example Response
+
+#### Photo Capture
+```typescript
+{
+  path: 'file:///var/mobile/Containers/.../IMG_0123.JPG',
+  type: 'image',
+  width: 3024,
+  height: 4032,
+  fileName: 'IMG_0123.JPG'
+}
+```
+
+#### Video Recording
+```typescript
+{
+  path: 'file:///var/mobile/Containers/.../VID_0124.MP4',
+  type: 'video',
+  width: 1920,
+  height: 1080,
+  duration: 15.6,
+  thumbnail: 'file:///var/mobile/Containers/.../VID_0124_thumb.JPG',
+  fileName: 'VID_0124.MP4'
+}
+```
+
+### Notes
+
+- The `path` format may vary between iOS and Android. Always use the provided path as-is.
+- Video thumbnails are automatically generated and provided in the `thumbnail` property.
+- For cropped images, the `width` and `height` reflect the dimensions after cropping.
+- The `duration` property is only available for video recordings and is measured in seconds.
+- All file paths are provided with the appropriate prefix (`file://` or `content://`).
+
+## Examples
+
+### Photo Capture
+```typescript
+const result = await openCamera({
+  mediaType: 'image',
+  cameraDevice: 'back'
+})
+```
+
+### Video Recording
+```typescript
+const result = await openCamera({
+  mediaType: 'video',
+  videoMaximumDuration: 30,
+  cameraDevice: 'front'
+})
+```
+
+### With Cropping
+```typescript
+const result = await openCamera({
+  mediaType: 'image',
+  crop: {
+    circle: true,
+    ratio: [
+      { title: "Square", width: 1, height: 1 },
+      { title: "Portrait", width: 3, height: 4 }
+    ]
+  }
+})
+```
+
+### Custom UI
+```typescript
+const result = await openCamera({
+  color: '#FF6B6B',
+  language: 'en',
+  presentation: 'fullScreenModal'
+})
+```
+
+## Platform Specific Notes
+
+### iOS
+- Supports `presentation` option for modal style
+- Full support for all UI customization options
+
+### Android
+- Maximum 4 custom crop ratios
+- Some UI elements may appear differently
+
+## Required Permissions
+
+### iOS
+Add to `Info.plist`:
+```xml
+<key>NSCameraUsageDescription</key>
+<string>Camera access is required to take photos and videos</string>
+<key>NSMicrophoneUsageDescription</key>
+<string>Microphone access is required to record videos</string>
+```
+
+### Android
+Add to `AndroidManifest.xml`:
+```xml
+<uses-permission android:name="android.permission.CAMERA" />
+<uses-permission android:name="android.permission.RECORD_AUDIO" />
+```

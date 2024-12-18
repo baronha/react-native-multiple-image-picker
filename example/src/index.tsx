@@ -93,8 +93,6 @@ export default function App() {
     }
   }
 
-  console.log('images: ', images)
-
   const onCamera = async () => {
     try {
       const response = await openCamera()

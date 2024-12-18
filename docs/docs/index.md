@@ -35,7 +35,7 @@ React Native Multiple Image Picker **(RNMIP)** enables application to pick image
 | 📺  | Display video duration.                                                        |
 | 🎆  | Preview image/video.                                                           |
 | ⛅️ | Support iCloud Photo Library.                                                  |
-| 🔪  | Crop single/multiple image (new) ✨                                            |
+| 🍕  | Crop single/multiple image (new) ✨                                            |
 | 🌪  | Scrolling performance. ☕️                                                      |
 
 ## Sponsor & Support ☕️
