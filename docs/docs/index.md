@@ -26,6 +26,9 @@ React Native Multiple Image Picker **(RNMIP)** enables application to pick image
 
 | 🤩  | ![Logo][Logo]                                                                  |
 | --- | ------------------------------------------------------------------------------ |
+| 🍕  | [**Crop**](/docs/docs/CROP.mdx) single/multiple image.                            |
+| 🎑  | [**Preview**](/docs/docs/PREVIEW.mdx) image/video.                                |
+| 📸  | [**Camera**](/docs/docs/CAMERA.mdx) module for capturing photos and recording videos. |
 | 🐳  | Keep the previous selection.                                                   |
 | 0️⃣  | Selected order index.                                                          |
 | 🎨  | UI Customization (numberOfColumn, spacing, primaryColor ... )                  |
@@ -33,9 +36,7 @@ React Native Multiple Image Picker **(RNMIP)** enables application to pick image
 | 🌄  | Choose multiple images/video.                                                  |
 | 📦  | Support smart album `(camera roll, selfies, panoramas, favorites, videos...)`. |
 | 📺  | Display video duration.                                                        |
-| 🎆  | Preview image/video.                                                           |
 | ⛅️ | Support iCloud Photo Library.                                                  |
-| 🍕  | Crop single/multiple image (new) ✨                                            |
 | 🌪  | Scrolling performance. ☕️                                                      |
 
 ## Sponsor & Support ☕️
