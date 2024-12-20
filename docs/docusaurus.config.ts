@@ -94,7 +94,11 @@ const config: Config = {
           label: 'Example',
           position: 'left',
         },
-
+        {
+          href: '/showcase',
+          label: 'Showcase',
+          position: 'left',
+        },
         {
           href: 'https://github.com/baronha/react-native-multiple-image-picker',
           label: 'GitHub',

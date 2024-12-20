@@ -49,7 +49,8 @@ Install [@baronha/react-native-multiple-image-picker](https://www.npmjs.com/pack
 <TabItem value="rn">
 
 ```bash
-yarn add @baronha/react-native-multiple-image-picker react-native-nitro-modules
+yarn add @baronha/react-native-multiple-image-picker
+yarn add -D react-native-nitro-modules@0.18.2
 cd ios && pod install
 ```
 
@@ -58,7 +59,9 @@ cd ios && pod install
 <TabItem value="expo">
 
 ```bash
-npx expo install @baronha/react-native-multiple-image-picker react-native-nitro-modules
+npx expo install @baronha/react-native-multiple-image-picker 
+npx expo install react-native-nitro-modules@0.18.2 -- --dev
+npx expo prebuild
 ```
 
 </TabItem>

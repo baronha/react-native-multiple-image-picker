@@ -23,7 +23,6 @@ const sidebars: SidebarsConfig = {
       },
       items: ['getting-started', 'usage', 'config', 'result'],
     },
-
     'crop',
     'preview',
     'camera',

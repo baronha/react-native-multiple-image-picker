@@ -1,0 +1,33 @@
+---
+id: showcase
+title: Showcase ✨
+sidebar_label: Showcase ✨
+slug: /showcase
+---
+
+import style from './showcase.css'
+import data from './showcase.json'
+
+List of used applications with `@baronha/react-native-multiple-image-picker`
+
+> Contributions are welcome! If you have an application that uses `@baronha/react-native-multiple-image-picker`<br/>
+> please open a [**Pull Request**](https://github.com/baronha/react-native-multiple-image-picker/tree/master/docs/docs/SHOWCASE/data.json) to add it to the list.
+
+<br />
+
+<div className="showcaseContainer">
+  {data.map((item, index) => {
+    return (
+      <a
+        key={`showcase-${index}`}
+        href={item.link}
+        target="_blank"
+        className="showcaseItem"
+      >
+        <img src={item.banner} alt={item.title} />
+        <b>{item.title}</b>
+        <p className="showcaseTagline">{item?.tagline}</p>
+      </a>
+    )
+  })}
+</div>
