@@ -134,7 +134,7 @@ Thanks go to these wonderful people:
             </td>
             <td align="center">
                 <a href="https://github.com/crockalet">
-                    <img src="https://private-avatars.githubusercontent.com/u/60240500?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2ODEwNjAsIm5iZiI6MTczNDY3OTg2MCwicGF0aCI6Ii91LzYwMjQwNTAwIn0.T0Z80DcgS23mJcQc5OBBAKxUvBEWoc-aq4mqB18Q3Zg&v=4" width="100;" alt="crockalet"/>
+                    <img src="https://private-avatars.githubusercontent.com/u/60240500?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2ODE5NjAsIm5iZiI6MTczNDY4MDc2MCwicGF0aCI6Ii91LzYwMjQwNTAwIn0.5q43xIqO3dlWi1lEO2ULkpMeYp8eHKYn39qg7XQvj_E&v=4" width="100;" alt="crockalet"/>
                     <br />
                     <sub><b>crockalet</b></sub>
                 </a>
@@ -171,7 +171,7 @@ Thanks go to these wonderful people:
             </td>
             <td align="center">
                 <a href="https://github.com/shafiqjefri">
-                    <img src="https://private-avatars.githubusercontent.com/u/126740667?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2ODEwNjAsIm5iZiI6MTczNDY3OTg2MCwicGF0aCI6Ii91LzEyNjc0MDY2NyJ9.7Pl7tRLPeTQcM0Rk_Qhm7EtdOn05DtzGsdAdnbI0tlY&v=4" width="100;" alt="shafiqjefri"/>
+                    <img src="https://private-avatars.githubusercontent.com/u/126740667?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2ODE5NjAsIm5iZiI6MTczNDY4MDc2MCwicGF0aCI6Ii91LzEyNjc0MDY2NyJ9.Jh4eyc9obv9uRsJwgxh_t41IbwQGbA9ewxS_-gRFddE&v=4" width="100;" alt="shafiqjefri"/>
                     <br />
                     <sub><b>shafiqjefri</b></sub>
                 </a>
