@@ -36,10 +36,10 @@ React Native Multiple Image Picker **(RNMIP)** enables application to pick image
 Because RNMIP uses Nitro Module, it complies with Nitro Modules' requirements.
 View Nitro Modules' requirements [here](https://nitro.margelo.com/docs/minimum-requirements)
 
-- `Xcode` 16+
-- `iOS` 13+
-- `react-native` 0.75+
-- `compileSdkVersion` 34+
+- `Xcode 16+`
+- `iOS 13+`
+- `react-native 0.75+`
+- `compileSdkVersion 34+`
 
 ## Installation
 
@@ -116,141 +116,11 @@ Contributions are welcome! If you have an application that uses `@baronha/react-
 
 See all [**Showcase**](https://baronha.github.io/react-native-multiple-image-picker/showcase)
 
-
-
 ## Performance
 
 We're trying to improve performance. If you have a better solution, please open a [issue](https://github.com/baronha/react-native-multiple-image-picker/issues)
 or [pull request](https://github.com/baronha/react-native-multiple-image-picker/pulls). Best regards!
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-## Contributors ✨
-
-Thanks go to these wonderful people:
-
-<!-- readme: collaborators,contributors -start -->
-<table>
-	<tbody>
-		<tr>
-            <td align="center">
-                <a href="https://github.com/baronha">
-                    <img src="https://private-avatars.githubusercontent.com/u/23580920?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2ODE0ODAsIm5iZiI6MTczNDY4MDI4MCwicGF0aCI6Ii91LzIzNTgwOTIwIn0.WQt79ud4OjFPAmHtD6qtPRP558rnT_C7Y-iW3yS466k&v=4" width="100;" alt="baronha"/>
-                    <br />
-                    <sub><b>Bảo Hà.</b></sub>
-                </a>
-            </td>
-            <td align="center">
-                <a href="https://github.com/itsnyx">
-                    <img src="https://private-avatars.githubusercontent.com/u/74738973?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2ODE0ODAsIm5iZiI6MTczNDY4MDI4MCwicGF0aCI6Ii91Lzc0NzM4OTczIn0.CRxTBpQ8lOdxjwKESBwyTZMQ46d8f3ssKiz-bzq2m3Y&v=4" width="100;" alt="itsnyx"/>
-                    <br />
-                    <sub><b>Alireza</b></sub>
-                </a>
-            </td>
-            <td align="center">
-                <a href="https://github.com/pnthach95">
-                    <img src="https://private-avatars.githubusercontent.com/u/31266357?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2ODE0MjAsIm5iZiI6MTczNDY4MDIyMCwicGF0aCI6Ii91LzMxMjY2MzU3In0.mQks_lxBfdCcUtV6Reym3ENfG2Ld3B324ORzl9SvqrI&v=4" width="100;" alt="pnthach95"/>
-                    <br />
-                    <sub><b>Phạm Ngọc Thạch</b></sub>
-                </a>
-            </td>
-            <td align="center">
-                <a href="https://github.com/crockalet">
-                    <img src="https://private-avatars.githubusercontent.com/u/60240500?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2ODEwNjAsIm5iZiI6MTczNDY3OTg2MCwicGF0aCI6Ii91LzYwMjQwNTAwIn0.T0Z80DcgS23mJcQc5OBBAKxUvBEWoc-aq4mqB18Q3Zg&v=4" width="100;" alt="crockalet"/>
-                    <br />
-                    <sub><b>crockalet</b></sub>
-                </a>
-            </td>
-            <td align="center">
-                <a href="https://github.com/denisbevilacqua">
-                    <img src="https://private-avatars.githubusercontent.com/u/8768794?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2ODE5MDAsIm5iZiI6MTczNDY4MDcwMCwicGF0aCI6Ii91Lzg3Njg3OTQifQ.k1ERCp4n4VBIre37YNePaIKDVYYX7Lw0R29RY697tcs&v=4" width="100;" alt="denisbevilacqua"/>
-                    <br />
-                    <sub><b>Denis Bevilacqua</b></sub>
-                </a>
-            </td>
-            <td align="center">
-                <a href="https://github.com/cd-butterfly">
-                    <img src="https://private-avatars.githubusercontent.com/u/6622823?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2ODE2MDAsIm5iZiI6MTczNDY4MDQwMCwicGF0aCI6Ii91LzY2MjI4MjMifQ.fOnPbiSbCfSdFbJ7eQXXTqUExZJ2qxKeXetsyv6FNxg&v=4" width="100;" alt="cd-butterfly"/>
-                    <br />
-                    <sub><b>cd-butterfly</b></sub>
-                </a>
-            </td>
-		</tr>
-		<tr>
-            <td align="center">
-                <a href="https://github.com/ctrleffive">
-                    <img src="https://private-avatars.githubusercontent.com/u/35224957?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2ODE4NDAsIm5iZiI6MTczNDY4MDY0MCwicGF0aCI6Ii91LzM1MjI0OTU3In0.zzUrnMiuQZY0LxHE4K5ctm9Ue9ACEgKiQ6EAQZlntHE&v=4" width="100;" alt="ctrleffive"/>
-                    <br />
-                    <sub><b>Chandu J S</b></sub>
-                </a>
-            </td>
-            <td align="center">
-                <a href="https://github.com/jeongshin">
-                    <img src="https://private-avatars.githubusercontent.com/u/64301935?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2ODEzNjAsIm5iZiI6MTczNDY4MDE2MCwicGF0aCI6Ii91LzY0MzAxOTM1In0.qfMawsSaHp-zhL-T-HoFjKaPYDYP9TleMsRKd4EehpY&v=4" width="100;" alt="jeongshin"/>
-                    <br />
-                    <sub><b>Huckleberry</b></sub>
-                </a>
-            </td>
-            <td align="center">
-                <a href="https://github.com/shafiqjefri">
-                    <img src="https://private-avatars.githubusercontent.com/u/126740667?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2ODEwNjAsIm5iZiI6MTczNDY3OTg2MCwicGF0aCI6Ii91LzEyNjc0MDY2NyJ9.7Pl7tRLPeTQcM0Rk_Qhm7EtdOn05DtzGsdAdnbI0tlY&v=4" width="100;" alt="shafiqjefri"/>
-                    <br />
-                    <sub><b>shafiqjefri</b></sub>
-                </a>
-            </td>
-            <td align="center">
-                <a href="https://github.com/rxdsrex">
-                    <img src="https://private-avatars.githubusercontent.com/u/21159505?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2ODE1NDAsIm5iZiI6MTczNDY4MDM0MCwicGF0aCI6Ii91LzIxMTU5NTA1In0.qd51ATanVubUUyS7_fnYg-7Ku3-gFRlpYktCq6-dIkU&v=4" width="100;" alt="rxdsrex"/>
-                    <br />
-                    <sub><b>Rajnarayan Dutta</b></sub>
-                </a>
-            </td>
-            <td align="center">
-                <a href="https://github.com/vivianlys90">
-                    <img src="https://private-avatars.githubusercontent.com/u/22317616?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2ODEyNDAsIm5iZiI6MTczNDY4MDA0MCwicGF0aCI6Ii91LzIyMzE3NjE2In0.jnaG2nlwk7BDCDoZ3k0t1BLnZ-ZAkhDO9I_B294_Uas&v=4" width="100;" alt="vivianlys90"/>
-                    <br />
-                    <sub><b>vivianLee</b></sub>
-                </a>
-            </td>
-            <td align="center">
-                <a href="https://github.com/ymane">
-                    <img src="https://private-avatars.githubusercontent.com/u/22021856?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2ODE4NDAsIm5iZiI6MTczNDY4MDY0MCwicGF0aCI6Ii91LzIyMDIxODU2In0.BZsqT2aIKFG2GlRHtNf9KNNSb8wyveEUaeEUaCzkpvM&v=4" width="100;" alt="ymane"/>
-                    <br />
-                    <sub><b>Yogesh Mane</b></sub>
-                </a>
-            </td>
-		</tr>
-		<tr>
-            <td align="center">
-                <a href="https://github.com/ouabing">
-                    <img src="https://private-avatars.githubusercontent.com/u/1430376?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2ODE4NDAsIm5iZiI6MTczNDY4MDY0MCwicGF0aCI6Ii91LzE0MzAzNzYifQ.VR_p9iUCsr7vPHyjS4ShtB76mXCUbsTrZTIXeDeyyao&v=4" width="100;" alt="ouabing"/>
-                    <br />
-                    <sub><b>abing</b></sub>
-                </a>
-            </td>
-            <td align="center">
-                <a href="https://github.com/hieuphan1030">
-                    <img src="https://private-avatars.githubusercontent.com/u/108206954?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2ODExMjAsIm5iZiI6MTczNDY3OTkyMCwicGF0aCI6Ii91LzEwODIwNjk1NCJ9.N8Eq80NDMmCpuWo5qETz64HQNLNyaErQYN32asZVjD8&v=4" width="100;" alt="hieuphan1030"/>
-                    <br />
-                    <sub><b>hieuphan1030</b></sub>
-                </a>
-            </td>
-            <td align="center">
-                <a href="https://github.com/tuanngocptn">
-                    <img src="https://private-avatars.githubusercontent.com/u/22292704?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2ODExODAsIm5iZiI6MTczNDY3OTk4MCwicGF0aCI6Ii91LzIyMjkyNzA0In0.lURt1nOb3TQ2tlHJp8t1npWXCcl4dUeBbVaexXLWPFI&v=4" width="100;" alt="tuanngocptn"/>
-                    <br />
-                    <sub><b>Nick - Ngoc Pham</b></sub>
-                </a>
-            </td>
-		</tr>
-	<tbody>
-</table>
-<!-- readme: collaborators,contributors -end -->
-
->>>>>>> 2deba3c (docs(contributor): contrib-readme-action has updated readme)
-=======
->>>>>>> 2b6d68f (✨ feat: add showcase on document)
 ## License
 
 MIT
