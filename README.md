@@ -157,7 +157,7 @@ Thanks go to these wonderful people:
 		<tr>
             <td align="center">
                 <a href="https://github.com/ctrleffive">
-                    <img src="https://private-avatars.githubusercontent.com/u/35224957?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2ODA5NDAsIm5iZiI6MTczNDY3OTc0MCwicGF0aCI6Ii91LzM1MjI0OTU3In0.lGGFPo9IyhDsIds5R_17t7dTvWIO9_fstgkKlq59Kaw&v=4" width="100;" alt="ctrleffive"/>
+                    <img src="https://private-avatars.githubusercontent.com/u/35224957?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2ODE4NDAsIm5iZiI6MTczNDY4MDY0MCwicGF0aCI6Ii91LzM1MjI0OTU3In0.zzUrnMiuQZY0LxHE4K5ctm9Ue9ACEgKiQ6EAQZlntHE&v=4" width="100;" alt="ctrleffive"/>
                     <br />
                     <sub><b>Chandu J S</b></sub>
                 </a>
@@ -192,7 +192,7 @@ Thanks go to these wonderful people:
             </td>
             <td align="center">
                 <a href="https://github.com/ymane">
-                    <img src="https://private-avatars.githubusercontent.com/u/22021856?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2ODA5NDAsIm5iZiI6MTczNDY3OTc0MCwicGF0aCI6Ii91LzIyMDIxODU2In0.AzT2XU74PG10CBntNAWJ43QilzKo9eJkx8ILox9HJ5I&v=4" width="100;" alt="ymane"/>
+                    <img src="https://private-avatars.githubusercontent.com/u/22021856?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2ODE4NDAsIm5iZiI6MTczNDY4MDY0MCwicGF0aCI6Ii91LzIyMDIxODU2In0.BZsqT2aIKFG2GlRHtNf9KNNSb8wyveEUaeEUaCzkpvM&v=4" width="100;" alt="ymane"/>
                     <br />
                     <sub><b>Yogesh Mane</b></sub>
                 </a>
@@ -201,7 +201,7 @@ Thanks go to these wonderful people:
 		<tr>
             <td align="center">
                 <a href="https://github.com/ouabing">
-                    <img src="https://private-avatars.githubusercontent.com/u/1430376?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2ODA5NDAsIm5iZiI6MTczNDY3OTc0MCwicGF0aCI6Ii91LzE0MzAzNzYifQ.rYkPqnF3tD5m3sU-KRhIgcEWL6d6BAXL1skps-TkduM&v=4" width="100;" alt="ouabing"/>
+                    <img src="https://private-avatars.githubusercontent.com/u/1430376?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2ODE4NDAsIm5iZiI6MTczNDY4MDY0MCwicGF0aCI6Ii91LzE0MzAzNzYifQ.VR_p9iUCsr7vPHyjS4ShtB76mXCUbsTrZTIXeDeyyao&v=4" width="100;" alt="ouabing"/>
                     <br />
                     <sub><b>abing</b></sub>
                 </a>
