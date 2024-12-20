@@ -124,6 +124,7 @@ We're trying to improve performance. If you have a better solution, please open 
 or [pull request](https://github.com/baronha/react-native-multiple-image-picker/pulls). Best regards!
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 ## Contributors ✨
 
@@ -248,6 +249,8 @@ Thanks go to these wonderful people:
 <!-- readme: collaborators,contributors -end -->
 
 >>>>>>> 2deba3c (docs(contributor): contrib-readme-action has updated readme)
+=======
+>>>>>>> 2b6d68f (✨ feat: add showcase on document)
 ## License
 
 MIT
