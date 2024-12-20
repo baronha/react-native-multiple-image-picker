@@ -94,7 +94,18 @@ const onPicker = async () => {
 
 ## Sponsor & Support ☕️
 
-To keep this library maintained and up-to-date please consider [sponsoring it on GitHub](https://github.com/sponsors/baronha). Or if you are looking for a private support or help in customizing the experience, then reach out to me on Twitter [@\_baronha](https://twitter.com/_baronha).
+[![BuyMeACoffee][BuyMeACoffee]][BuyMeACoffee-URL] [![Kofi][Kofi]][Kofi-URL]
+
+[BuyMeACoffee]: https://img.shields.io/badge/Buy_Me_A_Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black
+[BuyMeACoffee-URL]: https://buymeacoffee.com/baronha
+[Kofi]: https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white
+[Kofi-URL]: https://ko-fi.com/baoha
+To keep this library maintained and up-to-date please consider [sponsoring it on GitHub](https://github.com/sponsors/baronha). Or if you are looking for a private support or help in customizing the experience, then reach out to me on Twitter [@\_baronha](https://twitter.com/_baronha).<br/>
+Besides, I also built a product using HXPhotoPicker here, Hope you support:<br/>
+
+<a href="https://apps.apple.com/vn/app/binsoo-photo-filters-editor/id6502683720" target="_blank">
+  <img  width="64px" height="64px" src="https://github.com/user-attachments/assets/71b5ddf7-3da1-4091-aae6-9aa7e411ce75" />
+</a>
 
 ## Built With ❤️
 
