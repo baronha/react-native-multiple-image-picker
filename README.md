@@ -163,7 +163,7 @@ Thanks go to these wonderful people:
             </td>
             <td align="center">
                 <a href="https://github.com/denisbevilacqua">
-                    <img src="https://private-avatars.githubusercontent.com/u/8768794?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2ODEwMDAsIm5iZiI6MTczNDY3OTgwMCwicGF0aCI6Ii91Lzg3Njg3OTQifQ.A7N-wvPGwA4WzvAxZ_OdYpUMC7274tsjUAXeF8npQSU&v=4" width="100;" alt="denisbevilacqua"/>
+                    <img src="https://private-avatars.githubusercontent.com/u/8768794?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2ODE5MDAsIm5iZiI6MTczNDY4MDcwMCwicGF0aCI6Ii91Lzg3Njg3OTQifQ.k1ERCp4n4VBIre37YNePaIKDVYYX7Lw0R29RY697tcs&v=4" width="100;" alt="denisbevilacqua"/>
                     <br />
                     <sub><b>Denis Bevilacqua</b></sub>
                 </a>
