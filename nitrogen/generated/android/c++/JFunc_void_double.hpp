@@ -28,7 +28,7 @@ namespace margelo::nitro::multipleimagepicker {
 
   public:
     void call(double reject) {
-      return _func(reject);
+      _func(reject);
     }
 
   public:

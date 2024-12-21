@@ -32,8 +32,8 @@ namespace margelo::nitro::multipleimagepicker { struct Result; }
 namespace margelo::nitro::multipleimagepicker { struct Text; }
 
 // Forward declarations of Swift defined types
-// Forward declaration of `HybridMultipleImagePickerSpecCxx` to properly resolve imports.
-namespace MultipleImagePicker { class HybridMultipleImagePickerSpecCxx; }
+// Forward declaration of `HybridMultipleImagePickerSpec_cxx` to properly resolve imports.
+namespace MultipleImagePicker { class HybridMultipleImagePickerSpec_cxx; }
 
 // Include C++ defined types
 #include "CameraDevice.hpp"
@@ -47,6 +47,8 @@ namespace MultipleImagePicker { class HybridMultipleImagePickerSpecCxx; }
 #include "Result.hpp"
 #include "ResultType.hpp"
 #include "Text.hpp"
+#include <NitroModules/Result.hpp>
+#include <exception>
 #include <functional>
 #include <memory>
 #include <optional>
@@ -163,22 +165,16 @@ namespace margelo::nitro::multipleimagepicker::bridge::swift {
    */
   class Func_void_std__vector_Result__Wrapper final {
   public:
-    explicit Func_void_std__vector_Result__Wrapper(const std::function<void(const std::vector<Result>& /* result */)>& func): _function(func) {}
-    explicit Func_void_std__vector_Result__Wrapper(std::function<void(const std::vector<Result>& /* result */)>&& func): _function(std::move(func)) {}
+    explicit Func_void_std__vector_Result__Wrapper(std::function<void(const std::vector<Result>& /* result */)>&& func): _function(std::make_shared<std::function<void(const std::vector<Result>& /* result */)>>(std::move(func))) {}
     inline void call(std::vector<Result> result) const {
-      _function(result);
+      _function->operator()(result);
     }
   private:
-    std::function<void(const std::vector<Result>& /* result */)> _function;
+    std::shared_ptr<std::function<void(const std::vector<Result>& /* result */)>> _function;
   };
-  inline Func_void_std__vector_Result_ create_Func_void_std__vector_Result_(void* _Nonnull closureHolder, void(* _Nonnull call)(void* _Nonnull /* closureHolder */, std::vector<Result>), void(* _Nonnull destroy)(void* _Nonnull)) {
-    std::shared_ptr<void> sharedClosureHolder(closureHolder, destroy);
-    return Func_void_std__vector_Result_([sharedClosureHolder, call](const std::vector<Result>& result) -> void {
-      call(sharedClosureHolder.get(), result);
-    });
-  }
-  inline std::shared_ptr<Func_void_std__vector_Result__Wrapper> share_Func_void_std__vector_Result_(const Func_void_std__vector_Result_& value) {
-    return std::make_shared<Func_void_std__vector_Result__Wrapper>(value);
+  Func_void_std__vector_Result_ create_Func_void_std__vector_Result_(void* _Nonnull swiftClosureWrapper);
+  inline Func_void_std__vector_Result__Wrapper wrap_Func_void_std__vector_Result_(Func_void_std__vector_Result_ value) {
+    return Func_void_std__vector_Result__Wrapper(std::move(value));
   }
   
   // pragma MARK: std::function<void(double /* reject */)>
@@ -191,22 +187,16 @@ namespace margelo::nitro::multipleimagepicker::bridge::swift {
    */
   class Func_void_double_Wrapper final {
   public:
-    explicit Func_void_double_Wrapper(const std::function<void(double /* reject */)>& func): _function(func) {}
-    explicit Func_void_double_Wrapper(std::function<void(double /* reject */)>&& func): _function(std::move(func)) {}
+    explicit Func_void_double_Wrapper(std::function<void(double /* reject */)>&& func): _function(std::make_shared<std::function<void(double /* reject */)>>(std::move(func))) {}
     inline void call(double reject) const {
-      _function(reject);
+      _function->operator()(reject);
     }
   private:
-    std::function<void(double /* reject */)> _function;
+    std::shared_ptr<std::function<void(double /* reject */)>> _function;
   };
-  inline Func_void_double create_Func_void_double(void* _Nonnull closureHolder, void(* _Nonnull call)(void* _Nonnull /* closureHolder */, double), void(* _Nonnull destroy)(void* _Nonnull)) {
-    std::shared_ptr<void> sharedClosureHolder(closureHolder, destroy);
-    return Func_void_double([sharedClosureHolder, call](double reject) -> void {
-      call(sharedClosureHolder.get(), reject);
-    });
-  }
-  inline std::shared_ptr<Func_void_double_Wrapper> share_Func_void_double(const Func_void_double& value) {
-    return std::make_shared<Func_void_double_Wrapper>(value);
+  Func_void_double create_Func_void_double(void* _Nonnull swiftClosureWrapper);
+  inline Func_void_double_Wrapper wrap_Func_void_double(Func_void_double value) {
+    return Func_void_double_Wrapper(std::move(value));
   }
   
   // pragma MARK: std::function<void(const CropResult& /* result */)>
@@ -219,22 +209,16 @@ namespace margelo::nitro::multipleimagepicker::bridge::swift {
    */
   class Func_void_CropResult_Wrapper final {
   public:
-    explicit Func_void_CropResult_Wrapper(const std::function<void(const CropResult& /* result */)>& func): _function(func) {}
-    explicit Func_void_CropResult_Wrapper(std::function<void(const CropResult& /* result */)>&& func): _function(std::move(func)) {}
+    explicit Func_void_CropResult_Wrapper(std::function<void(const CropResult& /* result */)>&& func): _function(std::make_shared<std::function<void(const CropResult& /* result */)>>(std::move(func))) {}
     inline void call(CropResult result) const {
-      _function(result);
+      _function->operator()(result);
     }
   private:
-    std::function<void(const CropResult& /* result */)> _function;
+    std::shared_ptr<std::function<void(const CropResult& /* result */)>> _function;
   };
-  inline Func_void_CropResult create_Func_void_CropResult(void* _Nonnull closureHolder, void(* _Nonnull call)(void* _Nonnull /* closureHolder */, CropResult), void(* _Nonnull destroy)(void* _Nonnull)) {
-    std::shared_ptr<void> sharedClosureHolder(closureHolder, destroy);
-    return Func_void_CropResult([sharedClosureHolder, call](const CropResult& result) -> void {
-      call(sharedClosureHolder.get(), result);
-    });
-  }
-  inline std::shared_ptr<Func_void_CropResult_Wrapper> share_Func_void_CropResult(const Func_void_CropResult& value) {
-    return std::make_shared<Func_void_CropResult_Wrapper>(value);
+  Func_void_CropResult create_Func_void_CropResult(void* _Nonnull swiftClosureWrapper);
+  inline Func_void_CropResult_Wrapper wrap_Func_void_CropResult(Func_void_CropResult value) {
+    return Func_void_CropResult_Wrapper(std::move(value));
   }
   
   // pragma MARK: std::vector<MediaPreview>
@@ -258,22 +242,16 @@ namespace margelo::nitro::multipleimagepicker::bridge::swift {
    */
   class Func_void_CameraResult_Wrapper final {
   public:
-    explicit Func_void_CameraResult_Wrapper(const std::function<void(const CameraResult& /* result */)>& func): _function(func) {}
-    explicit Func_void_CameraResult_Wrapper(std::function<void(const CameraResult& /* result */)>&& func): _function(std::move(func)) {}
+    explicit Func_void_CameraResult_Wrapper(std::function<void(const CameraResult& /* result */)>&& func): _function(std::make_shared<std::function<void(const CameraResult& /* result */)>>(std::move(func))) {}
     inline void call(CameraResult result) const {
-      _function(result);
+      _function->operator()(result);
     }
   private:
-    std::function<void(const CameraResult& /* result */)> _function;
+    std::shared_ptr<std::function<void(const CameraResult& /* result */)>> _function;
   };
-  inline Func_void_CameraResult create_Func_void_CameraResult(void* _Nonnull closureHolder, void(* _Nonnull call)(void* _Nonnull /* closureHolder */, CameraResult), void(* _Nonnull destroy)(void* _Nonnull)) {
-    std::shared_ptr<void> sharedClosureHolder(closureHolder, destroy);
-    return Func_void_CameraResult([sharedClosureHolder, call](const CameraResult& result) -> void {
-      call(sharedClosureHolder.get(), result);
-    });
-  }
-  inline std::shared_ptr<Func_void_CameraResult_Wrapper> share_Func_void_CameraResult(const Func_void_CameraResult& value) {
-    return std::make_shared<Func_void_CameraResult_Wrapper>(value);
+  Func_void_CameraResult create_Func_void_CameraResult(void* _Nonnull swiftClosureWrapper);
+  inline Func_void_CameraResult_Wrapper wrap_Func_void_CameraResult(Func_void_CameraResult value) {
+    return Func_void_CameraResult_Wrapper(std::move(value));
   }
   
   // pragma MARK: std::shared_ptr<margelo::nitro::multipleimagepicker::HybridMultipleImagePickerSpec>
@@ -283,5 +261,18 @@ namespace margelo::nitro::multipleimagepicker::bridge::swift {
   using std__shared_ptr_margelo__nitro__multipleimagepicker__HybridMultipleImagePickerSpec_ = std::shared_ptr<margelo::nitro::multipleimagepicker::HybridMultipleImagePickerSpec>;
   std::shared_ptr<margelo::nitro::multipleimagepicker::HybridMultipleImagePickerSpec> create_std__shared_ptr_margelo__nitro__multipleimagepicker__HybridMultipleImagePickerSpec_(void* _Nonnull swiftUnsafePointer);
   void* _Nonnull get_std__shared_ptr_margelo__nitro__multipleimagepicker__HybridMultipleImagePickerSpec_(std__shared_ptr_margelo__nitro__multipleimagepicker__HybridMultipleImagePickerSpec_ cppType);
+  
+  // pragma MARK: std::weak_ptr<margelo::nitro::multipleimagepicker::HybridMultipleImagePickerSpec>
+  using std__weak_ptr_margelo__nitro__multipleimagepicker__HybridMultipleImagePickerSpec_ = std::weak_ptr<margelo::nitro::multipleimagepicker::HybridMultipleImagePickerSpec>;
+  inline std__weak_ptr_margelo__nitro__multipleimagepicker__HybridMultipleImagePickerSpec_ weakify_std__shared_ptr_margelo__nitro__multipleimagepicker__HybridMultipleImagePickerSpec_(const std::shared_ptr<margelo::nitro::multipleimagepicker::HybridMultipleImagePickerSpec>& strong) { return strong; }
+  
+  // pragma MARK: Result<void>
+  using Result_void_ = Result<void>;
+  inline Result_void_ create_Result_void_() {
+    return Result<void>::withValue();
+  }
+  inline Result_void_ create_Result_void_(const std::exception_ptr& error) {
+    return Result<void>::withError(error);
+  }
 
 } // namespace margelo::nitro::multipleimagepicker::bridge::swift
