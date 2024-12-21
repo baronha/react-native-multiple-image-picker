@@ -34,7 +34,7 @@ namespace margelo::nitro::multipleimagepicker {
 
   public:
     void call(jni::alias_ref<JCameraResult> result) {
-      return _func(result->toCpp());
+      _func(result->toCpp());
     }
 
   public:

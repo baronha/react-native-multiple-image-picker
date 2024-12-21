@@ -8,26 +8,8 @@
 import Foundation
 import NitroModules
 
-/**
- * A Swift protocol representing the MultipleImagePicker HybridObject.
- * Implement this protocol to create Swift-based instances of MultipleImagePicker.
- *
- * When implementing this protocol, make sure to initialize `hybridContext` - example:
- * ```
- * public class HybridMultipleImagePicker : HybridMultipleImagePickerSpec {
- *   // Initialize HybridContext
- *   var hybridContext = margelo.nitro.HybridContext()
- *
- *   // Return size of the instance to inform JS GC about memory pressure
- *   var memorySize: Int {
- *     return getSizeOf(self)
- *   }
- *
- *   // ...
- * }
- * ```
- */
-public protocol HybridMultipleImagePickerSpec: AnyObject, HybridObjectSpec {
+/// See ``HybridMultipleImagePickerSpec``
+public protocol HybridMultipleImagePickerSpec_protocol: AnyObject {
   // Properties
   
 
@@ -37,3 +19,34 @@ public protocol HybridMultipleImagePickerSpec: AnyObject, HybridObjectSpec {
   func openPreview(media: [MediaPreview], index: Double, config: NitroPreviewConfig) throws -> Void
   func openCamera(config: NitroCameraConfig, resolved: @escaping ((_ result: CameraResult) -> Void), rejected: @escaping ((_ reject: Double) -> Void)) throws -> Void
 }
+
+/// See ``HybridMultipleImagePickerSpec``
+public class HybridMultipleImagePickerSpec_base: HybridObjectSpec {
+  private weak var cxxWrapper: HybridMultipleImagePickerSpec_cxx? = nil
+  public func getCxxWrapper() -> HybridMultipleImagePickerSpec_cxx {
+  #if DEBUG
+    guard self is HybridMultipleImagePickerSpec else {
+      fatalError("`self` is not a `HybridMultipleImagePickerSpec`! Did you accidentally inherit from `HybridMultipleImagePickerSpec_base` instead of `HybridMultipleImagePickerSpec`?")
+    }
+  #endif
+    if let cxxWrapper = self.cxxWrapper {
+      return cxxWrapper
+    } else {
+      let cxxWrapper = HybridMultipleImagePickerSpec_cxx(self as! HybridMultipleImagePickerSpec)
+      self.cxxWrapper = cxxWrapper
+      return cxxWrapper
+    }
+  }
+  public var memorySize: Int { return 0 }
+}
+
+/**
+ * A Swift base-protocol representing the MultipleImagePicker HybridObject.
+ * Implement this protocol to create Swift-based instances of MultipleImagePicker.
+ * ```swift
+ * class HybridMultipleImagePicker : HybridMultipleImagePickerSpec {
+ *   // ...
+ * }
+ * ```
+ */
+public typealias HybridMultipleImagePickerSpec = HybridMultipleImagePickerSpec_protocol & HybridMultipleImagePickerSpec_base

@@ -9,8 +9,8 @@
 
 #include "HybridMultipleImagePickerSpec.hpp"
 
-// Forward declaration of `HybridMultipleImagePickerSpecCxx` to properly resolve imports.
-namespace MultipleImagePicker { class HybridMultipleImagePickerSpecCxx; }
+// Forward declaration of `HybridMultipleImagePickerSpec_cxx` to properly resolve imports.
+namespace MultipleImagePicker { class HybridMultipleImagePickerSpec_cxx; }
 
 // Forward declaration of `NitroConfig` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { struct NitroConfig; }
@@ -78,36 +78,30 @@ namespace margelo::nitro::multipleimagepicker { struct CameraResult; }
 #include "NitroCameraConfig.hpp"
 #include "CameraResult.hpp"
 
-#if __has_include(<NitroModules/HybridContext.hpp>)
-#include <NitroModules/HybridContext.hpp>
-#else
-#error NitroModules cannot be found! Are you sure you installed NitroModules properly?
-#endif
-
 #include "MultipleImagePicker-Swift-Cxx-Umbrella.hpp"
 
 namespace margelo::nitro::multipleimagepicker {
 
   /**
-   * The C++ part of HybridMultipleImagePickerSpecCxx.swift.
+   * The C++ part of HybridMultipleImagePickerSpec_cxx.swift.
    *
-   * HybridMultipleImagePickerSpecSwift (C++) accesses HybridMultipleImagePickerSpecCxx (Swift), and might
+   * HybridMultipleImagePickerSpecSwift (C++) accesses HybridMultipleImagePickerSpec_cxx (Swift), and might
    * contain some additional bridging code for C++ <> Swift interop.
    *
    * Since this obviously introduces an overhead, I hope at some point in
-   * the future, HybridMultipleImagePickerSpecCxx can directly inherit from the C++ class HybridMultipleImagePickerSpec
+   * the future, HybridMultipleImagePickerSpec_cxx can directly inherit from the C++ class HybridMultipleImagePickerSpec
    * to simplify the whole structure and memory management.
    */
   class HybridMultipleImagePickerSpecSwift: public virtual HybridMultipleImagePickerSpec {
   public:
     // Constructor from a Swift instance
-    explicit HybridMultipleImagePickerSpecSwift(const MultipleImagePicker::HybridMultipleImagePickerSpecCxx& swiftPart):
+    explicit HybridMultipleImagePickerSpecSwift(const MultipleImagePicker::HybridMultipleImagePickerSpec_cxx& swiftPart):
       HybridObject(HybridMultipleImagePickerSpec::TAG),
       _swiftPart(swiftPart) { }
 
   public:
     // Get the Swift part
-    inline MultipleImagePicker::HybridMultipleImagePickerSpecCxx getSwiftPart() noexcept { return _swiftPart; }
+    inline MultipleImagePicker::HybridMultipleImagePickerSpec_cxx getSwiftPart() noexcept { return _swiftPart; }
 
   public:
     // Get memory pressure
@@ -122,20 +116,32 @@ namespace margelo::nitro::multipleimagepicker {
   public:
     // Methods
     inline void openPicker(const NitroConfig& config, const std::function<void(const std::vector<Result>& /* result */)>& resolved, const std::function<void(double /* reject */)>& rejected) override {
-      _swiftPart.openPicker(config, resolved, rejected);
+      auto __result = _swiftPart.openPicker(config, resolved, rejected);
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
     }
     inline void openCrop(const std::string& image, const NitroCropConfig& config, const std::function<void(const CropResult& /* result */)>& resolved, const std::function<void(double /* reject */)>& rejected) override {
-      _swiftPart.openCrop(image, config, resolved, rejected);
+      auto __result = _swiftPart.openCrop(image, config, resolved, rejected);
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
     }
     inline void openPreview(const std::vector<MediaPreview>& media, double index, const NitroPreviewConfig& config) override {
-      _swiftPart.openPreview(media, std::forward<decltype(index)>(index), config);
+      auto __result = _swiftPart.openPreview(media, std::forward<decltype(index)>(index), config);
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
     }
     inline void openCamera(const NitroCameraConfig& config, const std::function<void(const CameraResult& /* result */)>& resolved, const std::function<void(double /* reject */)>& rejected) override {
-      _swiftPart.openCamera(config, resolved, rejected);
+      auto __result = _swiftPart.openCamera(config, resolved, rejected);
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
     }
 
   private:
-    MultipleImagePicker::HybridMultipleImagePickerSpecCxx _swiftPart;
+    MultipleImagePicker::HybridMultipleImagePickerSpec_cxx _swiftPart;
   };
 
 } // namespace margelo::nitro::multipleimagepicker

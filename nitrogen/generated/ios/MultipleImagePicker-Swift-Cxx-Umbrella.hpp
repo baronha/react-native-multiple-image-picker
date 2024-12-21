@@ -73,6 +73,8 @@ namespace margelo::nitro::multipleimagepicker { enum class Theme; }
 #include "SelectMode.hpp"
 #include "Text.hpp"
 #include "Theme.hpp"
+#include <NitroModules/Result.hpp>
+#include <exception>
 #include <functional>
 #include <memory>
 #include <optional>
@@ -89,8 +91,8 @@ namespace margelo::nitro::multipleimagepicker { enum class Theme; }
 #include <NitroModules/RuntimeError.hpp>
 
 // Forward declarations of Swift defined types
-// Forward declaration of `HybridMultipleImagePickerSpecCxx` to properly resolve imports.
-namespace MultipleImagePicker { class HybridMultipleImagePickerSpecCxx; }
+// Forward declaration of `HybridMultipleImagePickerSpec_cxx` to properly resolve imports.
+namespace MultipleImagePicker { class HybridMultipleImagePickerSpec_cxx; }
 
 // Include Swift defined types
 #if __has_include("MultipleImagePicker-Swift.h")

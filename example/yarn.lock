@@ -5414,10 +5414,10 @@ react-native-builder-bob@^0.30.0:
     which "^2.0.2"
     yargs "^17.5.1"
 
-react-native-nitro-modules@0.18.2:
-  version "0.18.2"
-  resolved "https://registry.yarnpkg.com/react-native-nitro-modules/-/react-native-nitro-modules-0.18.2.tgz#f1172f90ecaded0e4b3306f6e7be4b54a24b310e"
-  integrity sha512-eHsq1cRfm/Bz1Nq7KctTqxAqhzVSNo0WGX281xARZh+vOq8633Qxn1NHRZ5/Rno2Bla6HOXlUW6RoW0wKM/7kg==
+react-native-nitro-modules@0.20.0:
+  version "0.20.0"
+  resolved "https://registry.yarnpkg.com/react-native-nitro-modules/-/react-native-nitro-modules-0.20.0.tgz#3c659d4c8cbc8038b1bf35af6475e77023e70ffa"
+  integrity sha512-u41SaGdQ/EQFuRLFPRQ+cbEemzsARmkElXErwZlXJhr2KYmVwQMrIYGe69NuMSyvHlw3JTl09SNugt3PXa2vEQ==
 
 react-native@0.76.5:
   version "0.76.5"

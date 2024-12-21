@@ -35,16 +35,16 @@ namespace margelo::nitro::multipleimagepicker {
 
   public:
     void call(jni::alias_ref<jni::JArrayClass<JResult>> result) {
-      return _func([&]() {
-        size_t __size = result->size();
-        std::vector<Result> __vector;
-        __vector.reserve(__size);
-        for (size_t __i = 0; __i < __size; __i++) {
-          auto __element = result->getElement(__i);
-          __vector.push_back(__element->toCpp());
-        }
-        return __vector;
-      }());
+      _func([&]() {
+              size_t __size = result->size();
+              std::vector<Result> __vector;
+              __vector.reserve(__size);
+              for (size_t __i = 0; __i < __size; __i++) {
+                auto __element = result->getElement(__i);
+                __vector.push_back(__element->toCpp());
+              }
+              return __vector;
+            }());
     }
 
   public:

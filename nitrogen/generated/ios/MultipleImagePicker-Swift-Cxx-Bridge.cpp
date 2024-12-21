@@ -10,14 +10,45 @@
 // Include C++ implementation defined types
 #include "HybridMultipleImagePickerSpecSwift.hpp"
 #include "MultipleImagePicker-Swift-Cxx-Umbrella.hpp"
-#include <NitroModules/HybridContext.hpp>
 
 namespace margelo::nitro::multipleimagepicker::bridge::swift {
 
+  // pragma MARK: std::function<void(const std::vector<Result>& /* result */)>
+  Func_void_std__vector_Result_ create_Func_void_std__vector_Result_(void* _Nonnull swiftClosureWrapper) {
+    auto swiftClosure = MultipleImagePicker::Func_void_std__vector_Result_::fromUnsafe(swiftClosureWrapper);
+    return [swiftClosure = std::move(swiftClosure)](const std::vector<Result>& result) mutable -> void {
+      swiftClosure.call(result);
+    };
+  }
+  
+  // pragma MARK: std::function<void(double /* reject */)>
+  Func_void_double create_Func_void_double(void* _Nonnull swiftClosureWrapper) {
+    auto swiftClosure = MultipleImagePicker::Func_void_double::fromUnsafe(swiftClosureWrapper);
+    return [swiftClosure = std::move(swiftClosure)](double reject) mutable -> void {
+      swiftClosure.call(reject);
+    };
+  }
+  
+  // pragma MARK: std::function<void(const CropResult& /* result */)>
+  Func_void_CropResult create_Func_void_CropResult(void* _Nonnull swiftClosureWrapper) {
+    auto swiftClosure = MultipleImagePicker::Func_void_CropResult::fromUnsafe(swiftClosureWrapper);
+    return [swiftClosure = std::move(swiftClosure)](const CropResult& result) mutable -> void {
+      swiftClosure.call(result);
+    };
+  }
+  
+  // pragma MARK: std::function<void(const CameraResult& /* result */)>
+  Func_void_CameraResult create_Func_void_CameraResult(void* _Nonnull swiftClosureWrapper) {
+    auto swiftClosure = MultipleImagePicker::Func_void_CameraResult::fromUnsafe(swiftClosureWrapper);
+    return [swiftClosure = std::move(swiftClosure)](const CameraResult& result) mutable -> void {
+      swiftClosure.call(result);
+    };
+  }
+  
   // pragma MARK: std::shared_ptr<margelo::nitro::multipleimagepicker::HybridMultipleImagePickerSpec>
   std::shared_ptr<margelo::nitro::multipleimagepicker::HybridMultipleImagePickerSpec> create_std__shared_ptr_margelo__nitro__multipleimagepicker__HybridMultipleImagePickerSpec_(void* _Nonnull swiftUnsafePointer) {
-    MultipleImagePicker::HybridMultipleImagePickerSpecCxx swiftPart = MultipleImagePicker::HybridMultipleImagePickerSpecCxxUnsafe::fromUnsafe(swiftUnsafePointer);
-    return HybridContext::getOrCreate<margelo::nitro::multipleimagepicker::HybridMultipleImagePickerSpecSwift>(swiftPart);
+    MultipleImagePicker::HybridMultipleImagePickerSpec_cxx swiftPart = MultipleImagePicker::HybridMultipleImagePickerSpec_cxx::fromUnsafe(swiftUnsafePointer);
+    return std::make_shared<margelo::nitro::multipleimagepicker::HybridMultipleImagePickerSpecSwift>(swiftPart);
   }
   void* _Nonnull get_std__shared_ptr_margelo__nitro__multipleimagepicker__HybridMultipleImagePickerSpec_(std__shared_ptr_margelo__nitro__multipleimagepicker__HybridMultipleImagePickerSpec_ cppType) {
     std::shared_ptr<margelo::nitro::multipleimagepicker::HybridMultipleImagePickerSpecSwift> swiftWrapper = std::dynamic_pointer_cast<margelo::nitro::multipleimagepicker::HybridMultipleImagePickerSpecSwift>(cppType);
@@ -26,8 +57,8 @@ namespace margelo::nitro::multipleimagepicker::bridge::swift {
       throw std::runtime_error("Class \"HybridMultipleImagePickerSpec\" is not implemented in Swift!");
     }
   #endif
-    MultipleImagePicker::HybridMultipleImagePickerSpecCxx swiftPart = swiftWrapper->getSwiftPart();
-    return MultipleImagePicker::HybridMultipleImagePickerSpecCxxUnsafe::toUnsafe(swiftPart);
+    MultipleImagePicker::HybridMultipleImagePickerSpec_cxx swiftPart = swiftWrapper->getSwiftPart();
+    return swiftPart.toUnsafe();
   }
 
 } // namespace margelo::nitro::multipleimagepicker::bridge::swift
