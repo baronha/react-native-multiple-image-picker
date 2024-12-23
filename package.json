@@ -64,12 +64,12 @@
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
-    "nitro-codegen": "0.20.0",
+    "nitro-codegen": "0.20.1",
     "prettier": "^3.3.3",
     "react": "^18.3.1",
     "react-native": "^0.75.2",
     "react-native-builder-bob": "^0.30.0",
-    "react-native-nitro-modules": "0.20.0",
+    "react-native-nitro-modules": "0.20.1",
     "typescript": "^5.5.4"
   },
   "peerDependencies": {
