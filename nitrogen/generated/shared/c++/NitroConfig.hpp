@@ -20,8 +20,8 @@
 
 // Forward declaration of `MediaType` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { enum class MediaType; }
-// Forward declaration of `Result` to properly resolve imports.
-namespace margelo::nitro::multipleimagepicker { struct Result; }
+// Forward declaration of `PickerResult` to properly resolve imports.
+namespace margelo::nitro::multipleimagepicker { struct PickerResult; }
 // Forward declaration of `SelectBoxStyle` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { enum class SelectBoxStyle; }
 // Forward declaration of `SelectMode` to properly resolve imports.
@@ -41,7 +41,7 @@ namespace margelo::nitro::multipleimagepicker { struct PickerCameraConfig; }
 
 #include "MediaType.hpp"
 #include <vector>
-#include "Result.hpp"
+#include "PickerResult.hpp"
 #include "SelectBoxStyle.hpp"
 #include "SelectMode.hpp"
 #include <optional>
@@ -60,7 +60,7 @@ namespace margelo::nitro::multipleimagepicker {
   struct NitroConfig {
   public:
     MediaType mediaType     SWIFT_PRIVATE;
-    std::vector<Result> selectedAssets     SWIFT_PRIVATE;
+    std::vector<PickerResult> selectedAssets     SWIFT_PRIVATE;
     SelectBoxStyle selectBoxStyle     SWIFT_PRIVATE;
     SelectMode selectMode     SWIFT_PRIVATE;
     std::optional<double> numberOfColumn     SWIFT_PRIVATE;
@@ -87,7 +87,7 @@ namespace margelo::nitro::multipleimagepicker {
     std::optional<PickerCameraConfig> camera     SWIFT_PRIVATE;
 
   public:
-    explicit NitroConfig(MediaType mediaType, std::vector<Result> selectedAssets, SelectBoxStyle selectBoxStyle, SelectMode selectMode, std::optional<double> numberOfColumn, std::optional<bool> isPreview, std::optional<double> primaryColor, std::optional<bool> allowSwipeToSelect, std::optional<double> spacing, std::optional<bool> isHiddenPreviewButton, std::optional<bool> isHiddenOriginalButton, std::optional<bool> isShowPreviewList, std::optional<bool> allowHapticTouchPreview, std::optional<bool> allowedLimit, std::optional<double> maxVideo, std::optional<double> maxSelect, std::optional<double> maxVideoDuration, std::optional<double> minVideoDuration, std::optional<double> maxFileSize, std::optional<double> backgroundDark, std::optional<PickerCropConfig> crop, std::optional<Text> text, Language language, Theme theme, Presentation presentation, std::optional<PickerCameraConfig> camera): mediaType(mediaType), selectedAssets(selectedAssets), selectBoxStyle(selectBoxStyle), selectMode(selectMode), numberOfColumn(numberOfColumn), isPreview(isPreview), primaryColor(primaryColor), allowSwipeToSelect(allowSwipeToSelect), spacing(spacing), isHiddenPreviewButton(isHiddenPreviewButton), isHiddenOriginalButton(isHiddenOriginalButton), isShowPreviewList(isShowPreviewList), allowHapticTouchPreview(allowHapticTouchPreview), allowedLimit(allowedLimit), maxVideo(maxVideo), maxSelect(maxSelect), maxVideoDuration(maxVideoDuration), minVideoDuration(minVideoDuration), maxFileSize(maxFileSize), backgroundDark(backgroundDark), crop(crop), text(text), language(language), theme(theme), presentation(presentation), camera(camera) {}
+    explicit NitroConfig(MediaType mediaType, std::vector<PickerResult> selectedAssets, SelectBoxStyle selectBoxStyle, SelectMode selectMode, std::optional<double> numberOfColumn, std::optional<bool> isPreview, std::optional<double> primaryColor, std::optional<bool> allowSwipeToSelect, std::optional<double> spacing, std::optional<bool> isHiddenPreviewButton, std::optional<bool> isHiddenOriginalButton, std::optional<bool> isShowPreviewList, std::optional<bool> allowHapticTouchPreview, std::optional<bool> allowedLimit, std::optional<double> maxVideo, std::optional<double> maxSelect, std::optional<double> maxVideoDuration, std::optional<double> minVideoDuration, std::optional<double> maxFileSize, std::optional<double> backgroundDark, std::optional<PickerCropConfig> crop, std::optional<Text> text, Language language, Theme theme, Presentation presentation, std::optional<PickerCameraConfig> camera): mediaType(mediaType), selectedAssets(selectedAssets), selectBoxStyle(selectBoxStyle), selectMode(selectMode), numberOfColumn(numberOfColumn), isPreview(isPreview), primaryColor(primaryColor), allowSwipeToSelect(allowSwipeToSelect), spacing(spacing), isHiddenPreviewButton(isHiddenPreviewButton), isHiddenOriginalButton(isHiddenOriginalButton), isShowPreviewList(isShowPreviewList), allowHapticTouchPreview(allowHapticTouchPreview), allowedLimit(allowedLimit), maxVideo(maxVideo), maxSelect(maxSelect), maxVideoDuration(maxVideoDuration), minVideoDuration(minVideoDuration), maxFileSize(maxFileSize), backgroundDark(backgroundDark), crop(crop), text(text), language(language), theme(theme), presentation(presentation), camera(camera) {}
   };
 
 } // namespace margelo::nitro::multipleimagepicker
@@ -103,7 +103,7 @@ namespace margelo::nitro {
       jsi::Object obj = arg.asObject(runtime);
       return NitroConfig(
         JSIConverter<MediaType>::fromJSI(runtime, obj.getProperty(runtime, "mediaType")),
-        JSIConverter<std::vector<Result>>::fromJSI(runtime, obj.getProperty(runtime, "selectedAssets")),
+        JSIConverter<std::vector<PickerResult>>::fromJSI(runtime, obj.getProperty(runtime, "selectedAssets")),
         JSIConverter<SelectBoxStyle>::fromJSI(runtime, obj.getProperty(runtime, "selectBoxStyle")),
         JSIConverter<SelectMode>::fromJSI(runtime, obj.getProperty(runtime, "selectMode")),
         JSIConverter<std::optional<double>>::fromJSI(runtime, obj.getProperty(runtime, "numberOfColumn")),
@@ -133,7 +133,7 @@ namespace margelo::nitro {
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const NitroConfig& arg) {
       jsi::Object obj(runtime);
       obj.setProperty(runtime, "mediaType", JSIConverter<MediaType>::toJSI(runtime, arg.mediaType));
-      obj.setProperty(runtime, "selectedAssets", JSIConverter<std::vector<Result>>::toJSI(runtime, arg.selectedAssets));
+      obj.setProperty(runtime, "selectedAssets", JSIConverter<std::vector<PickerResult>>::toJSI(runtime, arg.selectedAssets));
       obj.setProperty(runtime, "selectBoxStyle", JSIConverter<SelectBoxStyle>::toJSI(runtime, arg.selectBoxStyle));
       obj.setProperty(runtime, "selectMode", JSIConverter<SelectMode>::toJSI(runtime, arg.selectMode));
       obj.setProperty(runtime, "numberOfColumn", JSIConverter<std::optional<double>>::toJSI(runtime, arg.numberOfColumn));
@@ -166,7 +166,7 @@ namespace margelo::nitro {
       }
       jsi::Object obj = value.getObject(runtime);
       if (!JSIConverter<MediaType>::canConvert(runtime, obj.getProperty(runtime, "mediaType"))) return false;
-      if (!JSIConverter<std::vector<Result>>::canConvert(runtime, obj.getProperty(runtime, "selectedAssets"))) return false;
+      if (!JSIConverter<std::vector<PickerResult>>::canConvert(runtime, obj.getProperty(runtime, "selectedAssets"))) return false;
       if (!JSIConverter<SelectBoxStyle>::canConvert(runtime, obj.getProperty(runtime, "selectBoxStyle"))) return false;
       if (!JSIConverter<SelectMode>::canConvert(runtime, obj.getProperty(runtime, "selectMode"))) return false;
       if (!JSIConverter<std::optional<double>>::canConvert(runtime, obj.getProperty(runtime, "numberOfColumn"))) return false;

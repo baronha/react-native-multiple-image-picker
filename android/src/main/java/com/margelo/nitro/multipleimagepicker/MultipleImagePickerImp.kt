@@ -60,7 +60,7 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
     @ReactMethod
     fun openPicker(
         options: NitroConfig,
-        resolved: (result: Array<Result>) -> Unit,
+        resolved: (result: Array<PickerResult>) -> Unit,
         rejected: (reject: Double) -> Unit
     ) {
         PictureAppMaster.getInstance().app = this
@@ -150,7 +150,7 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
             .isPreviewFullScreenMode(true)
             .forResult(object : OnResultCallbackListener<LocalMedia?> {
                 override fun onResult(localMedia: ArrayList<LocalMedia?>?) {
-                    var data: Array<Result> = arrayOf()
+                    var data: Array<PickerResult> = arrayOf()
                     if (localMedia?.size == 0 || localMedia == null) {
                         resolved(arrayOf())
                         return
@@ -575,7 +575,7 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
         }.toMutableList()
     }
 
-    private fun getResult(item: LocalMedia): Result {
+    private fun getResult(item: LocalMedia): PickerResult {
 
         val type: ResultType =
             if (item.mimeType.startsWith("video/")) ResultType.VIDEO else ResultType.IMAGE
@@ -597,7 +597,7 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
         if (!path.startsWith("file://") && !path.startsWith("content://") && type == ResultType.IMAGE)
             path = "file://$path"
 
-        val media = Result(
+        val media = PickerResult(
             localIdentifier = item.id.toString(),
             width,
             height,

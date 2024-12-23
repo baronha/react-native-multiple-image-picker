@@ -18,8 +18,8 @@
 #include "JMediaType.hpp"
 #include "JPickerCameraConfig.hpp"
 #include "JPickerCropConfig.hpp"
+#include "JPickerResult.hpp"
 #include "JPresentation.hpp"
-#include "JResult.hpp"
 #include "JResultType.hpp"
 #include "JSelectBoxStyle.hpp"
 #include "JSelectMode.hpp"
@@ -29,8 +29,8 @@
 #include "MediaType.hpp"
 #include "PickerCameraConfig.hpp"
 #include "PickerCropConfig.hpp"
+#include "PickerResult.hpp"
 #include "Presentation.hpp"
-#include "Result.hpp"
 #include "ResultType.hpp"
 #include "SelectBoxStyle.hpp"
 #include "SelectMode.hpp"
@@ -60,8 +60,8 @@ namespace margelo::nitro::multipleimagepicker {
       static const auto clazz = javaClassStatic();
       static const auto fieldMediaType = clazz->getField<JMediaType>("mediaType");
       jni::local_ref<JMediaType> mediaType = this->getFieldValue(fieldMediaType);
-      static const auto fieldSelectedAssets = clazz->getField<jni::JArrayClass<JResult>>("selectedAssets");
-      jni::local_ref<jni::JArrayClass<JResult>> selectedAssets = this->getFieldValue(fieldSelectedAssets);
+      static const auto fieldSelectedAssets = clazz->getField<jni::JArrayClass<JPickerResult>>("selectedAssets");
+      jni::local_ref<jni::JArrayClass<JPickerResult>> selectedAssets = this->getFieldValue(fieldSelectedAssets);
       static const auto fieldSelectBoxStyle = clazz->getField<JSelectBoxStyle>("selectBoxStyle");
       jni::local_ref<JSelectBoxStyle> selectBoxStyle = this->getFieldValue(fieldSelectBoxStyle);
       static const auto fieldSelectMode = clazz->getField<JSelectMode>("selectMode");
@@ -114,7 +114,7 @@ namespace margelo::nitro::multipleimagepicker {
         mediaType->toCpp(),
         [&]() {
           size_t __size = selectedAssets->size();
-          std::vector<Result> __vector;
+          std::vector<PickerResult> __vector;
           __vector.reserve(__size);
           for (size_t __i = 0; __i < __size; __i++) {
             auto __element = selectedAssets->getElement(__i);
@@ -159,10 +159,10 @@ namespace margelo::nitro::multipleimagepicker {
         JMediaType::fromCpp(value.mediaType),
         [&]() {
           size_t __size = value.selectedAssets.size();
-          jni::local_ref<jni::JArrayClass<JResult>> __array = jni::JArrayClass<JResult>::newArray(__size);
+          jni::local_ref<jni::JArrayClass<JPickerResult>> __array = jni::JArrayClass<JPickerResult>::newArray(__size);
           for (size_t __i = 0; __i < __size; __i++) {
             const auto& __element = value.selectedAssets[__i];
-            __array->setElement(__i, *JResult::fromCpp(__element));
+            __array->setElement(__i, *JPickerResult::fromCpp(__element));
           }
           return __array;
         }(),

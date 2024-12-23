@@ -8,7 +8,7 @@ import { type MultipleImagePicker } from './specs/MultipleImagePicker.nitro'
 import { processColor, Appearance } from 'react-native'
 
 import {
-  Result,
+  PickerResult,
   Config,
   NitroConfig,
   CropResult,
@@ -29,8 +29,8 @@ const Picker = NitroModules.createHybridObject<MultipleImagePicker>(
 )
 
 type IPromisePicker<T extends Config> = T['selectMode'] extends 'single'
-  ? Result
-  : Result[]
+  ? PickerResult
+  : PickerResult[]
 
 export async function openPicker<T extends Config>(
   conf: T
@@ -55,7 +55,7 @@ export async function openPicker<T extends Config>(
 
     return Picker.openPicker(
       config,
-      (result: Result[]) => {
+      (result: PickerResult[]) => {
         resolved(result as IPromisePicker<T>)
       },
       (reject: number) => {
@@ -93,7 +93,7 @@ export async function openCropper(
 }
 
 export function openPreview(
-  media: MediaPreview[] | Result[],
+  media: MediaPreview[] | PickerResult[],
   index: number = 0,
   conf?: PreviewConfig
 ): void {

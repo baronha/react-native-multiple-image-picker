@@ -13,10 +13,10 @@
 
 namespace margelo::nitro::multipleimagepicker::bridge::swift {
 
-  // pragma MARK: std::function<void(const std::vector<Result>& /* result */)>
-  Func_void_std__vector_Result_ create_Func_void_std__vector_Result_(void* _Nonnull swiftClosureWrapper) {
-    auto swiftClosure = MultipleImagePicker::Func_void_std__vector_Result_::fromUnsafe(swiftClosureWrapper);
-    return [swiftClosure = std::move(swiftClosure)](const std::vector<Result>& result) mutable -> void {
+  // pragma MARK: std::function<void(const std::vector<PickerResult>& /* result */)>
+  Func_void_std__vector_PickerResult_ create_Func_void_std__vector_PickerResult_(void* _Nonnull swiftClosureWrapper) {
+    auto swiftClosure = MultipleImagePicker::Func_void_std__vector_PickerResult_::fromUnsafe(swiftClosureWrapper);
+    return [swiftClosure = std::move(swiftClosure)](const std::vector<PickerResult>& result) mutable -> void {
       swiftClosure.call(result);
     };
   }

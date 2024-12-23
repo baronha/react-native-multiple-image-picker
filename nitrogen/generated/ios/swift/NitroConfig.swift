@@ -18,9 +18,9 @@ public extension NitroConfig {
   /**
    * Create a new instance of `NitroConfig`.
    */
-  init(mediaType: MediaType, selectedAssets: [Result], selectBoxStyle: SelectBoxStyle, selectMode: SelectMode, numberOfColumn: Double?, isPreview: Bool?, primaryColor: Double?, allowSwipeToSelect: Bool?, spacing: Double?, isHiddenPreviewButton: Bool?, isHiddenOriginalButton: Bool?, isShowPreviewList: Bool?, allowHapticTouchPreview: Bool?, allowedLimit: Bool?, maxVideo: Double?, maxSelect: Double?, maxVideoDuration: Double?, minVideoDuration: Double?, maxFileSize: Double?, backgroundDark: Double?, crop: PickerCropConfig?, text: Text?, language: Language, theme: Theme, presentation: Presentation, camera: PickerCameraConfig?) {
-    self.init(mediaType, { () -> bridge.std__vector_Result_ in
-      var __vector = bridge.create_std__vector_Result_(selectedAssets.count)
+  init(mediaType: MediaType, selectedAssets: [PickerResult], selectBoxStyle: SelectBoxStyle, selectMode: SelectMode, numberOfColumn: Double?, isPreview: Bool?, primaryColor: Double?, allowSwipeToSelect: Bool?, spacing: Double?, isHiddenPreviewButton: Bool?, isHiddenOriginalButton: Bool?, isShowPreviewList: Bool?, allowHapticTouchPreview: Bool?, allowedLimit: Bool?, maxVideo: Double?, maxSelect: Double?, maxVideoDuration: Double?, minVideoDuration: Double?, maxFileSize: Double?, backgroundDark: Double?, crop: PickerCropConfig?, text: Text?, language: Language, theme: Theme, presentation: Presentation, camera: PickerCameraConfig?) {
+    self.init(mediaType, { () -> bridge.std__vector_PickerResult_ in
+      var __vector = bridge.create_std__vector_PickerResult_(selectedAssets.count)
       for __item in selectedAssets {
         __vector.push_back(__item)
       }
@@ -153,15 +153,15 @@ public extension NitroConfig {
     }
   }
   
-  var selectedAssets: [Result] {
+  var selectedAssets: [PickerResult] {
     @inline(__always)
     get {
       return self.__selectedAssets.map({ __item in __item })
     }
     @inline(__always)
     set {
-      self.__selectedAssets = { () -> bridge.std__vector_Result_ in
-        var __vector = bridge.create_std__vector_Result_(newValue.count)
+      self.__selectedAssets = { () -> bridge.std__vector_PickerResult_ in
+        var __vector = bridge.create_std__vector_PickerResult_(newValue.count)
         for __item in newValue {
           __vector.push_back(__item)
         }

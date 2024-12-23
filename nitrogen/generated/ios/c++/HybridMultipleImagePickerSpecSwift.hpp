@@ -16,8 +16,8 @@ namespace MultipleImagePicker { class HybridMultipleImagePickerSpec_cxx; }
 namespace margelo::nitro::multipleimagepicker { struct NitroConfig; }
 // Forward declaration of `MediaType` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { enum class MediaType; }
-// Forward declaration of `Result` to properly resolve imports.
-namespace margelo::nitro::multipleimagepicker { struct Result; }
+// Forward declaration of `PickerResult` to properly resolve imports.
+namespace margelo::nitro::multipleimagepicker { struct PickerResult; }
 // Forward declaration of `ResultType` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { enum class ResultType; }
 // Forward declaration of `SelectBoxStyle` to properly resolve imports.
@@ -56,7 +56,7 @@ namespace margelo::nitro::multipleimagepicker { struct CameraResult; }
 #include "NitroConfig.hpp"
 #include "MediaType.hpp"
 #include <vector>
-#include "Result.hpp"
+#include "PickerResult.hpp"
 #include <string>
 #include <optional>
 #include "ResultType.hpp"
@@ -115,7 +115,7 @@ namespace margelo::nitro::multipleimagepicker {
 
   public:
     // Methods
-    inline void openPicker(const NitroConfig& config, const std::function<void(const std::vector<Result>& /* result */)>& resolved, const std::function<void(double /* reject */)>& rejected) override {
+    inline void openPicker(const NitroConfig& config, const std::function<void(const std::vector<PickerResult>& /* result */)>& resolved, const std::function<void(double /* reject */)>& rejected) override {
       auto __result = _swiftPart.openPicker(config, resolved, rejected);
       if (__result.hasError()) [[unlikely]] {
         std::rethrow_exception(__result.error());

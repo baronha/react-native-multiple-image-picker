@@ -7,14 +7,14 @@ import {
   NitroConfig,
   NitroCropConfig,
   NitroPreviewConfig,
-  Result,
+  PickerResult,
 } from '../types'
 
 export interface MultipleImagePicker
   extends HybridObject<{ ios: 'swift'; android: 'kotlin' }> {
   openPicker(
     config: NitroConfig,
-    resolved: (result: Result[]) => void,
+    resolved: (result: PickerResult[]) => void,
     rejected: (reject: number) => void
   ): void
 

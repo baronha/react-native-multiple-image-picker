@@ -14,7 +14,7 @@ public protocol HybridMultipleImagePickerSpec_protocol: AnyObject {
   
 
   // Methods
-  func openPicker(config: NitroConfig, resolved: @escaping ((_ result: [Result]) -> Void), rejected: @escaping ((_ reject: Double) -> Void)) throws -> Void
+  func openPicker(config: NitroConfig, resolved: @escaping ((_ result: [PickerResult]) -> Void), rejected: @escaping ((_ reject: Double) -> Void)) throws -> Void
   func openCrop(image: String, config: NitroCropConfig, resolved: @escaping ((_ result: CropResult) -> Void), rejected: @escaping ((_ reject: Double) -> Void)) throws -> Void
   func openPreview(media: [MediaPreview], index: Double, config: NitroPreviewConfig) throws -> Void
   func openCamera(config: NitroCameraConfig, resolved: @escaping ((_ result: CameraResult) -> Void), rejected: @escaping ((_ reject: Double) -> Void)) throws -> Void

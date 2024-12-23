@@ -85,7 +85,7 @@ export interface BaseResult {
  *   creationDate: 1709312436000
  * }
  */
-export interface Result extends BaseResult {
+export interface PickerResult extends BaseResult {
   /**
    * Unique identifier for the media asset
    * Used for local database tracking and reference

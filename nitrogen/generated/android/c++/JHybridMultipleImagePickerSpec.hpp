@@ -51,7 +51,7 @@ namespace margelo::nitro::multipleimagepicker {
 
   public:
     // Methods
-    void openPicker(const NitroConfig& config, const std::function<void(const std::vector<Result>& /* result */)>& resolved, const std::function<void(double /* reject */)>& rejected) override;
+    void openPicker(const NitroConfig& config, const std::function<void(const std::vector<PickerResult>& /* result */)>& resolved, const std::function<void(double /* reject */)>& rejected) override;
     void openCrop(const std::string& image, const NitroCropConfig& config, const std::function<void(const CropResult& /* result */)>& resolved, const std::function<void(double /* reject */)>& rejected) override;
     void openPreview(const std::vector<MediaPreview>& media, double index, const NitroPreviewConfig& config) override;
     void openCamera(const NitroCameraConfig& config, const std::function<void(const CameraResult& /* result */)>& resolved, const std::function<void(double /* reject */)>& rejected) override;

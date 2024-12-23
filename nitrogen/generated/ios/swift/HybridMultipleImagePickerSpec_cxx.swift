@@ -101,13 +101,13 @@ public class HybridMultipleImagePickerSpec_cxx {
 
   // Methods
   @inline(__always)
-  public func openPicker(config: NitroConfig, resolved: bridge.Func_void_std__vector_Result_, rejected: bridge.Func_void_double) -> bridge.Result_void_ {
+  public func openPicker(config: NitroConfig, resolved: bridge.Func_void_std__vector_PickerResult_, rejected: bridge.Func_void_double) -> bridge.Result_void_ {
     do {
-      try self.__implementation.openPicker(config: config, resolved: { () -> (([Result]) -> Void) in
-        let __wrappedFunction = bridge.wrap_Func_void_std__vector_Result_(resolved)
-        return { (__result: [Result]) -> Void in
-          __wrappedFunction.call({ () -> bridge.std__vector_Result_ in
-            var __vector = bridge.create_std__vector_Result_(__result.count)
+      try self.__implementation.openPicker(config: config, resolved: { () -> (([PickerResult]) -> Void) in
+        let __wrappedFunction = bridge.wrap_Func_void_std__vector_PickerResult_(resolved)
+        return { (__result: [PickerResult]) -> Void in
+          __wrappedFunction.call({ () -> bridge.std__vector_PickerResult_ in
+            var __vector = bridge.create_std__vector_PickerResult_(__result.count)
             for __item in __result {
               __vector.push_back(__item)
             }

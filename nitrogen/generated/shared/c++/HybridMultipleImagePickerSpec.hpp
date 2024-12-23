@@ -15,8 +15,8 @@
 
 // Forward declaration of `NitroConfig` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { struct NitroConfig; }
-// Forward declaration of `Result` to properly resolve imports.
-namespace margelo::nitro::multipleimagepicker { struct Result; }
+// Forward declaration of `PickerResult` to properly resolve imports.
+namespace margelo::nitro::multipleimagepicker { struct PickerResult; }
 // Forward declaration of `NitroCropConfig` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { struct NitroCropConfig; }
 // Forward declaration of `CropResult` to properly resolve imports.
@@ -33,7 +33,7 @@ namespace margelo::nitro::multipleimagepicker { struct CameraResult; }
 #include "NitroConfig.hpp"
 #include <functional>
 #include <vector>
-#include "Result.hpp"
+#include "PickerResult.hpp"
 #include <string>
 #include "NitroCropConfig.hpp"
 #include "CropResult.hpp"
@@ -73,7 +73,7 @@ namespace margelo::nitro::multipleimagepicker {
 
     public:
       // Methods
-      virtual void openPicker(const NitroConfig& config, const std::function<void(const std::vector<Result>& /* result */)>& resolved, const std::function<void(double /* reject */)>& rejected) = 0;
+      virtual void openPicker(const NitroConfig& config, const std::function<void(const std::vector<PickerResult>& /* result */)>& resolved, const std::function<void(double /* reject */)>& rejected) = 0;
       virtual void openCrop(const std::string& image, const NitroCropConfig& config, const std::function<void(const CropResult& /* result */)>& resolved, const std::function<void(double /* reject */)>& rejected) = 0;
       virtual void openPreview(const std::vector<MediaPreview>& media, double index, const NitroPreviewConfig& config) = 0;
       virtual void openCamera(const NitroCameraConfig& config, const std::function<void(const CameraResult& /* result */)>& resolved, const std::function<void(double /* reject */)>& rejected) = 0;

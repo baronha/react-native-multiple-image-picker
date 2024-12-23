@@ -36,12 +36,12 @@ namespace margelo::nitro::multipleimagepicker { struct NitroPreviewConfig; }
 namespace margelo::nitro::multipleimagepicker { struct PickerCameraConfig; }
 // Forward declaration of `PickerCropConfig` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { struct PickerCropConfig; }
+// Forward declaration of `PickerResult` to properly resolve imports.
+namespace margelo::nitro::multipleimagepicker { struct PickerResult; }
 // Forward declaration of `Presentation` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { enum class Presentation; }
 // Forward declaration of `ResultType` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { enum class ResultType; }
-// Forward declaration of `Result` to properly resolve imports.
-namespace margelo::nitro::multipleimagepicker { struct Result; }
 // Forward declaration of `SelectBoxStyle` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { enum class SelectBoxStyle; }
 // Forward declaration of `SelectMode` to properly resolve imports.
@@ -66,8 +66,8 @@ namespace margelo::nitro::multipleimagepicker { enum class Theme; }
 #include "NitroPreviewConfig.hpp"
 #include "PickerCameraConfig.hpp"
 #include "PickerCropConfig.hpp"
+#include "PickerResult.hpp"
 #include "Presentation.hpp"
-#include "Result.hpp"
 #include "ResultType.hpp"
 #include "SelectBoxStyle.hpp"
 #include "SelectMode.hpp"

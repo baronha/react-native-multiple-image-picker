@@ -24,10 +24,10 @@ namespace margelo::nitro::multipleimagepicker { struct MediaPreview; }
 namespace margelo::nitro::multipleimagepicker { struct PickerCameraConfig; }
 // Forward declaration of `PickerCropConfig` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { struct PickerCropConfig; }
+// Forward declaration of `PickerResult` to properly resolve imports.
+namespace margelo::nitro::multipleimagepicker { struct PickerResult; }
 // Forward declaration of `ResultType` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { enum class ResultType; }
-// Forward declaration of `Result` to properly resolve imports.
-namespace margelo::nitro::multipleimagepicker { struct Result; }
 // Forward declaration of `Text` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { struct Text; }
 
@@ -44,7 +44,7 @@ namespace MultipleImagePicker { class HybridMultipleImagePickerSpec_cxx; }
 #include "MediaPreview.hpp"
 #include "PickerCameraConfig.hpp"
 #include "PickerCropConfig.hpp"
-#include "Result.hpp"
+#include "PickerResult.hpp"
 #include "ResultType.hpp"
 #include "Text.hpp"
 #include <NitroModules/Result.hpp>
@@ -88,13 +88,13 @@ namespace margelo::nitro::multipleimagepicker::bridge::swift {
     return std::optional<bool>(value);
   }
   
-  // pragma MARK: std::vector<Result>
+  // pragma MARK: std::vector<PickerResult>
   /**
-   * Specialized version of `std::vector<Result>`.
+   * Specialized version of `std::vector<PickerResult>`.
    */
-  using std__vector_Result_ = std::vector<Result>;
-  inline std::vector<Result> create_std__vector_Result_(size_t size) {
-    std::vector<Result> vector;
+  using std__vector_PickerResult_ = std::vector<PickerResult>;
+  inline std::vector<PickerResult> create_std__vector_PickerResult_(size_t size) {
+    std::vector<PickerResult> vector;
     vector.reserve(size);
     return vector;
   }
@@ -155,26 +155,26 @@ namespace margelo::nitro::multipleimagepicker::bridge::swift {
     return std::optional<PickerCameraConfig>(value);
   }
   
-  // pragma MARK: std::function<void(const std::vector<Result>& /* result */)>
+  // pragma MARK: std::function<void(const std::vector<PickerResult>& /* result */)>
   /**
-   * Specialized version of `std::function<void(const std::vector<Result>&)>`.
+   * Specialized version of `std::function<void(const std::vector<PickerResult>&)>`.
    */
-  using Func_void_std__vector_Result_ = std::function<void(const std::vector<Result>& /* result */)>;
+  using Func_void_std__vector_PickerResult_ = std::function<void(const std::vector<PickerResult>& /* result */)>;
   /**
-   * Wrapper class for a `std::function<void(const std::vector<Result>& / * result * /)>`, this can be used from Swift.
+   * Wrapper class for a `std::function<void(const std::vector<PickerResult>& / * result * /)>`, this can be used from Swift.
    */
-  class Func_void_std__vector_Result__Wrapper final {
+  class Func_void_std__vector_PickerResult__Wrapper final {
   public:
-    explicit Func_void_std__vector_Result__Wrapper(std::function<void(const std::vector<Result>& /* result */)>&& func): _function(std::make_shared<std::function<void(const std::vector<Result>& /* result */)>>(std::move(func))) {}
-    inline void call(std::vector<Result> result) const {
+    explicit Func_void_std__vector_PickerResult__Wrapper(std::function<void(const std::vector<PickerResult>& /* result */)>&& func): _function(std::make_shared<std::function<void(const std::vector<PickerResult>& /* result */)>>(std::move(func))) {}
+    inline void call(std::vector<PickerResult> result) const {
       _function->operator()(result);
     }
   private:
-    std::shared_ptr<std::function<void(const std::vector<Result>& /* result */)>> _function;
+    std::shared_ptr<std::function<void(const std::vector<PickerResult>& /* result */)>> _function;
   };
-  Func_void_std__vector_Result_ create_Func_void_std__vector_Result_(void* _Nonnull swiftClosureWrapper);
-  inline Func_void_std__vector_Result__Wrapper wrap_Func_void_std__vector_Result_(Func_void_std__vector_Result_ value) {
-    return Func_void_std__vector_Result__Wrapper(std::move(value));
+  Func_void_std__vector_PickerResult_ create_Func_void_std__vector_PickerResult_(void* _Nonnull swiftClosureWrapper);
+  inline Func_void_std__vector_PickerResult__Wrapper wrap_Func_void_std__vector_PickerResult_(Func_void_std__vector_PickerResult_ value) {
+    return Func_void_std__vector_PickerResult__Wrapper(std::move(value));
   }
   
   // pragma MARK: std::function<void(double /* reject */)>
