@@ -533,6 +533,11 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
         mainStyle.previewSelectBackground = selectType
         mainStyle.isPreviewSelectNumberStyle = isNumber
 
+        if (config.camera != null) {
+            // hide title camera
+            mainStyle.adapterCameraText = " "
+        }
+
         // custom toolbar text
         config.text.let { text ->
             text?.finish.let {
