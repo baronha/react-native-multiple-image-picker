@@ -10,17 +10,11 @@ import NitroModules
 import Photos
 
 class HybridMultipleImagePicker: HybridMultipleImagePickerSpec {
-    var hybridContext = margelo.nitro.HybridContext()
-
-    var memorySize: Int {
-        return getSizeOf(self)
-    }
-
     var selectedAssets: [PhotoAsset] = .init()
 
     var config: PickerConfiguration = .init()
 
-    func openPicker(config: NitroConfig, resolved: @escaping (([Result]) -> Void), rejected: @escaping ((Double) -> Void)) throws {
+    func openPicker(config: NitroConfig, resolved: @escaping (([PickerResult]) -> Void), rejected: @escaping ((Double) -> Void)) throws {
         setConfig(config)
 
         // get selected photo
@@ -67,7 +61,7 @@ class HybridMultipleImagePicker: HybridMultipleImagePickerSpec {
 
                 let group = DispatchGroup()
 
-                var data: [Result] = []
+                var data: [PickerResult] = []
 
                 self.selectedAssets = pickerResult.photoAssets
 

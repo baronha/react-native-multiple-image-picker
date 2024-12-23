@@ -31,7 +31,7 @@ namespace margelo::nitro::multipleimagepicker {
 
   public:
     void call(jni::alias_ref<JCropResult> result) {
-      return _func(result->toCpp());
+      _func(result->toCpp());
     }
 
   public:

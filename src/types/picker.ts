@@ -1,8 +1,8 @@
 import { ColorValue } from 'react-native'
 import { Language, MediaType, Presentation, Theme } from './config'
-import { Result } from './result'
 import { PickerCropConfig, CropRatio } from './crop'
 import { PickerCameraConfig } from './camera'
+import { PickerResult } from './result'
 
 export type SelectBoxStyle = 'number' | 'tick'
 
@@ -38,7 +38,7 @@ export interface NitroConfig {
    * Array of currently selected assets
    * @type {Result[]}
    */
-  selectedAssets: Result[]
+  selectedAssets: PickerResult[]
 
   /**
    * Style of the selection box
@@ -243,7 +243,7 @@ export interface Config
    * Array of currently selected assets
    * @type {Result[]}
    */
-  selectedAssets?: Result[]
+  selectedAssets?: PickerResult[]
 
   /**
    * Style of selection box in the picker

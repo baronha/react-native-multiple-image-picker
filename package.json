@@ -1,6 +1,6 @@
 {
   "name": "@baronha/react-native-multiple-image-picker",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "� react-native-multiple-image-picker enables applications to pick images and videos from multiple smart albums in iOS/Android �",
   "main": "./lib/commonjs/index.js",
   "module": "./lib/module/index.js",
@@ -64,12 +64,12 @@
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
-    "nitro-codegen": "0.18.2",
+    "nitro-codegen": "0.20.1",
     "prettier": "^3.3.3",
     "react": "^18.3.1",
     "react-native": "^0.75.2",
     "react-native-builder-bob": "^0.30.0",
-    "react-native-nitro-modules": "0.18.2",
+    "react-native-nitro-modules": "0.20.1",
     "typescript": "^5.5.4"
   },
   "peerDependencies": {

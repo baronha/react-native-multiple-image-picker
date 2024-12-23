@@ -36,12 +36,12 @@ namespace margelo::nitro::multipleimagepicker { struct NitroPreviewConfig; }
 namespace margelo::nitro::multipleimagepicker { struct PickerCameraConfig; }
 // Forward declaration of `PickerCropConfig` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { struct PickerCropConfig; }
+// Forward declaration of `PickerResult` to properly resolve imports.
+namespace margelo::nitro::multipleimagepicker { struct PickerResult; }
 // Forward declaration of `Presentation` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { enum class Presentation; }
 // Forward declaration of `ResultType` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { enum class ResultType; }
-// Forward declaration of `Result` to properly resolve imports.
-namespace margelo::nitro::multipleimagepicker { struct Result; }
 // Forward declaration of `SelectBoxStyle` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { enum class SelectBoxStyle; }
 // Forward declaration of `SelectMode` to properly resolve imports.
@@ -66,13 +66,15 @@ namespace margelo::nitro::multipleimagepicker { enum class Theme; }
 #include "NitroPreviewConfig.hpp"
 #include "PickerCameraConfig.hpp"
 #include "PickerCropConfig.hpp"
+#include "PickerResult.hpp"
 #include "Presentation.hpp"
-#include "Result.hpp"
 #include "ResultType.hpp"
 #include "SelectBoxStyle.hpp"
 #include "SelectMode.hpp"
 #include "Text.hpp"
 #include "Theme.hpp"
+#include <NitroModules/Result.hpp>
+#include <exception>
 #include <functional>
 #include <memory>
 #include <optional>
@@ -89,8 +91,8 @@ namespace margelo::nitro::multipleimagepicker { enum class Theme; }
 #include <NitroModules/RuntimeError.hpp>
 
 // Forward declarations of Swift defined types
-// Forward declaration of `HybridMultipleImagePickerSpecCxx` to properly resolve imports.
-namespace MultipleImagePicker { class HybridMultipleImagePickerSpecCxx; }
+// Forward declaration of `HybridMultipleImagePickerSpec_cxx` to properly resolve imports.
+namespace MultipleImagePicker { class HybridMultipleImagePickerSpec_cxx; }
 
 // Include Swift defined types
 #if __has_include("MultipleImagePicker-Swift.h")

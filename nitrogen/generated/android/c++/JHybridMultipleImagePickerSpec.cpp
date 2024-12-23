@@ -11,8 +11,8 @@
 namespace margelo::nitro::multipleimagepicker { struct NitroConfig; }
 // Forward declaration of `MediaType` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { enum class MediaType; }
-// Forward declaration of `Result` to properly resolve imports.
-namespace margelo::nitro::multipleimagepicker { struct Result; }
+// Forward declaration of `PickerResult` to properly resolve imports.
+namespace margelo::nitro::multipleimagepicker { struct PickerResult; }
 // Forward declaration of `ResultType` to properly resolve imports.
 namespace margelo::nitro::multipleimagepicker { enum class ResultType; }
 // Forward declaration of `SelectBoxStyle` to properly resolve imports.
@@ -53,8 +53,8 @@ namespace margelo::nitro::multipleimagepicker { struct CameraResult; }
 #include "MediaType.hpp"
 #include "JMediaType.hpp"
 #include <vector>
-#include "Result.hpp"
-#include "JResult.hpp"
+#include "PickerResult.hpp"
+#include "JPickerResult.hpp"
 #include <string>
 #include <optional>
 #include "ResultType.hpp"
@@ -80,7 +80,7 @@ namespace margelo::nitro::multipleimagepicker { struct CameraResult; }
 #include "CameraDevice.hpp"
 #include "JCameraDevice.hpp"
 #include <functional>
-#include "JFunc_void_std__vector_Result_.hpp"
+#include "JFunc_void_std__vector_PickerResult_.hpp"
 #include "JFunc_void_double.hpp"
 #include "NitroCropConfig.hpp"
 #include "JNitroCropConfig.hpp"
@@ -118,9 +118,9 @@ namespace margelo::nitro::multipleimagepicker {
   
 
   // Methods
-  void JHybridMultipleImagePickerSpec::openPicker(const NitroConfig& config, const std::function<void(const std::vector<Result>& /* result */)>& resolved, const std::function<void(double /* reject */)>& rejected) {
-    static const auto method = _javaPart->getClass()->getMethod<void(jni::alias_ref<JNitroConfig> /* config */, jni::alias_ref<JFunc_void_std__vector_Result_::javaobject> /* resolved */, jni::alias_ref<JFunc_void_double::javaobject> /* rejected */)>("openPicker");
-    method(_javaPart, JNitroConfig::fromCpp(config), JFunc_void_std__vector_Result_::fromCpp(resolved), JFunc_void_double::fromCpp(rejected));
+  void JHybridMultipleImagePickerSpec::openPicker(const NitroConfig& config, const std::function<void(const std::vector<PickerResult>& /* result */)>& resolved, const std::function<void(double /* reject */)>& rejected) {
+    static const auto method = _javaPart->getClass()->getMethod<void(jni::alias_ref<JNitroConfig> /* config */, jni::alias_ref<JFunc_void_std__vector_PickerResult_::javaobject> /* resolved */, jni::alias_ref<JFunc_void_double::javaobject> /* rejected */)>("openPicker");
+    method(_javaPart, JNitroConfig::fromCpp(config), JFunc_void_std__vector_PickerResult_::fromCpp(resolved), JFunc_void_double::fromCpp(rejected));
   }
   void JHybridMultipleImagePickerSpec::openCrop(const std::string& image, const NitroCropConfig& config, const std::function<void(const CropResult& /* result */)>& resolved, const std::function<void(double /* reject */)>& rejected) {
     static const auto method = _javaPart->getClass()->getMethod<void(jni::alias_ref<jni::JString> /* image */, jni::alias_ref<JNitroCropConfig> /* config */, jni::alias_ref<JFunc_void_CropResult::javaobject> /* resolved */, jni::alias_ref<JFunc_void_double::javaobject> /* rejected */)>("openCrop");

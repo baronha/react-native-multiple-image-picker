@@ -43,11 +43,11 @@ abstract class HybridMultipleImagePickerSpec: HybridObject() {
   // Methods
   @DoNotStrip
   @Keep
-  abstract fun openPicker(config: NitroConfig, resolved: (result: Array<Result>) -> Unit, rejected: (reject: Double) -> Unit): Unit
+  abstract fun openPicker(config: NitroConfig, resolved: (result: Array<PickerResult>) -> Unit, rejected: (reject: Double) -> Unit): Unit
   
   @DoNotStrip
   @Keep
-  private fun openPicker(config: NitroConfig, resolved: Func_void_std__vector_Result_, rejected: Func_void_double): Unit {
+  private fun openPicker(config: NitroConfig, resolved: Func_void_std__vector_PickerResult_, rejected: Func_void_double): Unit {
     val __result = openPicker(config, resolved.toLambda(), rejected.toLambda())
     return __result
   }

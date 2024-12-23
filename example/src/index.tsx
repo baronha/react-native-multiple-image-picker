@@ -17,7 +17,7 @@ import { StyleSheet } from 'react-native'
 import ImageGrid from '@baronha/react-native-image-grid'
 import {
   openPicker,
-  Result,
+  PickerResult,
   defaultOptions,
   Config,
   openCropper,
@@ -64,7 +64,7 @@ const parseNumber = (value: string): number | undefined => {
 
 export default function App() {
   const { background, foreground } = useTheme()
-  const [images, setImages] = useState<Result[]>([])
+  const [images, setImages] = useState<PickerResult[]>([])
   const [options, changeOptions] = useImmer<Config>(defaultOptions)
 
   const colorScheme = useColorScheme()
@@ -75,7 +75,7 @@ export default function App() {
     })
   }
 
-  const onPressImage = (_: Result, index: number) => {
+  const onPressImage = (_: PickerResult, index: number) => {
     openPreview(images, index, {})
   }
 
@@ -98,7 +98,7 @@ export default function App() {
       const response = await openCamera()
 
       setImages((prev) => {
-        return [response as Result, ...prev]
+        return [response as PickerResult, ...prev]
       })
 
       layoutEffect()
@@ -130,7 +130,7 @@ export default function App() {
     }
   }
 
-  const onRemovePhoto = (_: Result, index: number) => {
+  const onRemovePhoto = (_: PickerResult, index: number) => {
     const data = [...images].filter((__, idx) => idx !== index)
     setImages(data)
   }

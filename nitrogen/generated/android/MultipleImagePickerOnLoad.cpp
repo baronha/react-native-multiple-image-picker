@@ -12,7 +12,7 @@
 #include <NitroModules/HybridObjectRegistry.hpp>
 
 #include "JHybridMultipleImagePickerSpec.hpp"
-#include "JFunc_void_std__vector_Result_.hpp"
+#include "JFunc_void_std__vector_PickerResult_.hpp"
 #include "JFunc_void_double.hpp"
 #include "JFunc_void_CropResult.hpp"
 #include "JFunc_void_CameraResult.hpp"
@@ -29,7 +29,7 @@ int initialize(JavaVM* vm) {
   return facebook::jni::initialize(vm, [] {
     // Register native JNI methods
     margelo::nitro::multipleimagepicker::JHybridMultipleImagePickerSpec::registerNatives();
-    margelo::nitro::multipleimagepicker::JFunc_void_std__vector_Result_::registerNatives();
+    margelo::nitro::multipleimagepicker::JFunc_void_std__vector_PickerResult_::registerNatives();
     margelo::nitro::multipleimagepicker::JFunc_void_double::registerNatives();
     margelo::nitro::multipleimagepicker::JFunc_void_CropResult::registerNatives();
     margelo::nitro::multipleimagepicker::JFunc_void_double::registerNatives();

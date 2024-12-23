@@ -18,7 +18,7 @@ import com.margelo.nitro.core.*
 @Keep
 data class NitroConfig(
   val mediaType: MediaType,
-  val selectedAssets: Array<Result>,
+  val selectedAssets: Array<PickerResult>,
   val selectBoxStyle: SelectBoxStyle,
   val selectMode: SelectMode,
   val numberOfColumn: Double?,

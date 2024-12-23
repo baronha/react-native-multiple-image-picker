@@ -11,7 +11,7 @@ class MultipleImagePicker : HybridMultipleImagePickerSpec() {
 
     override fun openPicker(
         config: NitroConfig,
-        resolved: (result: Array<Result>) -> Unit,
+        resolved: (result: Array<PickerResult>) -> Unit,
         rejected: (reject: Double) -> Unit
     ) {
         pickerModule.openPicker(config, resolved, rejected)
